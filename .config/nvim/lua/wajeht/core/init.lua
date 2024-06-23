@@ -1,2 +1,2 @@
-require("josean.core.options")
-require("josean.core.keymaps")
+require("wajeht.core.options")
+require("wajeht.core.keymaps")
