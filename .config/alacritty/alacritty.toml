@@ -1,0 +1,56 @@
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+decorations = "Full"
+startup_mode = "Maximized"
+dynamic_padding = false
+
+[window.padding]
+x = 5
+y = 5
+
+[font]
+size = 15
+
+[font.bold]
+family = "Monaco Nerd Font"
+
+[font.bold_italic]
+family = "Monaco Nerd Font"
+
+[font.italic]
+family = "Monaco Nerd Font"
+
+[font.normal]
+family = "Monaco Nerd Font"
+
+[colors.primary]
+background = "#181818"
+foreground = "#D4D4D4"
+
+[colors.cursor]
+text = "#181818"
+cursor = "#cccccc"
+
+[colors.normal]
+black   = "#000000"
+red     = "#cd3131"
+green   = "#0dbc79"
+yellow  = "#e5e510"
+blue    = "#2472c8"
+magenta = "#bc3fbc"
+cyan    = "#11a8cd"
+white   = "#e5e5e5"
+
+[colors.bright]
+black   = "#666666"
+red     = "#f14c4c"
+green   = "#23d18b"
+yellow  = "#f5f543"
+blue    = "#3b8eea"
+magenta = "#d670d6"
+cyan    = "#29b8db"
+white   = "#e5e5e5"
