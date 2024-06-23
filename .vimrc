@@ -1,14 +1,25 @@
-" theme
-colorscheme onedark 
+" -----------------------------------------------------------------------------
+" Netrw
+" -----------------------------------------------------------------------------
+let g:netrw_keepdir = 0
+let g:netrw_banner = 0
+let g:netrw_winsize = 30
+let g:netrw_liststyle = 3
 
-" my settings
+" -----------------------------------------------------------------------------
+" Basic
+" -----------------------------------------------------------------------------
+colorscheme codedark
+
 syntax on
 set termguicolors
 set noerrorbells
 set noswapfile
 set smartcase
+set smarttab
 set cursorline
 set number
+set mouse=a
 set background=dark
 set tabstop=4
 set shiftwidth=4
@@ -19,22 +30,22 @@ set relativenumber
 set nu
 set nowrap
 set incsearch
+set hlsearch
+set ignorecase
+set incsearch
 set scrolloff=8
 set colorcolumn=100
+set spelllang=en_us
+set ttyfast
+set nospell
+set ruler
+set showmatch
+set nofoldenable
 
-" netrw stuff
-let g:netrw_banner = 0
-" let g:netrw_browse_split = 2 
-" let g:netrw_keepdir = 0
-" let g:netrw_winsize = 25
-
-" enable js doc syntx highlight
-let g:javascript_plugin_jsdoc = 1
-
-" plugin
-call plug#begin('~/.vim/pluged')
-    Plug 'Valloric/YouCompleteMe'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-call plug#end()
-
+" -----------------------------------------------------------------------------
+" Remap
+" -----------------------------------------------------------------------------
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
