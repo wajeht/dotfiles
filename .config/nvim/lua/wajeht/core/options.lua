@@ -77,10 +77,7 @@ vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experienc
 vim.opt.conceallevel = 0                -- So that I can see `` in markdown files
 vim.opt.history = 1000                  -- Store lots of :cmdline history
 vim.opt.updatetime = 300                -- Faster completion (4000ms default)
-
--- undo settings
 opt.undofile = true                     -- Save undo history to an undo file
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Set undo directory
 
 -- Search
 vim.opt.wrapscan = true                 -- Searches wrap around the end of the file
