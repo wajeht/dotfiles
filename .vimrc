@@ -87,3 +87,9 @@ inoremap [ []<Esc>ha         " Insert paired square brackets and place cursor in
 inoremap " ""<Esc>ha         " Insert paired double quotes and place cursor inside
 inoremap ' ''<Esc>ha         " Insert paired single quotes and place cursor inside
 inoremap ` ``<Esc>ha         " Insert paired backticks and place cursor inside
+
+" Cursor shape
+if &termguicolors
+  let &t_SI = "\e[5 q"       " Cursor shape for insert mode: vertical bar (I)
+  let &t_EI = "\e[1 q"       " Cursor shape for normal mode: block
+endif
