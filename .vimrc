@@ -48,7 +48,7 @@ set showcmd                  " Display incomplete commands
 set wildmenu                 " Visual autocomplete for command menu
 set wildmode=longest:full,full " Command-line completion mode
 set list                     " Show some invisible characters (tabs, trailing spaces)
-set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣ " Customize how invisible characters are displayed
+set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣,space:· " Customize how invisible characters are displayed
 set title                    " Set the terminal's title to the file being edited
 
 " Editing
