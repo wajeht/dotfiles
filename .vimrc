@@ -42,6 +42,7 @@ set nospell                  " Disable spell checking
 set ruler                    " Show the line and column number of the cursor position
 set showmatch                " Briefly jump to matching bracket if one is inserted
 set nofoldenable             " Disable code folding by default
+set equalalways              " Ensure all windows are always equally sized
 
 " Appearance
 set showcmd                  " Display incomplete commands
