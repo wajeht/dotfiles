@@ -79,3 +79,11 @@ nnoremap <C-J> <C-W><C-J>    " Remap Ctrl+J to switch to the window below
 nnoremap <C-K> <C-W><C-K>    " Remap Ctrl+K to switch to the window above
 nnoremap <C-L> <C-W><C-L>    " Remap Ctrl+L to switch to the window to the right
 nnoremap <C-H> <C-W><C-H>    " Remap Ctrl+H to switch to the window to the left
+
+" Insertion mappings for paired characters
+inoremap { {}<Esc>ha         " Insert paired curly braces and place cursor inside
+inoremap ( ()<Esc>ha         " Insert paired parentheses and place cursor inside
+inoremap [ []<Esc>ha         " Insert paired square brackets and place cursor inside
+inoremap " ""<Esc>ha         " Insert paired double quotes and place cursor inside
+inoremap ' ''<Esc>ha         " Insert paired single quotes and place cursor inside
+inoremap ` ``<Esc>ha         " Insert paired backticks and place cursor inside
