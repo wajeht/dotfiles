@@ -1,19 +1,66 @@
 [user]
+	# User information
 	user = wajeht
 	email = 58354193+wajeht@users.noreply.github.com
 	name = wajeht
+
 [filter "lfs"]
+	# Git LFS configuration
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
 [push]
+	# Automatically set up remote tracking branches when pushing
 	autoSetupRemote = true
+
 [http]
+	# Increase the buffer size for HTTP operations
 	postBuffer = 157286400
+
 [pull]
+	# Always rebase when pulling
 	rebase = true
+
 [init]
+	# Set the default branch name to 'main' when initializing new repositories
 	defaultBranch = main
+
 [alias]
-    undo = reset --soft HEAD^
+	# Aliases for common Git commands
+	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
+	push = push --no-verify               # Push changes without verification
+
+[core]
+	# Set the default text editor for Git commands
+	editor = vim
+	# Handle line endings
+	autocrlf = input
+	# Global gitignore file
+	excludesfile = ~/.gitignore_global
+
+[diff]
+	# Set the default tool for diff operations
+	tool = vimdiff
+
+[difftool]
+	# Don't prompt when using difftool
+	prompt = false
+
+[merge]
+	# Set the default tool for merge operations
+	tool = vimdiff
+
+[mergetool]
+	# Don't keep backup files after a merge
+	keepBackup = false
+
+[color]
+	# Enable color output for Git commands
+	ui = auto
+
+[credential]
+	# Cache credentials for an hour (3600 seconds)
+	helper = cache
+	cacheTimeout = 3600
