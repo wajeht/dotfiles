@@ -44,7 +44,7 @@ set ruler                    " Show the line and column number of the cursor pos
 set showmatch                " Briefly jump to matching bracket if one is inserted
 set nofoldenable             " Disable code folding by default
 set equalalways              " Ensure all windows are always equally sized
-set autochdir                " Change directory to the current buffer when opening files.
+" set autochdir                " Change directory to the current buffer when opening files.
 
 " Appearance
 set showcmd                  " Display incomplete commands
@@ -101,3 +101,12 @@ if &termguicolors
   let &t_SI = "\e[5 q"       " Cursor shape for insert mode: vertical bar (I)
   let &t_EI = "\e[1 q"       " Cursor shape for normal mode: block
 endif
+
+" -----------------------------------------------------------------------------
+" Plugins
+" -----------------------------------------------------------------------------
+call plug#begin('~/.vim/pluged')
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'tomasiser/vim-code-dark'
+call plug#end()
