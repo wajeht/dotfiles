@@ -43,6 +43,33 @@ set ruler                    " Show the line and column number of the cursor pos
 set showmatch                " Briefly jump to matching bracket if one is inserted
 set nofoldenable             " Disable code folding by default
 
+" Appearance
+set showcmd                  " Display incomplete commands
+set wildmenu                 " Visual autocomplete for command menu
+set wildmode=longest:full,full " Command-line completion mode
+set list                     " Show some invisible characters (tabs, trailing spaces)
+set listchars=tab:▸\ ,trail:· " Customize how invisible characters are displayed
+set title                    " Set the terminal's title to the file being edited
+
+" Editing
+set autoindent               " Copy indent from current line when starting a new line
+set backspace=indent,eol,start " Allow backspacing over everything in insert mode
+set clipboard=unnamedplus    " Use the system clipboard
+set completeopt=menuone,noselect " Better autocompletion experience
+set conceallevel=0           " So that I can see `` in markdown files
+set history=1000             " Store lots of :cmdline history
+set updatetime=300           " Faster completion (4000ms default)
+set undofile                 " Save undo history to an undo file
+
+" Search
+set wrapscan                 " Searches wrap around the end of the file
+set inccommand=nosplit       " Show effects of a command incrementally
+
+" Performance
+set lazyredraw               " Do not redraw while executing macros
+set timeoutlen=500           " Time to wait for a mapped sequence to complete (in milliseconds)
+set ttimeoutlen=50           " Time to wait for a key code sequence to complete
+
 " -----------------------------------------------------------------------------
 " Remap
 " -----------------------------------------------------------------------------
