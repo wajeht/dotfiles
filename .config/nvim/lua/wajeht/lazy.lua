@@ -11,7 +11,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "josean.plugins" }, { import = "josean.plugins.lsp" } }, {
+require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugins.lsp" } }, {
   checker = {
     enabled = true,
     notify = false,
