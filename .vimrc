@@ -18,6 +18,7 @@ set noswapfile               " Disable swap file creation
 set smartcase                " Enable smart case matching in searches
 set smarttab                 " Make tabbing smarter
 set cursorline               " Highlight the current line
+set cursorcolumn             " Highlight the current column
 set number                   " Show line numbers
 set mouse=a                  " Enable mouse support in all modes
 set background=dark          " Set the background to dark
