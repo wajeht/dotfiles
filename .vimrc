@@ -5,6 +5,7 @@ let g:netrw_keepdir = 0      " Make Netrw change to the directory you are browsi
 let g:netrw_banner = 0       " Disable the banner at the top of Netrw
 let g:netrw_winsize = 30     " Set the initial size of the Netrw window to 30% of the screen
 let g:netrw_liststyle = 3    " Set the listing style to a tree-style view
+let g:netrw_altv=1           " open splits to the right
 
 " -----------------------------------------------------------------------------
 " Basic
@@ -43,6 +44,7 @@ set ruler                    " Show the line and column number of the cursor pos
 set showmatch                " Briefly jump to matching bracket if one is inserted
 set nofoldenable             " Disable code folding by default
 set equalalways              " Ensure all windows are always equally sized
+set autochdir                " Change directory to the current buffer when opening files.
 
 " Appearance
 set showcmd                  " Display incomplete commands
@@ -81,13 +83,18 @@ nnoremap <C-K> <C-W><C-K>    " Remap Ctrl+K to switch to the window above
 nnoremap <C-L> <C-W><C-L>    " Remap Ctrl+L to switch to the window to the right
 nnoremap <C-H> <C-W><C-H>    " Remap Ctrl+H to switch to the window to the left
 
-" Insertion mappings for paired characters
-inoremap { {}<Esc>ha         " Insert paired curly braces and place cursor inside
-inoremap ( ()<Esc>ha         " Insert paired parentheses and place cursor inside
-inoremap [ []<Esc>ha         " Insert paired square brackets and place cursor inside
-inoremap " ""<Esc>ha         " Insert paired double quotes and place cursor inside
-inoremap ' ''<Esc>ha         " Insert paired single quotes and place cursor inside
-inoremap ` ``<Esc>ha         " Insert paired backticks and place cursor inside
+" Insert paired curly braces and place cursor inside
+inoremap { {}<Esc>ha
+" Insert paired parentheses and place cursor inside
+inoremap ( ()<Esc>ha
+" Insert paired square brackets and place cursor inside
+inoremap [ []<Esc>ha
+" Insert paired double quotes and place cursor inside
+inoremap " ""<Esc>ha
+" Insert paired single quotes and place cursor inside
+inoremap ' ''<Esc>ha
+" Insert paired backticks and place cursor inside
+inoremap ` ``<Esc>ha
 
 " Cursor shape
 if &termguicolors
