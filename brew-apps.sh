@@ -8,6 +8,7 @@ formulae=(
   "gh"
   "go"
   "lsd"
+  "jq"
   "neovim"
   "trash"
   "wget"
