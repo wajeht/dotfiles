@@ -31,6 +31,7 @@ casks=(
   "rectangle"
   "shottr"
   "slack"
+  "handbrake"
   "tableplus"
   "visual-studio-code"
 )
