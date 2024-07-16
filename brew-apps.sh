@@ -15,6 +15,7 @@ formulae=(
 )
 
 casks=(
+  "github"
   "alacritty"
   "alfred"
   "appcleaner"
