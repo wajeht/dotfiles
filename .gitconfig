@@ -30,7 +30,7 @@
 [alias]
 	# Aliases for common Git commands
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
-	push = push --no-verify               # Push changes without verification
+	discard = restore .                   # Discard all the staged changes
 	aicommit = "!f() { curl -s https://commit.jaw.dev/commit.sh | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
 	acp = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        # Add, Commit, and Push
 
