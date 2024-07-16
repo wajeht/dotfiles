@@ -1,6 +1,6 @@
 push:
 	git add -A
-	aicommits --type conventional
+	git acp
 	git push --no-verify
 
 link-nvim:
