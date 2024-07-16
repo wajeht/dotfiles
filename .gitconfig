@@ -32,7 +32,7 @@
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
 	push = push --no-verify               # Push changes without verification
 	aicommit = "!f() { curl -s https://commit.jaw.dev/commit.sh | sh; }; f"		# Use my server to generate conventional commits
-        acp = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        # Add, Commit, and Push
+	acp = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        # Add, Commit, and Push
 
 [core]
 	# Set the default text editor for Git commands
