@@ -15,6 +15,7 @@ formulae=(
 )
 
 casks=(
+  "qbittorrent"
   "github"
   "alacritty"
   "alfred"
