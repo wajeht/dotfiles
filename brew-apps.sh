@@ -29,7 +29,6 @@ casks=(
   "alacritty"
   "alfred"
   "appcleaner"
-  "authy"
   "bitwarden"
   "discord"
   "firefox"
