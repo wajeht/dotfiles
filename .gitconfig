@@ -32,9 +32,8 @@
 	push = push --no-verify               # Push without verifying
 	discard = restore .                   # Discard all the staged changes
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
-	dry = "!f() { curl -s https://commit.jaw.dev/commit.sh | sh -s -- --dry-run; }; f"			# Use my server to preview conventional commits
-	aicommit = "!f() { curl -s https://commit.jaw.dev/commit.sh | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
-	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        # Add, Commit, and Push
+	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
+	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        		# Add, Commit, and Push
 
 [core]
 	# Set the default text editor for Git commands
