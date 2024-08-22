@@ -17,7 +17,11 @@
 
 [http]
 	# Increase the buffer size for HTTP operations
-	postBuffer = 157286400
+	postBuffer = 524288000
+
+	# Increase the buffer size for ssh operations
+[ssh]
+	postBuffer = 524288000
 
 [pull]
 	# Always rebase when pulling
