@@ -58,6 +58,16 @@ white   = "#e5e5e5"
 [selection]
 save_to_clipboard = true
 
+[keyboard]
+bindings = [
+    { key = "V", mods = "Command", action = "Paste" },
+    { key = "C", mods = "Command", action = "Copy" },
+    { key = "Plus", mods = "Command", action = "IncreaseFontSize" },
+    { key = "Minus", mods = "Command", action = "DecreaseFontSize" },
+    { key = "Key0", mods = "Command", action = "ResetFontSize" },
+    { key = "F", mods = "Command|Control", action = "ToggleFullscreen" }
+]
+
 [scrolling]
 history = 10000
 multiplier = 3
