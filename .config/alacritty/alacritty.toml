@@ -83,6 +83,5 @@ post_processing = true
 mouse.enabled = true
 binding = { key = "U", mods = "Command" }
 
-[shell]
-program = "/bin/zsh"
-args = ["-l", "-c", "tmux attach || tmux"]
+[general]
+live_config_reload = true
