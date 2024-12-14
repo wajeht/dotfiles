@@ -1,10 +1,15 @@
+.PHONY: push install-nvim uninstall-nvim
+
 push:
 	@git add -A
 	@git auto
 	@git push --no-verify
 
-link-nvim:
-	ln -s ~/Dev/.dotfiles/.config/nvim ~/.config
+install-nvim:
+	@mkdir -p ~/.config/nvim
+	@cp -r $(CURDIR)/.config/nvim/* ~/.config/nvim/
+	@echo "Neovim configuration installed."
 
-unlink-nvim:
-	unlink ~/.config/nvim
+uninstall-nvim:
+	@rm -rf ~/.config/nvim
+	@echo "Neovim configuration uninstalled."
