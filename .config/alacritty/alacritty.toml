@@ -65,8 +65,8 @@ bindings = [
     { key = "Plus", mods = "Command", action = "IncreaseFontSize" },
     { key = "Minus", mods = "Command", action = "DecreaseFontSize" },
     { key = "Key0", mods = "Command", action = "ResetFontSize" },
-    { key = "F", mods = "Command|Control", action = "ToggleFullscreen" }
-    { key = "Tab", mods = "Control", action = "SelectNextTab" }
+    { key = "F", mods = "Command|Control", action = "ToggleFullscreen" },
+    { key = "Tab", mods = "Control", action = "SelectNextTab" },
     { key = "Tab", mods = "Control|Shift", action = "SelectPreviousTab" }
 ]
 
