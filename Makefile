@@ -1,6 +1,6 @@
 push:
 	git add -A
-	git acp
+	git auto
 	git push --no-verify
 
 link-nvim:
