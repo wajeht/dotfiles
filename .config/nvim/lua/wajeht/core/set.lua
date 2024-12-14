@@ -47,9 +47,12 @@ vim.opt.splitbelow = true               -- Split horizontal window to the bottom
 vim.opt.swapfile = false                -- Disable swap file creation
 
 -- Other settings
+vim.opt.breakindent = true              -- Enable break indent
+vim.opt.inccommand = 'split'            -- Preview substitutions live, as you type!
 vim.opt.mouse = "a"                     -- Enable mouse support in all modes
+vim.opt.showmode = false                -- Don't show the mode, since it's already in the status line
 vim.opt.shortmess:remove("S")           -- Show occurrence of search terms
-vim.opt.scrolloff = 8                   -- Keep 8 lines visible above/below the cursor
+vim.opt.scrolloff = 10                  -- Keep 10 lines visible above/below the cursor
 vim.opt.colorcolumn = "100"             -- Highlight the 100th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
@@ -69,7 +72,7 @@ vim.opt.title = true                    -- Set the terminal's title to the file 
 vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experience
 vim.opt.conceallevel = 0                -- So that I can see `` in markdown files
 vim.opt.history = 1000                  -- Store lots of :cmdline history
-vim.opt.updatetime = 300                -- Faster completion (4000ms default)
+vim.opt.updatetime = 250                -- Faster completion (4000ms default)
 
 -- Undo settings
 vim.opt.undofile = true                 -- Save undo history to an undo file
@@ -80,5 +83,5 @@ vim.opt.wrapscan = true                 -- Searches wrap around the end of the f
 
 -- Performance
 vim.opt.lazyredraw = true               -- Do not redraw while executing macros
-vim.opt.timeoutlen = 500                -- Time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 300                -- Time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.ttimeoutlen = 50                -- Time to wait for a key code sequence to complete
