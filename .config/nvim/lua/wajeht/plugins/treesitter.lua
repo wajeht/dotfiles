@@ -37,11 +37,11 @@ return {
         "bash",
         "lua",
         "vim",
+        "go",
         "dockerfile",
         "gitignore",
-        "query",
+        "sql",
         "vimdoc",
-        "c",
       },
       incremental_selection = {
         enable = true,
