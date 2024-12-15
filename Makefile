@@ -13,3 +13,9 @@ install-nvim:
 uninstall-nvim:
 	@rm -rf ~/.config/nvim
 	@echo "Neovim configuration uninstalled."
+
+install:
+	@make install-nvim
+
+uninstall:
+	@make uninstall-nvim
