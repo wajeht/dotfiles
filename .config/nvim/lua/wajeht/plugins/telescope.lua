@@ -45,7 +45,23 @@ return {
       -- set keymaps
       local keymap = vim.keymap -- for conciseness
 
-      keymap.set("n", "<D-p>", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
+			local function toggle_telescope_git_files()
+				-- Check if a Telescope prompt window is open
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						if vim.bo[buf].filetype == "TelescopePrompt" then
+								-- Close Telescope by simulating Esc
+								vim.api.nvim_input("<Esc><Esc>")
+								return
+						end
+				end
+
+				-- Open Telescope picker
+				vim.cmd("Telescope git_files")
+		end
+
+			-- Map <cmd>+P for all modes
+			keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", toggle_telescope_git_files, { desc = "Toggle Telescope git_files" })
       keymap.set("n", "<leader>fg", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
       keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
       keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
