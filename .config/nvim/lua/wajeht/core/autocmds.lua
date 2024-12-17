@@ -56,27 +56,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.cmd("startinsert") -- Ensure terminal starts in insert mode
   end,
 })
-
--- Toggle terminal with Cmd+J (open or close)
-vim.keymap.set({"n", "i", "v", "c", "t"}, "<D-j>", function()
-  local term_buf = nil
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.fn.bufname(buf):match('^term://') then
-      term_buf = buf
-      break
-    end
-  end
-
-  -- If a terminal is open, close it
-  if term_buf then
-    vim.cmd("bdelete! " .. term_buf)  -- Close the terminal buffer
-  else
-    -- If no terminal is open, create a new one
-    vim.cmd("split")  -- Open a new split window
-    vim.cmd("wincmd J")  -- Move the new window to the bottom
-    vim.api.nvim_win_set_height(0, 15)  -- Set a fixed height for the terminal
-    vim.wo.winfixheight = true  -- Fix the height of the terminal window
-    vim.cmd("term")  -- Start the terminal
-    vim.cmd("startinsert")  -- Ensure the terminal is in insert mode after opening
-  end
-end)
