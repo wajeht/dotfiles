@@ -65,8 +65,16 @@ vim.opt.showcmd = true                  -- Display incomplete commands
 vim.opt.wildmenu = true                 -- Visual autocomplete for command menu
 vim.opt.wildmode = {"longest:full", "full"} -- Command-line completion mode
 vim.opt.list = true                     -- Show some invisible characters
-vim.opt.listchars = { tab = "▸ ", trail = "·", precedes = "←", extends = "→", eol = "↲", nbsp = "␣", space = "·" } -- Customize how invisible characters are displayed
 vim.opt.title = true                    -- Set the terminal's title to the file being edited
+vim.opt.listchars = {
+  tab = "▸",      -- Tab characters will appear as "▸".
+  trail = "·",     -- Trailing spaces will appear as "·".
+  precedes = "←",  -- "←" indicates hidden text to the left.
+  extends = "→",   -- "→" indicates hidden text to the right.
+  eol = "↲",       -- End-of-line characters will appear as "↲".
+  nbsp = "␣",      -- Non-breaking spaces will appear as "␣".
+  space = "·"      -- Regular spaces will appear as "·".
+}
 
 -- Editing
 vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experience
