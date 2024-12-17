@@ -5,6 +5,8 @@ vim.cmd("let g:netrw_winsize = 30") -- Set the initial size of the Netrw window 
 vim.cmd("let g:netrw_liststyle = 3")-- Set the listing style to a tree-style view
 vim.cmd("let g:netrw_altv = 1")     -- Open splits to the right
 
+vim.cmd("setlocal laststatus=0") -- Hide the statusline for terminal buffers
+
 vim.opt.relativenumber = true           -- Show relative line numbers
 vim.opt.number = true                   -- Show absolute line numbers
 
