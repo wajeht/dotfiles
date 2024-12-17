@@ -4,6 +4,7 @@ vim.g.have_nerd_font = true
 
 -- General Keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
 
 -- Save and Select All
 vim.keymap.set("n", "<D-s>", ":w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in normal mode
