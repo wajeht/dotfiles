@@ -26,46 +26,46 @@ family = "Monaco Nerd Font"
 family = "Monaco Nerd Font"
 
 [colors.primary]
-background = "#181818"
-foreground = "#D4D4D4"
+background = "0x1f1f1f"
+foreground = "0xcccccc"
 
 [colors.cursor]
 text = "#181818"
 cursor = "#cccccc"
 
 [colors.normal]
-black   = "#000000"
-red     = "#cd3131"
-green   = "#0dbc79"
-yellow  = "#e5e510"
-blue    = "#2472c8"
-magenta = "#bc3fbc"
-cyan    = "#11a8cd"
-white   = "#e5e5e5"
+black = "0x1f1f1f"
+red = "0xf44747"
+green = "0x6a9955"
+yellow = "0xd7ba7d"
+blue = "0x569cd6"
+magenta = "0xc586c0"
+cyan = "0x4dc9b0"
+white = "0xdddddd"
 
 [colors.bright]
-black   = "#666666"
-red     = "#f14c4c"
-green   = "#23d18b"
-yellow  = "#f5f543"
-blue    = "#3b8eea"
-magenta = "#d670d6"
-cyan    = "#29b8db"
-white   = "#e5e5e5"
+black = "0x808080"
+red = "0xf55757"
+green = "0x80ad6b"
+yellow = "0xe1cb9e"
+blue = "0x6fabdc"
+magenta = "0xd6a9d2"
+cyan = "0x70d3bf"
+white = "0xffffff"
 
 [selection]
 save_to_clipboard = true
 
 [keyboard]
 bindings = [
-    { key = "V", mods = "Command", action = "Paste" },
-    { key = "C", mods = "Command", action = "Copy" },
-    { key = "Plus", mods = "Command", action = "IncreaseFontSize" },
-    { key = "Minus", mods = "Command", action = "DecreaseFontSize" },
-    { key = "Key0", mods = "Command", action = "ResetFontSize" },
-    { key = "F", mods = "Command|Control", action = "ToggleFullscreen" },
-    { key = "Tab", mods = "Control", action = "SelectNextTab" },
-    { key = "Tab", mods = "Control|Shift", action = "SelectPreviousTab" }
+{ key = "V", mods = "Command", action = "Paste" },
+{ key = "C", mods = "Command", action = "Copy" },
+{ key = "Plus", mods = "Command", action = "IncreaseFontSize" },
+{ key = "Minus", mods = "Command", action = "DecreaseFontSize" },
+{ key = "Key0", mods = "Command", action = "ResetFontSize" },
+{ key = "F", mods = "Command|Control", action = "ToggleFullscreen" },
+{ key = "Tab", mods = "Control", action = "SelectNextTab" },
+{ key = "Tab", mods = "Control|Shift", action = "SelectPreviousTab" }
 ]
 
 [scrolling]
