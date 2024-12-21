@@ -1,4 +1,20 @@
 {
+	   /**
+    * vim
+    */
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.duration": 150,
+    "vim.highlightedyank.color": "#263238",
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1
+    },
+	
 	/**
 	* Silence The Noise
 	*/
