@@ -143,7 +143,8 @@ alias two="ssh jaw@192.168.0.112"
 alias three="ssh jaw@192.168.0.113"
 
 alias man="man"
-# alias vim='nvim'
+alias vim='nvim'
+alias v='nvim'
 alias resource='source ~/.zshrc'
 alias ls="lsd -lF"
 alias lst="ls --tree"
