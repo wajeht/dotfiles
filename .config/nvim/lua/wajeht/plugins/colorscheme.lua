@@ -1,9 +1,11 @@
 return {
- "rockyzhang24/arctic.nvim",
-  branch = "v2",
-  dependencies = { "rktjmp/lush.nvim" },
+  "catppuccin/nvim",
+  name = "catppuccin",
   priority = 1000,
   config = function()
-    vim.cmd("colorscheme arctic")
-  end,
+    require("catppuccin").setup({
+      flavour = "mocha"  -- Set Mocha as the flavor
+    })
+    vim.cmd.colorscheme "catppuccin"
+  end
 }

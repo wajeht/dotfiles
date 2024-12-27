@@ -1,0 +1,31 @@
+../
+dotfiles/
+| .config/
+| | alacritty/
+| | bat/
+| | btop/
+| | lsd/
+| | nvim/
+| | | lua/
+| | | | wajeht/
+| | | | | core/
+| | | | | plugins/
+| | | | | | lsp/
+| | | | | | colorscheme.lua
+| | | | | | gitsigns.lua
+| | | | | | nvim-cmp.lua
+| | | | | | telescope.lua
+| | | | | | treesitter.lua
+| | | | | lazy.lua
+| | | init.lua
+| .git/
+| .vscode/
+| brew-apps.sh*
+| .gitconfig
+| .gitignore
+| .vimrc
+| .zshrc
+| LICENSE
+| Launch Apps Hotkeys.alfredworkflow
+| Makefile
+| README.md
