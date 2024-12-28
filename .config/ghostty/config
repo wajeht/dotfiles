@@ -1,0 +1,17 @@
+shell-integration = zsh
+
+font-family = Monaco
+font-size = 15
+font-thicken = true
+
+window-padding-color = extend
+window-save-state = always
+background = #1f1f1f
+confirm-close-surface = false
+macos-titlebar-style = tabs
+
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:bottom
+keybind = ctrl+k=goto_split:top
+keybind = ctrl+l=goto_split:right
+
