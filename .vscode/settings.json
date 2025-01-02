@@ -14,7 +14,7 @@
     "extensions.experimental.affinity": {
         "vscodevim.vim": 1
     },
-	
+
 	/**
 	* Silence The Noise
 	*/
@@ -239,7 +239,12 @@
 		"ipfs",
 		"ipns",
 		"jfkdls",
+		"keymap",
 		"strftime",
+		"tabclose",
+		"tabn",
+		"tabnew",
+		"tabp",
 		"wajeht"
 	],
 }

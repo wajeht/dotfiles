@@ -6,6 +6,10 @@ vim.g.have_nerd_font = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
 
+-- Comment Toggle (Normal and Visual Mode)
+vim.keymap.set("n", "<D-/>", "gcc", { desc = "Toggle comment with Cmd+/" })
+vim.keymap.set("v", "<D-/>", "gc", { desc = "Toggle comment in visual mode with Cmd+/" })
+
 -- Save and Select All
 vim.keymap.set("n", "<D-s>", ":w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in normal mode
 vim.keymap.set("i", "<D-s>", "<Esc>:w!<CR>a", { desc = "Save file (force write) in insert mode" }) -- Cmd+s in insert mode
