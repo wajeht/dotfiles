@@ -10,7 +10,7 @@ confirm-close-surface = false
 macos-titlebar-style = tabs
 
 clipboard-read = allow
-clipboard-writ = allow
+clipboard-write = allow
 
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+j=goto_split:bottom
