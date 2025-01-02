@@ -7,7 +7,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highl
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
 
 -- Comment Toggle (Normal and Visual Mode)
-vim.keymap.set({"n", "i", "v"}, "<D-/>", ":norm gcc <CR>", { desc = "Toggle comment with Cmd+/" })
+vim.keymap.set({"n", "i", "v"}, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
 
 -- Save and Select All
 vim.keymap.set("n", "<D-s>", ":w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in normal mode
