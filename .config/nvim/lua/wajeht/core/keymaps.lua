@@ -42,9 +42,9 @@ vim.keymap.set({"n", "i", "v", "t"}, "<leader>e", "<cmd>vertical rightbelow Lex 
 vim.keymap.set({"n", "i", "v", "t"}, "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
 
 -- Save and Quit (with leader)
-vim.keymap.set("n", "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
-vim.keymap.set("n", "<leader>z", "<cmd>wq!<CR>", { desc = "Save and Quit" })
-vim.keymap.set("n", "<leader>w", "<cmd>wa!<CR>", { desc = "Save all files" })
+vim.keymap.set({"n", "i", "v"}, "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
+vim.keymap.set({"n", "i", "v"}, "<leader>z", "<cmd>wq!<CR>", { desc = "Save and Quit" })
+vim.keymap.set({"n", "i", "v"}, "<leader>w", "<cmd>wa!<CR>", { desc = "Save all files" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
