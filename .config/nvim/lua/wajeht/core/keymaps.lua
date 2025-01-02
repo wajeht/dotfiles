@@ -38,8 +38,8 @@ vim.keymap.set("n", "<S-Tab>", "<cmd>tabp<CR>", { desc = "Go to previous tab wit
 vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab" })
 
 -- Quick File Navigation (netrw file explorer on the right)
-vim.keymap.set("n", "<leader>e", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Leader+e
-vim.keymap.set("n", "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
+vim.keymap.set({"n", "i", "v", "t"}, "<leader>e", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Leader+e
+vim.keymap.set({"n", "i", "v", "t"}, "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
 
 -- Save and Quit (with leader)
 vim.keymap.set("n", "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
