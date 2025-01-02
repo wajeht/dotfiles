@@ -10,8 +10,7 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>") -- Easily hit escape in termina
 vim.keymap.set({"n", "i", "v"}, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
 
 -- Save and Select All
-vim.keymap.set("n", "<D-s>", ":w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in normal mode
-vim.keymap.set("i", "<D-s>", "<Esc>:w!<CR>a", { desc = "Save file (force write) in insert mode" }) -- Cmd+s in insert mode
+vim.keymap.set({"n", "v", "i"}, "<D-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
 vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all in normal mode" }) -- Cmd+a to select all text in normal mode
 vim.keymap.set("i", "<D-a>", "<Esc>ggVG", { desc = "Select all in insert mode" }) -- Cmd+a to select all text in insert mode
 vim.keymap.set("v", "<D-a>", "<Esc>ggVG", { desc = "Select all in visual mode" }) -- Cmd+a to select all text in visual mode
@@ -73,5 +72,5 @@ vim.keymap.set("n", "*", "*zz", { desc = "Search for word under cursor and cente
 vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor and center" })
 
 -- copy and paste
-vim.keymap.set({"v"}, "<Esc>[3~", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set({"n", "v", "i"}, "<D-c>", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({"n", "v", "i", "t"}, "<D-v>", '"+p', { desc = "Paste from clipboard" })
