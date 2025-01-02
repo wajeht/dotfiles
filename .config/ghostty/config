@@ -4,13 +4,16 @@ font-family = Monaco
 font-size = 15
 font-thicken = true
 
+window-padding-balance = true
 window-padding-color = extend
 window-save-state = never
+theme = Dark Modern
 confirm-close-surface = false
 macos-titlebar-style = tabs
 
 clipboard-read = allow
 clipboard-write = allow
+copy-on-select = clipboard
 
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+j=goto_split:bottom
