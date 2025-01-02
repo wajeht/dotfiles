@@ -61,6 +61,7 @@ vim.opt.ttyfast = true                  -- Assume a fast terminal connection
 vim.opt.ruler = true                    -- Show the line and column number of the cursor position
 vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
 vim.opt.equalalways = true              -- Ensure all windows are always equally sized
+vim.opt.ruler = false                   -- hide ruler
 vim.opt.cmdheight = 0                   -- hide command line when it is not actively used
 
 -- Appearance
