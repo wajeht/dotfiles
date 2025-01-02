@@ -241,6 +241,7 @@
 		"ipfs",
 		"ipns",
 		"jfkdls",
+		"keybind",
 		"keymap",
 		"Keymaps",
 		"mapleader",
@@ -253,6 +254,8 @@
 		"tabn",
 		"tabnew",
 		"tabp",
+		"titlebar",
+		"unnamedplus",
 		"wajeht"
 	],
 }
