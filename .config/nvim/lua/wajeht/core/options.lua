@@ -27,8 +27,8 @@ vim.opt.smartcase = true                -- If you include mixed case in your sea
 vim.opt.incsearch = true                -- Show search matches as you type
 vim.opt.hlsearch = true                 -- Highlight search results
 
-vim.opt.cursorline = true               -- Highlight the current line
-vim.opt.cursorcolumn = true             -- Highlight the current column
+vim.opt.cursorline = false              -- Highlight the current line
+vim.opt.cursorcolumn = false            -- Highlight the current column
 
 -- Colors and appearance
 vim.opt.termguicolors = true            -- Enable true color support
@@ -58,7 +58,7 @@ vim.opt.scrolloff = 10                  -- Keep 10 lines visible above/below the
 vim.opt.colorcolumn = "100"             -- Highlight the 100th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
-vim.opt.ruler = true                    -- Show the line and column number of the cursor position
+vim.opt.ruler = false                    -- Show the line and column number of the cursor position
 vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
 vim.opt.equalalways = true              -- Ensure all windows are always equally sized
 vim.opt.ruler = false                   -- hide ruler
