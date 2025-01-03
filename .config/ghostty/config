@@ -7,6 +7,8 @@ font-thicken = true
 window-padding-y = 0
 window-padding-color = extend
 window-save-state = never
+# window-decoration = false
+
 theme = Dark Modern
 confirm-close-surface = false
 macos-titlebar-style = tabs
@@ -14,6 +16,7 @@ macos-titlebar-style = tabs
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = clipboard
+clipboard-paste-protection = false
 
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+j=goto_split:bottom
