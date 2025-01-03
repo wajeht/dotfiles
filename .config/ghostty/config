@@ -4,7 +4,7 @@ font-family = Monaco
 font-size = 15
 font-thicken = true
 
-window-padding-balance = true
+window-padding-y = 0
 window-padding-color = extend
 window-save-state = never
 theme = Dark Modern
