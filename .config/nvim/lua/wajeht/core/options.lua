@@ -5,8 +5,6 @@ vim.cmd("let g:netrw_winsize = 30") -- Set the initial size of the Netrw window 
 vim.cmd("let g:netrw_liststyle = 3")-- Set the listing style to a tree-style view
 vim.cmd("let g:netrw_altv = 1")     -- Open splits to the right
 
-vim.cmd("setlocal laststatus=0") -- Hide the statusline for terminal buffers
-
 vim.opt.relativenumber = true           -- Show relative line numbers
 vim.opt.number = true                   -- Show absolute line numbers
 
@@ -97,3 +95,11 @@ vim.opt.wrapscan = true                 -- Searches wrap around the end of the f
 vim.opt.lazyredraw = true               -- Do not redraw while executing macros
 vim.opt.timeoutlen = 300                -- Time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.ttimeoutlen = 50                -- Time to wait for a key code sequence to complete
+
+
+-- Custom statusline for terminal buffers
+vim.cmd("set laststatus=0")  -- Disable default statusline
+vim.cmd("set statusline=%{repeat('─',winwidth('.'))}")  -- Custom statusline (only a line of dashes)
+
+vim.cmd("hi StatusLine gui=NONE guibg=NONE guifg=#333333")  -- GUI background transparent
+vim.cmd("hi StatusLineNC gui=NONE guibg=NONE guifg=#333333")  -- Inactive StatusLine transparent for GUI
