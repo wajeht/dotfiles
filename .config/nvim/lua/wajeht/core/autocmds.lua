@@ -43,16 +43,3 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
   end,
   desc = "Automatically create parent directories when saving a file"
 })
-
--- Set local settings for terminal buffers
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("custom-term-open", {}),
-  callback = function()
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.opt_local.scrolloff = 0
-    vim.bo.filetype = "terminal"
-    vim.cmd("normal! G") -- Move the cursor to the bottom of the terminal
-    vim.cmd("startinsert") -- Ensure terminal starts in insert mode
-  end,
-})
