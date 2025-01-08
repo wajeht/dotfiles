@@ -44,6 +44,16 @@ return {
               ["<CR>"] = cmp.mapping.confirm({ select = false }),
               ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- confirm with Tab
           }),
+          window = {
+            completion = {
+                border = "rounded",
+                winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder",
+            },
+            documentation = {
+                border = "rounded",
+                winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder",
+            },
+          },
           -- sources for autocompletion
           sources = cmp.config.sources({
               { name = "nvim_lsp" },
@@ -59,5 +69,8 @@ return {
               }),
           },
       })
+
+      -- Define a custom highlight group for the border
+      vim.cmd([[ highlight CmpBorder guifg=#333333 guibg=NONE ]])
   end,
 }
