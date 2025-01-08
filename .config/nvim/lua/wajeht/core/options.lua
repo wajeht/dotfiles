@@ -56,13 +56,18 @@ vim.opt.scrolloff = 10                  -- Keep 10 lines visible above/below the
 vim.opt.colorcolumn = "100"             -- Highlight the 100th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
-vim.opt.ruler = false                    -- Show the line and column number of the cursor position
+vim.opt.ruler = false                   -- Show the line and column number of the cursor position
 vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
+vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
 vim.opt.equalalways = true              -- Ensure all windows are always equally sized
 vim.opt.ruler = false                   -- hide ruler
 vim.opt.cmdheight = 0                   -- hide command line when it is not actively used
 
 -- Appearance
+vim.opt.linebreak = true                -- Break lines at word boundaries
+vim.opt.showbreak = "↪ "                -- Show line breaks
+vim.opt.pumheight = 10                  -- Limit completion menu height
+vim.opt.pumblend = 10                   -- Slight transparency for popup menu
 vim.opt.showcmd = true                  -- Display incomplete commands
 vim.opt.wildmenu = true                 -- Visual autocomplete for command menu
 vim.opt.wildmode = {"longest:full", "full"} -- Command-line completion mode
@@ -82,20 +87,21 @@ vim.opt.listchars = {
 vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experience
 vim.opt.conceallevel = 0                -- So that I can see `` in markdown files
 vim.opt.history = 1000                  -- Store lots of :cmdline history
-vim.opt.updatetime = 250                -- Faster completion (4000ms default)
+vim.opt.updatetime = 100                -- Faster completion (4000ms default)
 
 -- Undo settings
 vim.opt.undofile = true                 -- Save undo history to an undo file
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Set undo directory
-
+local undodir = os.getenv("HOME") .. "/.vim/undodir"
+if not vim.fn.isdirectory(undodir) then
+    vim.fn.mkdir(undodir, "p")
+end
 -- Search
 vim.opt.wrapscan = true                 -- Searches wrap around the end of the file
 
 -- Performance
 vim.opt.lazyredraw = true               -- Do not redraw while executing macros
-vim.opt.timeoutlen = 300                -- Time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 200                -- Time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.ttimeoutlen = 50                -- Time to wait for a key code sequence to complete
-
 
 -- Custom statusline for terminal buffers
 vim.cmd("set laststatus=0")  -- Disable default statusline
