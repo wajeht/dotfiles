@@ -24,6 +24,8 @@ vim.opt.ignorecase = true               -- Ignore case when searching
 vim.opt.smartcase = true                -- If you include mixed case in your search, assumes you want case-sensitive
 vim.opt.incsearch = true                -- Show search matches as you type
 vim.opt.hlsearch = true                 -- Highlight search results
+vim.opt.magic = true                    -- Use extended regular expressions
+vim.opt.wrapscan = true                 -- Searches wrap around the end of the file
 
 vim.opt.cursorline = false              -- Highlight the current line
 vim.opt.cursorcolumn = false            -- Highlight the current column
@@ -45,6 +47,8 @@ vim.opt.splitbelow = true               -- Split horizontal window to the bottom
 
 -- Turn off swapfile
 vim.opt.swapfile = false                -- Disable swap file creation
+vim.opt.backup = false                  -- Disable backup files
+vim.opt.writebackup = false             -- Disable backup before overwriting file
 
 -- Other settings
 vim.opt.breakindent = true              -- Enable break indent
@@ -52,13 +56,14 @@ vim.opt.inccommand = 'split'            -- Preview substitutions live, as you ty
 vim.opt.mouse = "a"                     -- Enable mouse support in all modes
 vim.opt.showmode = false                -- Don't show the mode, since it's already in the status line
 vim.opt.shortmess:remove("S")           -- Show occurrence of search terms
-vim.opt.scrolloff = 10                  -- Keep 10 lines visible above/below the cursor
+vim.opt.scrolloff = 8                   -- Keep 8 lines visible above/below the cursor
+vim.opt.sidescrolloff = 8               -- Keep 8 columns visible left/right of cursor
 vim.opt.colorcolumn = "100"             -- Highlight the 100th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
 vim.opt.ruler = false                   -- Show the line and column number of the cursor position
-vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
-vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
+-- vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
+-- vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
 vim.opt.equalalways = true              -- Ensure all windows are always equally sized
 vim.opt.ruler = false                   -- hide ruler
 vim.opt.cmdheight = 0                   -- hide command line when it is not actively used
@@ -86,8 +91,8 @@ vim.opt.listchars = {
 -- Editing
 vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experience
 vim.opt.conceallevel = 0                -- So that I can see `` in markdown files
-vim.opt.history = 1000                  -- Store lots of :cmdline history
-vim.opt.updatetime = 100                -- Faster completion (4000ms default)
+vim.opt.history = 100                   -- Store lots of :cmdline history
+vim.opt.updatetime = 50                 -- Faster completion (4000ms default)
 
 -- Undo settings
 vim.opt.undofile = true                 -- Save undo history to an undo file
@@ -95,13 +100,13 @@ local undodir = os.getenv("HOME") .. "/.vim/undodir"
 if not vim.fn.isdirectory(undodir) then
     vim.fn.mkdir(undodir, "p")
 end
--- Search
-vim.opt.wrapscan = true                 -- Searches wrap around the end of the file
+vim.opt.undodir = undodir               -- Set undo directory
 
 -- Performance
 vim.opt.lazyredraw = true               -- Do not redraw while executing macros
-vim.opt.timeoutlen = 200                -- Time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 400                -- Time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.ttimeoutlen = 50                -- Time to wait for a key code sequence to complete
+vim.opt.hidden = true                   -- Enable background buffers
 
 -- Custom statusline for terminal buffers
 vim.cmd("set laststatus=0")  -- Disable default statusline
