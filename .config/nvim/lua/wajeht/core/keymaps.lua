@@ -4,7 +4,7 @@ vim.g.have_nerd_font = true
 
 -- General Keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
-vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
 
 -- Comment Toggle (Normal and Visual Mode)
 vim.keymap.set({"n", "i", "v"}, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
