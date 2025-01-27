@@ -2,8 +2,8 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-path", -- source for file system paths
+    "hrsh7th/cmp-buffer",   -- source for text in buffer
+    "hrsh7th/cmp-path",     -- source for file system paths
     "onsails/lspkind.nvim", -- vs-code like pictograms
   },
   config = function()
@@ -20,9 +20,9 @@ return {
         ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<D-i>"] = cmp.mapping.complete(), -- trigger completion menu with Command + i
-        ["<C-e>"] = cmp.mapping.abort(), -- close completion window
+        ["<C-Space>"] = cmp.mapping.complete(),             -- show completion suggestions
+        ["<D-i>"] = cmp.mapping.complete(),                 -- trigger completion menu with Command + i
+        ["<C-e>"] = cmp.mapping.abort(),                    -- close completion window
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
         ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- confirm with Tab
       }),
@@ -40,7 +40,7 @@ return {
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
         { name = "buffer" }, -- text within current buffer
-        { name = "path" }, -- file system paths
+        { name = "path" },   -- file system paths
       }),
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
