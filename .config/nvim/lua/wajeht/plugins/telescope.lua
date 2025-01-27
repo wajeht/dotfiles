@@ -61,7 +61,7 @@ return {
             end
 
             -- Map <cmd>+P for all modes
-            keymap.set({ "n", "v"}, "<D-p>", toggle_telescope_git_files, { desc = "Toggle Telescope git_files" })
+            keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", toggle_telescope_git_files, { desc = "Toggle Telescope git_files" })
             keymap.set("n", "<leader>fg", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
             keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
             keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
