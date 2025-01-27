@@ -57,16 +57,6 @@ return {
 
           opts.desc = "Restart LSP"
           keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
-          opts.desc = "Close hover window if open"
-          keymap.set("n", "<Esc>", function()
-              -- Check if LSP hover window is open
-              if vim.lsp.buf.server_ready() then
-                  vim.lsp.buf.clear_references()  -- Clear the hover references
-              else
-                  vim.cmd("q")  -- Quit the window if no hover window is open
-              end
-          end, opts)
       end
 
       -- used to enable autocompletion (assign to every lsp server config)
