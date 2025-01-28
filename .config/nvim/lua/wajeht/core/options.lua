@@ -1,9 +1,9 @@
 -- Netrw settings
-vim.cmd("let g:netrw_keepdir = 0")  -- Make Netrw change to the directory you are browsing
-vim.cmd("let g:netrw_banner = 0")   -- Disable the banner at the top of Netrw
-vim.cmd("let g:netrw_winsize = 30") -- Set the initial size of the Netrw window to 30% of the screen
-vim.cmd("let g:netrw_liststyle = 3")-- Set the listing style to a tree-style view
-vim.cmd("let g:netrw_altv = 1")     -- Open splits to the right
+-- vim.cmd("let g:netrw_keepdir = 0")  -- Make Netrw change to the directory you are browsing
+-- vim.cmd("let g:netrw_banner = 0")   -- Disable the banner at the top of Netrw
+-- vim.cmd("let g:netrw_winsize = 30") -- Set the initial size of the Netrw window to 30% of the screen
+-- vim.cmd("let g:netrw_liststyle = 3")-- Set the listing style to a tree-style view
+-- vim.cmd("let g:netrw_altv = 1")     -- Open splits to the right
 
 vim.opt.relativenumber = true           -- Show relative line numbers
 vim.opt.number = true                   -- Show absolute line numbers
