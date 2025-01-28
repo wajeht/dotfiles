@@ -30,7 +30,6 @@ return {
                 "tailwindcss",
                 "lua_ls",
                 "emmet_language_server",
-                "phpactor",
                 "volar",
                 "intelephense",
             },
