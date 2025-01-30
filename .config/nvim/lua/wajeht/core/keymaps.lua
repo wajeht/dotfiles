@@ -5,15 +5,16 @@ vim.g.have_nerd_font = true
 -- General Keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
+vim.keymap.set({ "n", "v", "i" }, "<D-f>", "/", { desc = "Start search and replace" })
 
 -- Comment Toggle (Normal and Visual Mode)
-vim.keymap.set({"n", "i", "v"}, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
+vim.keymap.set({ "n", "i", "v" }, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
 
 -- Save and Select All
-vim.keymap.set({"n", "v", "i"}, "<D-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
-vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all in normal mode" }) -- Cmd+a to select all text in normal mode
-vim.keymap.set("i", "<D-a>", "<Esc>ggVG", { desc = "Select all in insert mode" }) -- Cmd+a to select all text in insert mode
-vim.keymap.set("v", "<D-a>", "<Esc>ggVG", { desc = "Select all in visual mode" }) -- Cmd+a to select all text in visual mode
+vim.keymap.set({ "n", "v", "i" }, "<D-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
+vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all in normal mode" })                    -- Cmd+a to select all text in normal mode
+vim.keymap.set("i", "<D-a>", "<Esc>ggVG", { desc = "Select all in insert mode" })               -- Cmd+a to select all text in insert mode
+vim.keymap.set("v", "<D-a>", "<Esc>ggVG", { desc = "Select all in visual mode" })               -- Cmd+a to select all text in visual mode
 
 -- Window Management
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
@@ -46,9 +47,9 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 -- vim.keymap.set({"n", "v"}, "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
 
 -- Save and Quit (with leader)
-vim.keymap.set({"n", "v"}, "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
-vim.keymap.set({"n", "v"}, "<leader>z", "<cmd>wq!<CR>", { desc = "Save and Quit" })
-vim.keymap.set({"n", "v"}, "<leader>w", "<cmd>wa!<CR>", { desc = "Save all files" })
+vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
+vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wq!<CR>", { desc = "Save and Quit" })
+vim.keymap.set({ "n", "v" }, "<leader>w", "<cmd>wa!<CR>", { desc = "Save all files" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
@@ -77,5 +78,5 @@ vim.keymap.set("n", "*", "*zz", { desc = "Search for word under cursor and cente
 vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor and center" })
 
 -- copy and paste
-vim.keymap.set({"n", "v", "i"}, "<D-c>", '"+y', { desc = "Copy to clipboard" })
-vim.keymap.set({"n", "v", "i", "t"}, "<D-v>", '"+p', { desc = "Paste from clipboard" })
+vim.keymap.set({ "n", "v", "i" }, "<D-c>", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set({ "n", "v", "i", "t" }, "<D-v>", '"+p', { desc = "Paste from clipboard" })
