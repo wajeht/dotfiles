@@ -58,7 +58,7 @@ vim.opt.showmode = false                -- Don't show the mode, since it's alrea
 vim.opt.shortmess:remove("S")           -- Show occurrence of search terms
 vim.opt.scrolloff = 8                   -- Keep 8 lines visible above/below the cursor
 vim.opt.sidescrolloff = 8               -- Keep 8 columns visible left/right of cursor
-vim.opt.colorcolumn = "100"             -- Highlight the 100th column
+vim.opt.colorcolumn = "80"              -- Highlight the 80th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
 vim.opt.ruler = false                   -- Show the line and column number of the cursor position
