@@ -17,6 +17,17 @@ return {
                 renderer = {
                     indent_markers = {
                         enable = true, -- Show indent markers
+                        inline_arrows = true,
+                        icons = {
+                            corner = "└",
+                            edge = "│",
+                            item = "│",
+                            bottom = "─",
+                            none = " ",
+                            -- Use the same character as indent-blankline
+                            edge = "┊",
+                            item = "┊",
+                        },
                     },
                     icons = {
                         show = {
