@@ -34,3 +34,5 @@ keybind = ctrl+l=goto_split:right
 
 # split-divider-color = #454545
 unfocused-split-opacity = 1.0
+
+adjust-cell-height = 10%
