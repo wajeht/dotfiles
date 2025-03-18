@@ -34,6 +34,7 @@ return {
                         ".next",
                         "dist",
                         "build",
+                        ".DS_Store",
                     },
                     hidden = true,
                     path_display = {
@@ -52,6 +53,7 @@ return {
                         "--column",
                         "--smart-case",
                         "--hidden",
+                        "--glob=!.git/",
                     },
                 },
                 pickers = {
