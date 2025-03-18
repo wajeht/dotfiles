@@ -32,6 +32,7 @@ return {
                 "emmet_language_server",
                 "volar",
                 "intelephense",
+                "gopls",
             },
             -- auto-install configured servers (with lspconfig)
             automatic_installation = true, -- not the same as ensure_installed
