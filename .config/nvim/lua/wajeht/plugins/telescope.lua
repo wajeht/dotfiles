@@ -32,10 +32,31 @@ return {
                         ".sl",
                         "_build",
                         ".next",
+                        "dist",
+                        "build",
                     },
                     hidden = true,
                     path_display = {
                         "filename_first",
+                    },
+                    cache_picker = {
+                        num_pickers = 5,
+                        limit_entries = 300,
+                    },
+                    vimgrep_arguments = {
+                        "rg",
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                        "--hidden",
+                    },
+                },
+                pickers = {
+                    find_files = {
+                        find_command = { "fd", "--type", "f", "--hidden", "--strip-cwd-prefix" }
                     },
                 },
             })

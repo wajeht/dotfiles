@@ -61,7 +61,6 @@ vim.opt.sidescrolloff = 8               -- Keep 8 columns visible left/right of 
 vim.opt.colorcolumn = "80"              -- Highlight the 80th column
 vim.opt.spelllang = "en_us"             -- Set the spell check language to US English
 vim.opt.ttyfast = true                  -- Assume a fast terminal connection
-vim.opt.ruler = false                   -- Show the line and column number of the cursor position
 -- vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
 -- vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
 vim.opt.equalalways = true              -- Ensure all windows are always equally sized
@@ -92,7 +91,7 @@ vim.opt.listchars = {
 vim.opt.completeopt = {"menuone", "noselect"} -- Better autocompletion experience
 vim.opt.conceallevel = 0                -- So that I can see `` in markdown files
 vim.opt.history = 100                   -- Store lots of :cmdline history
-vim.opt.updatetime = 50                 -- Faster completion (4000ms default)
+vim.opt.updatetime = 50                 -- Faster completion
 
 -- Undo settings
 vim.opt.undofile = true                 -- Save undo history to an undo file
@@ -102,11 +101,14 @@ if not vim.fn.isdirectory(undodir) then
 end
 vim.opt.undodir = undodir               -- Set undo directory
 
--- Performance
+-- Performance optimizations
 vim.opt.lazyredraw = true               -- Do not redraw while executing macros
-vim.opt.timeoutlen = 400                -- Time to wait for a mapped sequence to complete (in milliseconds)
-vim.opt.ttimeoutlen = 50                -- Time to wait for a key code sequence to complete
-vim.opt.hidden = true                   -- Enable background buffers
+vim.opt.timeoutlen = 300                -- Time to wait for a mapped sequence to complete (reduced from 400ms)
+vim.opt.ttimeoutlen = 10                -- Faster key code recognition (reduced from 50ms)
+vim.opt.updatetime = 50                 -- Faster completion
+vim.opt.redrawtime = 1500               -- Time in milliseconds for redrawing the display (default: 2000)
+vim.opt.synmaxcol = 200                 -- Only highlight the first 200 columns (default: 3000)
+vim.opt.virtualedit = "block"           -- Allow cursor to move where there is no text in visual block mode
 
 -- Custom statusline for terminal buffers
 -- vim.cmd("set laststatus=0")  -- Disable default statusline

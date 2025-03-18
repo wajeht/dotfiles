@@ -11,6 +11,7 @@ return {
     treesitter.setup({ -- enable syntax highlighting
       highlight = {
         enable = true,
+        additional_vim_regex_highlighting = false, -- Disable vim regex highlighting
       },
       -- enable indentation
       indent = { enable = true },
@@ -51,5 +52,10 @@ return {
         },
       },
     })
+
+    -- Fold settings using treesitter
+    vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+    vim.opt.foldenable = false  -- Disable folding at startup
   end,
 }
