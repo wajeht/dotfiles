@@ -33,7 +33,7 @@ vim.opt.cursorcolumn = false            -- Highlight the current column
 -- Colors and appearance
 vim.opt.termguicolors = true            -- Enable true color support
 vim.opt.background = "dark"             -- Colorschemes that can be light or dark will be made dark
-vim.opt.signcolumn = "yes"              -- Show sign column so that text doesn't shift
+vim.opt.signcolumn = "no"               -- Hide sign column completely
 
 -- Backspace
 vim.opt.backspace = "indent,eol,start"  -- Allow backspace on indent, end of line or insert mode start position
