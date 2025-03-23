@@ -69,9 +69,9 @@ return {
 
     -- Define custom highlight groups for transparency
     vim.cmd([[
-      highlight NormalFloat guifg=#2b4046 guibg=#121c1e ctermbg=NONE
-      highlight FloatBorder guifg=#2b4046 guibg=#121c1e ctermbg=NONE
-      highlight CmpBorder guifg=#2b4046 guibg=#121c1e ctermbg=NONE
+      highlight NormalFloat guifg=#354e55 guibg=#121c1e ctermbg=NONE
+      highlight FloatBorder guifg=#354e55 guibg=#121c1e ctermbg=NONE
+      highlight CmpBorder guifg=#354e55 guibg=#121c1e ctermbg=NONE
     ]])
   end,
 }
