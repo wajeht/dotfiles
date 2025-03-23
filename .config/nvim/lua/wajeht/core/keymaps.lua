@@ -47,8 +47,8 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 -- vim.keymap.set({"n", "v"}, "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
 
 -- Save and Quit (with leader)
-vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>q!<CR>", { desc = "Quit Vim" })
-vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wq!<CR>", { desc = "Save and Quit" })
+vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
+vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", "<cmd>wa!<CR>", { desc = "Save all files" })
 
 -- Move lines in visual mode
