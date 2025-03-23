@@ -11,9 +11,10 @@ window-padding-color = extend
 window-save-state = never
 # window-decoration = false
 
-theme = Dark Modern
+theme = "tokyonight_night"
 confirm-close-surface = false
 macos-titlebar-style = tabs
+background=#16161c
 
 clipboard-read = allow
 clipboard-write = allow
