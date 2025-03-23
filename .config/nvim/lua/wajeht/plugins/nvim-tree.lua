@@ -12,7 +12,7 @@ return {
                 },
                 view = {
                     side = "right", -- Open on the right side
-                    width = 50,     -- Set the width of the nvim-tree window
+                    width = 40,     -- Set the width of the nvim-tree window
                 },
                 renderer = {
                     indent_markers = {
