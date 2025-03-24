@@ -11,7 +11,7 @@ window-padding-color = extend
 window-save-state = never
 # window-decoration = false
 
-theme = "tokyonight_night"
+theme = "catppuccin-mocha"
 confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#16161c
