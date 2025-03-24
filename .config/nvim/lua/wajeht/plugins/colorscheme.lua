@@ -29,16 +29,8 @@ return {
 			vim.cmd("set laststatus=0") -- Disable default statusline
 			vim.cmd("set statusline=%{repeat('─',winwidth('.'))}") -- Custom statusline (only a line of dashes)
 
-			vim.cmd("hi StatusLine gui=NONE guibg=#181823 guifg=#181823") -- GUI background transparent
-			vim.cmd("hi StatusLineNC gui=NONE guibg=#181823 guifg=#181823") -- Inactive StatusLine transparent for GUI
-
-			-- Terminal background color
-			vim.api.nvim_create_autocmd("TermOpen", {
-				callback = function()
-					vim.api.nvim_set_hl(0, 'Terminal', { bg = '#181823' })
-					vim.api.nvim_win_set_option(0, 'winhighlight', 'Normal:Terminal')
-				end,
-			})
+			vim.cmd("hi StatusLine gui=NONE guibg=NONE guifg=#45475a") -- GUI background transparent
+			vim.cmd("hi StatusLineNC gui=NONE guibg=NONE guifg=#45475a") -- Inactive StatusLine transparent for GUI
 		end,
 	},
 }
