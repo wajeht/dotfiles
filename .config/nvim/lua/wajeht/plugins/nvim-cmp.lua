@@ -33,17 +33,6 @@ return {
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
         ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- confirm with Tab
       }),
-      window = {
-        completion = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder",
-        },
-        documentation = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder",
-        },
-      },
-      -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "luasnip" }, -- snippets
         { name = "nvim_lsp" },
@@ -61,20 +50,5 @@ return {
         }),
       },
     })
-
-    -- Configure LSP hover handler
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = "rounded",
-        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
-      }
-    )
-
-    -- Define custom highlight groups for transparency
-    vim.cmd([[
-      highlight NormalFloat guifg=#3c425f guibg=#16161d ctermbg=NONE
-      highlight FloatBorder guifg=#3c425f guibg=#16161d ctermbg=NONE
-      highlight CmpBorder guifg=#3c425f guibg=#16161d ctermbg=NONE
-    ]])
   end,
 }
