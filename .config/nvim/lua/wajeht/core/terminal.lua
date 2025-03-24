@@ -23,10 +23,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.wo.colorcolumn = ""   -- Remove color column
     vim.wo.cursorline = false -- Disable cursor line
 
-    -- Set terminal background color to #181818
-    vim.api.nvim_set_hl(0, 'TerminalNormal', { bg = '#16161d' })
-    vim.api.nvim_win_set_option(0, 'winhighlight', 'Normal:TerminalNormal')
-
     -- Move cursor to the bottom and start in insert mode
     vim.cmd("normal! G")
     vim.cmd("startinsert")
