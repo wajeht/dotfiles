@@ -15,6 +15,8 @@ theme = "tokyonight_night"
 confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#16161c
+background-opacity = 0.85
+background-blur = 20
 
 clipboard-read = allow
 clipboard-write = allow
