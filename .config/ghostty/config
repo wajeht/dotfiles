@@ -15,8 +15,8 @@ theme = "catppuccin-mocha"
 confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#16161c
-background-opacity = 0.85
-background-blur = 20
+background-opacity = 0.90
+background-blur = 35
 
 clipboard-read = allow
 clipboard-write = allow
