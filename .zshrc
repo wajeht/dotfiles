@@ -1,87 +1,23 @@
-echo ""
-fastfetch
-echo ""
+# ======================
+# Shell Initialization
+# ======================
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Enable Powerlevel10k instant prompt (must be near the top of .zshrc)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# ======================
+# Oh My Zsh Configuration
+# ======================
 
-# Path to your Oh My Zsh installation.
+# Path to Oh My Zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# Set theme (Powerlevel10k)
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-
+# Plugins
 plugins=(
     git
     zsh-vi-mode
@@ -90,59 +26,32 @@ plugins=(
     zsh-syntax-highlighting
 )
 
+# Load Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# ======================
+# Environment Variables
+# ======================
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# Preferred editor
+export EDITOR='nvim'
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# Language environment
+export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# custom function
-function mkcd {
-  last=$(eval "echo \$$#")
-  if [ ! -n "$last" ]; then
-    echo "Enter a directory name"
-  elif [ -d $last ]; then
-    echo "\`$last' already exists"
-  else
-    mkdir $@ && cd $last
-  fi
-}
-
-# clolorize man pages
+# Colorize man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-alias batman="man"
 
-# my servers
-alias one="ssh jaw@192.168.0.111"
-alias two="ssh jaw@192.168.0.112"
-alias three="ssh jaw@192.168.0.113"
+# NVM (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
 
-alias man="man"
+# ======================
+# Aliases
+# ======================
+
+# General aliases
 alias vim='nvim'
 alias v='nvim'
 alias c='code'
@@ -155,10 +64,44 @@ alias lst='lsd --tree'
 alias spec='fastfetch'
 alias stay='echo -n "keeping screen awake ..." && caffeinate -d'
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-alias wip="git add -A && git commit -am 'chore: wip' --no-verify"
+alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
 alias air='$(go env GOPATH)/bin/air'
 alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# SSH aliases for servers
+alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
+alias zero="sshpass -p 'password' ssh jaw@192.168.0.110"
+alias one="ssh jaw@192.168.0.111"
+alias two="ssh jaw@192.168.0.112"
+alias three="ssh jaw@192.168.0.113"
+
+# ======================
+# Custom Functions
+# ======================
+
+# Create a directory and cd into it
+function mkcd {
+  last=$(eval "echo \$$#")
+  if [ ! -n "$last" ]; then
+    echo "Enter a directory name"
+  elif [ -d $last ]; then
+    echo "\`$last' already exists"
+  else
+    mkdir $@ && cd $last
+  fi
+}
+
+# ======================
+# Powerlevel10k Configuration
+# ======================
+
+# Load Powerlevel10k configuration
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# bun completions
+[ -s "/Users/konyein/.bun/_bun" ] && source "/Users/konyein/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
