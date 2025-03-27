@@ -20,13 +20,16 @@ formulae=(
   "neovim"
   "trash"
   "wget"
+  "awk"
+  "jq"
+  "sed"
 )
 
 casks=(
   "iina"
   "qbittorrent"
   "github"
-  "alacritty"
+  "ghostty"
   "alfred"
   "appcleaner"
   "bitwarden"
