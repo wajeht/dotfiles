@@ -38,6 +38,12 @@
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
 	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        		# Add, Commit, and Push
+    pr-comments = "!f() { \
+        gh api repos/$(gh repo view --json owner,name --jq '.owner.login + \"/\" + .name')/pulls/$(gh pr view --json number --jq '.number')/comments \
+        --jq '.[] | [.path, (.line | tostring), .user.login, .body] | @tsv' | \
+        column -t -s$'\t' | \
+        awk '{print \"\\033[1;34m\" $1 \"\\033[0m\", \"\\033[1;33m\" $2 \"\\033[0m\", \"\\033[1;32m\" $3 \"\\033[0m\", substr($0, index($0,$4))}'; \
+    }; f"
 
 [core]
 	# Set the default text editor for Git commands
