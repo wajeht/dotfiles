@@ -16,7 +16,7 @@ return {
         ["<D-i>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide" },
         ["<CR>"] = { "accept", "fallback" },
-        ["<Tab>"] = { "select_and_accept" },
+        ["<Tab>"] = { "select_and_accept", "fallback" },
       },
 
       completion = {
