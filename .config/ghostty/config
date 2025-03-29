@@ -15,8 +15,8 @@ theme = "dark modern"
 confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#000000
-# background-opacity = 0.90
-# background-blur = 35
+background-opacity = 0.90
+background-blur = 35
 
 clipboard-read = allow
 clipboard-write = allow
