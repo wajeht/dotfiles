@@ -25,7 +25,22 @@ require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugin
     },
     reset_packpath = true,
     rtp = {
-      disabled_plugins = {},
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrw",
+        "netrwPlugin",
+        "netrwSettings",
+        "netrwFileHandlers",
+        "spellfile",
+        "tar",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zip",
+        "zipPlugin",
+      },
     },
   },
 })
