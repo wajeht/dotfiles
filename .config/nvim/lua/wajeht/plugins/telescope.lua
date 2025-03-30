@@ -16,6 +16,10 @@ return {
 
             require("telescope").setup({
                 defaults = {
+                    sorting_strategy = "ascending",  -- display results top->bottom
+                    layout_config = {
+                        prompt_position = "top"  -- search bar at the top
+                    },
                     mappings = {
                         i = {
                             ["<C-k>"] = actions.move_selection_previous,
