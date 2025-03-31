@@ -23,6 +23,7 @@ formulae=(
   "awk"
   "jq"
   "sed"
+  "lazygit"
 )
 
 casks=(
