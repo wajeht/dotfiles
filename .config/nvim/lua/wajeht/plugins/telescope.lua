@@ -20,6 +20,9 @@ return {
                     layout_config = {
                         prompt_position = "top"  -- search bar at the top
                     },
+                    preview = {
+                        hide_on_startup = true -- disable preview pane by default
+                    },
                     mappings = {
                         i = {
                             ["<C-k>"] = actions.move_selection_previous,
