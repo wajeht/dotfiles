@@ -57,6 +57,7 @@ alias v='nvim'
 alias c='code'
 alias resource='source ~/.zshrc'
 alias ls="lsd -lF"
+alias lg="lazygit"
 alias lst="ls --tree"
 alias lsa="lsd -lAFh"
 alias cat="bat"
