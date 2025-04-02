@@ -5,23 +5,17 @@ return {
 		priority = 1000,
 		lazy = false,
 		config = function()
-			-- Set dark theme
 			vim.o.background = "dark"
 
 			require("vscode").setup({
-				-- Enable transparent background
 				transparent = true,
 
-				-- Enable italic comment
 				italic_comments = false,
 
-				-- Underline `@markup.link.*` variants
 				underline_links = true,
 
-				-- Disable nvim-tree background color
 				disable_nvimtree_bg = true,
 
-				-- Apply theme colors to terminal
 				terminal_colors = true,
 			})
 
