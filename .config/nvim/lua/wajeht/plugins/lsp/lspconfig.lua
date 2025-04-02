@@ -98,5 +98,20 @@ return {
 				},
 			},
 		})
+
+		vim.diagnostic.config({
+			virtual_text = true, -- Enable inline diagnostic messages
+			signs = true, -- Show signs in the sign column
+			underline = true, -- Underline the text with an issue
+			update_in_insert = false, -- Don't update diagnostics in insert mode
+			severity_sort = true, -- Sort diagnostics by severity
+			float = {
+				focusable = false,
+				style = "minimal",
+				source = "always",
+				header = "",
+				prefix = "",
+			},
+		})
 	end,
 }
