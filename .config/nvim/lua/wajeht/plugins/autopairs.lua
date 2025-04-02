@@ -15,6 +15,5 @@ return {
 				java = false, -- don't check treesitter on java
 			},
 		})
-
 	end,
 }
