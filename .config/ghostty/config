@@ -38,4 +38,8 @@ keybind = ctrl+l=goto_split:right
 # split-divider-color = #454545
 unfocused-split-opacity = 1.0
 
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+kp_add=increase_font_size:1
+keybind = cmd+r=reload_config
+
 adjust-cell-height = 10%
