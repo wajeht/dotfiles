@@ -19,6 +19,9 @@ vim.opt.softtabstop = 4 -- Set the number of spaces a tab counts for in insert m
 
 vim.opt.wrap = false -- Disable line wrapping
 
+-- Remove ~ from buffer
+vim.opt.fillchars:append({ eob = " " })
+
 -- Search settings
 vim.opt.ignorecase = true -- Ignore case when searching
 vim.opt.smartcase = true -- If you include mixed case in your search, assumes you want case-sensitive
