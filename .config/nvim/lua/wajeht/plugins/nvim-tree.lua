@@ -5,6 +5,7 @@ return {
 	},
 	config = function()
 		require("nvim-tree").setup({
+			auto_reload_on_write = true,
 			update_focused_file = {
 				enable = true, -- Automatically update the focused file
 				update_cwd = true, -- Update the root directory of the tree to the parent directory of the file
@@ -19,8 +20,6 @@ return {
 					inline_arrows = true,
 					icons = {
 						corner = "└",
-						edge = "│",
-						item = "│",
 						bottom = "─",
 						none = " ",
 						-- Use the same character as indent-blankline
@@ -36,6 +35,19 @@ return {
 						git = true,
 					},
 				},
+			},
+			-- disable window_picker for
+			-- explorer to work well with
+			-- window splits
+			actions = {
+				open_file = {
+					window_picker = {
+						enable = false,
+					},
+				},
+			},
+			git = {
+				ignore = false,
 			},
 			filters = {
 				dotfiles = false, -- Show dotfiles
