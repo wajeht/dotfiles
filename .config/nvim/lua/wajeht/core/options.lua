@@ -63,7 +63,7 @@ vim.opt.showmode = false -- Don't show the mode, since it's already in the statu
 vim.opt.shortmess:remove("S") -- Show occurrence of search terms
 vim.opt.scrolloff = 8 -- Keep 8 lines visible above/below the cursor
 vim.opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
-vim.opt.colorcolumn = "80" -- Highlight the 80th column
+-- vim.opt.colorcolumn = "80" -- Highlight the 80th column
 vim.opt.spelllang = "en_us" -- Set the spell check language to US English
 vim.opt.ttyfast = true -- Assume a fast terminal connection
 -- vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
