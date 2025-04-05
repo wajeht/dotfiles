@@ -93,6 +93,14 @@ function mkcd {
   fi
 }
 
+# Browse directories in ~/Dev with fzf
+function dev {
+  selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
+  if [ -n "$selected_dir" ]; then
+    cd "$selected_dir"
+  fi
+}
+
 # ======================
 # Powerlevel10k Configuration
 # ======================
