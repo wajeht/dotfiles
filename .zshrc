@@ -97,7 +97,7 @@ function mkcd {
 function dev {
   selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
   if [ -n "$selected_dir" ]; then
-    cd "$selected_dir"
+    cd "$selected_dir" && nvim .
   fi
 }
 
