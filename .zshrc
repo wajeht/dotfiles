@@ -102,6 +102,11 @@ function dev {
   fi
 }
 
+# change dir and list
+cd() {
+  builtin cd "$1" && ls
+}
+
 # ======================
 # Powerlevel10k Configuration
 # ======================
