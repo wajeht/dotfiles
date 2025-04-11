@@ -98,16 +98,16 @@ function mkcd {
 function dev {
   selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
   if [ -n "$selected_dir" ]; then
-    cd "$selected_dir" && nvim .
+    builtin cd "$selected_dir" && nvim .
   fi
 }
 
 # change dr and list them at same time
-cd() {
+function cd() {
   if [ -d "$1" ]; then
-    builtin cd "$1" && ls
+    builtin cd "$1" && lsd -lF
   else
-    builtin cd ~ && ls
+    builtin cd ~ && lsd -lF
   fi
 }
 
