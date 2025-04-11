@@ -102,9 +102,13 @@ function dev {
   fi
 }
 
-# change dir and list
+# change dr and list them at same time
 cd() {
-  builtin cd "$1" && ls
+  if [ -d "$1" ]; then
+    builtin cd "$1" && ls
+  else
+    builtin cd ~ && ls
+  fi
 }
 
 # ======================
