@@ -1,5 +1,7 @@
 {
-	   /**
+    "workbench.activityBar.orientation": "vertical", // to fix the vim ctrl+l/h bug in cursor
+	
+    /**
     * vim
     */
     "vim.easymotion": true,
