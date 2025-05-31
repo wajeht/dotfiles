@@ -109,3 +109,7 @@ git_pr_comments() {
   # Strip colors and copy plain text to clipboard
   echo "$FULL_OUTPUT" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | pbcopy
 }
+
+function gh_login() {
+  gh auth login --web --git-protocol https
+}

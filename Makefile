@@ -22,8 +22,9 @@ install-gitconfig:
 install-zshrc:
 	@rm -f ~/.zshrc
 	@cp -f $(CURDIR)/.zshrc ~/.zshrc
-	@zsh -c "source ~/.zshrc"
-	@echo ".zshrc copied to ~/.zshrc and sourced"
+	@echo ".zshrc copied to ~/.zshrc"
+	@echo "source ~/.zshrc" | pbcopy
+	@echo "Run 'source ~/.zshrc' or start a new shell to apply changes (command copied to clipboard)"
 
 install: install-nvim install-gitconfig install-zshrc
 	@echo "Dotfiles installed!"
