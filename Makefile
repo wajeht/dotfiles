@@ -49,7 +49,7 @@ install-macos:
 	@./macos-defaults.sh
 	@echo "macOS preferences configured!"
 
-install: install-brew install-nvim install-gitconfig install-tmux install-zsh install-macos
+install: install-macos install-brew install-nvim install-gitconfig install-tmux install-zsh
 	@echo "All dotfiles installed!"
 
 uninstall: uninstall-nvim
