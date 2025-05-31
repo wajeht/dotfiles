@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Source common functions
 source "$(dirname "$0")/scripts/common.sh"
 
 main() {

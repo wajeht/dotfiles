@@ -1,7 +1,3 @@
-# ======================
-# Environment Variables
-# ======================
-
 # Preferred editor
 export EDITOR='nvim'
 

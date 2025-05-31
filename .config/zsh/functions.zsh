@@ -1,9 +1,5 @@
-# ======================
-# Custom Shell Functions
-# ======================
-
 # Create a directory and cd into it
-function mkcd {
+function mkcd() {
   local last
   last=$(eval "echo \$$#")
   if [ ! -n "$last" ]; then
@@ -16,7 +12,7 @@ function mkcd {
 }
 
 # Browse directories in ~/Dev with fzf
-function dev {
+function dev() {
   local selected_dir
   selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
   if [ -n "$selected_dir" ]; then
@@ -48,7 +44,7 @@ function git_diff_all() {
 }
 
 # Function to display PR details and all comments in chronological order with colors to terminal, copy plain text to clipboard
-git_pr_comments() {
+function git_pr_comments() {
   local REPO_INFO PR_NUMBER PR_DETAILS REVIEW_COMMENTS GENERAL_COMMENTS PR_REVIEW_COMMENTS ALL_COMMENTS HEADER
 
   REPO_INFO=$(gh repo view --json owner,name --jq '.owner.login + "/" + .name')

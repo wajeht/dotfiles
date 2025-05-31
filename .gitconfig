@@ -13,23 +13,23 @@
 
 [push]
 	# Automatically set up remote tracking branches when pushing
-	autoSetupRemote = true
+	autoSetupRemote = true # Auto set up remote tracking branches
 
 [http]
 	# Increase the buffer size for HTTP operations
-	postBuffer = 524288000
+	postBuffer = 524288000 # Increase HTTP buffer
 
 	# Increase the buffer size for ssh operations
 [ssh]
-	postBuffer = 524288000
+	postBuffer = 524288000 # Increase SSH buffer
 
 [pull]
 	# Always rebase when pulling
-	rebase = true
+	rebase = true # Always rebase on pull
 
 [init]
 	# Set the default branch name to 'main' when initializing new repositories
-	defaultBranch = main
+	defaultBranch = main # Default branch: main
 
 [alias]
 	# Aliases for common Git commands
@@ -46,33 +46,33 @@
 
 [core]
 	# Set the default text editor for Git commands
-	editor = nvim
+	editor = nvim # Default editor
 	# Handle line endings
-	autocrlf = input
+	autocrlf = input # Handle line endings
 	# Global gitignore file
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore_global # Global gitignore
 
 [diff]
 	# Set the default tool for diff operations
-	tool = vimdiff
+	tool = vimdiff # Diff tool
 
 [difftool]
 	# Don't prompt when using difftool
-	prompt = false
+	prompt = false # No prompt for difftool
 
 [merge]
 	# Set the default tool for merge operations
-	tool = vimdiff
+	tool = vimdiff # Merge tool
 
 [mergetool]
 	# Don't keep backup files after a merge
-	keepBackup = false
+	keepBackup = false # No backup files after merge
 
 [color]
 	# Enable color output for Git commands
-	ui = auto
+	ui = auto # Color UI
 
 [credential]
 	# Cache credentials for an hour (3600 seconds)
-	helper = cache
-	cacheTimeout = 3600
+	helper = cache # Cache credentials
+	cacheTimeout = 3600 # Cache for 1 hour
