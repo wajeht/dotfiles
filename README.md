@@ -1,43 +1,37 @@
 # Dotfiles
 
-Modular configuration files for macOS development environment.
+Modular macOS development configuration.
+
+## Install
+
+```bash
+make install              # Everything
+
+# Individual components
+make install-macos        # macOS settings
+make install-brew         # Homebrew packages
+make install-zsh          # Shell config
+make install-nvim         # Neovim config
+make install-tmux         # Tmux config
+make install-gitconfig    # Git config
+```
 
 ## Structure
 
 ```
-.config/zsh/          # Modular Zsh configuration
-├── env.zsh           # Environment variables
-├── aliases.zsh       # Command aliases
-├── functions.zsh     # Custom functions
-├── completions.zsh   # Shell completions
-└── theme.zsh         # Visual configs
+.config/zsh/              # Modular shell config
+scripts/                  # Install scripts
+Brewfile                  # Package list
 ```
 
-## Installation
+## Edit
 
-```bash
-# Install everything (includes macOS system preferences)
-make install
-
-# Install individual components
-make install-zsh
-make install-nvim
-make install-tmux
-make install-gitconfig
-make install-brew
-make install-macos    # macOS system preferences only
-```
-
-## Usage
-
-- **Add alias**: Edit `.config/zsh/aliases.zsh`
-- **Add function**: Edit `.config/zsh/functions.zsh`
-- **Add env var**: Edit `.config/zsh/env.zsh`
-- **Add brew package**: Edit `Brewfile`
-- **Add macOS setting**: Edit `macos-defaults.sh`
+- **Aliases**: `.config/zsh/aliases.zsh`
+- **Functions**: `.config/zsh/functions.zsh`
+- **Packages**: `Brewfile`
+- **macOS**: `scripts/macos-defaults.sh`
 
 ## Requirements
 
 - macOS with Zsh
-- Homebrew
-- Oh My Zsh + Powerlevel10k (optional)
+- Homebrew (auto-installed)
