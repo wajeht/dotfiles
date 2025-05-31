@@ -7,6 +7,7 @@ main() {
 
     info "Configuring Dock..."
     set_default "com.apple.dock" "autohide" "bool" "true"
+    set_default "com.apple.dock" "autohide-delay" "float" "0"
     set_default "com.apple.dock" "orientation" "string" "right"
     set_default "com.apple.dock" "tilesize" "int" "32"
     set_default "com.apple.dock" "magnification" "bool" "true"
@@ -18,6 +19,9 @@ main() {
     set_default "com.apple.finder" "ShowStatusBar" "bool" "true"
     set_default "com.apple.finder" "_FXShowPosixPathInTitle" "bool" "true"
     set_default "com.apple.finder" "FXDefaultSearchScope" "string" "SCcf"
+    set_default "com.apple.finder" "AppleShowAllExtensions" "bool" "true"
+    set_default "com.apple.finder" "FXEnableExtensionChangeWarning" "bool" "false"
+    set_default "NSGlobalDomain" "AppleShowAllFiles" "bool" "true"
 
     info "Configuring screenshots..."
     set_default "com.apple.screencapture" "location" "string" "~/Desktop"
