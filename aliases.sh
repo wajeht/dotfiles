@@ -15,6 +15,7 @@ alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --n
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
 alias air='$(go env GOPATH)/bin/air'
 alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
+alias rmds="find . -name '.DS_Store' -type f -delete"
 
 alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
 alias zero="sshpass -p 'password' ssh jaw@192.168.4.160"
