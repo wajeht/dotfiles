@@ -1,18 +1,20 @@
-.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install-brew install-macos install uninstall
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh uninstall clean push
 
-push:
-	@git add -A
-	@git auto
-	@git push --no-verify
+# Main targets
+install:
+	@./install.sh
+
+# Individual components
+install-macos:
+	@./scripts/macos-defaults.sh
+
+install-brew:
+	@./scripts/install-brew.sh
 
 install-nvim:
 	@./scripts/install-nvim.sh
 
-uninstall-nvim:
-	@rm -rf ~/.config/nvim
-	@echo "Neovim configuration uninstalled."
-
-install-gitconfig:
+install-git:
 	@./scripts/install-gitconfig.sh
 
 install-tmux:
@@ -21,20 +23,29 @@ install-tmux:
 install-zsh:
 	@./scripts/install-zsh.sh
 
-install-brew:
-	@./scripts/install-brew.sh
+# Git workflow
+push:
+	@git add -A
+	@git auto
+	@git push --no-verify
 
-install-macos:
-	@./scripts/macos-defaults.sh
+# Maintenance
+uninstall:
+	@echo "🗑️  Removing dotfiles..."
+	@rm -rf ~/.config/nvim ~/.config/zsh
+	@rm -f ~/.zshrc.backup ~/.gitconfig.backup ~/.tmux.conf.backup
+	@echo "✅ Dotfiles removed (kept original configs if they exist)"
 
-install: install-macos install-brew install-nvim install-gitconfig install-tmux install-zsh
-	@echo "🎉 All dotfiles installed!"
+clean:
+	@echo "🧹 Cleaning backup files..."
+	@find ~ -name "*.backup" -path "*/.*" -delete 2>/dev/null || true
+	@echo "✅ Backup files cleaned"
 
-uninstall: uninstall-nvim
-	@rm -rf ~/.config/zsh
-	@echo "Zsh configuration modules removed from ~/.config/zsh"
-	# Note: Uninstalling .gitconfig and .zshrc is less common and might break setup.
-	# To remove the copied files if desired, you would use rm:
-	# @rm -f ~/.gitconfig
-	# @rm -f ~/.zshrc
-	@echo "Dotfiles uninstalled (excluding .gitconfig and .zshrc removal)."
+# Development helpers
+update:
+	@echo "🔄 Updating packages..."
+	@brew update && brew upgrade && brew cleanup
+
+dev:
+	@echo "🚀 Quick setup for development..."
+	@make install-brew install-nvim install-git
