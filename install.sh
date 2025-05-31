@@ -3,40 +3,14 @@
 # Main dotfiles installation script
 # Performs system checks and runs installation in correct order
 
-set -euo pipefail
-
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-error() {
-    echo -e "${RED}❌ Error: $1${NC}" >&2
-    exit 1
-}
-
-success() {
-    echo -e "${GREEN}✅ $1${NC}"
-}
-
-warning() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
-}
-
-info() {
-    echo -e "${BLUE}ℹ️  $1${NC}"
-}
+# Source common functions
+source "$(dirname "$0")/scripts/common.sh"
 
 # System checks
 check_system() {
     info "Performing system checks..."
 
-    # Check if we're on macOS
-    if [[ "$(uname)" != "Darwin" ]]; then
-        error "This dotfiles setup is designed for macOS only"
-    fi
+    check_macos
 
     # Check macOS version
     local macos_version
@@ -50,15 +24,8 @@ check_system() {
         error "Insufficient disk space. At least 1GB required."
     fi
 
-    # Check if we're in the dotfiles directory
-    if [[ ! -f "Makefile" ]] || [[ ! -f "Brewfile" ]] || [[ ! -d ".config" ]]; then
-        error "Please run this script from the dotfiles directory"
-    fi
-
-    # Check internet connectivity
-    if ! ping -c 1 github.com >/dev/null 2>&1; then
-        error "No internet connection. Please check your network."
-    fi
+    check_directory_structure
+    check_internet
 
     success "System checks passed"
 }
@@ -67,20 +34,11 @@ check_system() {
 check_dependencies() {
     info "Checking dependencies..."
 
-    # Check for Command Line Tools
-    if ! xcode-select -p >/dev/null 2>&1; then
-        warning "Command Line Tools not installed. Installing..."
-        xcode-select --install
-        echo "Please rerun this script after Command Line Tools installation completes."
-        exit 0
-    fi
+    check_command_line_tools
 
     # Check if scripts are executable
     for script in scripts/*.sh; do
-        if [[ ! -x "$script" ]]; then
-            chmod +x "$script"
-            info "Made $script executable"
-        fi
+        make_executable "$script"
     done
 
     success "Dependencies checked"
