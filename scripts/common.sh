@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Common functions library for dotfiles installation scripts
 set -euo pipefail
 
-# Colors for output
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
@@ -12,7 +10,6 @@ readonly BOLD='\033[1m'
 readonly DIM='\033[2m'
 readonly NC='\033[0m'
 
-# Logging functions
 error() {
     echo -e "${RED}❌ Error:${NC} $1" >&2
     exit 1
@@ -38,7 +35,6 @@ task() {
     echo -e "${DIM}→${NC} $1"
 }
 
-# Essential system checks (for install.sh only)
 check_macos() {
     [[ "$(uname)" == "Darwin" ]] || error "macOS required"
 }
@@ -60,7 +56,6 @@ check_xcode_tools() {
     fi
 }
 
-# Simple file operations
 backup_if_exists() {
     if [[ -f "$1" ]]; then
         cp "$1" "$1.backup"
@@ -68,7 +63,6 @@ backup_if_exists() {
     fi
 }
 
-# Homebrew helpers
 setup_brew_path() {
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -81,7 +75,6 @@ has_brew() {
     command -v brew >/dev/null 2>&1
 }
 
-# macOS defaults helper
 set_default() {
     local domain="$1" key="$2" type="$3" value="$4"
     if defaults write "$domain" "$key" -"$type" "$value" 2>/dev/null; then
