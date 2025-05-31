@@ -22,7 +22,7 @@ main() {
     ./scripts/install-zsh.sh
 
     step "🎉 Installation complete!"
-    info "Restart your terminal or run: source ~/.zshrc"
+    info "Run 'source ~/.zshrc' or restart your terminal to apply changes"
 }
 
 main "$@"
