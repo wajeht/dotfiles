@@ -33,6 +33,7 @@
 
 [alias]
 	# Aliases for common Git commands
+	# test
 	push = push --no-verify               # Push without verifying
 	discard = restore .                   # Discard all the staged changes
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
