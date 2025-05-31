@@ -51,6 +51,7 @@ make update            # Update all packages
 make uninstall         # Remove dotfiles
 make clean             # Clean backup files
 make dev               # Quick dev setup
+make format            # Format Bash and Lua files
 ```
 
 ## Requirements
