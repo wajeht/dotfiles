@@ -5,6 +5,10 @@ Modular macOS development configuration.
 ## Install
 
 ```bash
+# Recommended (with system checks)
+./install.sh
+
+# Or use Makefile
 make install              # Everything
 
 # Individual components
@@ -22,6 +26,7 @@ make install-gitconfig    # Git config
 .config/zsh/              # Modular shell config
 scripts/                  # Install scripts
 Brewfile                  # Package list
+install.sh                # Main installer (hardened)
 ```
 
 ## Edit

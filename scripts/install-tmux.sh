@@ -1,8 +1,18 @@
 #!/bin/bash
 
-set -e
+# Source common functions
+source "$(dirname "$0")/common.sh"
 
-echo "Installing Tmux configuration..."
-rm -f ~/.tmux.conf
-cp -f .tmux.conf ~/.tmux.conf
-echo "✅ .tmux.conf copied to ~/.tmux.conf"
+main() {
+    echo "Installing Tmux configuration..."
+
+    check_directory_structure
+    backup_file ~/.tmux.conf
+
+    rm -f ~/.tmux.conf
+    cp -f .tmux.conf ~/.tmux.conf
+
+    success ".tmux.conf copied to ~/.tmux.conf"
+}
+
+main "$@"
