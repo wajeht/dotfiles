@@ -36,14 +36,20 @@ source $ZSH/oh-my-zsh.sh
 # (Order matters for some things, e.g., PATH should be defined before functions using tools in PATH)
 # ======================
 
-# Source environment variables
-source ~/Dev/dotfiles/env_vars.sh
+# Define the dotfiles directory
+DOTFILES_DIR="$HOME/Dev/dotfiles"
 
-# Source general aliases
-source ~/Dev/dotfiles/aliases.sh
-
-# Source custom shell functions
-source ~/Dev/dotfiles/shell_funcs.sh
+# Source all zsh configuration files from .config/zsh/
+# Order matters: env -> completions -> aliases -> functions -> theme
+for config_file in "$DOTFILES_DIR/.config/zsh/env.zsh" \
+                   "$DOTFILES_DIR/.config/zsh/completions.zsh" \
+                   "$DOTFILES_DIR/.config/zsh/aliases.zsh" \
+                   "$DOTFILES_DIR/.config/zsh/functions.zsh" \
+                   "$DOTFILES_DIR/.config/zsh/theme.zsh"; do
+  if [[ -f "$config_file" ]]; then
+    source "$config_file"
+  fi
+done
 
 # ======================
 # Powerlevel10k Configuration
@@ -51,16 +57,3 @@ source ~/Dev/dotfiles/shell_funcs.sh
 
 # Load Powerlevel10k configuration
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# bun completions (moved here as it's a specific completion script)
-[ -s "/Users/konyein/.bun/_bun" ] && source "/Users/konyein/.bun/_bun"
-
-# fzf theme (moved here as it's directly setting an env var with multi-line content)
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:-1,fg+:#d4d4d4,bg:-1,bg+:#03395e
-  --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87,marker:#9cdcfe
-  --color=prompt:#60d701,spinner:#60d701,pointer:#d4d4d4,header:#87afaf
-  --color=gutter:-1,border:#444444,separator:#444444,scrollbar:#444444
-  --color=preview-border:#444444,preview-scrollbar:#444444,label:#aeaeae,query:#d9d9d9
-  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
-  --marker="+" --pointer=">" --separator="─" --scrollbar="│"'
