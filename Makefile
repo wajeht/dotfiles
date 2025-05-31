@@ -1,4 +1,4 @@
-.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install uninstall
+.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install uninstall
 
 push:
 	@git add -A
@@ -19,6 +19,11 @@ install-gitconfig:
 	@cp -f $(CURDIR)/.gitconfig ~/.gitconfig
 	@echo ".gitconfig copied to ~/.gitconfig"
 
+install-tmux:
+	@rm -f ~/.tmux.conf
+	@cp -f $(CURDIR)/.tmux.conf ~/.tmux.conf
+	@echo ".tmux.conf copied to ~/.tmux.conf"
+
 install-zsh:
 	@echo "Installing Zsh configuration..."
 	@mkdir -p ~/.config/zsh
@@ -30,10 +35,7 @@ install-zsh:
 	@echo "source ~/.zshrc" | pbcopy
 	@echo "Zsh configuration installed! Run 'source ~/.zshrc' or start a new shell to apply changes (command copied to clipboard)"
 
-# Legacy alias for backward compatibility
-install-zshrc: install-zsh
-
-install: install-nvim install-gitconfig install-zsh
+install: install-nvim install-gitconfig install-tmux install-zsh
 	@echo "All dotfiles installed!"
 
 uninstall: uninstall-nvim
