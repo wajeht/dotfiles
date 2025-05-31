@@ -24,6 +24,7 @@ make install-zsh
 make install-nvim
 make install-tmux
 make install-gitconfig
+make install-brew
 ```
 
 ## Usage
@@ -31,6 +32,7 @@ make install-gitconfig
 - **Add alias**: Edit `.config/zsh/aliases.zsh`
 - **Add function**: Edit `.config/zsh/functions.zsh`
 - **Add env var**: Edit `.config/zsh/env.zsh`
+- **Add brew package**: Edit `Brewfile`
 
 ## Requirements
 

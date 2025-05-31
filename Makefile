@@ -1,4 +1,4 @@
-.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install uninstall
+.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install-brew install uninstall
 
 push:
 	@git add -A
@@ -35,7 +35,16 @@ install-zsh:
 	@echo "source ~/.zshrc" | pbcopy
 	@echo "Zsh configuration installed! Run 'source ~/.zshrc' or start a new shell to apply changes (command copied to clipboard)"
 
-install: install-nvim install-gitconfig install-tmux install-zsh
+install-brew:
+	@echo "Installing Homebrew packages..."
+	@if ! command -v brew >/dev/null 2>&1; then \
+		echo "Installing Homebrew..."; \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+	fi
+	@brew bundle --file=$(CURDIR)/Brewfile
+	@echo "Homebrew packages installed!"
+
+install: install-nvim install-gitconfig install-tmux install-zsh install-brew
 	@echo "All dotfiles installed!"
 
 uninstall: uninstall-nvim
