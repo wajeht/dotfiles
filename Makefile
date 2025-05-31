@@ -1,4 +1,4 @@
-.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install-brew install uninstall
+.PHONY: push install-nvim uninstall-nvim install-gitconfig install-zsh install-tmux install-brew install-macos install uninstall
 
 push:
 	@git add -A
@@ -44,7 +44,12 @@ install-brew:
 	@brew bundle --file=$(CURDIR)/Brewfile
 	@echo "Homebrew packages installed!"
 
-install: install-nvim install-gitconfig install-tmux install-zsh install-brew
+install-macos:
+	@echo "Setting macOS system preferences..."
+	@./macos-defaults.sh
+	@echo "macOS preferences configured!"
+
+install: install-brew install-nvim install-gitconfig install-tmux install-zsh install-macos
 	@echo "All dotfiles installed!"
 
 uninstall: uninstall-nvim
