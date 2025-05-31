@@ -4,15 +4,12 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    echo "Installing Git configuration..."
+    echo "⚙️ Installing Git configuration..."
 
-    check_directory_structure
-    backup_file ~/.gitconfig
+    backup_if_exists ~/.gitconfig
+    cp .gitconfig ~/.gitconfig
 
-    rm -f ~/.gitconfig
-    cp -f .gitconfig ~/.gitconfig
-
-    success ".gitconfig copied to ~/.gitconfig"
+    success "Git configuration installed!"
 }
 
 main "$@"

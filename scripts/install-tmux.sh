@@ -4,15 +4,12 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    echo "Installing Tmux configuration..."
+    echo "🪟 Installing Tmux configuration..."
 
-    check_directory_structure
-    backup_file ~/.tmux.conf
+    backup_if_exists ~/.tmux.conf
+    cp .tmux.conf ~/.tmux.conf
 
-    rm -f ~/.tmux.conf
-    cp -f .tmux.conf ~/.tmux.conf
-
-    success ".tmux.conf copied to ~/.tmux.conf"
+    success "Tmux configuration installed!"
 }
 
 main "$@"
