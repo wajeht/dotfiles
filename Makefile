@@ -44,3 +44,6 @@ update:
 dev:
 	@echo "🚀 Quick setup for development..."
 	@make install-brew install-nvim install-git
+
+format:
+	@./scripts/format-code.sh
