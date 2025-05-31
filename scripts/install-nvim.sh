@@ -4,12 +4,14 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    echo "📝 Installing Neovim configuration..."
+    step "📝 Installing Neovim configuration"
 
+    info "Installing Neovim configuration..."
     mkdir -p ~/.config/nvim
     cp -r .config/nvim/* ~/.config/nvim/
+    task "Copied configuration to ~/.config/nvim/"
 
-    success "Neovim configuration installed!"
+    success "Neovim configuration installed"
 }
 
 main "$@"

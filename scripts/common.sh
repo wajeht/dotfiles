@@ -7,20 +7,35 @@ set -euo pipefail
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly BOLD='\033[1m'
+readonly DIM='\033[2m'
 readonly NC='\033[0m'
 
-# Simple logging functions
+# Logging functions
 error() {
-    echo -e "${RED}❌ $1${NC}" >&2
+    echo -e "${RED}❌ Error:${NC} $1" >&2
     exit 1
 }
 
 success() {
-    echo -e "${GREEN}✅ $1${NC}"
+    echo -e "${GREEN}✅${NC} $1"
 }
 
 warning() {
-    echo -e "${YELLOW}⚠️  $1${NC}"
+    echo -e "${YELLOW}⚠️${NC}  $1"
+}
+
+info() {
+    echo -e "${BLUE}ℹ️${NC}  $1"
+}
+
+step() {
+    echo -e "\n${BOLD}$1${NC}"
+}
+
+task() {
+    echo -e "${DIM}→${NC} $1"
 }
 
 # Essential system checks (for install.sh only)
@@ -47,7 +62,10 @@ check_xcode_tools() {
 
 # Simple file operations
 backup_if_exists() {
-    [[ -f "$1" ]] && cp "$1" "$1.backup"
+    if [[ -f "$1" ]]; then
+        cp "$1" "$1.backup"
+        task "Backed up existing $(basename "$1")"
+    fi
 }
 
 # Homebrew helpers
@@ -66,5 +84,9 @@ has_brew() {
 # macOS defaults helper
 set_default() {
     local domain="$1" key="$2" type="$3" value="$4"
-    defaults write "$domain" "$key" -"$type" "$value" || warning "Failed to set $key"
+    if defaults write "$domain" "$key" -"$type" "$value" 2>/dev/null; then
+        task "Set $key"
+    else
+        warning "Failed to set $key"
+    fi
 }
