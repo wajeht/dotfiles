@@ -6,51 +6,29 @@ push:
 	@git push --no-verify
 
 install-nvim:
-	@mkdir -p ~/.config/nvim
-	@cp -r $(CURDIR)/.config/nvim/* ~/.config/nvim/
-	@echo "Neovim configuration installed."
+	@./scripts/install-nvim.sh
 
 uninstall-nvim:
 	@rm -rf ~/.config/nvim
 	@echo "Neovim configuration uninstalled."
 
 install-gitconfig:
-	@rm -f ~/.gitconfig
-	@cp -f $(CURDIR)/.gitconfig ~/.gitconfig
-	@echo ".gitconfig copied to ~/.gitconfig"
+	@./scripts/install-gitconfig.sh
 
 install-tmux:
-	@rm -f ~/.tmux.conf
-	@cp -f $(CURDIR)/.tmux.conf ~/.tmux.conf
-	@echo ".tmux.conf copied to ~/.tmux.conf"
+	@./scripts/install-tmux.sh
 
 install-zsh:
-	@echo "Installing Zsh configuration..."
-	@mkdir -p ~/.config/zsh
-	@cp -r $(CURDIR)/.config/zsh/* ~/.config/zsh/
-	@echo "Zsh modules copied to ~/.config/zsh/"
-	@rm -f ~/.zshrc
-	@cp -f $(CURDIR)/.zshrc ~/.zshrc
-	@echo ".zshrc copied to ~/.zshrc"
-	@echo "source ~/.zshrc" | pbcopy
-	@echo "Zsh configuration installed! Run 'source ~/.zshrc' or start a new shell to apply changes (command copied to clipboard)"
+	@./scripts/install-zsh.sh
 
 install-brew:
-	@echo "Installing Homebrew packages..."
-	@if ! command -v brew >/dev/null 2>&1; then \
-		echo "Installing Homebrew..."; \
-		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
-	fi
-	@brew bundle --file=$(CURDIR)/Brewfile
-	@echo "Homebrew packages installed!"
+	@./scripts/install-brew.sh
 
 install-macos:
-	@echo "Setting macOS system preferences..."
-	@./macos-defaults.sh
-	@echo "macOS preferences configured!"
+	@./scripts/macos-defaults.sh
 
 install: install-macos install-brew install-nvim install-gitconfig install-tmux install-zsh
-	@echo "All dotfiles installed!"
+	@echo "🎉 All dotfiles installed!"
 
 uninstall: uninstall-nvim
 	@rm -rf ~/.config/zsh
