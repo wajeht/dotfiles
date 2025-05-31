@@ -1,0 +1,23 @@
+alias vim='nvim'
+alias v='nvim'
+alias c='code'
+alias resource='source ~/.zshrc'
+alias lg="lazygit"
+alias ls="lsd -lF"
+alias lst="ls --tree"
+alias lsa="lsd -lAFh"
+alias cat="bat"
+alias lst='lsd --tree'
+alias spec='fastfetch'
+alias stay='echo -n "keeping screen awake ..." && caffeinate -d'
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
+alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
+alias air='$(go env GOPATH)/bin/air'
+alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
+
+alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
+alias zero="sshpass -p 'password' ssh jaw@192.168.4.160"
+alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
+alias two="sshpass -p 'password' ssh jaw@192.168.4.162"
+alias three="sshpass -p 'password' ssh jaw@192.168.4.163"
