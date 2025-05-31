@@ -52,7 +52,7 @@
 
 [core]
 	# Set the default text editor for Git commands
-	editor = vim
+	editor = nvim
 	# Handle line endings
 	autocrlf = input
 	# Global gitignore file
