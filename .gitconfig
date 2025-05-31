@@ -55,6 +55,8 @@
 [diff]
 	# Set the default tool for diff operations
 	tool = vimdiff # Diff tool
+	algorithm = histogram
+	colorMoved = zebra
 
 [difftool]
 	# Don't prompt when using difftool
@@ -63,6 +65,7 @@
 [merge]
 	# Set the default tool for merge operations
 	tool = vimdiff # Merge tool
+	conflictstyle = zdiff3
 
 [mergetool]
 	# Don't keep backup files after a merge
@@ -76,3 +79,27 @@
 	# Cache credentials for an hour (3600 seconds)
 	helper = cache # Cache credentials
 	cacheTimeout = 3600 # Cache for 1 hour
+
+[rebase]
+	# Automatically squash fixup! commits during interactive rebase
+	autosquash = true
+	# Automatically stash uncommitted changes before rebase and apply after
+	autostash = true
+
+[branch]
+	# Sort branches by last commit date in 'git branch' output
+	sort = -committerdate
+
+[fetch]
+	# Remove remote-tracking branches that no longer exist on the remote
+	prune = true
+
+[rerere]
+	# Remember and reuse recorded resolutions of merge conflicts
+	enabled = true
+	# Automatically stage files if rerere successfully resolves conflicts
+	autoUpdate = true
+
+[help]
+	# Automatically run suggested command if a git command is mistyped (1s delay)
+	autocorrect = 10
