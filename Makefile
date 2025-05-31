@@ -22,6 +22,7 @@ install-zsh:
 	@./scripts/install-zsh.sh
 
 push:
+	@make format
 	@git add -A
 	@git auto
 	@git push --no-verify
