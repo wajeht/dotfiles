@@ -30,18 +30,16 @@ function cd() {
 }
 
 # Function to display colored diffs to terminal, copy plain diffs to clipboard
-git_diff_all() {
-  local ALL_DIFFS # Use 'local' to prevent variable pollution
+function git_diff_all() {
+  local ALL_DIFFS
   ALL_DIFFS=$( ( \
       git -c color.diff=always --no-pager diff main... && \
       git -c color.diff=always --no-pager diff && \
       git -c color.diff=always --no-pager diff --cached \
   ) );
 
-  # Print colored diff to terminal
   echo "$ALL_DIFFS";
 
-  # Strip colors and copy plain diff to clipboard
   echo "$ALL_DIFFS" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | pbcopy;
 }
 
@@ -49,14 +47,11 @@ git_diff_all() {
 git_pr_comments() {
   local REPO_INFO PR_NUMBER PR_DETAILS REVIEW_COMMENTS GENERAL_COMMENTS PR_REVIEW_COMMENTS ALL_COMMENTS HEADER
 
-  # Get repo and PR info
   REPO_INFO=$(gh repo view --json owner,name --jq '.owner.login + "/" + .name')
   PR_NUMBER=$(gh pr view --json number --jq '.number')
 
-  # Get PR details
   PR_DETAILS=$(gh pr view --json title,headRefName,baseRefName,body,author,state,url,number)
 
-  # Create header with PR information
   HEADER=$(echo "$PR_DETAILS" | jq -r --arg pr_num "$PR_NUMBER" --arg repo "$REPO_INFO" '
       "=== PR #" + (.number | tostring) + ": " + .title + " ===\n" +
       "Repository: " + $repo + "\n" +
@@ -107,10 +102,8 @@ git_pr_comments() {
       }'
   )
 
-  # Combine header and comments
   FULL_OUTPUT=$(printf "%s\n\n%s" "$HEADER" "$ALL_COMMENTS")
 
-  # Print colored output to terminal
   echo "$FULL_OUTPUT"
 
   # Strip colors and copy plain text to clipboard
