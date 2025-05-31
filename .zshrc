@@ -1,3 +1,5 @@
+# ~/.zshrc
+
 # ======================
 # Shell Initialization
 # ======================
@@ -30,86 +32,18 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # ======================
-# Environment Variables
+# Custom Configuration Files
+# (Order matters for some things, e.g., PATH should be defined before functions using tools in PATH)
 # ======================
 
-# Preferred editor
-export EDITOR='nvim'
+# Source environment variables
+source ~/Dev/dotfiles/env_vars.sh
 
-# Language environment
-export LANG=en_US.UTF-8
+# Source general aliases
+source ~/Dev/dotfiles/aliases.sh
 
-# Colorize man pages
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-# NVM (Node Version Manager)
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
-
-# ======================
-# Aliases
-# ======================
-
-# General aliases
-alias vim='nvim'
-alias v='nvim'
-alias c='code'
-alias resource='source ~/.zshrc'
-alias ls="lsd -lF"
-alias t="tmux"
-alias lg="lazygit"
-alias lst="ls --tree"
-alias lsa="lsd -lAFh"
-alias cat="bat"
-alias lst='lsd --tree'
-alias spec='fastfetch'
-alias stay='echo -n "keeping screen awake ..." && caffeinate -d'
-alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
-alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
-alias air='$(go env GOPATH)/bin/air'
-alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
-
-# SSH aliases for servers
-alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
-alias zero="sshpass -p 'password' ssh jaw@192.168.0.110"
-alias one="ssh jaw@192.168.0.111"
-alias two="ssh jaw@192.168.0.112"
-alias three="ssh jaw@192.168.0.113"
-
-# ======================
-# Custom Functions
-# ======================
-
-# Create a directory and cd into it
-function mkcd {
-  last=$(eval "echo \$$#")
-  if [ ! -n "$last" ]; then
-    echo "Enter a directory name"
-  elif [ -d $last ]; then
-    echo "\`$last' already exists"
-  else
-    mkdir $@ && cd $last
-  fi
-}
-
-# Browse directories in ~/Dev with fzf
-function dev {
-  selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
-  if [ -n "$selected_dir" ]; then
-    builtin cd "$selected_dir" && nvim .
-  fi
-}
-
-# change dr and list them at same time
-function cd() {
-  if [ -d "$1" ]; then
-    builtin cd "$1" && lsd -lF
-  else
-    builtin cd ~ && lsd -lF
-  fi
-}
+# Source custom shell functions
+source ~/Dev/dotfiles/shell_funcs.sh
 
 # ======================
 # Powerlevel10k Configuration
@@ -118,14 +52,10 @@ function cd() {
 # Load Powerlevel10k configuration
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# bun completions
+# bun completions (moved here as it's a specific completion script)
 [ -s "/Users/konyein/.bun/_bun" ] && source "/Users/konyein/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# fzf theme
+# fzf theme (moved here as it's directly setting an env var with multi-line content)
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=fg:-1,fg+:#d4d4d4,bg:-1,bg+:#03395e
   --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87,marker:#9cdcfe
