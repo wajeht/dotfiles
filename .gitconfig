@@ -33,34 +33,16 @@
 
 [alias]
 	# Aliases for common Git commands
-	# test
 	push = push --no-verify               # Push without verifying
 	discard = restore .                   # Discard all the staged changes
 	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
-	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"
-	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"
-	pr-comments = "!f() { \
-		PR_COMMENTS_RAW=$( \
-			gh api repos/$(gh repo view --json owner,name --jq '.owner.login + \"/\" + .name')/pulls/$(gh pr view --json number --jq '.number')/comments \
-			--jq '.[] | [.path, (.line | tostring), .user.login, .body] | @tsv' | \
-			column -t -s$'\\t' | \
-			awk '{print \"\\033[1;34m\" $1 \"\\033[0m\", \"\\033[1;33m\" $2 \"\\033[0m\", \"\\033[1;32m\" $3 \"\\033[0m\", substr($0, index($0,$4))}'; \
-		); \
-		echo \"$PR_COMMENTS_RAW\"; \
-		echo \"$PR_COMMENTS_RAW\" | sed -r \"s/\\\\x1B\\\\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\" | pbcopy; \
-	}; f"
-	diff-all = "!f() { \
-		( \
-			git -c color.diff=always --no-pager diff main... && \
-			git -c color.diff=always --no-pager diff && \
-			git -c color.diff=always --no-pager diff --cached \
-		); \
-		( \
-			git --no-pager diff main... && \
-			git --no-pager diff && \
-			git --no-pager diff --cached \
-		) | pbcopy; \
-	}; f"
+	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
+	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        		# Add, Commit, and Push
+	pr-comments = "!zsh -c 'source ~/.zshrc && git_pr_comments'"
+  diff-all = "!zsh -c 'source ~/.zshrc && git_diff_all'"
+
+[core]
+    editor = nvim
 
 [core]
 	# Set the default text editor for Git commands
