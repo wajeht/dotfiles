@@ -6,6 +6,11 @@ return {
 	config = function()
 		require("nvim-tree").setup({
 			auto_reload_on_write = true,
+			-- Disable automatic opening of nvim-tree when starting with directory
+			hijack_directories = {
+				enable = false, -- Disable hijacking of netrw when opening directories
+				auto_open = false, -- Don't auto open when starting with directory
+			},
 			update_focused_file = {
 				enable = true, -- Automatically update the focused file
 				update_cwd = true, -- Update the root directory of the tree to the parent directory of the file
