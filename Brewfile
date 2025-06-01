@@ -4,6 +4,8 @@ brew "go"           # Go programming language
 brew "neovim"       # Modern Vim
 brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
+brew "tmux"         # Terminal multiplexer
+brew "tmuxinator"   # Tmuxinator
 
 # System Utilities
 brew "bat"          # Better cat
@@ -15,6 +17,10 @@ brew "wget"         # Download utility
 
 # Fun
 brew "cmatrix"      # Matrix screensaver
+brew "cowsay"       # Cowsay
+brew "lolcat"       # Lolcat
+brew "figlet"       # Figlet
+brew "fortune"      # Fortune
 
 # Productivity Apps
 cask "alfred"              # Spotlight replacement
