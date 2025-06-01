@@ -68,7 +68,7 @@ main() {
 
     set_default "NSGlobalDomain" "ApplePressAndHoldEnabled" "bool" "false" # Disable press-and-hold for keys in favor of key repeat
     set_default "NSGlobalDomain" "KeyRepeat" "int" "1"                     # Set a blazingly fast keyboard repeat rate
-    set_default "NSGlobalDomain" "InitialKeyRepeat" "int" "10"             # Set a blazingly fast initial keyboard repeat rate
+    set_default "NSGlobalDomain" "InitialKeyRepeat" "int" "20"             # Set a blazingly fast initial keyboard repeat rate
 
     defaults write NSGlobalDomain AppleLanguages -array "en-US" "en"       # Set language and text formats (US English example)
     defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD" # Set language and text formats (US English example)
