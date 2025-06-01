@@ -11,6 +11,9 @@ window-padding-color = extend
 window-save-state = never
 # window-decoration = false
 
+window-height = 100
+window-width = 100
+
 theme = "dark modern"
 confirm-close-surface = false
 macos-titlebar-style = tabs
