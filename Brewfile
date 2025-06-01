@@ -33,6 +33,7 @@ cask "paintbrush"          # Image editor
 cask "yubico-authenticator" # YubiKey Authenticator
 cask "superkey"            # SuperKey
 cask "balenaetcher"        # Flash OS images
+cask "bitwarden"           # Password manager
 
 
 # Development Apps
