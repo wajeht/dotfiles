@@ -39,10 +39,10 @@
 	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        		# Add, Commit, and Push
 	pr-comments = "!zsh -c 'source ~/.zshrc && git_pr_comments'"
-  diff-all = "!zsh -c 'source ~/.zshrc && git_diff_all'"
+	diff-all = "!zsh -c 'source ~/.zshrc && git_diff_all'"
 
 [core]
-    editor = nvim
+	editor = nvim
 
 [core]
 	# Set the default text editor for Git commands
