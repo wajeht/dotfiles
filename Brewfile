@@ -26,7 +26,6 @@ brew "fortune"      # Fortune
 # Productivity Apps
 cask "alfred"              # Spotlight replacement
 cask "rectangle"           # Window manager
-cask "keyboard-maestro"    # Automation
 cask "bitwarden"          # Password manager
 cask "selfcontrol"        # Time management
 cask "appcleaner"         # Uninstaller
@@ -49,6 +48,7 @@ cask "shottr"             # Screenshot tool
 cask "handbrake"          # Video transcoder
 cask "imageoptim"         # Image optimizer
 cask "pika"               # Color picker
+cask "affinity-photo"     # Photo editor
 
 # Browsers & Downloads
 cask "firefox"            # Browser
