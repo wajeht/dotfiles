@@ -311,17 +311,17 @@ main() {
         '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 
     # Load new settings and rebuild the index for the main volume
-    killall mds >/dev/null 2>&1
+    killall mds >/dev/null 2>&1 || true
     sudo mdutil -E / >/dev/null 2>&1
 
     info "Configuring Terminal"
-    set_default "com.apple.terminal" "StringEncodings" -array "4"        # Only use UTF-8 in Terminal.app
+    # set_default "com.apple.terminal" "StringEncodings" -array "4"        # Only use UTF-8 in Terminal.app (can fail on some systems)
     set_default "com.apple.terminal" "SecureKeyboardEntry" "bool" "true" # Enable Secure Keyboard Entry in Terminal.app
     set_default "com.apple.Terminal" "ShowLineMarks" "int" "0"           # Disable the annoying line marks in Terminal
 
     info "Configuring Time Machine..."
     set_default "com.apple.TimeMachine" "DoNotOfferNewDisksForBackup" "bool" "true" # Prevent Time Machine from prompting to use new hard drives as backup volume
-    hash tmutil &>/dev/null && sudo tmutil disablelocal                             # Disable local Time Machine backups
+    hash tmutil &>/dev/null && sudo tmutil disablelocal 2>/dev/null || true         # Disable local Time Machine backups (if available)
 
     info "Configuring Activity Monitor..."
     set_default "com.apple.ActivityMonitor" "OpenMainWindow" "bool" "true"   # Show the main window when launching Activity Monitor
