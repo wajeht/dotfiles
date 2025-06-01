@@ -5,3 +5,9 @@
 # Ignore Vim backup files
 *.un~
 *~
+
+node_modules
+
+.env
+
+.DS_Store
