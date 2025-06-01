@@ -18,7 +18,7 @@ main() {
     sudo nvram SystemAudioVolume=" " # Disable the sound effects on boot
 
     sudo defaults write com.apple.universalaccess reduceTransparency -bool true            # Disable transparency in the menu bar and elsewhere (requires sudo)
-    defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600" # Set highlight color to green
+    defaults write NSGlobalDomain AppleHighlightColor -string "0.709800 0.835300 1.000000" # Set highlight color to blue
     set_default "NSGlobalDomain" "NSTableViewDefaultSizeMode" "int" "2"                    # Set sidebar icon size to medium
     set_default "NSGlobalDomain" "AppleShowScrollBars" "string" "Always"                   # Always show scrollbars
     set_default "NSGlobalDomain" "NSUseAnimatedFocusRing" "bool" "false"                   # Disable the over-the-top focus ring animation
@@ -58,7 +58,7 @@ main() {
     defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1          # Trackpad: map bottom right corner to right-click
     defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true             # Trackpad: map bottom right corner to right-click
 
-    set_default "NSGlobalDomain" "com.apple.swipescrolldirection" "bool" "false"        # Disable "natural" (Lion-style) scrolling
+    set_default "NSGlobalDomain" "com.apple.swipescrolldirection" "bool" "true"         # Enable "natural" (Lion-style) scrolling
     defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40 # Increase sound quality for Bluetooth headphones/headsets
     set_default "NSGlobalDomain" "AppleKeyboardUIMode" "int" "3"                        # Enable full keyboard access for all controls
 
@@ -85,6 +85,7 @@ main() {
     sudo pmset -b sleep 0            # Never sleep the machine when on battery
     sudo pmset -a standbydelay 86400 # Set standby delay to 24 hours (default is 1 hour)
     sudo pmset -a hibernatemode 0    # Disable hibernation (speeds up entering sleep mode)
+    sudo pmset -b lowpowermode 0     # Disable low power mode on battery
 
     info "Screen settings..."
     set_default "com.apple.screensaver" "askForPassword" "int" "1"              # Require password immediately after sleep or screen saver begins
@@ -93,6 +94,7 @@ main() {
     set_default "com.apple.screencapture" "type" "string" "png"                 # Save screenshots in PNG format
     set_default "com.apple.screencapture" "disable-shadow" "bool" "true"        # Disable shadow in screenshots
     set_default "NSGlobalDomain" "AppleFontSmoothing" "int" "1"                 # Enable subpixel font rendering on non-Apple LCDs
+    defaults write com.apple.ncprefs dnd_prefs -dict dndDisplayLock -bool true  # Don't show notifications when screen is locked
 
     sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true # Enable HiDPI display modes (requires restart)
 
@@ -163,7 +165,8 @@ main() {
 
     info "Configuring Dock, Dashboard, and hot corners..."
     set_default "com.apple.dock" "mouse-over-hilite-stack" "bool" "true"                 # Enable highlight hover effect for the grid view of a stack (Dock)
-    set_default "com.apple.dock" "tilesize" "int" "36"                                   # Set the icon size of Dock items to 36 pixels (overrides previous)
+    set_default "com.apple.dock" "tilesize" "int" "16"                                   # Set the icon size of Dock items to 36 pixels (overrides previous)
+    set_default "com.apple.dock" "largesize" "int" "32"                                  # Set magnification icon size to 64 pixels
     set_default "com.apple.dock" "mineffect" "string" "scale"                            # Change minimize/maximize window effect
     set_default "com.apple.dock" "minimize-to-application" "bool" "true"                 # Minimize windows into their application's icon
     set_default "com.apple.dock" "enable-spring-load-actions-on-all-items" "bool" "true" # Enable spring loading for all Dock items
