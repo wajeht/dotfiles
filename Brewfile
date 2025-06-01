@@ -1,6 +1,7 @@
 # Development Tools
 brew "gh"           # GitHub CLI
 brew "go"           # Go programming language
+brew "node"         # Node.js LTS
 brew "neovim"       # Modern Vim
 brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
@@ -29,6 +30,7 @@ cask "keyboard-maestro"    # Automation
 cask "bitwarden"          # Password manager
 cask "selfcontrol"        # Time management
 cask "appcleaner"         # Uninstaller
+cask "paintbrush"          # Image editor
 
 # Development Apps
 cask "cursor"             # AI code editor
