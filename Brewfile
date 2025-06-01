@@ -21,6 +21,7 @@ cask "alfred"              # Spotlight replacement
 cask "rectangle"           # Window manager
 cask "keyboard-maestro"    # Automation
 cask "bitwarden"          # Password manager
+cask "selfcontrol"        # Time management
 cask "appcleaner"         # Uninstaller
 
 # Development Apps
