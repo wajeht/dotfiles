@@ -7,6 +7,7 @@ brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
 brew "tmux"         # Terminal multiplexer
 brew "tmuxinator"   # Tmuxinator
+brew "wireguard-tools" # WireGuard CLI tools
 
 # System Utilities
 brew "bat"          # Better cat
@@ -30,6 +31,8 @@ cask "bitwarden"          # Password manager
 cask "selfcontrol"        # Time management
 cask "appcleaner"         # Uninstaller
 cask "paintbrush"          # Image editor
+cask "yubico-authenticator" # YubiKey Authenticator
+cask "superkey"            # SuperKey
 
 # Development Apps
 cask "cursor"             # AI code editor
@@ -38,6 +41,7 @@ cask "github"             # GitHub Desktop
 cask "ghostty"            # Terminal
 cask "orbstack"           # Docker alternative
 cask "tableplus"          # Database client
+cask "sublime-text"       # Code editor
 
 # Media & Communication
 cask "iina"               # Media player
