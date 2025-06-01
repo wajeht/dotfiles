@@ -5,12 +5,7 @@ source "$(dirname "$0")/common.sh"
 main() {
     step "🍎 Setting macOS preferences"
 
-    # Close any open System Preferences panes, to prevent them from overriding
-    # settings we're about to change
-    osascript -e 'tell application "System Preferences" to quit'
-
-    # Ask for the administrator password upfront
-    # sudo -v # Handled by the common.sh script's `require_sudo`
+    osascript -e 'tell application "System Preferences" to quit' # Close any open System Preferences panes, to prevent them from overriding settings we're about to change
 
     # Keep-alive: update existing `sudo` time stamp until script has finished
     while true; do
@@ -20,11 +15,9 @@ main() {
     done 2>/dev/null &
 
     info "General UI/UX enhancements..."
-    # Disable the sound effects on boot
-    sudo nvram SystemAudioVolume=" "
+    sudo nvram SystemAudioVolume=" " # Disable the sound effects on boot
 
-    # This setting requires sudo
-    sudo defaults write com.apple.universalaccess reduceTransparency -bool true            # Disable transparency in the menu bar and elsewhere
+    sudo defaults write com.apple.universalaccess reduceTransparency -bool true            # Disable transparency in the menu bar and elsewhere (requires sudo)
     defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600" # Set highlight color to green
     set_default "NSGlobalDomain" "NSTableViewDefaultSizeMode" "int" "2"                    # Set sidebar icon size to medium
     set_default "NSGlobalDomain" "AppleShowScrollBars" "string" "Always"                   # Always show scrollbars
@@ -38,19 +31,16 @@ main() {
     set_default "com.apple.print.PrintingPrefs" "QuitWhenFinished" "bool" "true"           # Automatically quit printer app once the print jobs complete
     set_default "com.apple.LaunchServices" "LSQuarantine" "bool" "false"                   # Disable the "Are you sure you want to open this application?" dialog
 
-    # Remove duplicates in the "Open With" menu
-    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user # Remove duplicates in the "Open With" menu
 
     set_default "NSGlobalDomain" "NSTextShowsControlCharacters" "bool" "true"           # Display ASCII control characters using caret notation
     set_default "com.apple.systempreferences" "NSQuitAlwaysKeepsWindows" "bool" "false" # Disable Resume system-wide
     set_default "NSGlobalDomain" "NSDisableAutomaticTermination" "bool" "true"          # Disable automatic termination of inactive apps
     set_default "com.apple.helpviewer" "DevMode" "bool" "true"                          # Set Help Viewer windows to non-floating mode
 
-    # Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
-    sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+    sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName # Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
 
-    # Disable Notification Center and remove the menu bar icon
-    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null
+    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null # Disable Notification Center and remove the menu bar icon
 
     set_default "NSGlobalDomain" "NSAutomaticCapitalizationEnabled" "bool" "false"     # Disable automatic capitalization
     set_default "NSGlobalDomain" "NSAutomaticDashSubstitutionEnabled" "bool" "false"   # Disable smart dashes
@@ -60,37 +50,32 @@ main() {
 
     info "Trackpad, mouse, keyboard, Bluetooth accessories, and input..."
     set_default "com.apple.driver.AppleBluetoothMultitouch.trackpad" "Clicking" "bool" "true" # Enable tap to click for this user and for the login screen
-    defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-    set_default "NSGlobalDomain" "com.apple.mouse.tapBehavior" "int" "1"
+    defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1             # Enable tap to click for this user and for the login screen
+    set_default "NSGlobalDomain" "com.apple.mouse.tapBehavior" "int" "1"                      # Enable tap to click for this user and for the login screen
 
-    # Trackpad: map bottom right corner to right-click
-    set_default "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadCornerSecondaryClick" "int" "2"
-    set_default "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadRightClick" "bool" "true"
-    defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
-    defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+    set_default "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadCornerSecondaryClick" "int" "2" # Trackpad: map bottom right corner to right-click
+    set_default "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadRightClick" "bool" "true"       # Trackpad: map bottom right corner to right-click
+    defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1          # Trackpad: map bottom right corner to right-click
+    defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true             # Trackpad: map bottom right corner to right-click
 
     set_default "NSGlobalDomain" "com.apple.swipescrolldirection" "bool" "false"        # Disable "natural" (Lion-style) scrolling
     defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40 # Increase sound quality for Bluetooth headphones/headsets
     set_default "NSGlobalDomain" "AppleKeyboardUIMode" "int" "3"                        # Enable full keyboard access for all controls
 
-    # Use scroll gesture with the Ctrl (^) modifier key to zoom
-    # These settings require sudo
-    sudo defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-    sudo defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-    sudo defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true # Follow the keyboard focus while zoomed in
+    sudo defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true # Use scroll gesture with the Ctrl (^) modifier key to zoom
+    sudo defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144 # Use scroll gesture with the Ctrl (^) modifier key to zoom
+    sudo defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true  # Follow the keyboard focus while zoomed in
 
     set_default "NSGlobalDomain" "ApplePressAndHoldEnabled" "bool" "false" # Disable press-and-hold for keys in favor of key repeat
     set_default "NSGlobalDomain" "KeyRepeat" "int" "1"                     # Set a blazingly fast keyboard repeat rate
     set_default "NSGlobalDomain" "InitialKeyRepeat" "int" "10"             # Set a blazingly fast initial keyboard repeat rate
 
-    # Set language and text formats (US English example)
-    defaults write NSGlobalDomain AppleLanguages -array "en-US" "en"
-    defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
-    defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
-    defaults write NSGlobalDomain AppleMetricUnits -bool false
+    defaults write NSGlobalDomain AppleLanguages -array "en-US" "en"       # Set language and text formats (US English example)
+    defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD" # Set language and text formats (US English example)
+    defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"   # Set language and text formats (US English example)
+    defaults write NSGlobalDomain AppleMetricUnits -bool false             # Set language and text formats (US English example)
 
-    # Show language menu in the top right corner of the boot screen
-    sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+    sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true # Show language menu in the top right corner of the boot screen
 
     info "Energy saving settings..."
     sudo pmset -a lidwake 1          # Enable lid wakeup
@@ -109,16 +94,14 @@ main() {
     set_default "com.apple.screencapture" "disable-shadow" "bool" "true"        # Disable shadow in screenshots
     set_default "NSGlobalDomain" "AppleFontSmoothing" "int" "1"                 # Enable subpixel font rendering on non-Apple LCDs
 
-    # Enable HiDPI display modes (requires restart)
-    sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+    sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true # Enable HiDPI display modes (requires restart)
 
     info "Configuring Finder..."
     set_default "com.apple.finder" "QuitMenuItem" "bool" "true"         # Finder: allow quitting via ⌘ + Q
     set_default "com.apple.finder" "DisableAllAnimations" "bool" "true" # Finder: disable window animations and Get Info animations
 
-    # Set Desktop as the default location for new Finder windows
-    defaults write com.apple.finder NewWindowTarget -string "PfDe"
-    defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+    defaults write com.apple.finder NewWindowTarget -string "PfDe"                        # Set Desktop as the default location for new Finder windows
+    defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/" # Set Desktop as the default location for new Finder windows
 
     set_default "com.apple.finder" "ShowExternalHardDrivesOnDesktop" "bool" "true" # Show icons for hard drives, servers, and removable media on the desktop
     set_default "com.apple.finder" "ShowHardDrivesOnDesktop" "bool" "true"         # Show icons for hard drives, servers, and removable media on the desktop
@@ -136,55 +119,44 @@ main() {
     set_default "NSGlobalDomain" "com.apple.springing.enabled" "bool" "true"       # Enable spring loading for directories
     set_default "NSGlobalDomain" "com.apple.springing.delay" "float" "0"           # Remove the spring loading delay for directories
 
-    # Avoid creating .DS_Store files on network or USB volumes
-    set_default "com.apple.desktopservices" "DSDontWriteNetworkStores" "bool" "true"
-    set_default "com.apple.desktopservices" "DSDontWriteUSBStores" "bool" "true"
+    set_default "com.apple.desktopservices" "DSDontWriteNetworkStores" "bool" "true" # Avoid creating .DS_Store files on network or USB volumes
+    set_default "com.apple.desktopservices" "DSDontWriteUSBStores" "bool" "true"     # Avoid creating .DS_Store files on network or USB volumes
 
-    # Disable disk image verification
-    set_default "com.apple.frameworks.diskimages" "skip-verify" "bool" "true"
-    set_default "com.apple.frameworks.diskimages" "skip-verify-locked" "bool" "true"
-    set_default "com.apple.frameworks.diskimages" "skip-verify-remote" "bool" "true"
+    set_default "com.apple.frameworks.diskimages" "skip-verify" "bool" "true"        # Disable disk image verification
+    set_default "com.apple.frameworks.diskimages" "skip-verify-locked" "bool" "true" # Disable disk image verification
+    set_default "com.apple.frameworks.diskimages" "skip-verify-remote" "bool" "true" # Disable disk image verification
 
-    # Automatically open a new Finder window when a volume is mounted
-    set_default "com.apple.frameworks.diskimages" "auto-open-ro-root" "bool" "true"
-    set_default "com.apple.frameworks.diskimages" "auto-open-rw-root" "bool" "true"
-    set_default "com.apple.finder" "OpenWindowForNewRemovableDisk" "bool" "true"
+    set_default "com.apple.frameworks.diskimages" "auto-open-ro-root" "bool" "true" # Automatically open a new Finder window when a volume is mounted
+    set_default "com.apple.frameworks.diskimages" "auto-open-rw-root" "bool" "true" # Automatically open a new Finder window when a volume is mounted
+    set_default "com.apple.finder" "OpenWindowForNewRemovableDisk" "bool" "true"    # Automatically open a new Finder window when a volume is mounted
 
-    # Show item info near icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist     # Show item info near icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist # Show item info near icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist    # Show item info near icons on the desktop and in other icon views
 
-    # Show item info to the right of the icons on the desktop
-    /usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist # Show item info to the right of the icons on the desktop
 
-    # Enable snap-to-grid for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist     # Enable snap-to-grid for icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist # Enable snap-to-grid for icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist    # Enable snap-to-grid for icons on the desktop and in other icon views
 
-    # Increase grid spacing for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist     # Increase grid spacing for icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist # Increase grid spacing for icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist    # Increase grid spacing for icons on the desktop and in other icon views
 
-    # Increase the size of icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
+    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist     # Increase the size of icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist # Increase the size of icons on the desktop and in other icon views
+    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist    # Increase the size of icons on the desktop and in other icon views
 
     set_default "com.apple.finder" "FXPreferredViewStyle" "string" "Nlsv"      # Use list view in all Finder windows by default
     set_default "com.apple.finder" "WarnOnEmptyTrash" "bool" "false"           # Disable the warning before emptying the Trash
     set_default "com.apple.NetworkBrowser" "BrowseAllInterfaces" "bool" "true" # Enable AirDrop over Ethernet and on unsupported Macs
 
-    # Show the ~/Library folder
-    chflags nohidden ~/Library
-    # Show the /Volumes folder
-    sudo chflags nohidden /Volumes
+    chflags nohidden ~/Library     # Show the ~/Library folder
+    sudo chflags nohidden /Volumes # Show the /Volumes folder
 
-    # Expand the following File Info panes: "General", "Open with", and "Sharing & Permissions"
-    defaults write com.apple.finder FXInfoPanesExpanded -dict \
-        General -bool true \
+    defaults write com.apple.finder FXInfoPanesExpanded -dict \ # Expand the following File Info panes: "General", "Open with", and "Sharing & Permissions"
+    General -bool true \
         OpenWith -bool true \
         Privileges -bool true
 
@@ -207,23 +179,17 @@ main() {
     set_default "com.apple.dock" "showhidden" "bool" "true"                              # Make Dock icons of hidden applications translucent
     set_default "com.apple.dock" "show-recents" "bool" "false"                           # Don't show recent applications in Dock (already set, ensuring value)
 
-    # Reset Launchpad, but keep the desktop wallpaper intact
-    if [ -d "${HOME}/Library/Application Support/Dock" ]; then
+    if [ -d "${HOME}/Library/Application Support/Dock" ]; then # Reset Launchpad, but keep the desktop wallpaper intact
         find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
     fi
 
-    # Hot corners
-    # Top left screen corner → Mission Control
-    set_default "com.apple.dock" "wvous-tl-corner" "int" "2"
+    set_default "com.apple.dock" "wvous-tl-corner" "int" "2" # Hot corners: Top left screen corner → Mission Control
     set_default "com.apple.dock" "wvous-tl-modifier" "int" "0"
-    # Top right screen corner → Mission Control
-    set_default "com.apple.dock" "wvous-tr-corner" "int" "2"
+    set_default "com.apple.dock" "wvous-tr-corner" "int" "2" # Hot corners: Top right screen corner → Mission Control
     set_default "com.apple.dock" "wvous-tr-modifier" "int" "0"
-    # Bottom left screen corner → Mission Control
-    set_default "com.apple.dock" "wvous-bl-corner" "int" "2"
+    set_default "com.apple.dock" "wvous-bl-corner" "int" "2" # Hot corners: Bottom left screen corner → Mission Control
     set_default "com.apple.dock" "wvous-bl-modifier" "int" "0"
-    # Bottom right screen corner → Mission Control
-    set_default "com.apple.dock" "wvous-br-corner" "int" "2"
+    set_default "com.apple.dock" "wvous-br-corner" "int" "2" # Hot corners: Bottom right screen corner → Mission Control
     set_default "com.apple.dock" "wvous-br-modifier" "int" "0"
 
     info "Configuring Safari & WebKit..."
@@ -267,27 +233,22 @@ main() {
     sudo defaults write com.apple.mail DisableSendAnimations -bool true             # Disable send and reply animations in Mail.app
     sudo defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false # Copy email addresses as `foo@example.com`
 
-    # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
-    sudo defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\\U21a9"
+    sudo defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\\U21a9" # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
 
-    # Display emails in threaded mode, sorted by date (oldest at the top)
-    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
+    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes" # Display emails in threaded mode, sorted by date (oldest at the top)
+    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"      # Display emails in threaded mode, sorted by date (oldest at the top)
+    sudo defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"   # Display emails in threaded mode, sorted by date (oldest at the top)
 
     sudo defaults write com.apple.mail DisableInlineAttachmentViewing -bool true              # Disable inline attachments (just show the icons)
     sudo defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled" # Disable automatic spell checking
 
     info "Configuring Spotlight..."
-    # Disable Spotlight indexing for all currently mounted volumes
-    sudo mdutil -a -i off >/dev/null 2>&1
+    sudo mdutil -a -i off >/dev/null 2>&1 # Disable Spotlight indexing for all currently mounted volumes
 
-    # Enable Spotlight indexing for the main boot volume only
-    sudo mdutil -i on / >/dev/null 2>&1
+    sudo mdutil -i on / >/dev/null 2>&1 # Enable Spotlight indexing for the main boot volume only
 
-    # Change indexing order and disable some search results
-    defaults write com.apple.spotlight orderedItems -array \
-        '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+    defaults write com.apple.spotlight orderedItems -array \ # Change indexing order and disable some search results
+    '{"enabled" = 1;"name" = "APPLICATIONS";}' \
         '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
         '{"enabled" = 1;"name" = "DIRECTORIES";}' \
         '{"enabled" = 1;"name" = "PDF";}' \
@@ -310,9 +271,8 @@ main() {
         '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
         '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 
-    # Load new settings and rebuild the index for the main volume
-    killall mds >/dev/null 2>&1 || true
-    sudo mdutil -E / >/dev/null 2>&1
+    killall mds >/dev/null 2>&1 || true # Load new settings and rebuild the index for the main volume
+    sudo mdutil -E / >/dev/null 2>&1    # Load new settings and rebuild the index for the main volume
 
     info "Configuring Terminal"
     # set_default "com.apple.terminal" "StringEncodings" -array "4"        # Only use UTF-8 in Terminal.app (can fail on some systems)
@@ -355,32 +315,23 @@ main() {
     defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true # Prevent Photos from opening automatically when devices are plugged in
 
     info "Configuring Messages..."
-    # Disable automatic emoji substitution
-    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
-    # Disable smart quotes
-    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
-    # Disable continuous spell checking
-    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false # Disable automatic emoji substitution
+    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false         # Disable smart quotes
+    defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false            # Disable continuous spell checking
 
     info "Configuring Google Chrome (if installed)..."
     if [ -d "/Applications/Google Chrome.app" ]; then
-        # Disable the all too sensitive backswipe on trackpads
-        defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-        # Disable the all too sensitive backswipe on Magic Mouse
-        defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
-        # Use the system-native print preview dialog
-        defaults write com.google.Chrome DisablePrintPreview -bool true
-        # Expand the print dialog by default
-        defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
+        defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false      # Disable the all too sensitive backswipe on trackpads
+        defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false # Disable the all too sensitive backswipe on Magic Mouse
+        defaults write com.google.Chrome DisablePrintPreview -bool true                       # Use the system-native print preview dialog
+        defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true          # Expand the print dialog by default
         info "Google Chrome settings applied."
     else
         info "Google Chrome not found, skipping configuration."
     fi
 
-    # Restarting affected applications
-    task "Restarting affected applications for changes to take effect."
-    # Corrected list of applications for the killall loop
-    app_list=(
+    task "Restarting affected applications for changes to take effect." # Restarting affected applications
+    app_list=( # Corrected list of applications for the killall loop
         "Activity Monitor"
         "Address Book"
         "Calendar"
@@ -396,8 +347,7 @@ main() {
         "Terminal"
     )
     for app_name in "${app_list[@]}"; do
-        # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
-        if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then
+        if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
             killall "${app_name}" &>/dev/null || true
         fi
     done
