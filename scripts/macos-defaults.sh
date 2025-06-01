@@ -155,8 +155,9 @@ main() {
     chflags nohidden ~/Library     # Show the ~/Library folder
     sudo chflags nohidden /Volumes # Show the /Volumes folder
 
-    defaults write com.apple.finder FXInfoPanesExpanded -dict \ # Expand the following File Info panes: "General", "Open with", and "Sharing & Permissions"
-    General -bool true \
+    # Expand the following File Info panes: "General", "Open with", and "Sharing & Permissions"
+    defaults write com.apple.finder FXInfoPanesExpanded -dict \
+        General -bool true \
         OpenWith -bool true \
         Privileges -bool true
 
@@ -247,8 +248,9 @@ main() {
 
     sudo mdutil -i on / >/dev/null 2>&1 # Enable Spotlight indexing for the main boot volume only
 
-    defaults write com.apple.spotlight orderedItems -array \ # Change indexing order and disable some search results
-    '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+    # Change indexing order and disable some search results
+    defaults write com.apple.spotlight orderedItems -array \
+        '{"enabled" = 1;"name" = "APPLICATIONS";}' \
         '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
         '{"enabled" = 1;"name" = "DIRECTORIES";}' \
         '{"enabled" = 1;"name" = "PDF";}' \
