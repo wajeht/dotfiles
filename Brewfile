@@ -9,6 +9,8 @@ brew "tmux"         # Terminal multiplexer
 brew "tmuxinator"   # Tmuxinator
 brew "docker"       # Docker CLI
 brew "kubectl"      # Kubernetes CLI
+brew "nvm"          # Node version manager
+brew "parallel"     # Parallel
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
