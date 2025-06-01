@@ -7,6 +7,8 @@ brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
 brew "tmux"         # Terminal multiplexer
 brew "tmuxinator"   # Tmuxinator
+brew "docker"       # Docker CLI
+brew "kubectl"      # Kubernetes CLI
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
@@ -19,6 +21,9 @@ brew "btop"         # System monitor
 brew "fastfetch"    # System info
 brew "trash"        # Safe rm
 brew "wget"         # Download utility
+brew "curl"         # Data transfer tool
+brew "tree"         # Directory tree visualization
+brew "rsync"        # File synchronization
 
 # Fun CLI Tools
 brew "cmatrix"      # Matrix screensaver
