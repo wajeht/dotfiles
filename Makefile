@@ -1,4 +1,4 @@
-.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh uninstall clean push
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-ghostty uninstall clean push
 
 install:
 	@./install.sh
@@ -21,6 +21,9 @@ install-tmux:
 install-zsh:
 	@./scripts/install-zsh.sh
 
+install-ghostty:
+	@./scripts/install-ghostty.sh
+
 push:
 	@make format
 	@git add -A
@@ -29,7 +32,7 @@ push:
 
 uninstall:
 	@echo "🗑️  Removing dotfiles..."
-	@rm -rf ~/.config/nvim ~/.config/zsh
+	@rm -rf ~/.config/nvim ~/.config/zsh ~/.config/ghostty
 	@rm -f ~/.zshrc.backup ~/.gitconfig.backup ~/.tmux.conf.backup
 	@echo "✅ Dotfiles removed (kept original configs if they exist)"
 
