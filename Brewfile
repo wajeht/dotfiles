@@ -7,7 +7,6 @@ brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
 brew "tmux"         # Terminal multiplexer
 brew "tmuxinator"   # Tmuxinator
-brew "wireguard-tools" # WireGuard CLI tools
 
 # System Utilities
 brew "bat"          # Better cat
@@ -33,6 +32,8 @@ cask "appcleaner"         # Uninstaller
 cask "paintbrush"          # Image editor
 cask "yubico-authenticator" # YubiKey Authenticator
 cask "superkey"            # SuperKey
+cask "balenaetcher"        # Flash OS images
+
 
 # Development Apps
 cask "cursor"             # AI code editor
