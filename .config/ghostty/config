@@ -10,6 +10,9 @@ window-padding-balance = true
 window-padding-color = extend
 window-save-state = never
 # window-decoration = false
+window-theme = dark
+macos-window-shadow = true
+macos-titlebar-proxy-icon = hidden
 
 window-height = 100
 window-width = 100
