@@ -106,7 +106,7 @@ main() {
     defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/" # Set Desktop as the default location for new Finder windows
 
     set_default "com.apple.finder" "ShowExternalHardDrivesOnDesktop" "bool" "true" # Show icons for hard drives, servers, and removable media on the desktop
-    set_default "com.apple.finder" "ShowHardDrivesOnDesktop" "bool" "true"         # Show icons for hard drives, servers, and removable media on the desktop
+    set_default "com.apple.finder" "ShowHardDrivesOnDesktop" "bool" "false"        # Hide main volume (like Macintosh HD) from desktop
     set_default "com.apple.finder" "ShowMountedServersOnDesktop" "bool" "true"     # Show icons for hard drives, servers, and removable media on the desktop
     set_default "com.apple.finder" "ShowRemovableMediaOnDesktop" "bool" "true"     # Show icons for hard drives, servers, and removable media on the desktop
 
@@ -132,25 +132,21 @@ main() {
     set_default "com.apple.frameworks.diskimages" "auto-open-rw-root" "bool" "true" # Automatically open a new Finder window when a volume is mounted
     set_default "com.apple.finder" "OpenWindowForNewRemovableDisk" "bool" "true"    # Automatically open a new Finder window when a volume is mounted
 
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist     # Show item info near icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist # Show item info near icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist    # Show item info near icons on the desktop and in other icon views
+    set_default "com.apple.finder" "FXPreferredViewStyle" "string" "Nlsv" # Use list view in all Finder windows by default
 
-    /usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist # Show item info to the right of the icons on the desktop
+    # Reset all folder view settings to list view
+    defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+    defaults write com.apple.finder FXPreferredSearchViewStyle -string "Nlsv"
+    defaults write com.apple.finder FXPreferredGroupBy -string "None"
 
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist     # Enable snap-to-grid for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist # Enable snap-to-grid for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist    # Enable snap-to-grid for icons on the desktop and in other icon views
+    # Clear existing folder view settings to force list view
+    find ~/Library/Preferences -name "com.apple.finder.plist" -exec defaults delete {} :FK_StandardViewSettings \; 2>/dev/null || true
+    find ~/Library/Preferences -name "com.apple.finder.plist" -exec defaults delete {} :StandardViewSettings \; 2>/dev/null || true
 
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist     # Increase grid spacing for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist # Increase grid spacing for icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist    # Increase grid spacing for icons on the desktop and in other icon views
+    # Set default view settings for all view types to list view
+    defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
+    defaults write com.apple.finder FK_DefaultSearchViewStyle -string "Nlsv"
 
-    /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist     # Increase the size of icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist # Increase the size of icons on the desktop and in other icon views
-    /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist    # Increase the size of icons on the desktop and in other icon views
-
-    set_default "com.apple.finder" "FXPreferredViewStyle" "string" "Nlsv"      # Use list view in all Finder windows by default
     set_default "com.apple.finder" "WarnOnEmptyTrash" "bool" "false"           # Disable the warning before emptying the Trash
     set_default "com.apple.NetworkBrowser" "BrowseAllInterfaces" "bool" "true" # Enable AirDrop over Ethernet and on unsupported Macs
 
@@ -247,9 +243,6 @@ main() {
     sudo defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled" # Disable automatic spell checking
 
     info "Configuring Spotlight..."
-    sudo mdutil -a -i off >/dev/null 2>&1 # Disable Spotlight indexing for all currently mounted volumes
-
-    sudo mdutil -i on / >/dev/null 2>&1 # Enable Spotlight indexing for the main boot volume only
 
     # Change indexing order and disable some search results
     defaults write com.apple.spotlight orderedItems -array \
@@ -276,8 +269,10 @@ main() {
         '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
         '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 
-    killall mds >/dev/null 2>&1 || true # Load new settings and rebuild the index for the main volume
-    sudo mdutil -E / >/dev/null 2>&1    # Load new settings and rebuild the index for the main volume
+    info "Rebuilding Spotlight index with optimized settings (fresh system setup)..."
+    killall mds >/dev/null 2>&1 || true # Stop indexing service
+    sudo mdutil -E / >/dev/null 2>&1    # Rebuild index with new settings
+    info "Spotlight will rebuild index in background with optimized categories..."
 
     info "Configuring Terminal"
     # set_default "com.apple.terminal" "StringEncodings" -array "4"        # Only use UTF-8 in Terminal.app (can fail on some systems)
