@@ -41,6 +41,7 @@ brew "cowsay"       # Cowsay
 brew "lolcat"       # Rainbow text
 brew "figlet"       # ASCII art text
 brew "fortune"      # Random quotes
+brew "sshpass"      # SSH password authentication
 
 # Productivity Apps
 cask "alfred"              # Spotlight replacement
