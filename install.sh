@@ -37,6 +37,7 @@ main() {
     run_component "./scripts/install-brew.sh" "Homebrew packages" || failed_components+=("Homebrew packages")
     run_component "./scripts/install-nvim.sh" "Neovim config" || failed_components+=("Neovim config")
     run_component "./scripts/install-gitconfig.sh" "Git config" || failed_components+=("Git config")
+    run_component "./scripts/install-ghostty.sh" "Ghostty config" || failed_components+=("Ghostty config")
     run_component "./scripts/install-tmux.sh" "Tmux config" || failed_components+=("Tmux config")
     run_component "./scripts/install-zsh.sh" "Zsh config" || failed_components+=("Zsh config")
 

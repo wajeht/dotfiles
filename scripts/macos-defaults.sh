@@ -313,6 +313,7 @@ main() {
         "Safari"
         "SystemUIServer"
         "Terminal"
+        "Ghostty"
     )
     for app_name in "${app_list[@]}"; do
         if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.

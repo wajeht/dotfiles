@@ -12,72 +12,45 @@ export ZSH="$HOME/.oh-my-zsh"
 # Disable Oh My Zsh security warnings for Homebrew directories
 export ZSH_DISABLE_COMPFIX=true
 
-if [[ -d "$ZSH" ]]; then
-    # Oh My Zsh is installed
-    ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-    # Only use core Oh My Zsh plugins (not the ones we install via Homebrew)
-    plugins=(
-        git
-    )
+# Only use core Oh My Zsh plugins (not the ones we install via Homebrew)
+plugins=(
+    git
+)
 
-    source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
-    # Load Homebrew-installed plugins
-    # Load zsh-vi-mode first (order matters)
-    if [[ -f "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
-        source "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-    elif [[ -f "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
-        source "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-    else
-        # Fallback: enable vi mode manually
-        bindkey -v
-    fi
-
-    # Load autosuggestions
-    if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-        source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-        source "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    fi
-
-    # Load syntax highlighting (must be last)
-    if [[ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-        source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    elif [[ -f "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-        source "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    fi
-
-    # Load completions
-    if [[ -d "/opt/homebrew/share/zsh-completions" ]]; then
-        fpath=(/opt/homebrew/share/zsh-completions $fpath)
-    elif [[ -d "/usr/local/share/zsh-completions" ]]; then
-        fpath=(/usr/local/share/zsh-completions $fpath)
-    fi
-
+# Load Homebrew-installed plugins
+# Load zsh-vi-mode first (order matters)
+if [[ -f "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+    source "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+elif [[ -f "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+    source "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 else
-    # Fallback without Oh My Zsh
-    echo "⚠️  Oh My Zsh not found. Using basic zsh configuration."
-
-    # Enable vi mode manually
+    # Fallback: enable vi mode manually
     bindkey -v
+fi
 
-    # Basic prompt
-    PS1='%F{blue}%~%f %F{green}❯%f '
+# Load autosuggestions
+if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
-    # Load syntax highlighting from Homebrew if available
-    if [[ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-        source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    elif [[ -f "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-        source "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    fi
+# Load syntax highlighting (must be last)
+if [[ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+elif [[ -f "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
 
-    # Load autosuggestions from Homebrew if available
-    if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-        source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-        source "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    fi
+# Load completions
+if [[ -d "/opt/homebrew/share/zsh-completions" ]]; then
+    fpath=(/opt/homebrew/share/zsh-completions $fpath)
+elif [[ -d "/usr/local/share/zsh-completions" ]]; then
+    fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
 # Custom Configuration
@@ -93,7 +66,7 @@ for config_file in "$HOME/.config/zsh/env.zsh" \
   fi
 done
 
-# Powerlevel10k (only if Oh My Zsh is available)
-if [[ -d "$ZSH" && -f ~/.p10k.zsh ]]; then
+# Powerlevel10k configuration
+if [[ -f ~/.p10k.zsh ]]; then
     source ~/.p10k.zsh
 fi

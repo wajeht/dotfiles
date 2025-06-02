@@ -62,7 +62,9 @@ make install-zsh       # 💻 Shell configuration
 
 ```bash
 make update            # 🔄 Update all packages (upgrades existing ones)
-make uninstall         # 🗑️ Remove dotfiles safely
+make uninstall         # 🗑️ Remove dotfiles safely (keeps Oh My Zsh & Homebrew packages)
+make uninstall-packages # 🗑️ Remove Homebrew packages from Brewfile
+make uninstall-complete # 💥 Complete removal (dotfiles + Oh My Zsh + packages)
 make clean             # 🧹 Clean backup files
 make dev               # 💻 Quick dev environment setup
 make format            # ✨ Format Bash and Lua files
