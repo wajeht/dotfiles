@@ -9,6 +9,9 @@ fi
 # Oh My Zsh Configuration
 export ZSH="$HOME/.oh-my-zsh"
 
+# Disable Oh My Zsh security warnings for Homebrew directories
+export ZSH_DISABLE_COMPFIX=true
+
 if [[ -d "$ZSH" ]]; then
     # Oh My Zsh is installed
     ZSH_THEME="powerlevel10k/powerlevel10k"
