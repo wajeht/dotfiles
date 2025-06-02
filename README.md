@@ -7,7 +7,7 @@ Clean, modular macOS development setup.
 Install directly from GitHub without cloning:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/remote-install.sh | bash
+$ curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/remote-install.sh | bash
 ```
 
 ## Local Install
@@ -15,7 +15,7 @@ curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/rem
 First clone the repository, then run:
 
 ```bash
-./install.sh
+$ ./install.sh
 ```
 
 That's it! 🎉
@@ -33,13 +33,13 @@ That's it! 🎉
 
 ```bash
 # Everything
-make install
+$ make install
 
 # Individual components
-make install-macos     # macOS system preferences
-make install-brew      # Homebrew + packages
-make install-nvim      # Neovim configuration
-make install-git       # Git configuration
+$ make install-macos     # macOS system preferences
+$ make install-brew      # Homebrew + packages
+$ make install-nvim      # Neovim configuration
+$ make install-git       # Git configuration
 make install-tmux      # Tmux configuration
 make install-zsh       # Shell configuration
 ```
@@ -57,11 +57,11 @@ make install-zsh       # Shell configuration
 ## Maintenance
 
 ```bash
-make update            # Update all packages
-make uninstall         # Remove dotfiles
-make clean             # Clean backup files
-make dev               # Quick dev setup
-make format            # Format Bash and Lua files
+$ make update            # Update all packages
+$ make uninstall         # Remove dotfiles
+$ make clean             # Clean backup files
+$ make dev               # Quick dev setup
+$ make format            # Format Bash and Lua files
 ```
 
 ## Requirements
