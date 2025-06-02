@@ -40,8 +40,8 @@ $ make install-macos     # macOS system preferences
 $ make install-brew      # Homebrew + packages
 $ make install-nvim      # Neovim configuration
 $ make install-git       # Git configuration
-make install-tmux      # Tmux configuration
-make install-zsh       # Shell configuration
+$ make install-tmux      # Tmux configuration
+$ make install-zsh       # Shell configuration
 ```
 
 ## Customize
