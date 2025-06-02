@@ -2,8 +2,36 @@
 
 source "$(dirname "$0")/common.sh"
 
+install_oh_my_zsh() {
+    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+        info "Installing Oh My Zsh..."
+        # Install Oh My Zsh without prompting and without changing shell
+        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        success "Oh My Zsh installed"
+    else
+        task "Oh My Zsh already installed"
+    fi
+}
+
+install_powerlevel10k() {
+    local p10k_dir="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+    if [[ ! -d "$p10k_dir" ]]; then
+        info "Installing Powerlevel10k theme..."
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
+        success "Powerlevel10k installed"
+    else
+        task "Powerlevel10k already installed"
+    fi
+}
+
 main() {
     step "💻 Installing Zsh Configuration"
+
+    # Install Oh My Zsh first
+    install_oh_my_zsh
+
+    # Install Powerlevel10k theme
+    install_powerlevel10k
 
     backup_if_exists ~/.zshrc
 
@@ -33,7 +61,7 @@ main() {
             if git clone --depth 1 "$plugin_url" "$ZSH_CUSTOM_PLUGINS_DIR/$plugin_name"; then
                 task "Installed plugin: $plugin_name"
             else
-                error "Failed to clone plugin: $plugin_name"
+                warning "Failed to clone plugin: $plugin_name"
             fi
         fi
     done

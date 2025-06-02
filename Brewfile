@@ -28,6 +28,13 @@ brew "tree"         # Directory tree visualization
 brew "rsync"        # File synchronization
 brew "ffmpeg"       # Video converter
 
+# Zsh & Shell Enhancements
+brew "zsh"                      # Modern shell
+brew "zsh-autosuggestions"      # Command autosuggestions
+brew "zsh-syntax-highlighting"  # Syntax highlighting
+brew "zsh-completions"          # Additional completions
+brew "zsh-vi-mode"              # Vi mode for zsh
+
 # Fun CLI Tools
 brew "cmatrix"      # Matrix screensaver
 brew "cowsay"       # Cowsay
