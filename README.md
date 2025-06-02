@@ -2,7 +2,25 @@
 
 Clean, modular macOS development setup.
 
-## Quick Start
+## Remote Install (Recommended)
+
+Install directly from GitHub without cloning:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/remote-install.sh | bash
+```
+
+Or download and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/remote-install.sh -o remote-install.sh
+chmod +x remote-install.sh
+./remote-install.sh
+```
+
+## Local Install
+
+First clone the repository, then run:
 
 ```bash
 ./install.sh
