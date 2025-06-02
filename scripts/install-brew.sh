@@ -14,8 +14,8 @@ main() {
         task "Homebrew already installed"
     fi
 
-    info "Installing packages from Brewfile..."
-    brew bundle --file=Brewfile
+    info "Installing packages from Brewfile (skipping upgrades)..."
+    brew bundle --file=Brewfile --no-upgrade
 
     success "All packages installed"
 }

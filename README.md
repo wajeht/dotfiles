@@ -60,7 +60,7 @@ make install-zsh       # 💻 Shell configuration
 ## 🔧 Maintenance
 
 ```bash
-make update            # 🔄 Update all packages
+make update            # 🔄 Update all packages (upgrades existing ones)
 make uninstall         # 🗑️ Remove dotfiles safely
 make clean             # 🧹 Clean backup files
 make dev               # 💻 Quick dev environment setup
@@ -79,7 +79,8 @@ make format            # ✨ Format Bash and Lua files
 - **⚡ Error handling** - Graceful failures with helpful messages
 - **🧹 Cleanup** - Temporary files are automatically removed
 - **💡 Verbose logging** - Clear feedback on what's happening
+- **📦 Smart installation** - Installs missing packages without upgrading existing ones
 
 ---
 
-**💡 Pro tip:** All existing configurations are automatically backed up before installation!
+**💡 Pro tip:** Installation skips upgrading existing packages for faster setup. Use `make update` to upgrade everything!
