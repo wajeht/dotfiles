@@ -26,6 +26,7 @@ brew "wget"         # Download utility
 brew "curl"         # Data transfer tool
 brew "tree"         # Directory tree visualization
 brew "rsync"        # File synchronization
+brew "ffmpeg"       # Video converter
 
 # Fun CLI Tools
 brew "cmatrix"      # Matrix screensaver
