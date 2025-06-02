@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "⚙️ Installing Git configuration"
+    step "🔗 Installing Git Configuration"
 
     backup_if_exists ~/.gitconfig
 

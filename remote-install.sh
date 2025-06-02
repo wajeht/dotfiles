@@ -5,6 +5,7 @@ set -euo pipefail
 readonly REPO_URL="https://github.com/wajeht/dotfiles.git"
 readonly SCRIPT_NAME="$(basename "$0")"
 
+# Always enable colors (most modern terminals support them)
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
@@ -13,24 +14,24 @@ readonly BOLD='\033[1m'
 readonly NC='\033[0m'
 
 error() {
-    echo -e "${RED}❌ Error:${NC} $1" >&2
+    printf "${RED}💥 Error:${NC} %s\n" "$1" >&2
     exit 1
 }
 
 success() {
-    echo -e "${GREEN}✅${NC} $1"
+    printf "  ${GREEN}🎯${NC} %s\n" "$1"
 }
 
 info() {
-    echo -e "${BLUE}ℹ️${NC}  $1"
+    printf "  ${BLUE}💡${NC} %s\n" "$1"
 }
 
 step() {
-    echo -e "\n${BOLD}$1${NC}"
+    printf "\n${BOLD}%s${NC}\n" "$1"
 }
 
 task() {
-    echo -e "${BLUE}→${NC} $1"
+    printf "    ${BLUE}▶${NC} %s\n" "$1"
 }
 
 cleanup() {
@@ -47,7 +48,7 @@ check_dependencies() {
 }
 
 main() {
-    step "🚀 Remote Dotfiles Installation"
+    step "🌟 Remote Dotfiles Installation"
 
     info "This script will:"
     info "  1. Create a temporary directory"
@@ -64,7 +65,7 @@ main() {
     TEMP_DIR=$(mktemp -d)
     task "Created temporary directory: $TEMP_DIR"
 
-    step "📦 Cloning dotfiles repository"
+    step "📥 Downloading Repository"
     if git clone "$REPO_URL" "$TEMP_DIR/dotfiles"; then
         success "Repository cloned successfully"
     else
@@ -75,17 +76,18 @@ main() {
 
     chmod +x install.sh
 
-    step "🔧 Running installation script"
+    step "⚙️ Running Installation"
     if ./install.sh; then
         success "Installation completed successfully!"
     else
         error "Installation failed"
     fi
 
-    step "🎉 Remote installation complete!"
+    step "🎉 Installation Complete!"
     info "The temporary directory will be cleaned up automatically"
     echo
     info "To use the dotfiles, run 'source ~/.zshrc' or restart your terminal"
 }
 
+# Run main function (handles both direct execution and piped execution)
 main "$@"

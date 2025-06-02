@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "🍺 Installing Homebrew and packages"
+    step "📦 Installing Homebrew & Packages"
 
     if ! has_brew; then
         info "Installing Homebrew..."

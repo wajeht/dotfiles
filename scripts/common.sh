@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+# Always enable colors (most modern terminals support them)
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
@@ -11,28 +12,28 @@ readonly DIM='\033[2m'
 readonly NC='\033[0m'
 
 error() {
-    echo -e "${RED}❌ Error:${NC} $1" >&2
+    printf "${RED}💥 Error:${NC} %s\n" "$1" >&2
     exit 1
 }
 
 success() {
-    echo -e "${GREEN}✅${NC} $1"
+    printf "  ${GREEN}🎯${NC} %s\n" "$1"
 }
 
 warning() {
-    echo -e "${YELLOW}⚠️${NC}  $1"
+    printf "  ${YELLOW}⚡${NC} %s\n" "$1"
 }
 
 info() {
-    echo -e "${BLUE}ℹ️${NC}  $1"
+    printf "  ${BLUE}💡${NC} %s\n" "$1"
 }
 
 step() {
-    echo -e "\n${BOLD}$1${NC}"
+    printf "\n${BOLD}%s${NC}\n" "$1"
 }
 
 task() {
-    echo -e "${DIM}→${NC} $1"
+    printf "    ${DIM}▶${NC} %s\n" "$1"
 }
 
 check_macos() {

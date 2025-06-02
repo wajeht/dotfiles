@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "📝 Installing Neovim configuration"
+    step "⚡ Installing Neovim Configuration"
 
     info "Installing Neovim configuration..."
     mkdir -p ~/.config/nvim

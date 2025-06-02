@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "🐚 Installing Zsh configuration"
+    step "💻 Installing Zsh Configuration"
 
     backup_if_exists ~/.zshrc
 

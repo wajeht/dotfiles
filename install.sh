@@ -3,7 +3,7 @@
 source "$(dirname "$0")/scripts/common.sh"
 
 main() {
-    step "🚀 Installing dotfiles"
+    step "🌟 Installing Dotfiles"
 
     info "Performing system checks..."
     check_macos
@@ -21,7 +21,7 @@ main() {
     ./scripts/install-tmux.sh
     ./scripts/install-zsh.sh
 
-    step "🎉 Installation complete!"
+    step "🎉 Installation Complete!"
     info "Run 'source ~/.zshrc' or restart your terminal to apply changes"
 }
 

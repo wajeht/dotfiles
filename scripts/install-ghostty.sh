@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "👻 Installing Ghostty configuration"
+    step "🖼️ Installing Ghostty Configuration"
 
     info "Installing Ghostty configuration..."
     mkdir -p ~/.config/ghostty

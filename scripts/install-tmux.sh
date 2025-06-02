@@ -3,7 +3,7 @@
 source "$(dirname "$0")/common.sh"
 
 main() {
-    step "📟 Installing Tmux configuration"
+    step "🖥️ Installing Tmux Configuration"
 
     backup_if_exists ~/.tmux.conf
 
