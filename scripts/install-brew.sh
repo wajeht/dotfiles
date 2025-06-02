@@ -17,7 +17,7 @@ main() {
     info "Installing packages from Brewfile (skipping upgrades)..."
     brew bundle --file=Brewfile --no-upgrade
 
-    success "All packages installed"
+    success "All packages installed (existing packages not upgraded)"
 }
 
 main "$@"
