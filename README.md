@@ -80,6 +80,7 @@ make format            # ✨ Format Bash and Lua files
 - **🧹 Cleanup** - Temporary files are automatically removed
 - **💡 Verbose logging** - Clear feedback on what's happening
 - **📦 Smart installation** - Installs missing packages without upgrading existing ones
+- **🔄 Resilient installation** - Continues installing other components even if some fail
 
 ---
 
