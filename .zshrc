@@ -13,15 +13,45 @@ if [[ -d "$ZSH" ]]; then
     # Oh My Zsh is installed
     ZSH_THEME="powerlevel10k/powerlevel10k"
 
+    # Only use core Oh My Zsh plugins (not the ones we install via Homebrew)
     plugins=(
         git
-        zsh-vi-mode
-        zsh-completions
-        zsh-autosuggestions
-        zsh-syntax-highlighting
     )
 
     source $ZSH/oh-my-zsh.sh
+
+    # Load Homebrew-installed plugins
+    # Load zsh-vi-mode first (order matters)
+    if [[ -f "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+        source "/opt/homebrew/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+    elif [[ -f "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+        source "/usr/local/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+    else
+        # Fallback: enable vi mode manually
+        bindkey -v
+    fi
+
+    # Load autosuggestions
+    if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+        source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+        source "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    fi
+
+    # Load syntax highlighting (must be last)
+    if [[ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+        source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    elif [[ -f "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+        source "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fi
+
+    # Load completions
+    if [[ -d "/opt/homebrew/share/zsh-completions" ]]; then
+        fpath=(/opt/homebrew/share/zsh-completions $fpath)
+    elif [[ -d "/usr/local/share/zsh-completions" ]]; then
+        fpath=(/usr/local/share/zsh-completions $fpath)
+    fi
+
 else
     # Fallback without Oh My Zsh
     echo "⚠️  Oh My Zsh not found. Using basic zsh configuration."

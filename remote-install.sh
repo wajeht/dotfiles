@@ -5,7 +5,6 @@ set -euo pipefail
 readonly REPO_URL="https://github.com/wajeht/dotfiles.git"
 readonly SCRIPT_NAME="$(basename "$0")"
 
-# Always enable colors (most modern terminals support them)
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
@@ -89,5 +88,4 @@ main() {
     info "To use the dotfiles, run 'source ~/.zshrc' or restart your terminal"
 }
 
-# Run main function (handles both direct execution and piped execution)
 main "$@"

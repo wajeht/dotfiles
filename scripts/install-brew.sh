@@ -22,7 +22,6 @@ main() {
     local exit_code=$?
     set -e
 
-    # Check the result and provide appropriate feedback
     if [[ $exit_code -eq 0 ]]; then
         success "All packages installed successfully (existing packages not upgraded)"
     else

@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# Always enable colors (most modern terminals support them)
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
