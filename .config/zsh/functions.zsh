@@ -61,9 +61,10 @@ function cd() {
 
 # Function to display colored diffs to terminal, copy plain diffs to clipboard
 function git_diff_all() {
+  local target_branch="${1:-main}"  # Default to 'main' if no argument provided
   local ALL_DIFFS
   ALL_DIFFS=$( ( \
-      git -c color.diff=always --no-pager diff main... && \
+      git -c color.diff=always --no-pager diff ${target_branch}... && \
       git -c color.diff=always --no-pager diff && \
       git -c color.diff=always --no-pager diff --cached \
   ) );
