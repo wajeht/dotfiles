@@ -70,6 +70,17 @@ main() {
     cp .zshrc ~/.zshrc
     task "Copied .zshrc to home directory"
 
+    # Install Powerlevel10k configuration if available
+    if [[ -f ".p10k.zsh" ]]; then
+        backup_if_exists ~/.p10k.zsh
+        info "Installing Powerlevel10k configuration..."
+        cp .p10k.zsh ~/.p10k.zsh
+        task "Copied .p10k.zsh to home directory"
+        success "Powerlevel10k pre-configured - no setup wizard needed!"
+    else
+        info "No .p10k.zsh found - you can run 'p10k configure' later to set up the theme"
+    fi
+
     info "Copying reload command to clipboard"
     echo "source ~/.zshrc" | pbcopy
     task "Command copied to clipboard. Paste and run it, or restart your terminal."

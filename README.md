@@ -29,7 +29,7 @@ That's it! 🎉
 - **⚡ Neovim Configuration** - Lightning-fast editor with modern config
 - **🔗 Git Configuration** - Aliases, settings, and workflow optimizations
 - **🖥️ Tmux Configuration** - Terminal multiplexer for productivity
-- **💻 Zsh Configuration** - Modern shell with plugins and customizations
+- **💻 Zsh Configuration** - Modern shell with plugins, customizations, and pre-configured Powerlevel10k theme
 - **🖼️ Ghostty Configuration** - GPU-accelerated terminal emulator
 
 ## ⚙️ Manual Installation
@@ -54,6 +54,7 @@ make install-zsh       # 💻 Shell configuration
 | **Shell aliases** | `.config/zsh/aliases.zsh` | Custom command shortcuts |
 | **Shell functions** | `.config/zsh/functions.zsh` | Reusable shell functions |
 | **Environment vars** | `.config/zsh/env.zsh` | Environment configuration |
+| **Powerlevel10k theme** | `.p10k.zsh` | Terminal prompt configuration |
 | **Packages** | `Brewfile` | Homebrew packages and apps |
 | **macOS settings** | `scripts/macos-defaults.sh` | System preferences |
 
