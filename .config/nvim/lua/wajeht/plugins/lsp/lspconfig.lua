@@ -78,8 +78,32 @@ return {
 						languages = { "vue" },
 					},
 				},
+				preferences = {
+					-- Improve type inference for Express
+					includePackageJsonAutoImports = "on",
+					includeCompletionsForModuleExports = true,
+					includeCompletionsForImportStatements = true,
+				},
 			},
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			settings = {
+				typescript = {
+					-- Better IntelliSense for Node.js/Express
+					suggest = {
+						includeCompletionsForModuleExports = true,
+						includeCompletionsForImportStatements = true,
+					},
+					preferences = {
+						includePackageJsonAutoImports = "on",
+					},
+				},
+				javascript = {
+					suggest = {
+						includeCompletionsForModuleExports = true,
+						includeCompletionsForImportStatements = true,
+					},
+				},
+			},
 		})
 
 		lspconfig["gopls"].setup({ capabilities = capabilities, on_attach = on_attach })
