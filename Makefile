@@ -1,4 +1,4 @@
-.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-ghostty uninstall uninstall-packages uninstall-complete push
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-ghostty install-sessionizer uninstall uninstall-packages uninstall-complete push
 
 install:
 	@./install.sh
@@ -23,6 +23,9 @@ install-zsh:
 
 install-ghostty:
 	@./scripts/install-ghostty.sh
+
+install-sessionizer:
+	@./scripts/install-sessionizer.sh
 
 push:
 	@make format
@@ -51,6 +54,12 @@ uninstall:
 	@echo "💡 To remove Homebrew packages: run 'make uninstall-packages'"
 	@echo ""
 	@echo "✅ Dotfiles removed successfully!"
+
+uninstall-sessionizer:
+	@echo "🗑️  Removing tmux sessionizer..."
+	@rm -f ~/.config/scripts/tmux-sessionizer.sh
+	@rmdir ~/.config/scripts 2>/dev/null || true
+	@echo "✅ tmux sessionizer removed"
 
 uninstall-packages:
 	@echo "🗑️  Removing Homebrew packages from Brewfile..."

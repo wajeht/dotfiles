@@ -1,2 +1,2 @@
-require("wajeht.core")
+require("wajeht.config")
 require("wajeht.lazy")

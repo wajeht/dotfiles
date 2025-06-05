@@ -11,6 +11,8 @@ main() {
     cp .tmux.conf ~/.tmux.conf
     task "Copied .tmux.conf to home directory"
 
+    tmux source-file ~/.tmux.conf
+
     success "Tmux configuration installed"
 }
 

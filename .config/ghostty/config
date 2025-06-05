@@ -9,7 +9,7 @@ window-padding-x = 5
 window-padding-balance = true
 window-padding-color = extend
 window-save-state = never
-# window-decoration = false
+window-decoration = false
 window-theme = dark
 macos-window-shadow = true
 macos-titlebar-proxy-icon = hidden
@@ -49,3 +49,7 @@ keybind = cmd+kp_add=increase_font_size:1
 keybind = cmd+r=reload_config
 
 adjust-cell-height = 10%
+
+# Tmux window navigation keybindings
+keybind = ctrl+tab=esc:[27;5;9~
+keybind = ctrl+shift+tab=esc:[27;6;9~

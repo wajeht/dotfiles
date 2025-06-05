@@ -20,6 +20,11 @@ function dev() {
   fi
 }
 
+# Clean alias for sessionizer (used by keybinding)
+function sessionizer() {
+  "$HOME/.config/scripts/tmux-sessionizer.sh" "$@"
+}
+
 # import psql db
 function importDB() {
   if [ "$1" != "" ]
