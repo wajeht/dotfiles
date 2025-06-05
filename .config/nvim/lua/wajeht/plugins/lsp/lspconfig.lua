@@ -65,7 +65,22 @@ return {
 
 		lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
 
-		lspconfig["ts_ls"].setup({ capabilities = capabilities, on_attach = on_attach })
+		-- TypeScript server with Vue plugin (Hybrid Mode Configuration)
+		lspconfig.ts_ls.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			init_options = {
+				plugins = {
+					{
+						name = "@vue/typescript-plugin",
+						location = vim.fn.stdpath("data")
+							.. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+						languages = { "vue" },
+					},
+				},
+			},
+			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		})
 
 		lspconfig["gopls"].setup({ capabilities = capabilities, on_attach = on_attach })
 
@@ -77,7 +92,11 @@ return {
 
 		lspconfig["intelephense"].setup({ capabilities = capabilities, on_attach = on_attach })
 
-		lspconfig["volar"].setup({ capabilities = capabilities, on_attach = on_attach })
+		-- Vue Language Server (Official Hybrid Mode Configuration)
+		lspconfig.volar.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
 
 		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,

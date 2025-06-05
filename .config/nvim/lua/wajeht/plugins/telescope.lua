@@ -23,6 +23,8 @@ return {
 					},
 					preview = {
 						hide_on_startup = true, -- disable preview pane by default
+						filesize_limit = 25, -- disable preview for files larger than 25MB
+						timeout = 250, -- timeout preview after 250ms for large files
 					},
 					mappings = {
 						i = {
@@ -50,7 +52,7 @@ return {
 					},
 					cache_picker = {
 						num_pickers = 5,
-						limit_entries = 300,
+						limit_entries = 1000,
 					},
 					vimgrep_arguments = {
 						"rg",
@@ -67,6 +69,14 @@ return {
 				pickers = {
 					find_files = {
 						find_command = { "fd", "--type", "f", "--hidden", "--strip-cwd-prefix" },
+					},
+					live_grep = {
+						additional_args = function()
+							return { "--max-count", "1000" }
+						end,
+					},
+					git_files = {
+						show_untracked = false,
 					},
 				},
 			})

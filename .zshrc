@@ -55,11 +55,12 @@ fi
 
 # Custom Configuration
 # Source all zsh configuration files from ~/.config/zsh/
-# Order matters: env -> completions -> aliases -> functions -> theme
+# Order matters: env -> completions -> aliases -> functions -> keybindings -> theme
 for config_file in "$HOME/.config/zsh/env.zsh" \
                    "$HOME/.config/zsh/completions.zsh" \
                    "$HOME/.config/zsh/aliases.zsh" \
                    "$HOME/.config/zsh/functions.zsh" \
+                   "$HOME/.config/zsh/keybindings.zsh" \
                    "$HOME/.config/zsh/theme.zsh"; do
   if [[ -f "$config_file" ]]; then
     source "$config_file"

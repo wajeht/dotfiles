@@ -75,6 +75,21 @@ uninstall-complete:
 	fi
 	@echo "✅ Complete removal finished!"
 
+uninstall-nvim:
+	@echo "🧹 Cleaning Neovim caches (preserving config)..."
+	@rm -rf ~/.config/nvim
+	@rm -rf ~/.cache/nvim
+	@rm -rf ~/.local/share/nvim
+	@rm -rf ~/.local/state/nvim
+	@rm -rf ~/.cache/lazy
+	@rm -rf ~/.cache/mason
+	@rm -rf ~/.local/share/nvim/mason
+	@rm -rf ~/.local/share/nvim/lazy
+	@rm -rf ~/.local/share/nvim/site
+	@echo "🔄 Clearing npm cache..."
+	@npm cache clean --force 2>/dev/null || true
+	@echo "✅ Neovim caches cleaned! Restart Neovim to reinstall plugins."
+
 clean:
 	@echo "🧹 Cleaning backup files..."
 	@find ~ -name "*.backup" -path "*/.*" -delete 2>/dev/null || true
