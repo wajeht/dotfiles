@@ -22,14 +22,13 @@ function dev() {
 
 # import psql db
 function importDB() {
-  if [ "$1" != "" ]
-  then
-    local db_container=$(docker ps --format "table {{.Names}}" | grep database | head -1)
+  if [ "$1" != "" ]; then
+    local db_container=$(docker ps --format "table {{.Names}}" | grep -E '\sdatabase$' | head -1)
     if [ -z "$db_container" ]; then
-      echo "No database container found"
+      echo "No PostgreSQL database container found"
       return 1
     fi
-    gunzip -c $1 | docker exec -i -e PGPASSWORD=password $db_container psql -U username database
+    gunzip -c "$1" | docker exec -i -e PGPASSWORD=password "$db_container" psql -U username database
   else
     echo "Missing path"
   fi
@@ -37,14 +36,13 @@ function importDB() {
 
 # import msql db
 function importMDB() {
-  if [ "$1" != "" ]
-  then
-    local db_container=$(docker ps --format "table {{.Names}}" | grep database | head -1)
+  if [ "$1" != "" ]; then
+    local db_container=$(docker ps --format "table {{.Names}}" | grep -E '\sdatabase$' | head -1)
     if [ -z "$db_container" ]; then
-      echo "No database container found"
+      echo "No MySQL database container found"
       return 1
     fi
-    gunzip -c $1 | docker exec -i $db_container mysql -u username -ppassword database
+    gunzip -c "$1" | docker exec -i "$db_container" mysql -u username -ppassword database
   else
     echo "Missing path"
   fi
