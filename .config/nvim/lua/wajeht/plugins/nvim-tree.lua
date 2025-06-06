@@ -59,6 +59,21 @@ return {
 				dotfiles = false, -- Show dotfiles
 				git_ignored = false, -- Show gitignored files
 			},
+			-- Minimal on_attach to disable live filter
+			on_attach = function(bufnr)
+				local api = require("nvim-tree.api")
+
+				-- Apply all default mappings
+				api.config.mappings.default_on_attach(bufnr)
+
+				-- Override 'f' key to do nothing (disable live filter)
+				vim.keymap.set("n", "f", function() end, {
+					buffer = bufnr,
+					noremap = true,
+					silent = true,
+					desc = "Disabled live filter",
+				})
+			end,
 		})
 
 		-- Keybindings to open nvim-tree on the right side
