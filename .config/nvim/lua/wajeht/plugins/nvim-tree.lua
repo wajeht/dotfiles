@@ -20,6 +20,7 @@ return {
 				width = 40, -- Set the width of the nvim-tree window
 			},
 			renderer = {
+				root_folder_label = false, -- Hide the root folder path at the top
 				indent_markers = {
 					enable = true, -- Show indent markers
 					inline_arrows = true,
