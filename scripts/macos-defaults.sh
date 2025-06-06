@@ -348,8 +348,8 @@ main() {
         info "Google Chrome not found, skipping configuration."
     fi
 
-    task "Restarting affected applications for changes to take effect." # Restarting affected applications
-    app_list=( # Corrected list of applications for the killall loop
+    task "Restarting affected applications for changes to take effect."
+    app_list=(
         "Activity Monitor"
         "Address Book"
         "Calendar"
@@ -364,6 +364,9 @@ main() {
         "SystemUIServer"
         "Terminal"
         "ghostty"
+        "vscode"
+        "cursor"
+        "firefox"
     )
     for app_name in "${app_list[@]}"; do
         if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
