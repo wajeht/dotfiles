@@ -28,6 +28,11 @@ return {
 
 			vim.cmd("hi StatusLine gui=NONE guibg=NONE guifg=#444444") -- GUI background transparent
 			vim.cmd("hi StatusLineNC gui=NONE guibg=NONE guifg=#444444") -- Inactive StatusLine transparent for GUI
+
+			-- Tab customization for transparent background
+			vim.cmd("hi TabLine gui=NONE guibg=NONE guifg=#444444") -- Inactive tabs transparent
+			vim.cmd("hi TabLineFill gui=NONE guibg=NONE") -- Empty tabline area transparent
+			vim.cmd("hi TabLineSel gui=NONE guibg=NONE guifg=#ffffff") -- Active tab transparent with white text
 		end,
 	},
 }
