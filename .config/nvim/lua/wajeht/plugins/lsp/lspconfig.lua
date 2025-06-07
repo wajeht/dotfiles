@@ -116,12 +116,6 @@ return {
 
 		lspconfig["intelephense"].setup({ capabilities = capabilities, on_attach = on_attach })
 
-		-- Vue Language Server (Official Hybrid Mode Configuration)
-		lspconfig.volar.setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
 		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,

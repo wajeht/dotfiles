@@ -26,11 +26,12 @@ return {
 				"cssls",
 				"tailwindcss",
 				"lua_ls",
-				"emmet_language_server",
 				"vue_ls",
+				"emmet_language_server",
 				"intelephense",
 				"gopls",
 			},
+			automatic_enable = false,
 			automatic_installation = true,
 		})
 
