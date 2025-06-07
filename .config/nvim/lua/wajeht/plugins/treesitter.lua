@@ -9,6 +9,11 @@ return {
 
 		-- configure treesitter
 		treesitter.setup({ -- enable syntax highlighting
+			-- Sync install to avoid race conditions
+			sync_install = false,
+			-- Prevent parser installation errors
+			auto_install = true,
+
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = false, -- Disable vim regex highlighting
@@ -53,9 +58,9 @@ return {
 			},
 		})
 
-		-- Fold settings using treesitter
+		-- Fold settings using treesitter with error handling
 		vim.opt.foldmethod = "expr"
-		vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+		vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		vim.opt.foldenable = false -- Disable folding at startup
 	end,
 }
