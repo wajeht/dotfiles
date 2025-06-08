@@ -7,7 +7,7 @@ return {
 	},
 	cmd = { "Neogit" },
 	keys = {
-		{ "<leader>gg", "<cmd>Neogit kind=floating<cr>", desc = "Open Neogit (floating)" },
+		{ "<leader>gs", "<cmd>Neogit<cr>", desc = "Open Neogit" },
 		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
 	},
 	config = function()
@@ -32,7 +32,7 @@ return {
 
 		require("neogit").setup({
 			-- Core settings
-			kind = "floating",
+			kind = "tab",
 			graph_style = "ascii",
 
 			-- Floating window configuration
