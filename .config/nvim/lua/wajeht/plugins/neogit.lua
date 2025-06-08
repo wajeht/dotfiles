@@ -30,28 +30,6 @@ return {
 			fg = "#9cdcfe", -- VS Code light blue for remotes
 		})
 
-		-- Diff view colors - more subtle and transparent
-		vim.api.nvim_set_hl(0, "NeogitDiffAdd", {
-			bg = "#1a3d1a", -- Dark green, subtle
-			fg = "#90ee90", -- Light green text
-		})
-
-		vim.api.nvim_set_hl(0, "NeogitDiffDelete", {
-			bg = "#3d1a1a", -- Dark red, subtle
-			fg = "#ff6b6b", -- Light red text
-		})
-
-		vim.api.nvim_set_hl(0, "NeogitDiffChange", {
-			bg = "#2d2d1a", -- Dark yellow, subtle
-			fg = "#ffd700", -- Light yellow text
-		})
-
-		-- Make diff context more transparent
-		vim.api.nvim_set_hl(0, "NeogitDiffContext", {
-			bg = "NONE", -- Transparent background
-			fg = "#8a8a8a", -- Subtle gray text
-		})
-
 		require("neogit").setup({
 			-- Core settings
 			kind = "floating",
