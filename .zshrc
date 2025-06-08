@@ -74,18 +74,5 @@ for config_file in "$HOME/.config/zsh/env.zsh" \
   fi
 done
 
-# Add newline after commands (but not at terminal startup)
-FIRST_PROMPT=1
-function starship_precmd() {
-    if [[ $FIRST_PROMPT -eq 1 ]]; then
-        FIRST_PROMPT=0
-    else
-        echo
-    fi
-}
-
-# Add the custom precmd to the precmd_functions array
-precmd_functions+=(starship_precmd)
-
 # Initialize Starship prompt (must be last, after all plugins and functions)
 eval "$(starship init zsh)"
