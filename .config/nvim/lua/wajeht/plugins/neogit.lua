@@ -1,9 +1,9 @@
 return {
 	"NeogitOrg/neogit",
 	dependencies = {
-		"nvim-lua/plenary.nvim", -- required
-		"sindrets/diffview.nvim", -- optional - Diff integration
-		"nvim-telescope/telescope.nvim", -- optional - for telescope integration
+		"nvim-lua/plenary.nvim",
+		"sindrets/diffview.nvim",
+		"nvim-telescope/telescope.nvim",
 	},
 	cmd = { "Neogit" },
 	keys = {
@@ -11,16 +11,6 @@ return {
 		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
 	},
 	config = function()
-		-- Custom highlight groups for neogit floating window
-		vim.api.nvim_set_hl(0, "FloatBorder", {
-			fg = "#444444", -- Border color (matches your VSCode theme statusline)
-			bg = "NONE", -- Transparent background
-		})
-
-		vim.api.nvim_set_hl(0, "NormalFloat", {
-			bg = "#1e1e1e", -- Dark background (VSCode theme)
-		})
-
 		-- Neogit-specific styling
 		vim.api.nvim_set_hl(0, "NeogitBranch", {
 			fg = "#569cd6", -- VS Code blue for branch names
@@ -34,15 +24,6 @@ return {
 			-- Core settings
 			kind = "tab",
 			graph_style = "ascii",
-
-			-- Floating window configuration
-			floating = {
-				relative = "editor",
-				width = 0.85,
-				height = 0.85,
-				style = "minimal",
-				border = "rounded",
-			},
 
 			-- Performance optimizations
 			disable_line_numbers = true,
@@ -68,10 +49,6 @@ return {
 			commit_editor = {
 				show_staged_diff = true,
 				spell_check = true,
-			},
-
-			preview_buffer = {
-				kind = "floating",
 			},
 
 			-- Section folding preferences
