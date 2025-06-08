@@ -12,6 +12,7 @@ brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
 brew "parallel"     # Parallel
 brew "starship"     # Starship prompt
+brew "caffeinate"   # Keep screen awake
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
