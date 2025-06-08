@@ -1,25 +1,31 @@
 # ~/.zshrc
 
 # Shell Initialization
-# Enable Powerlevel10k instant prompt (must be near the top of .zshrc)
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
-# Oh My Zsh Configuration
-export ZSH="$HOME/.oh-my-zsh"
+# Zsh Configuration
+# Essential zsh options
+setopt AUTO_CD              # Change directory without cd
+setopt HIST_IGNORE_DUPS     # Don't record duplicate history entries
+setopt HIST_IGNORE_SPACE    # Don't record commands starting with space
+setopt SHARE_HISTORY        # Share history between sessions
+setopt APPEND_HISTORY       # Append to history file
+setopt INC_APPEND_HISTORY   # Write to history file immediately
+setopt EXTENDED_HISTORY     # Record timestamp in history
+setopt CORRECT              # Spell correction for commands
 
-# Disable Oh My Zsh security warnings for Homebrew directories
-export ZSH_DISABLE_COMPFIX=true
+# History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Enable completion system
+autoload -Uz compinit
+compinit
 
-# Only use core Oh My Zsh plugins (not the ones we install via Homebrew)
-plugins=(
-    git
-)
-
-source $ZSH/oh-my-zsh.sh
+# Completion styling
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Load Homebrew-installed plugins (optimized loading)
 # Use single Homebrew prefix check
@@ -68,7 +74,5 @@ for config_file in "$HOME/.config/zsh/env.zsh" \
   fi
 done
 
-# Powerlevel10k configuration
-if [[ -f ~/.p10k.zsh ]]; then
-    source ~/.p10k.zsh
-fi
+# Initialize Starship prompt
+eval "$(starship init zsh)"

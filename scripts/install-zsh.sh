@@ -2,36 +2,21 @@
 
 source "$(dirname "$0")/common.sh"
 
-install_oh_my_zsh() {
-    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-        info "Installing Oh My Zsh..."
-        # Install Oh My Zsh without prompting and without changing shell
-        RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-        success "Oh My Zsh installed"
+install_starship() {
+    if ! command -v starship &>/dev/null; then
+        info "Installing Starship prompt..."
+        curl -sS https://starship.rs/install.sh | sh -s -- --yes
+        success "Starship installed"
     else
-        task "Oh My Zsh already installed"
-    fi
-}
-
-install_powerlevel10k() {
-    local p10k_dir="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
-    if [[ ! -d "$p10k_dir" ]]; then
-        info "Installing Powerlevel10k theme..."
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
-        success "Powerlevel10k installed"
-    else
-        task "Powerlevel10k already installed"
+        task "Starship already installed"
     fi
 }
 
 main() {
     step "💻 Installing Zsh Configuration"
 
-    # Install Oh My Zsh first
-    install_oh_my_zsh
-
-    # Install Powerlevel10k theme
-    install_powerlevel10k
+    # Install Starship prompt
+    install_starship
 
     backup_if_exists ~/.zshrc
 
@@ -42,20 +27,21 @@ main() {
 
     info "Zsh plugins will be loaded from Homebrew installations..."
     task "Plugins: zsh-vi-mode, zsh-completions, zsh-autosuggestions, zsh-syntax-highlighting"
+    info "Using native Zsh with Starship prompt (no Oh My Zsh overhead)"
 
     info "Installing .zshrc..."
     cp .zshrc ~/.zshrc
     task "Copied .zshrc to home directory"
 
-    # Install Powerlevel10k configuration if available
-    if [[ -f ".p10k.zsh" ]]; then
-        backup_if_exists ~/.p10k.zsh
-        info "Installing Powerlevel10k configuration..."
-        cp .p10k.zsh ~/.p10k.zsh
-        task "Copied .p10k.zsh to home directory"
-        success "Powerlevel10k pre-configured - no setup wizard needed!"
+    # Install Starship configuration
+    info "Installing Starship configuration..."
+    mkdir -p ~/.config
+    if [[ -d ".config/starship" ]]; then
+        cp -r .config/starship ~/.config/
+        task "Copied Starship configuration to ~/.config/starship/"
+        success "Starship pre-configured with custom theme!"
     else
-        info "No .p10k.zsh found - you can run 'p10k configure' later to set up the theme"
+        info "No Starship config found - using default configuration"
     fi
 
     info "Copying reload command to clipboard"

@@ -11,3 +11,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=preview-border:#444444,preview-scrollbar:#444444,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
   --marker="+" --pointer=">" --separator="─" --scrollbar="│"'
+
+# Starship is now handling the prompt theme
+# Configuration is in ~/.config/starship.toml

@@ -27,6 +27,22 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 # Git shortcuts
 alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
 
+# Essential git aliases (replacing Oh My Zsh git plugin)
+alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gb='git branch'
+alias gc='git commit -v'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gd='git diff'
+alias gl='git pull'
+alias gp='git push'
+alias gs='git status'
+alias gss='git status --short'
+alias gst='git stash'
+alias gstp='git stash pop'
+
 # Cleanup aliases
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
 alias rmds="find . -name '.DS_Store' -type f -delete"

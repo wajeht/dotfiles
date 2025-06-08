@@ -1,4 +1,4 @@
-.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-ghostty uninstall uninstall-packages uninstall-complete push
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-starship install-ghostty uninstall uninstall-packages uninstall-complete push
 
 install:
 	@./install.sh
@@ -21,6 +21,9 @@ install-tmux:
 install-zsh:
 	@./scripts/install-zsh.sh
 
+install-starship:
+	@./scripts/install-starship.sh
+
 install-ghostty:
 	@./scripts/install-ghostty.sh
 
@@ -33,21 +36,20 @@ push:
 uninstall:
 	@echo "🗑️  Removing dotfiles..."
 	@echo "📋 This will remove:"
-	@echo "   • Configuration files (.zshrc, .tmux.conf, .gitconfig, .p10k.zsh)"
-	@echo "   • Custom config directories (~/.config/nvim, ~/.config/zsh, ~/.config/ghostty)"
+	@echo "   • Configuration files (.zshrc, .tmux.conf, .gitconfig)"
+	@echo "   • Custom config directories (~/.config/nvim, ~/.config/zsh, ~/.config/starship, ~/.config/ghostty)"
 	@echo "   • Backup files"
 	@echo ""
 	@read -p "❓ Continue with uninstall? [y/N] " confirm && [ "$$confirm" = "y" ] || exit 1
 	@echo ""
 	@echo "🧹 Removing configuration files..."
-	@rm -f ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.p10k.zsh
+	@rm -f ~/.zshrc ~/.tmux.conf ~/.gitconfig
 	@echo "🗂️  Removing config directories..."
-	@rm -rf ~/.config/nvim ~/.config/zsh ~/.config/ghostty
+	@rm -rf ~/.config/nvim ~/.config/zsh ~/.config/starship ~/.config/ghostty
 	@echo "🧹 Removing backup files..."
 	@rm -f ~/.zshrc.backup ~/.gitconfig.backup ~/.tmux.conf.backup ~/.p10k.zsh.backup
 	@echo ""
-	@echo "⚠️  Note: Oh My Zsh and Homebrew packages are preserved"
-	@echo "💡 To remove Oh My Zsh: run 'uninstall_oh_my_zsh'"
+	@echo "⚠️  Note: Homebrew packages are preserved"
 	@echo "💡 To remove Homebrew packages: run 'make uninstall-packages'"
 	@echo ""
 	@echo "✅ Dotfiles removed successfully!"
@@ -63,16 +65,11 @@ uninstall-complete:
 	@echo "🗑️  Complete removal of dotfiles environment..."
 	@echo "⚠️  This will remove:"
 	@echo "   • All dotfiles configurations"
-	@echo "   • Oh My Zsh (if installed by this setup)"
 	@echo "   • All Homebrew packages from Brewfile"
 	@echo ""
 	@read -p "❓ This is destructive! Continue? [y/N] " confirm && [ "$$confirm" = "y" ] || exit 1
 	@make uninstall
 	@make uninstall-packages
-	@if [ -d ~/.oh-my-zsh ] && [ -f ~/.oh-my-zsh/tools/uninstall.sh ]; then \
-		echo "🗑️  Removing Oh My Zsh..."; \
-		~/.oh-my-zsh/tools/uninstall.sh --unattended; \
-	fi
 	@echo "✅ Complete removal finished!"
 
 uninstall-nvim:
