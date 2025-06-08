@@ -16,7 +16,7 @@ add_newline = false
 
 # Directory - simple and clean
 [directory]
-style = "bold cyan"
+style = "cyan bold"
 truncation_length = 3
 truncate_to_repo = false
 format = "[$path]($style) "
@@ -24,7 +24,7 @@ format = "[$path]($style) "
 # Git branch - using starship defaults
 [git_branch]
 format = "on [$symbol$branch(:$remote_branch)]($style) "
-style = "bold purple"
+style = "purple bold"
 symbol = " "
 
 # Git commit - using starship defaults
@@ -60,7 +60,7 @@ ignore_submodules = false
 # Git status - using starship defaults
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold red"
+style = "red bold"
 conflicted = "="
 ahead = "⇡"
 behind = "⇣"
@@ -84,20 +84,20 @@ style = "dimmed 8"
 # Command duration
 [cmd_duration]
 format = " took [$duration]($style)"
-style = "bold yellow"
+style = "yellow bold"
 min_time = 500  # Show duration for commands taking 0.5+ seconds
 
 # Hostname
 [hostname]
 ssh_only = false
 format = " [$hostname]($style)"
-style = "bold green"
+style = "green bold"
 disabled = false
 
 # Time
 [time]
 format = " at [$time]($style)"
-style = "bold blue"
+style = "blue bold"
 disabled = false
 time_format = "%I:%M:%S %p"
 
