@@ -2,6 +2,8 @@
 brew "gh"           # GitHub CLI
 brew "go"           # Go programming language
 brew "node"         # Node.js LTS
+brew "oven-sh/bun/bun"          # Fast JavaScript runtime
+brew "lua"          # Lua programming language
 brew "neovim"       # Modern Vim
 brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
