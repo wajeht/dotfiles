@@ -22,10 +22,10 @@
 #--pager="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
 
 # Show line numbers
-# --number
+--number
 
 # Show Git modifications in the gutter (only if inside a Git repository)
---decorations=never
+--decorations=always
 
 # Wrap text instead of using horizontal scrolling
 --wrap=auto
@@ -48,3 +48,11 @@
 --map-syntax "*.bashrc:Bourne Again Shell (bash)"
 --map-syntax "install.sh:Bourne Again Shell (bash)"
 --map-syntax "Makefile:Makefile"
+--map-syntax "*.go:Go"
+--map-syntax "*.php:PHP"
+--map-syntax "*.txt:Plain Text"
+--map-syntax "*.toml:TOML"
+--map-syntax "*.json:JSON"
+--map-syntax "*.js:JavaScript"
+--map-syntax "*.ts:TypeScript"
+--map-syntax "*.vue:Vue.js Component"
