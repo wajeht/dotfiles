@@ -29,8 +29,8 @@ file-type:
     sticky-other-write: f44747 # Red for sticky directories
     other-write: f44747 # Red for other writable dirs
     sticky: dcdcaa     # Yellow for sticky directories
-    executable: 4fc1ff  # Light blue for executable directories
-    regular: 4fc1ff    # Light blue for regular directories
+    executable: 1db4d6  # Custom cyan-blue for executable directories
+    regular: 1db4d6    # Custom cyan-blue for regular directories
 
   pipe: ce9178        # Orange for pipes
   socket: ce9178      # Orange for sockets

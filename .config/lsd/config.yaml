@@ -14,6 +14,7 @@ blocks:
   - size
   - date
   - name
+  # - git
 
 # == Color ==
 # This has various color options. (Will be expanded in the future.)
@@ -21,16 +22,20 @@ color:
   # When to colorize the output.
   # When "classic" is set, this is set to "never".
   # Possible values: never, auto, always
-  when: auto
-  # Use custom VS Code Dark Modern color theme
+  when: always
+  # How to colorize the output.
+  # When "classic" is set, this is set to "no-color".
+  # Possible values: default, custom
+  # When "custom" is set, lsd will look in the config directory for `colors.yaml`.
   theme: custom
 
 # == Date ==
 # This specifies the date format for the date column. The freeform format
-# accepts an strftime like string.
+# accepts a strftime like string.
 # When "classic" is set, this is set to "date".
-# Possible values: date, relative, +<date_format>
-date: +%m/%d/%y %I:%m %p
+# Possible values: date, locale, relative, '+<date_format>'
+# `date_format` will be a `strftime` formatted value. e.g. `date: '+%d %b %y %X'` will give you a date like this: 17 Jun 21 20:14:55
+date: +%m/%d/%y %I:%M %p
 
 # == Dereference ==
 # Whether to dereference symbolic links.
@@ -55,11 +60,14 @@ icons:
 # == Ignore Globs ==
 # A list of globs to ignore when listing.
 ignore-globs:
-#   - .git
-    # - .DS_Store
-    # - .localized
-    # - desktop.ini
-    # - $RECYCLE.BIN
+  # - .DS_Store
+  # - .localized
+  # - desktop.ini
+  # - $RECYCLE.BIN
+  # - Thumbs.db
+  # - node_modules
+  # - .env
+  # - .env.local
 
 # == Indicators ==
 # Whether to add indicator characters to certain listed files.
@@ -112,3 +120,17 @@ total-size: false
 # == Symlink arrow ==
 # Specifies how the symlink arrow display, chars in both ascii and utf8
 symlink-arrow: ⇒
+
+# == Header ==
+# Whether to prepend the path with a header when listing recursively
+header: false
+
+# == Hyperlink ==
+# Whether to enable hyperlink support for file paths
+hyperlink: never
+
+# == Truncate ==
+# How to truncate file names when they are too long
+truncate-owner:
+  after: 4
+  marker: "…"
