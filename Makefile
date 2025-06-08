@@ -47,7 +47,7 @@ uninstall:
 	@echo "🗂️  Removing config directories..."
 	@rm -rf ~/.config/nvim ~/.config/zsh ~/.config/starship ~/.config/ghostty
 	@echo "🧹 Removing backup files..."
-	@rm -f ~/.zshrc.backup ~/.gitconfig.backup ~/.tmux.conf.backup ~/.p10k.zsh.backup
+	@rm -f ~/.zshrc.backup ~/.gitconfig.backup ~/.tmux.conf.backup ~/.config/starship.toml.backup
 	@echo ""
 	@echo "⚠️  Note: Homebrew packages are preserved"
 	@echo "💡 To remove Homebrew packages: run 'make uninstall-packages'"

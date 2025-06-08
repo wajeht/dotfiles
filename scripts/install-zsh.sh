@@ -37,8 +37,16 @@ main() {
     info "Installing Starship configuration..."
     mkdir -p ~/.config
     if [[ -d ".config/starship" ]]; then
+        backup_if_exists ~/.config/starship.toml
         cp -r .config/starship ~/.config/
         task "Copied Starship configuration to ~/.config/starship/"
+
+        # Copy starship.toml to the expected location
+        if [[ -f ".config/starship/starship.toml" ]]; then
+            cp .config/starship/starship.toml ~/.config/starship.toml
+            task "Copied starship.toml to ~/.config/starship.toml"
+        fi
+
         success "Starship pre-configured with custom theme!"
     else
         info "No Starship config found - using default configuration"

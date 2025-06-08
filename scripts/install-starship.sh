@@ -18,13 +18,18 @@ install_starship_config() {
 
     if [[ -d ".config/starship" ]]; then
         # Backup existing config if it exists
-        if [[ -f ~/.config/starship.toml ]]; then
-            backup_if_exists ~/.config/starship.toml
-        fi
+        backup_if_exists ~/.config/starship.toml
 
-        # Copy starship config
+        # Copy starship config directory
         cp -r .config/starship ~/.config/
         task "Copied Starship configuration to ~/.config/starship/"
+
+        # Copy starship.toml to the expected location
+        if [[ -f ".config/starship/starship.toml" ]]; then
+            cp .config/starship/starship.toml ~/.config/starship.toml
+            task "Copied starship.toml to ~/.config/starship.toml"
+        fi
+
         success "Starship configuration installed!"
     else
         warning "No Starship config directory found in dotfiles"
