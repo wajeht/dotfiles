@@ -18,7 +18,7 @@ add_newline = false
 style = "bold cyan"
 truncation_length = 3
 truncate_to_repo = false
-format = "[$path]($style)"
+format = "[$path]($style) "
 
 # Git branch - using starship defaults
 [git_branch]
@@ -84,7 +84,7 @@ style = "dimmed 8"
 [cmd_duration]
 format = " took [$duration]($style)"
 style = "bold yellow"
-min_time = 2000  # Show duration for commands taking 2+ seconds
+min_time = 500  # Show duration for commands taking 0.5+ seconds
 
 # Hostname
 [hostname]
