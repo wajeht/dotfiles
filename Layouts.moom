@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Custom Controls (4001)</key>
+	<array>
+		<dict>
+			<key>Action</key>
+			<integer>10001</integer>
+			<key>Chain Mode</key>
+			<integer>0</integer>
+			<key>Children</key>
+			<array>
+				<dict>
+					<key>Action</key>
+					<integer>1001</integer>
+					<key>Activate Applications</key>
+					<true/>
+					<key>Apply to Overlapping Windows</key>
+					<true/>
+					<key>Auto-Trigger</key>
+					<true/>
+					<key>Auto-Trigger Display Count</key>
+					<integer>1</integer>
+					<key>Generic</key>
+					<false/>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>51FAB00E-5CD6-4A82-AA9F-05A5F1B7BE53</string>
+						<key>Key Code</key>
+						<integer>13</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥W</string>
+					</dict>
+					<key>Identifier</key>
+					<string>51FAB00E-5CD6-4A82-AA9F-05A5F1B7BE53</string>
+					<key>Snapshot</key>
+					<array>
+						<dict>
+							<key>Application Name</key>
+							<string>Google Chrome</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.google.chrome</string>
+							<key>PID</key>
+							<string>4205</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{0, 0}, {1280, 1415}}</string>
+							<key>Window Number</key>
+							<string>2260</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>Bang - Search - Google Chrome</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Finder</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.apple.finder</string>
+							<key>PID</key>
+							<string>586</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{0, 0}, {1280, 1415}}</string>
+							<key>Window Number</key>
+							<string>2421</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>/Users/konyein/Desktop</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Ghostty</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.mitchellh.ghostty</string>
+							<key>PID</key>
+							<string>4208</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{1281, 0}, {1279, 1415}}</string>
+							<key>Window Number</key>
+							<string>2257</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>~</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Cursor</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.todesktop.230313mzl4w4u92</string>
+							<key>PID</key>
+							<string>4333</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Window Number</key>
+							<string>2368</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>starship.toml — dotfiles</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>TablePlus</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.tinyapp.tableplus</string>
+							<key>PID</key>
+							<string>4331</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{1281, 0}, {1279, 1415}}</string>
+							<key>Window Number</key>
+							<string>2358</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>bang : db.sqlite - SQLite 3.46.1</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Firefox</string>
+							<key>Available Screen Frame</key>
+							<string>{{2560, 154}, {1710, 1068}}</string>
+							<key>Bundle Identifier</key>
+							<string>org.mozilla.firefox</string>
+							<key>PID</key>
+							<string>4318</string>
+							<key>Screen Frame</key>
+							<string>{{2560, 154}, {1710, 1112}}</string>
+							<key>Window Frame</key>
+							<string>{{2560, 154}, {1710, 1068}}</string>
+							<key>Window Number</key>
+							<string>2344</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>Bang - Search</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Slack</string>
+							<key>Available Screen Frame</key>
+							<string>{{2560, 154}, {1710, 1068}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.tinyspeck.slackmacgap</string>
+							<key>PID</key>
+							<string>4297</string>
+							<key>Screen Frame</key>
+							<string>{{2560, 154}, {1710, 1112}}</string>
+							<key>Window Frame</key>
+							<string>{{2560, 154}, {1710, 1068}}</string>
+							<key>Window Number</key>
+							<string>2329</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>Unread Messages - Clevyr - Slack</string>
+						</dict>
+					</array>
+					<key>Snapshot Screens</key>
+					<array>
+						<string>{{0, 0}, {2560, 1440}}</string>
+						<string>{{2560, 154}, {1710, 1112}}</string>
+					</array>
+					<key>Stubborn</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>1001</integer>
+					<key>Activate Applications</key>
+					<true/>
+					<key>Apply to Overlapping Windows</key>
+					<true/>
+					<key>Auto-Trigger</key>
+					<true/>
+					<key>Auto-Trigger Display Count</key>
+					<integer>1</integer>
+					<key>Generic</key>
+					<false/>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>1BC4B71A-802F-4931-8051-7ECBF54121CC</string>
+						<key>Key Code</key>
+						<integer>35</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥P</string>
+					</dict>
+					<key>Identifier</key>
+					<string>1BC4B71A-802F-4931-8051-7ECBF54121CC</string>
+					<key>Snapshot</key>
+					<array>
+						<dict>
+							<key>Application Name</key>
+							<string>Google Chrome</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.google.chrome</string>
+							<key>PID</key>
+							<string>3151</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{0, 0}, {1280, 1415}}</string>
+							<key>Window Number</key>
+							<string>1612</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>Jaw - Oryx: The ZSA Keyboard Configurator - Google Chrome</string>
+						</dict>
+						<dict>
+							<key>Application Name</key>
+							<string>Ghostty</string>
+							<key>Available Screen Frame</key>
+							<string>{{0, 0}, {2560, 1415}}</string>
+							<key>Bundle Identifier</key>
+							<string>com.mitchellh.ghostty</string>
+							<key>PID</key>
+							<string>3156</string>
+							<key>Screen Frame</key>
+							<string>{{0, 0}, {2560, 1440}}</string>
+							<key>Window Frame</key>
+							<string>{{1281, 0}, {1279, 1415}}</string>
+							<key>Window Number</key>
+							<string>1222</string>
+							<key>Window Subrole</key>
+							<string>AXStandardWindow</string>
+							<key>Window Title</key>
+							<string>~</string>
+						</dict>
+					</array>
+					<key>Snapshot Screens</key>
+					<array>
+						<string>{{0, 0}, {2560, 1440}}</string>
+					</array>
+					<key>Stubborn</key>
+					<false/>
+				</dict>
+			</array>
+			<key>Identifier</key>
+			<string>BC6160BF-BEB8-4495-9C00-BCF1128E12CA</string>
+			<key>Title</key>
+			<string>Layouts</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,1142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Custom Controls (4001)</key>
+	<array>
+		<dict>
+			<key>Action</key>
+			<integer>10001</integer>
+			<key>Chain Mode</key>
+			<integer>0</integer>
+			<key>Children</key>
+			<array>
+				<dict>
+					<key>Action</key>
+					<integer>10001</integer>
+					<key>Chain</key>
+					<true/>
+					<key>Chain Mode</key>
+					<integer>11</integer>
+					<key>Children</key>
+					<array>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>0A43CF79-774E-4532-B1BE-666B9C7FE1A0</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>5</integer>
+									<key>Resize Proportionally</key>
+									<true/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>3</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>2</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>43C022D0-66D2-4EAF-B7BD-1B0198A7C8FC</string>
+									<key>Relative Frame</key>
+									<string>{{0, 0.5}, {0.33333333333333331, 0.5}}</string>
+									<key>Window Description</key>
+									<dict>
+										<key>Application Name</key>
+										<string>TextEdit</string>
+										<key>Available Screen Frame</key>
+										<string>{{0, 50}, {2056, 1235}}</string>
+										<key>Bundle Identifier</key>
+										<string>com.apple.textedit</string>
+										<key>PID</key>
+										<string>83557</string>
+										<key>Screen Frame</key>
+										<string>{{0, 0}, {2056, 1329}}</string>
+										<key>Window Frame</key>
+										<string>{{147, 50}, {1027, 1235}}</string>
+										<key>Window Number</key>
+										<string>21693</string>
+										<key>Window Subrole</key>
+										<string>AXStandardWindow</string>
+										<key>Window Title</key>
+										<string>Ohne Titel</string>
+									</dict>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>846B7E0C-CF2B-46C3-ABA1-2EA237037FA6</string>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>FDB30AB6-6084-4058-B64F-16F7EFE427B2</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0.5}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>50D15DAD-C882-484D-8785-F5DBCEA5F0F7</string>
+							<key>Relative Frame</key>
+							<string>{{0.66666666666666663, 0.5}, {0.33333333333333337, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>B909B92E-F0C1-440A-865C-1853A86C8095</string>
+							<key>Relative Frame</key>
+							<string>{{0, 0}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>47E7672F-BCB9-4185-9BE9-2B0B29C93BDE</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>1878DBE4-2373-4CAA-A716-1D431446FC1D</string>
+							<key>Relative Frame</key>
+							<string>{{0.66666666666666663, 0}, {0.33333333333333337, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>BB8B5D39-66FB-4203-AB7E-BDD1E2ACBC7C</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>5</integer>
+									<key>Resize Proportionally</key>
+									<false/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>3</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>2</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>A7BDCDAE-27D4-4291-9D77-8F37CF4622CC</string>
+									<key>Relative Frame</key>
+									<string>{{0, 0.5}, {0.33333333333333331, 0.5}}</string>
+									<key>Window Description</key>
+									<dict>
+										<key>Application Name</key>
+										<string>TextEdit</string>
+										<key>Available Screen Frame</key>
+										<string>{{0, 50}, {2056, 1235}}</string>
+										<key>Bundle Identifier</key>
+										<string>com.apple.textedit</string>
+										<key>PID</key>
+										<string>83557</string>
+										<key>Screen Frame</key>
+										<string>{{0, 0}, {2056, 1329}}</string>
+										<key>Window Frame</key>
+										<string>{{147, 50}, {1027, 1235}}</string>
+										<key>Window Number</key>
+										<string>21693</string>
+										<key>Window Subrole</key>
+										<string>AXStandardWindow</string>
+										<key>Window Title</key>
+										<string>Ohne Titel</string>
+									</dict>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>31A0BBF4-3672-457C-8F11-191A960BB9E6</string>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>8382901A-3862-4417-A905-9E5BE63B5F4A</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0.5}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>8CB00767-BE90-4D5D-BE20-CA1D24D8D53D</string>
+							<key>Relative Frame</key>
+							<string>{{0.66666666666666663, 0.5}, {0.33333333333333337, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>F0FE22C2-1FE0-44EC-A529-5876D13FEE6A</string>
+							<key>Relative Frame</key>
+							<string>{{0, 0}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>58F78D31-E19C-4A47-B2D4-D39734E64310</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0}, {0.33333333333333331, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>2</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>AABE1B3D-588D-43D8-8E83-A207FF543D4B</string>
+							<key>Relative Frame</key>
+							<string>{{0.66666666666666663, 0}, {0.33333333333333337, 0.5}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+					</array>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>7D3230C0-C647-4DC8-BAED-0A11B0BDCB90</string>
+						<key>Key Code</key>
+						<integer>32</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥U</string>
+					</dict>
+					<key>Identifier</key>
+					<string>7D3230C0-C647-4DC8-BAED-0A11B0BDCB90</string>
+					<key>Title</key>
+					<string>1/6</string>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>10001</integer>
+					<key>Chain</key>
+					<true/>
+					<key>Chain Mode</key>
+					<integer>11</integer>
+					<key>Children</key>
+					<array>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>1</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>D0129454-4EEF-4997-A509-4D0202099491</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0}, {0.33333333333333331, 1}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>3</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>1</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>0D46AD74-751D-42A8-A32F-0B2D190E6AFF</string>
+							<key>Relative Frame</key>
+							<string>{{0.66666666666666663, 0}, {0.33333333333333337, 1}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>TextEdit</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 50}, {2056, 1235}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.apple.textedit</string>
+								<key>PID</key>
+								<string>83557</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2056, 1329}}</string>
+								<key>Window Frame</key>
+								<string>{{147, 50}, {1027, 1235}}</string>
+								<key>Window Number</key>
+								<string>21693</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Ohne Titel</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>80C2ED57-958A-449F-8813-204972A202C7</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>5</integer>
+									<key>Resize Proportionally</key>
+									<false/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>3</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>1</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>C937DEF1-2D10-4426-8530-1B0888E69B16</string>
+									<key>Relative Frame</key>
+									<string>{{0, 0}, {0.33333333333333331, 1}}</string>
+									<key>Window Description</key>
+									<dict>
+										<key>Application Name</key>
+										<string>TextEdit</string>
+										<key>Available Screen Frame</key>
+										<string>{{0, 50}, {2056, 1235}}</string>
+										<key>Bundle Identifier</key>
+										<string>com.apple.textedit</string>
+										<key>PID</key>
+										<string>83557</string>
+										<key>Screen Frame</key>
+										<string>{{0, 0}, {2056, 1329}}</string>
+										<key>Window Frame</key>
+										<string>{{147, 50}, {1027, 1235}}</string>
+										<key>Window Number</key>
+										<string>21693</string>
+										<key>Window Subrole</key>
+										<string>AXStandardWindow</string>
+										<key>Window Title</key>
+										<string>Ohne Titel</string>
+									</dict>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>C30E7AF3-655B-4A57-A752-1A1E3A0567B8</string>
+						</dict>
+					</array>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>683C6C80-AA7C-49AD-AEBD-6EF3A9A6A276</string>
+						<key>Key Code</key>
+						<integer>2</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥D</string>
+					</dict>
+					<key>Identifier</key>
+					<string>683C6C80-AA7C-49AD-AEBD-6EF3A9A6A276</string>
+					<key>Title</key>
+					<string>2/6</string>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>10001</integer>
+					<key>Chain</key>
+					<true/>
+					<key>Chain Mode</key>
+					<integer>11</integer>
+					<key>Children</key>
+					<array>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>6</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>4</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>7C2AC06C-9B87-4CA5-92D9-650002667D42</string>
+							<key>Relative Frame</key>
+							<string>{{0.33333333333333331, 0}, {0.66666666666666674, 1}}</string>
+							<key>Window Description</key>
+							<dict>
+								<key>Application Name</key>
+								<string>Google Chrome</string>
+								<key>Available Screen Frame</key>
+								<string>{{0, 0}, {2560, 1415}}</string>
+								<key>Bundle Identifier</key>
+								<string>com.google.chrome</string>
+								<key>PID</key>
+								<string>3151</string>
+								<key>Screen Frame</key>
+								<string>{{0, 0}, {2560, 1440}}</string>
+								<key>Window Frame</key>
+								<string>{{0, 0}, {2560, 1415}}</string>
+								<key>Window Number</key>
+								<string>1224</string>
+								<key>Window Subrole</key>
+								<string>AXStandardWindow</string>
+								<key>Window Title</key>
+								<string>Inbox - zombyard@gmail.com - Gmail - Google Chrome</string>
+							</dict>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>2F62C16E-DDE9-4E09-AD95-9DABAF53A44B</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>5</integer>
+									<key>Resize Proportionally</key>
+									<true/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>6</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>4</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>30E8DD4F-756F-4981-8842-CA3D28B0007F</string>
+									<key>Relative Frame</key>
+									<string>{{0, 0}, {0.66666666666666663, 1}}</string>
+									<key>Window Description</key>
+									<dict>
+										<key>Application Name</key>
+										<string>Google Chrome</string>
+										<key>Available Screen Frame</key>
+										<string>{{0, 0}, {2560, 1415}}</string>
+										<key>Bundle Identifier</key>
+										<string>com.google.chrome</string>
+										<key>PID</key>
+										<string>3151</string>
+										<key>Screen Frame</key>
+										<string>{{0, 0}, {2560, 1440}}</string>
+										<key>Window Frame</key>
+										<string>{{0, 0}, {2560, 1415}}</string>
+										<key>Window Number</key>
+										<string>1224</string>
+										<key>Window Subrole</key>
+										<string>AXStandardWindow</string>
+										<key>Window Title</key>
+										<string>Inbox - zombyard@gmail.com - Gmail - Google Chrome</string>
+									</dict>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>5C0D2C04-FB2C-4906-95B1-2EDB456183D6</string>
+						</dict>
+					</array>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>22E37EBE-2D40-4AD0-B613-DC9D6CB6FF59</string>
+						<key>Key Code</key>
+						<integer>17</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥T</string>
+					</dict>
+					<key>Identifier</key>
+					<string>22E37EBE-2D40-4AD0-B613-DC9D6CB6FF59</string>
+					<key>Title</key>
+					<string>4/6</string>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>10001</integer>
+					<key>Chain</key>
+					<true/>
+					<key>Chain Mode</key>
+					<integer>11</integer>
+					<key>Children</key>
+					<array>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>6</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>4</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>74D1A59D-C85E-4281-A5D2-EA7AD0749F5D</string>
+							<key>Relative Frame</key>
+							<string>{{0.5, 0}, {0.5, 1}}</string>
+							<key>Title</key>
+							<string>Right</string>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>9E9A31A7-0526-47ED-B449-6CD36EC8C975</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>5</integer>
+									<key>Resize Proportionally</key>
+									<true/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>6</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>4</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>ABFF558E-A0B7-4B02-B5D8-385DA81DCDFA</string>
+									<key>Relative Frame</key>
+									<string>{{0, 0}, {0.5, 1}}</string>
+									<key>Title</key>
+									<string>Right</string>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>518D1ADB-DF73-4AD4-BEB1-41C057105F1F</string>
+						</dict>
+					</array>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>81AC2FEE-B730-4BC4-A21C-2BD8B09A610E</string>
+						<key>Key Code</key>
+						<integer>124</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥→</string>
+					</dict>
+					<key>Identifier</key>
+					<string>81AC2FEE-B730-4BC4-A21C-2BD8B09A610E</string>
+					<key>Title</key>
+					<string>Right Chain</string>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>10001</integer>
+					<key>Chain</key>
+					<true/>
+					<key>Chain Mode</key>
+					<integer>11</integer>
+					<key>Children</key>
+					<array>
+						<dict>
+							<key>Action</key>
+							<integer>19</integer>
+							<key>Configuration Grid</key>
+							<dict>
+								<key>Configuration Grid: Columns</key>
+								<integer>6</integer>
+								<key>Configuration Grid: Rows</key>
+								<integer>4</integer>
+							</dict>
+							<key>Identifier</key>
+							<string>B1E085D7-480F-44C8-AC7D-ECA7C9E0DB63</string>
+							<key>Relative Frame</key>
+							<string>{{0, 0}, {0.5, 1}}</string>
+							<key>Title</key>
+							<string>Left</string>
+						</dict>
+						<dict>
+							<key>Action</key>
+							<integer>10001</integer>
+							<key>Chain</key>
+							<true/>
+							<key>Chain Mode</key>
+							<integer>0</integer>
+							<key>Children</key>
+							<array>
+								<dict>
+									<key>Action</key>
+									<integer>41</integer>
+									<key>Identifier</key>
+									<string>E43773C8-F9C6-4DF5-921E-16A263EDDF68</string>
+									<key>Loop Through Displays</key>
+									<true/>
+									<key>Move Direction</key>
+									<integer>9</integer>
+									<key>Resize Proportionally</key>
+									<true/>
+								</dict>
+								<dict>
+									<key>Action</key>
+									<integer>19</integer>
+									<key>Configuration Grid</key>
+									<dict>
+										<key>Configuration Grid: Columns</key>
+										<integer>6</integer>
+										<key>Configuration Grid: Rows</key>
+										<integer>4</integer>
+									</dict>
+									<key>Identifier</key>
+									<string>BE2EAF66-C95F-4F67-A1DE-9CDE78E4430D</string>
+									<key>Relative Frame</key>
+									<string>{{0.5, 0}, {0.5, 1}}</string>
+									<key>Title</key>
+									<string>Left</string>
+								</dict>
+							</array>
+							<key>Identifier</key>
+							<string>E811C02B-BFA2-43B8-B057-2EDF64F3B642</string>
+						</dict>
+					</array>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>2A7355F8-AF0F-46D8-A2D2-68D6FA27F7C0</string>
+						<key>Key Code</key>
+						<integer>123</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥←</string>
+					</dict>
+					<key>Identifier</key>
+					<string>2A7355F8-AF0F-46D8-A2D2-68D6FA27F7C0</string>
+					<key>Title</key>
+					<string>Left Chain</string>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>19</integer>
+					<key>Configuration Grid</key>
+					<dict>
+						<key>Configuration Grid: Columns</key>
+						<integer>6</integer>
+						<key>Configuration Grid: Rows</key>
+						<integer>4</integer>
+					</dict>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>EDDAF666-67C6-42CB-97A2-E8646BBBECFE</string>
+						<key>Key Code</key>
+						<integer>125</integer>
+						<key>Modifier Flags</key>
+						<integer>11272481</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥↓</string>
+					</dict>
+					<key>Identifier</key>
+					<string>EDDAF666-67C6-42CB-97A2-E8646BBBECFE</string>
+					<key>Relative Frame</key>
+					<string>{{0, 0}, {1, 0.5}}</string>
+					<key>Window Description</key>
+					<dict>
+						<key>Application Name</key>
+						<string>Ghostty</string>
+						<key>Available Screen Frame</key>
+						<string>{{0, 0}, {2560, 1415}}</string>
+						<key>Bundle Identifier</key>
+						<string>com.mitchellh.ghostty</string>
+						<key>PID</key>
+						<string>897</string>
+						<key>Screen Frame</key>
+						<string>{{0, 0}, {2560, 1440}}</string>
+						<key>Window Frame</key>
+						<string>{{0, 708}, {2560, 707}}</string>
+						<key>Window Number</key>
+						<string>53</string>
+						<key>Window Subrole</key>
+						<string>AXStandardWindow</string>
+						<key>Window Title</key>
+						<string>~</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>19</integer>
+					<key>Configuration Grid</key>
+					<dict>
+						<key>Configuration Grid: Columns</key>
+						<integer>6</integer>
+						<key>Configuration Grid: Rows</key>
+						<integer>4</integer>
+					</dict>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>DB0EACB0-F908-4E4A-8087-43403692E192</string>
+						<key>Key Code</key>
+						<integer>126</integer>
+						<key>Modifier Flags</key>
+						<integer>11272481</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥↑</string>
+					</dict>
+					<key>Identifier</key>
+					<string>DB0EACB0-F908-4E4A-8087-43403692E192</string>
+					<key>Relative Frame</key>
+					<string>{{0, 0.5}, {1, 0.5}}</string>
+					<key>Window Description</key>
+					<dict>
+						<key>Application Name</key>
+						<string>Ghostty</string>
+						<key>Available Screen Frame</key>
+						<string>{{0, 0}, {2560, 1415}}</string>
+						<key>Bundle Identifier</key>
+						<string>com.mitchellh.ghostty</string>
+						<key>PID</key>
+						<string>897</string>
+						<key>Screen Frame</key>
+						<string>{{0, 0}, {2560, 1440}}</string>
+						<key>Window Frame</key>
+						<string>{{1281, 0}, {1279, 1415}}</string>
+						<key>Window Number</key>
+						<string>53</string>
+						<key>Window Subrole</key>
+						<string>AXStandardWindow</string>
+						<key>Window Title</key>
+						<string>~</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>19</integer>
+					<key>Configuration Grid</key>
+					<dict>
+						<key>Configuration Grid: Columns</key>
+						<integer>6</integer>
+						<key>Configuration Grid: Rows</key>
+						<integer>4</integer>
+					</dict>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>D69B12C9-0E9F-4A59-AAC8-FC801426B5A8</string>
+						<key>Key Code</key>
+						<integer>36</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥↵</string>
+					</dict>
+					<key>Identifier</key>
+					<string>D69B12C9-0E9F-4A59-AAC8-FC801426B5A8</string>
+					<key>Relative Frame</key>
+					<string>{{0, 0}, {1, 1}}</string>
+					<key>Window Description</key>
+					<dict>
+						<key>Application Name</key>
+						<string>Ghostty</string>
+						<key>Available Screen Frame</key>
+						<string>{{0, 0}, {2560, 1415}}</string>
+						<key>Bundle Identifier</key>
+						<string>com.mitchellh.ghostty</string>
+						<key>PID</key>
+						<string>897</string>
+						<key>Screen Frame</key>
+						<string>{{0, 0}, {2560, 1440}}</string>
+						<key>Window Frame</key>
+						<string>{{0, 0}, {2560, 707}}</string>
+						<key>Window Number</key>
+						<string>53</string>
+						<key>Window Subrole</key>
+						<string>AXStandardWindow</string>
+						<key>Window Title</key>
+						<string>~</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Action</key>
+					<integer>21</integer>
+					<key>Center Mode</key>
+					<integer>0</integer>
+					<key>Hot Key</key>
+					<dict>
+						<key>Identifier</key>
+						<string>00A10FDE-5BBE-4C18-A2EE-AEA232EDFD38</string>
+						<key>Key Code</key>
+						<integer>8</integer>
+						<key>Modifier Flags</key>
+						<integer>786721</integer>
+						<key>Visual Representation</key>
+						<string>⌃⌥C</string>
+					</dict>
+					<key>Identifier</key>
+					<string>00A10FDE-5BBE-4C18-A2EE-AEA232EDFD38</string>
+				</dict>
+			</array>
+			<key>Identifier</key>
+			<string>B262282F-A2AC-41E4-A281-A3BBA5FEEDAC</string>
+			<key>Title</key>
+			<string>Windows</string>
+		</dict>
+	</array>
+</dict>
+</plist>
