@@ -23,7 +23,7 @@ format = "[$path]($style) "
 
 # Git branch - using starship defaults
 [git_branch]
-format = "on [$symbol$branch(:$remote_branch)]($style) "
+format = "on[$symbol$branch(:$remote_branch)]($style) "
 style = "purple bold"
 symbol = " "
 
