@@ -11,6 +11,7 @@ brew "docker"       # Docker CLI
 brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
 brew "parallel"     # Parallel
+brew "starship"     # Starship prompt
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
