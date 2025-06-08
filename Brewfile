@@ -57,6 +57,7 @@ cask "appcleaner"          # Uninstaller
 cask "yubico-authenticator" # YubiKey Authenticator
 cask "superkey"            # SuperKey
 cask "caffeine"            # Keep screen awake
+cask "moom"                # Window manager
 
 # Development Apps
 cask "cursor"             # AI code editor
