@@ -1,6 +1,6 @@
 # 🌟 Dotfiles
 
-Clean, modular macOS development setup with modern tooling.
+Clean, modular macOS development setup with old school tooling.
 
 ## 🚀 Quick Start
 
