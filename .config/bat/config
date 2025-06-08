@@ -18,8 +18,30 @@
 # disable text selection, unless you press shift.
 #--pager="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
 
+# Show line numbers
+--number
+
+# Show Git modifications in the gutter (only if inside a Git repository)
+--decorations=always
+
+# Wrap text instead of using horizontal scrolling
+--wrap=auto
+
+# Show non-printable characters like space, tab etc.
+--show-all
+
+# Use custom tab width
+--tabs=2
+
 # Syntax mappings: map a certain filename pattern to a language.
 #   Example 1: use the C++ syntax for .ino files
 #   Example 2: Use ".gitignore"-style highlighting for ".ignore" files
-#--map-syntax "*.ino:C++"
-#--map-syntax ".ignore:Git Ignore"
+--map-syntax "*.ino:C++"
+--map-syntax ".ignore:Git Ignore"
+--map-syntax "Brewfile:Ruby"
+--map-syntax "*.conf:INI"
+--map-syntax "*.env:Bash"
+--map-syntax "*.zshrc:Bash"
+--map-syntax "*.bashrc:Bash"
+--map-syntax "install.sh:Bash"
+--map-syntax "Makefile:Makefile"

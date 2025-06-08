@@ -1,7 +1,7 @@
-.PHONY: install macos brew nvim git tmux zsh starship ghostty lsd push clean update dev format help
+.PHONY: install macos brew nvim git tmux zsh starship ghostty lsd bat push clean update dev format help
 
 install:
-	@./install.sh
+	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
 
 brew:
 	@./scripts/brew.sh $(filter-out $@,$(MAKECMDGOALS))
@@ -27,6 +27,9 @@ ghostty:
 lsd:
 	@./scripts/lsd.sh $(filter-out $@,$(MAKECMDGOALS))
 
+bat:
+	@./scripts/bat.sh $(filter-out $@,$(MAKECMDGOALS))
+
 macos:
 	@./scripts/macos-defaults.sh
 
@@ -45,5 +48,9 @@ format:
 	@./scripts/format-code.sh
 
 # Prevent make from trying to create files named after the actions
+uninstall:
+	@:
+
+# Catch-all rule for any other unknown targets
 %:
-	@true
+	@:
