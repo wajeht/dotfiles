@@ -1,0 +1,53 @@
+{
+  "dd": {
+    "prefix": "dd",
+    "body": "dd($1);",
+    "description": "Dump and die"
+  },
+  "dump": {
+    "prefix": "dump",
+    "body": "dump($1);",
+    "description": "Dump"
+  },
+  "vd": {
+    "prefix": "vd",
+    "body": "var_dump($1);",
+    "description": "Var dump"
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "function ${1:name}(${2:params}) {",
+      "\t$3",
+      "}"
+    ],
+    "description": "Function"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "foreach": {
+    "prefix": "foreach",
+    "body": [
+      "foreach ($${1:array} as $${2:item}) {",
+      "\t$3",
+      "}"
+    ],
+    "description": "Foreach loop"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (\\$${1:i} = 0; \\$$1 < ${2:count}; \\$$1++) {",
+      "\t$3",
+      "}"
+    ],
+    "description": "For loop"
+  }
+}
