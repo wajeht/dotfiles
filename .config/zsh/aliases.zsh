@@ -30,6 +30,7 @@ alias wip="git add -A && git commit -am 'chore: wip' --no-verify && git push --n
 # Essential git aliases (replacing Oh My Zsh git plugin)
 alias g='git'
 alias ga='git add'
+alias gacp='git add . && curl -s https://commit.jaw.dev/ | sh -s -- --no-verify && git push'
 alias gaa='git add --all'
 alias gb='git branch'
 alias gc='git commit -v'
