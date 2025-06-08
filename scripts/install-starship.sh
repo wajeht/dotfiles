@@ -2,11 +2,11 @@
 
 source "$(dirname "$0")/common.sh"
 
-install_starship() {
+install_starship_binary() {
     if ! command -v starship &>/dev/null; then
         info "Installing Starship prompt..."
         curl -sS https://starship.rs/install.sh | sh -s -- --yes
-        success "Starship installed"
+        success "Starship binary installed"
     else
         task "Starship already installed"
     fi
@@ -30,7 +30,7 @@ install_starship_config() {
             task "Copied starship.toml to ~/.config/starship.toml"
         fi
 
-        success "Starship configuration installed!"
+        success "Starship configuration installed"
     else
         warning "No Starship config directory found in dotfiles"
         info "You can configure Starship manually or run 'starship config' later"
@@ -41,13 +41,12 @@ main() {
     step "⭐ Installing Starship Prompt"
 
     # Install Starship binary
-    install_starship
+    install_starship_binary
 
     # Install configuration
     install_starship_config
 
-    info "Starship installation complete!"
-    info "Your shell prompt is now powered by Starship 🚀"
+    info "Starship installation complete! 🚀"
     info "Restart your terminal or run 'source ~/.zshrc' to apply changes"
 
     success "Starship setup complete"
