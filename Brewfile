@@ -14,6 +14,8 @@ brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
 brew "parallel"     # Parallel
 brew "starship"     # Starship prompt
+brew "sqlite"       # SQLite database
+brew "nmap"         # Network scanner
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
@@ -80,7 +82,7 @@ cask "legcord"            # Discord alternative
 cask "slack"              # Work communication
 
 # Browsers & Downloads
-cask "firefox"            # Browser
+cask "firefox@developer-edition"  # Firefox Developer Edition
 cask "google-chrome"      # Browser
 cask "qbittorrent"        # Torrent client
 
