@@ -8,7 +8,6 @@ return {
 	cmd = { "Neogit" },
 	keys = {
 		{ "<leader>gg", "<cmd>Neogit kind=floating<cr>", desc = "Open Neogit (floating)" },
-		{ "<leader>gc", "<cmd>Neogit commit<cr>", desc = "Open Neogit commit popup" },
 		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
 	},
 	opts = {
