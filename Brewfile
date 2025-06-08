@@ -12,7 +12,6 @@ brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
 brew "parallel"     # Parallel
 brew "starship"     # Starship prompt
-brew "caffeine"     # Keep screen awake
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
@@ -53,6 +52,7 @@ cask "selfcontrol"         # Time management
 cask "appcleaner"          # Uninstaller
 cask "yubico-authenticator" # YubiKey Authenticator
 cask "superkey"            # SuperKey
+cask "caffeine"            # Keep screen awake
 
 # Development Apps
 cask "cursor"             # AI code editor
