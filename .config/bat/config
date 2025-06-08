@@ -6,6 +6,9 @@
 # for a list of all available themes
 --theme="Visual Studio Dark+"
 
+# Always show colors, even when piping to other commands
+--color=always
+
 # Enable this to use italic text on the terminal. This is not supported on all
 # terminal emulators (like tmux, by default):
 #--italic-text=always
@@ -19,16 +22,16 @@
 #--pager="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
 
 # Show line numbers
---number
+# --number
 
 # Show Git modifications in the gutter (only if inside a Git repository)
---decorations=always
+--decorations=never
 
 # Wrap text instead of using horizontal scrolling
 --wrap=auto
 
 # Show non-printable characters like space, tab etc.
---show-all
+# --show-all
 
 # Use custom tab width
 --tabs=2
@@ -40,8 +43,8 @@
 --map-syntax ".ignore:Git Ignore"
 --map-syntax "Brewfile:Ruby"
 --map-syntax "*.conf:INI"
---map-syntax "*.env:Bash"
---map-syntax "*.zshrc:Bash"
---map-syntax "*.bashrc:Bash"
---map-syntax "install.sh:Bash"
+--map-syntax "*.env:Bourne Again Shell (bash)"
+--map-syntax "*.zshrc:Bourne Again Shell (bash)"
+--map-syntax "*.bashrc:Bourne Again Shell (bash)"
+--map-syntax "install.sh:Bourne Again Shell (bash)"
 --map-syntax "Makefile:Makefile"
