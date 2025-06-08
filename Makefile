@@ -1,4 +1,4 @@
-.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-starship install-ghostty uninstall uninstall-packages uninstall-complete push
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-starship install-ghostty uninstall uninstall-packages uninstall-complete uninstall-zsh uninstall-starship push
 
 install:
 	@./install.sh
@@ -86,6 +86,45 @@ uninstall-nvim:
 	@echo "🔄 Clearing npm cache..."
 	@npm cache clean --force 2>/dev/null || true
 	@echo "✅ Neovim caches cleaned! Restart Neovim to reinstall plugins."
+
+uninstall-zsh:
+	@echo "🗑️  Removing Zsh configuration..."
+	@echo "📋 This will remove:"
+	@echo "   • ~/.zshrc"
+	@echo "   • ~/.config/zsh/ directory"
+	@echo "   • ~/.zsh_history (optional)"
+	@echo ""
+	@read -p "❓ Continue with Zsh uninstall? [y/N] " confirm && [ "$$confirm" = "y" ] || exit 1
+	@echo ""
+	@echo "🧹 Creating backup of current config..."
+	@if [ -f ~/.zshrc ]; then cp ~/.zshrc ~/.zshrc.backup.$(shell date +%Y%m%d_%H%M%S) && echo "✅ ~/.zshrc backed up"; fi
+	@echo "🗂️  Removing Zsh config files..."
+	@rm -f ~/.zshrc
+	@rm -rf ~/.config/zsh
+	@echo ""
+	@read -p "❓ Also remove Zsh history? [y/N] " confirm && [ "$$confirm" = "y" ] && rm -f ~/.zsh_history && echo "🗑️  Zsh history removed" || echo "📝 Zsh history preserved"
+	@echo ""
+	@echo "✅ Zsh configuration removed successfully!"
+	@echo "💡 To reinstall: make install-zsh"
+
+uninstall-starship:
+	@echo "🗑️  Removing Starship configuration..."
+	@echo "📋 This will remove:"
+	@echo "   • ~/.config/starship.toml"
+	@echo "   • ~/.config/starship/ directory"
+	@echo "   • Note: Starship binary will remain installed"
+	@echo ""
+	@read -p "❓ Continue with Starship uninstall? [y/N] " confirm && [ "$$confirm" = "y" ] || exit 1
+	@echo ""
+	@echo "🧹 Creating backup of current config..."
+	@if [ -f ~/.config/starship.toml ]; then cp ~/.config/starship.toml ~/.config/starship.toml.backup.$(shell date +%Y%m%d_%H%M%S) && echo "✅ starship.toml backed up"; fi
+	@echo "🗂️  Removing Starship config files..."
+	@rm -f ~/.config/starship.toml
+	@rm -rf ~/.config/starship
+	@echo ""
+	@echo "✅ Starship configuration removed successfully!"
+	@echo "💡 To reinstall: make install-starship"
+	@echo "💡 To remove Starship binary: brew uninstall starship"
 
 clean:
 	@echo "🧹 Cleaning backup files..."
