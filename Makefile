@@ -1,4 +1,4 @@
-.PHONY: install macos brew nvim git tmux zsh starship ghostty lsd bat push clean update format help
+.PHONY: install macos brew nvim git tmux zsh starship ghostty lsd bat push clean update format sync-nvim help
 
 install:
 	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
@@ -52,6 +52,17 @@ update:
 format:
 	@./scripts/format-code.sh
 
+sync-nvim:
+	@echo "🔄 Syncing Neovim plugin lock file..."
+	@cp ~/.config/nvim/lazy-lock.json .config/nvim/lazy-lock.json 2>/dev/null || (echo "❌ lazy-lock.json not found. Run :Lazy sync in Neovim first." && exit 1)
+	@if git diff --quiet .config/nvim/lazy-lock.json 2>/dev/null; then \
+		echo "✅ Lock file already up to date"; \
+	else \
+		git add .config/nvim/lazy-lock.json && \
+		git commit -m "Update Neovim plugin lock file" && \
+		echo "✅ Lock file synced and committed"; \
+	fi
+
 help:
 	@echo ""
 	@echo "🌟 Dotfiles Management Commands"
@@ -77,6 +88,7 @@ help:
 	@echo "  make update            Update all packages"
 	@echo "  make clean             Clean backup files"
 	@echo "  make format            Format shell and Lua files"
+	@echo "  make sync-nvim         Sync Neovim plugin lock file"
 	@echo "  make push              Format, commit and push changes"
 	@echo "  make help              Show this help message"
 	@echo ""
