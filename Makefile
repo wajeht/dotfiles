@@ -1,4 +1,4 @@
-.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-starship install-ghostty uninstall uninstall-packages uninstall-complete uninstall-zsh uninstall-starship push
+.PHONY: install install-macos install-brew install-nvim install-git install-tmux install-zsh install-starship install-ghostty install-lsd uninstall uninstall-packages uninstall-complete uninstall-zsh uninstall-starship uninstall-lsd push
 
 install:
 	@./install.sh
@@ -26,6 +26,9 @@ install-starship:
 
 install-ghostty:
 	@./scripts/install-ghostty.sh
+
+install-lsd:
+	@./scripts/install-lsd.sh
 
 push:
 	@make format
@@ -125,6 +128,18 @@ uninstall-starship:
 	@echo "✅ Starship configuration removed successfully!"
 	@echo "💡 To reinstall: make install-starship"
 	@echo "💡 To remove Starship binary: brew uninstall starship"
+
+uninstall-lsd:
+	@rm -f ~/.config/lsd/config.yaml ~/.config/lsd/colors.yaml
+	@rm -rf ~/.config/lsd
+	@echo ""
+	@echo "✅ LSD configuration removed successfully!"
+	@echo "💡 To reinstall: make install-lsd"
+	@echo "💡 To remove LSD binary: brew uninstall lsd"
+	@echo ""
+	@echo "✅ LSD configuration removed successfully!"
+	@echo "💡 To reinstall: make install-lsd"
+	@echo "💡 To remove LSD binary: brew uninstall lsd"
 
 clean:
 	@echo "🧹 Cleaning backup files..."

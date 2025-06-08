@@ -1,0 +1,70 @@
+# VS Code Dark Modern Color Scheme for LSD
+# Based on Microsoft VS Code's Dark Modern theme colors
+
+user: 252526         # Light gray for user files
+group: 3e3e42        # Medium gray for group
+permission:
+  read: 569cd6       # Blue for read permissions
+  write: ce9178      # Orange for write permissions
+  exec: b5cea8       # Green for execute permissions
+  exec-sticky: dcdcaa # Yellow for sticky permissions
+  no-permission: 6a6a6a # Dark gray for no permissions
+
+file-type:
+  file:
+    exec-uid: dcdcaa   # Yellow for executable files
+    uid-no-exec: 569cd6 # Blue for files with uid
+    exec-gid: b5cea8   # Green for group executable
+    gid-no-exec: 569cd6 # Blue for group files
+    sticky-other-write: f44747 # Red for sticky files
+    other-write: f44747 # Red for other writable
+    executable: b5cea8  # Green for regular executable
+    regular: cccccc     # Light gray for regular files
+
+  dir:
+    exec-uid: dcdcaa   # Yellow for executable directories
+    uid-no-exec: 569cd6 # Blue for uid directories
+    exec-gid: b5cea8   # Green for group executable dirs
+    gid-no-exec: 569cd6 # Blue for group directories
+    sticky-other-write: f44747 # Red for sticky directories
+    other-write: f44747 # Red for other writable dirs
+    sticky: dcdcaa     # Yellow for sticky directories
+    executable: 4fc1ff  # Light blue for executable directories
+    regular: 4fc1ff    # Light blue for regular directories
+
+  pipe: ce9178        # Orange for pipes
+  socket: ce9178      # Orange for sockets
+  char-device: f44747 # Red for character devices
+  block-device: f44747 # Red for block devices
+  special: d4a959     # Yellow for special files
+
+date:
+  hour-old: cccccc    # Light gray for recent files
+  day-old: 9cdcfe     # Light blue for day old
+  older: 6a6a6a       # Dark gray for older files
+
+size:
+  none: 6a6a6a        # Dark gray for no size
+  small: cccccc       # Light gray for small files
+  medium: 9cdcfe      # Light blue for medium files
+  large: ce9178       # Orange for large files
+
+inode: 6a6a6a         # Dark gray for inodes
+
+links:
+  valid: 4fc1ff       # Light blue for valid links
+  invalid: f44747     # Red for invalid links
+
+tree-edge: 3e3e42     # Medium gray for tree edges
+
+git-status:
+  default: cccccc     # Light gray default
+  unmodified: cccccc  # Light gray for unmodified
+  ignored: 6a6a6a     # Dark gray for ignored
+  new-in-index: b5cea8 # Green for new files
+  new-in-workdir: 9cdcfe # Light blue for new in workdir
+  typechange: ce9178  # Orange for type changes
+  deleted: f44747     # Red for deleted
+  renamed: dcdcaa     # Yellow for renamed
+  modified: 569cd6    # Blue for modified
+  conflicted: f44747  # Red for conflicts
