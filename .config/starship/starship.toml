@@ -83,7 +83,7 @@ style = "dimmed 8"
 
 # Command duration
 [cmd_duration]
-format = "took [$duration]($style)"
+format = "took [$duration]($style) "
 style = "yellow bold"
 min_time = 500  # Show duration for commands taking 0.5+ seconds
 
@@ -105,44 +105,3 @@ time_format = "%I:%M:%S %p"
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
-
-# Package - disabled for minimal look
-[package]
-disabled = true
-
-[nodejs]
-format = "⚡[$symbol($version)]($style) "
-symbol = "Node.js "
-style = "bold green"
-disabled = false
-
-[python]
-format = "🐍[$symbol$pyenv_prefix($version)]($style) "
-symbol = "Python "
-style = "yellow bold"
-disabled = false
-
-[rust]
-format = "🦀[$symbol($version)]($style) "
-symbol = "Rust "
-style = "bold red"
-disabled = false
-
-[docker_context]
-format = "🐳[$symbol$context]($style) "
-symbol = "Docker "
-style = "blue bold"
-disabled = false
-
-# Keep these disabled
-[aws]
-disabled = true
-
-[gcloud]
-disabled = true
-
-[conda]
-disabled = true
-
-[kubernetes]
-disabled = true
