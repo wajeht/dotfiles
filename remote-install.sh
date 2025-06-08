@@ -86,6 +86,7 @@ main() {
     info "The temporary directory will be cleaned up automatically"
     echo
     info "To use the dotfiles, run 'source ~/.zshrc' or restart your terminal"
+    info "💡 For individual component management, use: make <component> [install|uninstall]"
 }
 
 main "$@"

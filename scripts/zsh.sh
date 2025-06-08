@@ -42,7 +42,7 @@ fix_completion_permissions() {
     fi
 }
 
-main() {
+install_zsh() {
     step "💻 Installing Zsh Configuration"
 
     backup_if_exists ~/.zshrc
@@ -68,7 +68,50 @@ main() {
     task "Command copied to clipboard. Paste and run it, or restart your terminal."
 
     success "Zsh configuration installed"
-    info "💡 Don't forget to install Starship prompt: make install-starship"
+    info "💡 Don't forget to install Starship prompt: make starship install"
+}
+
+uninstall_zsh() {
+    step "🗑️  Removing Zsh Configuration"
+
+    echo "📋 This will remove:"
+    echo "   • ~/.zshrc"
+    echo "   • ~/.config/zsh/ directory"
+    echo "   • ~/.zsh_history (optional)"
+    echo ""
+    read -p "❓ Continue with Zsh uninstall? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
+    echo ""
+
+    info "Creating backup of current config..."
+    if [ -f ~/.zshrc ]; then
+        cp ~/.zshrc ~/.zshrc.backup.$(date +%Y%m%d_%H%M%S) && task "✅ ~/.zshrc backed up"
+    fi
+
+    info "Removing Zsh config files..."
+    rm -f ~/.zshrc
+    rm -rf ~/.config/zsh
+    task "Removed Zsh configuration files"
+
+    echo ""
+    read -p "❓ Also remove Zsh history? [y/N] " confirm && [ "$confirm" = "y" ] && rm -f ~/.zsh_history && task "🗑️  Zsh history removed" || task "📝 Zsh history preserved"
+    echo ""
+
+    success "Zsh configuration removed successfully!"
+    info "💡 To reinstall: make zsh install"
+}
+
+main() {
+    case "${1:-install}" in
+    install)
+        install_zsh
+        ;;
+    uninstall)
+        uninstall_zsh
+        ;;
+    *)
+        install_zsh
+        ;;
+    esac
 }
 
 main "$@"

@@ -2,7 +2,7 @@
 
 source "$(dirname "$0")/common.sh"
 
-main() {
+install_brew() {
     step "📦 Installing Homebrew & Packages"
 
     if ! has_brew; then
@@ -30,6 +30,37 @@ main() {
         info "The installation will continue with other components"
         success "Available packages installed (existing packages not upgraded)"
     fi
+}
+
+uninstall_brew() {
+    step "🗑️  Removing Homebrew Packages from Brewfile"
+
+    echo "⚠️  This will uninstall ALL packages listed in Brewfile"
+    echo "📋 Homebrew itself will remain installed"
+    echo ""
+    read -p "❓ Continue? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
+
+    info "Removing Homebrew packages..."
+    brew bundle cleanup --file=Brewfile --force
+    task "Removed packages from Brewfile"
+
+    success "Homebrew packages removed"
+    info "💡 To reinstall packages: make brew install"
+    info "💡 To remove Homebrew entirely: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)\""
+}
+
+main() {
+    case "${1:-install}" in
+    install)
+        install_brew
+        ;;
+    uninstall)
+        uninstall_brew
+        ;;
+    *)
+        install_brew
+        ;;
+    esac
 }
 
 main "$@"

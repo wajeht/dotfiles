@@ -34,12 +34,14 @@ main() {
 
     # Run each component, continuing even if some fail
     run_component "./scripts/macos-defaults.sh" "macOS defaults" || failed_components+=("macOS defaults")
-    run_component "./scripts/install-brew.sh" "Homebrew packages" || failed_components+=("Homebrew packages")
-    run_component "./scripts/install-nvim.sh" "Neovim config" || failed_components+=("Neovim config")
-    run_component "./scripts/install-gitconfig.sh" "Git config" || failed_components+=("Git config")
-    run_component "./scripts/install-ghostty.sh" "Ghostty config" || failed_components+=("Ghostty config")
-    run_component "./scripts/install-tmux.sh" "Tmux config" || failed_components+=("Tmux config")
-    run_component "./scripts/install-zsh.sh" "Zsh config" || failed_components+=("Zsh config")
+    run_component "./scripts/brew.sh install" "Homebrew packages" || failed_components+=("Homebrew packages")
+    run_component "./scripts/nvim.sh install" "Neovim config" || failed_components+=("Neovim config")
+    run_component "./scripts/git.sh install" "Git config" || failed_components+=("Git config")
+    run_component "./scripts/ghostty.sh install" "Ghostty config" || failed_components+=("Ghostty config")
+    run_component "./scripts/tmux.sh install" "Tmux config" || failed_components+=("Tmux config")
+    run_component "./scripts/zsh.sh install" "Zsh config" || failed_components+=("Zsh config")
+    run_component "./scripts/starship.sh install" "Starship config" || failed_components+=("Starship config")
+    run_component "./scripts/lsd.sh install" "LSD config" || failed_components+=("LSD config")
 
     step "🎉 Installation Complete!"
 
@@ -47,7 +49,7 @@ main() {
         success "All components installed successfully!"
     else
         warning "Some components had issues: ${failed_components[*]}"
-        info "This is normal - you can retry individual components later if needed"
+        info "This is normal - you can retry individual components later with 'make <component>'"
     fi
 
     info "Run 'source ~/.zshrc' or restart your terminal to apply changes"

@@ -32,6 +32,7 @@ That's it! 🎉
 - **💻 Zsh Configuration** - Native zsh with modular plugins and blazing performance
 - **⭐ Starship Prompt** - Beautiful, fast, and highly customizable shell prompt
 - **🖼️ Ghostty Configuration** - GPU-accelerated terminal emulator
+- **📁 LSD Configuration** - Beautiful file listing with icons and colors
 
 ## ⚙️ Manual Installation
 
@@ -39,15 +40,21 @@ That's it! 🎉
 # Everything at once
 make install
 
-# Individual components
-make install-macos     # 🖥️ macOS system preferences
-make install-brew      # 📦 Homebrew + packages
-make install-nvim      # ⚡ Neovim configuration
-make install-git       # 🔗 Git configuration
-make install-tmux      # 🖥️ Tmux configuration
-make install-zsh       # 💻 Shell configuration
-make install-starship  # ⭐ Starship prompt
-make install-ghostty   # 🖼️ Terminal configuration
+# Individual components (install by default)
+make macos      # 🖥️ macOS system preferences
+make brew       # 📦 Homebrew + packages
+make nvim       # ⚡ Neovim configuration
+make git        # 🔗 Git configuration
+make tmux       # 🖥️ Tmux configuration
+make zsh        # 💻 Shell configuration
+make starship   # ⭐ Starship prompt
+make ghostty    # 🖼️ Terminal configuration
+make lsd        # 📁 File listing configuration
+
+# Explicit install/uninstall
+make zsh install        # Install Zsh configuration
+make nvim uninstall     # Remove Neovim configuration
+make starship install   # Install Starship prompt
 ```
 
 ## 🎛️ Customization
@@ -60,6 +67,7 @@ make install-ghostty   # 🖼️ Terminal configuration
 | **Key bindings** | `.config/zsh/keybindings.zsh` | Custom keyboard shortcuts |
 | **Completions** | `.config/zsh/completions.zsh` | Shell completion settings |
 | **Starship prompt** | `.config/starship/starship.toml` | Terminal prompt configuration |
+| **LSD configuration** | `.config/lsd/config.yaml` | File listing colors and icons |
 | **Packages** | `Brewfile` | Homebrew packages and apps |
 | **macOS settings** | `scripts/macos-defaults.sh` | System preferences |
 
@@ -75,13 +83,20 @@ This setup uses **native zsh** with **Starship prompt** for optimal performance:
 ## 🔧 Maintenance
 
 ```bash
-make update            # 🔄 Update all packages (upgrades existing ones)
-make uninstall         # 🗑️ Remove dotfiles safely (keeps Homebrew packages)
-make uninstall-packages # 🗑️ Remove Homebrew packages from Brewfile
+# Individual component management
+make zsh              # Install/reinstall Zsh configuration
+make zsh uninstall    # Remove Zsh configuration
+make nvim             # Install/reinstall Neovim configuration
+make brew uninstall   # Remove Homebrew packages
+
+# System-wide commands
+make update           # 🔄 Update all packages (upgrades existing ones)
+make uninstall        # 🗑️ Remove all dotfiles safely (keeps Homebrew packages)
 make uninstall-complete # 💥 Complete removal (dotfiles + packages)
-make clean             # 🧹 Clean backup files
-make dev               # 💻 Quick dev environment setup
-make format            # ✨ Format Bash and Lua files
+make clean            # 🧹 Clean backup files
+make dev              # 💻 Quick dev environment setup (brew, nvim, git)
+make format           # ✨ Format Bash and Lua files
+make help             # 📋 Show all available commands
 ```
 
 ## 📋 Requirements
