@@ -20,6 +20,65 @@ return {
 			fg = "#9cdcfe", -- VS Code light blue for remotes
 		})
 
+		-- Darker diff colors for transparent background (these work for diffview)
+		vim.api.nvim_set_hl(0, "DiffAdd", {
+			bg = "#1a2e1a", -- Dark green background
+			fg = "NONE",
+		})
+
+		vim.api.nvim_set_hl(0, "DiffDelete", {
+			bg = "#2e1a1a", -- Dark red background
+			fg = "#6b2c2c", -- Darker red text
+		})
+
+		vim.api.nvim_set_hl(0, "DiffChange", {
+			bg = "#2e2a1a", -- Dark orange background
+			fg = "NONE",
+		})
+
+		vim.api.nvim_set_hl(0, "DiffText", {
+			bg = "#3e3a1a", -- Slightly lighter orange for actual changed text
+			fg = "NONE",
+		})
+
+		-- Essential Neogit highlight groups to fix gray backgrounds
+		vim.api.nvim_set_hl(0, "NeogitHunkHeader", {
+			bg = "NONE", -- Remove gray background
+			fg = "#c586c0", -- Purple text
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitHunkHeaderHighlight", {
+			bg = "NONE", -- Remove gray background
+			fg = "#c586c0",
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitDiffContext", {
+			bg = "NONE", -- Remove gray background
+			fg = "#808080", -- Muted gray text
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitDiffContextHighlight", {
+			bg = "NONE", -- Remove gray background
+			fg = "#808080",
+		})
+
+		-- Make Neogit diff colors match Diffview colors (preserve syntax highlighting)
+		vim.api.nvim_set_hl(0, "NeogitDiffAdd", {
+			link = "DiffAdd",
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitDiffDelete", {
+			link = "DiffDelete",
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitDiffAddHighlight", {
+			link = "DiffAdd",
+		})
+
+		vim.api.nvim_set_hl(0, "NeogitDiffDeleteHighlight", {
+			link = "DiffDelete",
+		})
+
 		require("neogit").setup({
 			-- Core settings
 			kind = "tab",
