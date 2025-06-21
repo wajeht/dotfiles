@@ -50,15 +50,22 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", function()
-	-- Only save if it's a regular file buffer (not special buffers like Neogit, help, etc.)
-	if vim.bo.buftype == "" and vim.bo.modifiable then
-		vim.cmd("w!") -- Force save current buffer
-	end
-	-- Only close tab if there are multiple tabs, otherwise just save
+	-- Close tab if multiple tabs, otherwise save and quit the buffer
 	if vim.fn.tabpagenr("$") > 1 then
+		-- Save if it's a regular file buffer, then close tab
+		if vim.bo.buftype == "" and vim.bo.modifiable then
+			vim.cmd("w!") -- Force save current buffer
+		end
 		vim.cmd("tabclose") -- Close current tab if multiple tabs exist
+	else
+		-- Save and quit if it's a regular file buffer, otherwise just quit
+		if vim.bo.buftype == "" and vim.bo.modifiable then
+			vim.cmd("wq!") -- Save and quit the buffer
+		else
+			vim.cmd("quit") -- Just quit if it's a special buffer
+		end
 	end
-end, { desc = "Save current tab and close if multiple tabs" })
+end, { desc = "Save and close tab, or save and quit if last tab" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
