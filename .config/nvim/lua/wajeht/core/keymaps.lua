@@ -50,19 +50,18 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", function()
-	-- Close tab if multiple tabs, otherwise save and quit the buffer
 	if vim.fn.tabpagenr("$") > 1 then
-		-- Save if it's a regular file buffer, then close tab
+		-- Multiple tabs: save then close tab
 		if vim.bo.buftype == "" and vim.bo.modifiable then
 			vim.cmd("w!") -- Force save current buffer
 		end
 		vim.cmd("tabclose") -- Close current tab if multiple tabs exist
 	else
-		-- Save and quit if it's a regular file buffer, otherwise just quit
+		-- Last tab: save and quit in one command
 		if vim.bo.buftype == "" and vim.bo.modifiable then
 			vim.cmd("wq!") -- Save and quit the buffer
 		else
-			vim.cmd("quit") -- Just quit if it's a special buffer
+			vim.cmd("quit") -- Just quit special buffers
 		end
 	end
 end, { desc = "Save and close tab, or save and quit if last tab" })
