@@ -57,14 +57,12 @@ vim.keymap.set({ "n", "v" }, "<leader>w", function()
 		end
 		vim.cmd("tabclose") -- Close current tab if multiple tabs exist
 	else
-		-- Last tab: save and quit in one command
+		-- Last tab: just save it, don't quit
 		if vim.bo.buftype == "" and vim.bo.modifiable then
-			vim.cmd("wq!") -- Save and quit the buffer
-		else
-			vim.cmd("quit") -- Just quit special buffers
+			vim.cmd("w!") -- Just save the buffer, keep it open
 		end
 	end
-end, { desc = "Save and close tab, or save and quit if last tab" })
+end, { desc = "Save and close tab, or just save if last tab" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
