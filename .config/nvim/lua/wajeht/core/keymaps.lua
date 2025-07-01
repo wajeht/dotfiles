@@ -51,36 +51,30 @@ vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all w
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", function()
 	-- ALWAYS save first before closing anything (if possible)
-	if vim.bo.buftype == "" and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+	if vim.bo.buftype == "" and vim.bo.modifiable and vim.api.nvim_buf_get_name(0) ~= "" then
 		vim.cmd("w!") -- Force save current buffer
 	end
 
-	-- Check if we're in a Diffview tab - be more specific in detection
-	local bufname = vim.fn.bufname()
-	local is_diffview = false
-
-	-- More specific Diffview detection
-	if
-		string.find(bufname, "DiffviewFilePanel")
-		or string.find(bufname, "DiffviewFiles")
-		or vim.fn.gettabvar(vim.fn.tabpagenr(), "diffview_view_type") ~= ""
-	then
-		is_diffview = true
-	end
+	-- Check if we're in a Diffview tab - simplified detection
+	local bufname = vim.api.nvim_buf_get_name(0)
+	local is_diffview = bufname:match("DiffviewFilePanel") or bufname:match("DiffviewFiles")
 
 	if is_diffview then
 		-- Only close tab if we have multiple tabs
-		if vim.fn.tabpagenr("$") > 1 then
+		if #vim.api.nvim_list_tabpages() > 1 then
 			vim.cmd("tabclose")
 		end
 		return
 	end
 
 	-- Then follow hierarchy: split panes → tabs → just save
-	if vim.fn.winnr("$") > 1 then
+	local win_count = #vim.api.nvim_tabpage_list_wins(0)
+	local tab_count = #vim.api.nvim_list_tabpages()
+
+	if win_count > 1 then
 		-- Multiple split panes: close current pane (after saving)
 		vim.cmd("wincmd c")
-	elseif vim.fn.tabpagenr("$") > 1 then
+	elseif tab_count > 1 then
 		-- Multiple tabs (no splits): close current tab (after saving)
 		vim.cmd("tabclose")
 	else
