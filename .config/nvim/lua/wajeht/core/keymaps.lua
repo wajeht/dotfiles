@@ -71,7 +71,7 @@ vim.keymap.set({ "n", "v" }, "<leader>w", function()
 	if is_diffview then
 		-- Only close tab if we have multiple tabs
 		if vim.fn.tabpagenr("$") > 1 then
-			pcall(vim.cmd, "tabclose")
+			vim.cmd("tabclose")
 		end
 		return
 	end
@@ -79,14 +79,10 @@ vim.keymap.set({ "n", "v" }, "<leader>w", function()
 	-- Then follow hierarchy: split panes → tabs → just save
 	if vim.fn.winnr("$") > 1 then
 		-- Multiple split panes: close current pane (after saving)
-		local success = pcall(vim.cmd, "wincmd c")
-		if not success then
-			-- Try alternative close method
-			pcall(vim.cmd, "close")
-		end
+		vim.cmd("wincmd c")
 	elseif vim.fn.tabpagenr("$") > 1 then
 		-- Multiple tabs (no splits): close current tab (after saving)
-		pcall(vim.cmd, "tabclose")
+		vim.cmd("tabclose")
 	else
 		-- Last tab, no splits: just save (already done above)
 	end
