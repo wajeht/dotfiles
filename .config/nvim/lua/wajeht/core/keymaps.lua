@@ -50,19 +50,47 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", function()
-	if vim.fn.tabpagenr("$") > 1 then
-		-- Multiple tabs: save then close tab
-		if vim.bo.buftype == "" and vim.bo.modifiable then
-			vim.cmd("w!") -- Force save current buffer
-		end
-		vim.cmd("tabclose") -- Close current tab if multiple tabs exist
-	else
-		-- Last tab: just save it, don't quit
-		if vim.bo.buftype == "" and vim.bo.modifiable then
-			vim.cmd("w!") -- Just save the buffer, keep it open
-		end
+	-- ALWAYS save first before closing anything (if possible)
+	if vim.bo.buftype == "" and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+		vim.cmd("w!") -- Force save current buffer
 	end
-end, { desc = "Save and close tab, or just save if last tab" })
+
+	-- Check if we're in a Diffview tab - be more specific in detection
+	local bufname = vim.fn.bufname()
+	local is_diffview = false
+
+	-- More specific Diffview detection
+	if
+		string.find(bufname, "DiffviewFilePanel")
+		or string.find(bufname, "DiffviewFiles")
+		or vim.fn.gettabvar(vim.fn.tabpagenr(), "diffview_view_type") ~= ""
+	then
+		is_diffview = true
+	end
+
+	if is_diffview then
+		-- Only close tab if we have multiple tabs
+		if vim.fn.tabpagenr("$") > 1 then
+			pcall(vim.cmd, "tabclose")
+		end
+		return
+	end
+
+	-- Then follow hierarchy: split panes → tabs → just save
+	if vim.fn.winnr("$") > 1 then
+		-- Multiple split panes: close current pane (after saving)
+		local success = pcall(vim.cmd, "wincmd c")
+		if not success then
+			-- Try alternative close method
+			pcall(vim.cmd, "close")
+		end
+	elseif vim.fn.tabpagenr("$") > 1 then
+		-- Multiple tabs (no splits): close current tab (after saving)
+		pcall(vim.cmd, "tabclose")
+	else
+		-- Last tab, no splits: just save (already done above)
+	end
+end, { desc = "Always save first, then close split/tab hierarchy" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
