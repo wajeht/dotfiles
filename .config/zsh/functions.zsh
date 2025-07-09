@@ -67,6 +67,27 @@ function cd() {
 function git_diff_all() {
   local target_branch="${1:-main}"  # Default to 'main' if no argument provided
   local ALL_DIFFS
+
+  # Check if the branch exists locally
+  if ! git rev-parse --verify "${target_branch}" >/dev/null 2>&1; then
+    # Try to find it as a remote branch
+    local remote_branch=$(git branch -r | grep -E "/${target_branch}$" | head -1 | xargs)
+    if [ -n "$remote_branch" ]; then
+      echo "Branch '${target_branch}' not found locally. Using remote branch '${remote_branch}'"
+      target_branch="$remote_branch"
+    else
+      # Try to fetch from origin and check again
+      echo "Branch '${target_branch}' not found locally. Attempting to fetch from origin..."
+      git fetch origin "${target_branch}":"${target_branch}" 2>/dev/null || {
+        echo "Failed to fetch '${target_branch}' from origin."
+        echo "Available branches:"
+        git branch -a | grep -E "(${target_branch}|main|master)" | head -10
+        return 1
+      }
+      echo "Successfully fetched '${target_branch}' from origin."
+    fi
+  fi
+
   ALL_DIFFS=$( ( \
       git -c color.diff=always --no-pager diff ${target_branch}... && \
       git -c color.diff=always --no-pager diff && \
