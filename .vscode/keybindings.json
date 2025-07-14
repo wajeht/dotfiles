@@ -1,8 +1,7 @@
-// Place your key bindings in this file to override the defaults
 [
   /**
-     * resting font size
-     **/
+   * resting font size
+   **/
   {
     "key": "cmd+0",
     "command": "-workbench.action.focusSideBar"
@@ -16,16 +15,16 @@
     "command": "-workbench.action.zoomReset"
   },
   /**
-     * commands
-     **/
+   * commands
+   **/
   {
     "key": "cmd+i",
     "command": "editor.action.triggerSuggest",
     "when": "editorTextFocus"
   },
   /**
-     * Panels
-     **/
+   * Panels
+   **/
   {
     "key": "cmd+k cmd+e",
     "command": "workbench.view.explorer"
@@ -55,8 +54,8 @@
     "command": "workbench.panel.chat.view.copilot.focus"
   },
   /**
-     * tabs
-     **/
+   * tabs
+   **/
   // {
   //   "key": "tab",
   //   "command": "workbench.action.nextEditorInGroup",
@@ -68,8 +67,8 @@
     "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus)"
   },
   /**
-     * Split Panels
-     **/
+   * Split Panels - Fixed vim-like navigation
+   **/
   {
     "key": "ctrl+w",
     "command": "workbench.action.joinAllGroups",
@@ -80,17 +79,33 @@
     "command": "workbench.action.splitEditor",
     "when": "editorFocus"
   },
+  // Fixed vim-like navigation - this should work with vertical activityBar
   {
     "key": "ctrl+l",
     "command": "workbench.action.navigateRight",
-    "when": "editorFocus || filesExplorerFocus"
-
+    "when": "editorFocus"
   },
   {
     "key": "ctrl+h",
     "command": "workbench.action.navigateLeft",
-    "when": "editorFocus || filesExplorerFocus"
-
+    "when": "editorFocus"
+  },
+  // Navigation from sidebar back to editor
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "sideBarFocus"
+  },
+  // File Explorer Navigation
+  {
+    "key": "ctrl+l",
+    "command": "list.expand",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "list.collapse",
+    "when": "filesExplorerFocus && !inputFocus"
   },
   {
     "key": "ctrl+=",
@@ -103,41 +118,41 @@
     "when": "editorFocus"
   },
   /**
-     * Terminal Split Panel
-     **/
-     {
-      "key": "ctrl+n",
-      "command": "workbench.action.terminal.split",
-      "when": "terminalFocus"
+   * Terminal Split Panel
+   **/
+  {
+    "key": "ctrl+n",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus"
   },
   {
-      "key": "ctrl+l",
-      "command": "workbench.action.terminal.focusNextPane",
-      "when": "terminalFocus"
+    "key": "ctrl+l",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus"
   },
   {
-      "key": "ctrl+h",
-      "command": "workbench.action.terminal.focusPreviousPane",
-      "when": "terminalFocus"
+    "key": "ctrl+h",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus"
   },
   {
-      "key": "ctrl+l",
-      "command": "workbench.action.navigateRight",
-      "when": "!terminalFocus"
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "!terminalFocus"
   },
   {
-      "key": "ctrl+h",
-      "command": "workbench.action.navigateLeft",
-      "when": "!terminalFocus"
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft",
+    "when": "!terminalFocus"
   },
   {
-      "key": "ctrl+w",
-      "command": "workbench.action.terminal.kill",
-      "when": "terminalFocus"
+    "key": "ctrl+w",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus"
   },
   /**
-     * file explorer
-     **/
+   * file explorer
+   **/
   {
     "key": "r",
     "command": "renameFile",
