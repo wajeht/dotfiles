@@ -11,7 +11,7 @@ setopt SHARE_HISTORY        # Share history between sessions
 setopt APPEND_HISTORY       # Append to history file
 setopt INC_APPEND_HISTORY   # Write to history file immediately
 setopt EXTENDED_HISTORY     # Record timestamp in history
-setopt CORRECT              # Spell correction for commands
+# setopt CORRECT              # Spell correction for commands (disabled)
 
 # History configuration
 HISTFILE=~/.zsh_history
