@@ -4,6 +4,7 @@ alias v='nvim'
 alias c='code'
 alias cr='cursor'
 alias clc='npx @anthropic-ai/claude-code'
+alias oc='npx opencode-ai@latest'
 
 # Shell aliases
 alias resource='source ~/.zshrc'
