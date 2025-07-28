@@ -3,6 +3,7 @@ alias vim='nvim'
 alias v='nvim'
 alias c='code'
 alias cr='cursor'
+alias clc='npx @anthropic-ai/claude-code'
 
 # Shell aliases
 alias resource='source ~/.zshrc'
