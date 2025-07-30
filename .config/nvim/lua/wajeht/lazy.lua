@@ -18,7 +18,7 @@ require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugin
 	},
 	change_detection = {
 		enabled = true,
-		notify = false,
+		notify = true,
 	},
 	performance = {
 		cache = {
