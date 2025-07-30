@@ -17,7 +17,7 @@ require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugin
 		notify = false,
 	},
 	change_detection = {
-		enabled = false, -- Disable auto-reload on config changes
+		enabled = true,
 		notify = false,
 	},
 	performance = {
