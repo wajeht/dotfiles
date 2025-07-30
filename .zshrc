@@ -1,6 +1,12 @@
 # ~/.zshrc
 
 # Shell Initialization
+DISABLE_AUTO_UPDATE="true"
+DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_COMPFIX="true"
+
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # Zsh Configuration
 # Essential zsh options
@@ -20,7 +26,11 @@ SAVEHIST=10000
 
 # Enable completion system
 autoload -Uz compinit
-compinit
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
 
 # Completion styling
 zstyle ':completion:*' menu select
