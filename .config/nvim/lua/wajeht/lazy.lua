@@ -13,10 +13,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugins.lsp" } }, {
 	checker = {
-		enabled = true,
+		enabled = false, -- Disable auto-checking for updates
 		notify = false,
 	},
 	change_detection = {
+		enabled = false, -- Disable auto-reload on config changes
 		notify = false,
 	},
 	performance = {
@@ -40,6 +41,14 @@ require("lazy").setup({ { import = "wajeht.plugins" }, { import = "wajeht.plugin
 				"tutor",
 				"zip",
 				"zipPlugin",
+				"getscript",
+				"getscriptPlugin",
+				"vimball",
+				"vimballPlugin",
+				"2html_plugin",
+				"logipat",
+				"rrhelper",
+				"spellfile_plugin",
 			},
 		},
 	},

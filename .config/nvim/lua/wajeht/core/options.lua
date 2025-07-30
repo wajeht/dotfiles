@@ -109,11 +109,12 @@ vim.opt.undodir = undodir -- Set undo directory
 -- Performance optimizations
 vim.opt.lazyredraw = true -- Do not redraw while executing macros
 vim.opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (reduced from 400ms)
-vim.opt.ttimeoutlen = 10 -- Faster key code recognition (reduced from 50ms)
-vim.opt.updatetime = 50 -- Faster completion
+vim.opt.ttimeoutlen = 0 -- Instant key code recognition
+vim.opt.updatetime = 250 -- Balanced update time
 vim.opt.redrawtime = 1500 -- Time in milliseconds for redrawing the display (default: 2000)
-vim.opt.synmaxcol = 200 -- Only highlight the first 200 columns (default: 3000)
+vim.opt.synmaxcol = 120 -- Only highlight the first 120 columns for better performance
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+vim.opt.regexpengine = 1 -- Use old regex engine for better performance
 
 -- Custom statusline for terminal buffers
 -- vim.cmd("set laststatus=0")  -- Disable default statusline
