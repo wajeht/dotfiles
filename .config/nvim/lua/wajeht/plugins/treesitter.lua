@@ -4,15 +4,11 @@ return {
 	build = ":TSUpdate",
 	dependencies = {},
 	config = function()
-		-- import nvim-treesitter plugin
 		local treesitter = require("nvim-treesitter.configs")
 
-		-- configure treesitter
-		treesitter.setup({ -- enable syntax highlighting
-			-- Sync install to avoid race conditions
-			sync_install = false,
-			-- Prevent parser installation errors
-			auto_install = true,
+		treesitter.setup({
+			sync_install = false, -- Sync install to avoid race conditions
+			auto_install = true, -- Prevent parser installation errors
 
 			highlight = {
 				enable = true,
@@ -24,7 +20,6 @@ return {
 			autotag = {
 				enable = true,
 			},
-			-- ensure these language parsers are installed
 			ensure_installed = {
 				"json",
 				"javascript",

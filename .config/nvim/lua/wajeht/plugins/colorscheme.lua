@@ -12,7 +12,7 @@ return {
 
 				italic_comments = false,
 
-				underline_links = true,
+				underline_links = false,
 
 				disable_nvimtree_bg = true,
 
