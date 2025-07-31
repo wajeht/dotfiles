@@ -42,10 +42,14 @@ return {
 			keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 			opts.desc = "Go to previous diagnostic"
-			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+			keymap.set("n", "[d", function()
+				vim.diagnostic.jump({ count = -1 })
+			end, opts) -- jump to previous diagnostic in buffer
 
 			opts.desc = "Go to next diagnostic"
-			keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+			keymap.set("n", "]d", function()
+				vim.diagnostic.jump({ count = 1 })
+			end, opts) -- jump to next diagnostic in buffer
 
 			opts.desc = "Show documentation for what is under cursor"
 			keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -57,11 +61,7 @@ return {
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
+		local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
 
 		lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
 
@@ -138,7 +138,14 @@ return {
 
 		vim.diagnostic.config({
 			virtual_text = true, -- Enable inline diagnostic messages
-			signs = true, -- Show signs in the sign column
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = signs.Error,
+					[vim.diagnostic.severity.WARN] = signs.Warn,
+					[vim.diagnostic.severity.HINT] = signs.Hint,
+					[vim.diagnostic.severity.INFO] = signs.Info,
+				},
+			},
 			underline = true, -- Underline the text with an issue
 			update_in_insert = false, -- Don't update diagnostics in insert mode
 			severity_sort = true, -- Sort diagnostics by severity

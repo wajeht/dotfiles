@@ -31,8 +31,8 @@ return {
 				"intelephense",
 				"gopls",
 			},
-			automatic_enable = false,
-			automatic_installation = true,
+			automatic_enable = true,
+			automatic_installation = false,
 		})
 
 		mason_tool_installer.setup({
