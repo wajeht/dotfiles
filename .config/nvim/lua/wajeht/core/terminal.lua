@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		local win = vim.api.nvim_get_current_win()
 
 		-- Batch all buffer-local options
-		vim.api.nvim_buf_set_option(buf, "filetype", "terminal")
+		vim.api.nvim_set_option_value("filetype", "terminal", { buf = buf })
 
 		-- Batch all window-local options
 		local win_opts = {
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		}
 
 		for opt, value in pairs(win_opts) do
-			vim.api.nvim_win_set_option(win, opt, value)
+			vim.api.nvim_set_option_value(opt, value, { win = win })
 		end
 
 		-- Defer insert mode to avoid blocking
@@ -67,7 +67,7 @@ vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", function()
 	local win = vim.api.nvim_get_current_win()
 	vim.cmd("wincmd J") -- Move the terminal window to the bottom
 	vim.api.nvim_win_set_height(win, 15) -- Set a fixed height for the terminal
-	vim.api.nvim_win_set_option(win, "winfixheight", true) -- Fix the height of the terminal window
+	vim.api.nvim_set_option_value("winfixheight", true, { win = win }) -- Fix the height of the terminal window
 
 	-- Schedule insert mode to avoid blocking
 	vim.schedule(function()

@@ -34,6 +34,19 @@ return {
 							["<C-x>"] = actions.delete_buffer,
 						},
 					},
+					-- Custom function to ensure files open in non-terminal windows
+					get_selection_window = function()
+						local wins = vim.api.nvim_list_wins()
+						for _, win in ipairs(wins) do
+							local buf = vim.api.nvim_win_get_buf(win)
+							if vim.bo[buf].buftype ~= "terminal" then
+								return win
+							end
+						end
+						-- If all windows are terminals, create a new split
+						vim.cmd("vsplit")
+						return vim.api.nvim_get_current_win()
+					end,
 					file_ignore_patterns = {
 						"node_modules",
 						"vendor",
@@ -95,6 +108,19 @@ return {
 						-- Close Telescope by simulating Esc
 						vim.api.nvim_input("<Esc><Esc>")
 						return
+					end
+				end
+
+				-- Check if current window is a terminal and switch to a non-terminal window
+				local current_buf = vim.api.nvim_get_current_buf()
+				if vim.bo[current_buf].buftype == "terminal" then
+					-- Find the first non-terminal window
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						if vim.bo[buf].buftype ~= "terminal" then
+							vim.api.nvim_set_current_win(win)
+							break
+						end
 					end
 				end
 
