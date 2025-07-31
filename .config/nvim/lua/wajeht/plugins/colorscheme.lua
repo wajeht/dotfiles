@@ -33,6 +33,19 @@ return {
 			vim.cmd("hi TabLine gui=NONE guibg=NONE guifg=#444444") -- Inactive tabs transparent
 			vim.cmd("hi TabLineFill gui=NONE guibg=NONE") -- Empty tabline area transparent
 			vim.cmd("hi TabLineSel gui=NONE guibg=NONE guifg=#ffffff") -- Active tab transparent with white text
+
+			-- Listchars colors
+			vim.cmd("hi SpecialKey guifg=#28292c gui=NONE") -- Color for tab, nbsp, space, trail, leadmultispace
+			vim.cmd("hi NonText guifg=#28292c gui=NONE") -- Color for eol, extends, precedes
+			vim.cmd("hi Whitespace guifg=#28292c gui=NONE ctermfg=NONE") -- white space
+
+			-- NvimTree indent lines
+			vim.cmd("hi NvimTreeIndentMarker guifg=#28292c gui=NONE")
+
+			-- Line numbers
+			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#28292c", bg = "NONE" }) -- Numbers above current line
+			vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#28292c", bg = "NONE" }) -- Numbers below current line
+			vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ffffff", bg = "NONE" }) -- Current line number
 		end,
 	},
 }

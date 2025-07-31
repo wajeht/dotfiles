@@ -87,9 +87,10 @@ vim.opt.listchars = {
 	trail = "·", -- Trailing spaces will appear as "·".
 	precedes = "←", -- "←" indicates hidden text to the left.
 	extends = "→", -- "→" indicates hidden text to the right.
-	-- eol = "↲",       -- End-of-line characters will appear as "↲".
+	eol = "↲", -- End-of-line characters will appear as "↲".
 	nbsp = "␣", -- Non-breaking spaces will appear as "␣".
-	-- space = "·", -- Regular spaces will appear as "·".
+	space = "·", -- Regular spaces will appear as "·".
+	leadmultispace = ".", -- Leading spaces will appear as ".".
 }
 
 -- Editing
