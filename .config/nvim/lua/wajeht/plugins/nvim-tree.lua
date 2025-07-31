@@ -11,7 +11,7 @@ return {
 			},
 			update_focused_file = {
 				enable = true, -- Automatically update the focused file
-				update_cwd = true, -- Update the root directory of the tree to the parent directory of the file
+				update_cwd = false, -- Don't update the root directory when focusing files
 			},
 			view = {
 				side = "right", -- Open on the right side
