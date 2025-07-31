@@ -20,6 +20,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 			winbar = "",
 			signcolumn = "no",
 			foldcolumn = "0",
+			foldtext = "",
 			colorcolumn = "",
 			cursorline = false,
 		}
