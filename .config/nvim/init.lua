@@ -1,2 +1,5 @@
-require("wajeht.core")
-require("wajeht.lazy")
+require("config.options")
+require("config.autocmds")
+require("config.keymaps")
+require("config.terminal")
+require("config.lazy")

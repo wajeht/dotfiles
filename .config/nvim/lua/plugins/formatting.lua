@@ -19,18 +19,18 @@ return {
 				php = { "pint" },
 				lua = { "stylua" },
 			},
-			format_on_save = {
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 500,
-			},
+			-- format_on_save = {
+			-- 	lsp_fallback = true,
+			-- 	async = false,
+			-- 	timeout_ms = 500,
+			-- },
 		})
 
-		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+		vim.keymap.set({ "n", "v" }, "<leader>mf", function()
 			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 500,
+				-- lsp_fallback = true,
+				-- async = false,
+				-- timeout_ms = 500,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 	end,

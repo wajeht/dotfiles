@@ -31,14 +31,12 @@ return {
 				"intelephense",
 				"gopls",
 			},
-			automatic_enable = true,
-			automatic_installation = false,
 		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettier", -- js/ts/vue/css/html formatter
-				"stylua", -- lua formatter
+				"prettier",
+				"stylua",
 			},
 		})
 	end,

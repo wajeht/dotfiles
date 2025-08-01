@@ -32,6 +32,23 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	desc = "Briefly highlight yanked text",
 })
 
+-- resize splits if window got resized
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+	callback = function()
+		local current_tab = vim.fn.tabpagenr()
+		vim.cmd("tabdo wincmd =")
+		vim.cmd("tabnext " .. current_tab)
+	end,
+})
+
+-- go to top of commit message when opening it
+vim.api.nvim_create_autocmd("BufReadPost", {
+	pattern = "COMMIT_EDITMSG",
+	callback = function()
+		vim.api.nvim_win_set_cursor(0, { 1, 0 })
+	end,
+})
+
 -- Automatically create parent directories when saving a file
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	callback = function(event)
