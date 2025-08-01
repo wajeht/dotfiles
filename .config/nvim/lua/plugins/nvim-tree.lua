@@ -1,5 +1,10 @@
 return {
 	"nvim-tree/nvim-tree.lua",
+	cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeOpen" },
+	keys = {
+		{ "<leader>e", "<CMD>NvimTreeToggle<CR>", desc = "Toggle file explorer (right side)" },
+		{ "<D-b>", "<CMD>NvimTreeToggle<CR>", desc = "Toggle file explorer (right side)" },
+	},
 	config = function()
 		require("nvim-tree").setup({
 			auto_reload_on_write = true,
@@ -82,13 +87,5 @@ return {
 			highlight NvimTreeFileName guifg=#9cdcfe ctermfg=153
 		]])
 
-		-- Keybindings to open nvim-tree on the right side
-		vim.keymap.set(
-			{ "n", "v" },
-			"<leader>e",
-			"<CMD>NvimTreeToggle<CR>",
-			{ desc = "Toggle file explorer (right side)" }
-		) -- Leader+e
-		vim.keymap.set({ "n", "v" }, "<D-b>", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer (right side)" }) -- Cmd+b
 	end,
 }
