@@ -20,19 +20,24 @@ return {
 
 			completion = {
 				documentation = {
-					auto_show = true,
+					auto_show = false,
 					auto_show_delay_ms = 0,
 				},
 				-- ghost_text = { enabled = true },
 			},
 
 			appearance = {
-				use_nvim_cmp_as_default = true,
+				-- use_nvim_cmp_as_default = true,
 				nerd_font_variant = "mono",
 			},
 
 			sources = {
-				default = { "lsp", "buffer", "snippets", "path" },
+				default = {
+					"lsp",
+					-- "buffer",
+					"snippets",
+					"path",
+				},
 			},
 
 			signature = { enabled = true },
