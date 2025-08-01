@@ -3,7 +3,7 @@ alias vim='nvim'
 alias v='nvim'
 alias c='code'
 alias cr='cursor'
-alias clc='npx @anthropic-ai/claude-code'
+alias clc='npx @anthropic-ai/claude-code@latest'
 alias oc='npx opencode-ai@latest'
 
 # Shell aliases

@@ -1,6 +1,5 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		require("nvim-tree").setup({
 			auto_reload_on_write = true,
@@ -33,12 +32,13 @@ return {
 				},
 				icons = {
 					show = {
-						file = true,
-						folder = true,
+						file = false,
+						folder = false,
 						folder_arrow = true,
-						git = true,
+						git = false,
 					},
 				},
+				highlight_git = true,
 			},
 			-- disable window_picker for
 			-- explorer to work well with
@@ -73,6 +73,14 @@ return {
 				})
 			end,
 		})
+
+		-- Custom highlighting for folders
+		vim.cmd([[
+			highlight NvimTreeFolderName guifg=#569cd6 ctermfg=75
+			highlight NvimTreeOpenedFolderName guifg=#569cd6 ctermfg=75
+			highlight NvimTreeEmptyFolderName guifg=#569cd6 ctermfg=75
+			highlight NvimTreeFileName guifg=#9cdcfe ctermfg=153
+		]])
 
 		-- Keybindings to open nvim-tree on the right side
 		vim.keymap.set(

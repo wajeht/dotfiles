@@ -23,8 +23,6 @@ return {
 					},
 					preview = {
 						hide_on_startup = true, -- disable preview pane by default
-						filesize_limit = 25, -- disable preview for files larger than 25MB
-						timeout = 250, -- timeout preview after 250ms for large files
 					},
 					mappings = {
 						i = {
@@ -32,64 +30,28 @@ return {
 							["<C-j>"] = actions.move_selection_next,
 							["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 							["<C-x>"] = actions.delete_buffer,
+							["<M-p>"] = require("telescope.actions.layout").toggle_preview,
 						},
 					},
-					-- Custom function to ensure files open in non-terminal windows
-					get_selection_window = function()
-						local wins = vim.api.nvim_list_wins()
-						for _, win in ipairs(wins) do
-							local buf = vim.api.nvim_win_get_buf(win)
-							if vim.bo[buf].buftype ~= "terminal" then
-								return win
-							end
-						end
-						-- If all windows are terminals, create a new split
-						vim.cmd("vsplit")
-						return vim.api.nvim_get_current_win()
-					end,
 					file_ignore_patterns = {
 						"node_modules",
 						"vendor",
 						"yarn.lock",
+						"package-lock.json",
+						"composer.lock",
 						".git",
-						".sl",
-						"_build",
-						".next",
-						"dist",
-						"build",
+						"storage/logs/*",
+						"storage/framework/*",
+						"bootstrap/cache/*",
+						"public/build/*",
+						"public/hot",
+						"*.min.js",
+						"*.min.css",
 						".DS_Store",
 					},
-					hidden = true,
+					hidden = true, -- show hidden files
 					path_display = {
 						"filename_first",
-					},
-					cache_picker = {
-						num_pickers = 5,
-						limit_entries = 1000,
-					},
-					vimgrep_arguments = {
-						"rg",
-						"--color=never",
-						"--no-heading",
-						"--with-filename",
-						"--line-number",
-						"--column",
-						"--smart-case",
-						"--hidden",
-						"--glob=!.git/",
-					},
-				},
-				pickers = {
-					find_files = {
-						find_command = { "fd", "--type", "f", "--hidden", "--strip-cwd-prefix" },
-					},
-					live_grep = {
-						additional_args = function()
-							return { "--max-count", "1000" }
-						end,
-					},
-					git_files = {
-						show_untracked = false,
 					},
 				},
 			})
