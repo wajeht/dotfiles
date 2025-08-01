@@ -50,8 +50,8 @@ vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab"
 vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>wqall!<CR>", { desc = "Save all and quit" })
 vim.keymap.set({ "n", "v" }, "<leader>w", function()
-	-- ALWAYS save first before closing anything (if possible)
-	if vim.bo.buftype == "" and vim.bo.modifiable and vim.api.nvim_buf_get_name(0) ~= "" then
+	-- Only save if buffer is modified
+	if vim.bo.buftype == "" and vim.bo.modifiable and vim.bo.modified and vim.api.nvim_buf_get_name(0) ~= "" then
 		vim.cmd("w!") -- Force save current buffer
 	end
 
@@ -72,15 +72,15 @@ vim.keymap.set({ "n", "v" }, "<leader>w", function()
 	local tab_count = #vim.api.nvim_list_tabpages()
 
 	if win_count > 1 then
-		-- Multiple split panes: close current pane (after saving)
-		vim.cmd("wincmd c")
+		-- Multiple split panes: close current pane
+		vim.cmd("close")
 	elseif tab_count > 1 then
-		-- Multiple tabs (no splits): close current tab (after saving)
+		-- Multiple tabs (no splits): close current tab
 		vim.cmd("tabclose")
 	else
-		-- Last tab, no splits: just save (already done above)
+		-- Last tab, no splits: already saved if needed
 	end
-end, { desc = "Always save first, then close split/tab hierarchy" })
+end, { desc = "Save if modified, then close split/tab hierarchy" })
 
 -- Move lines in visual mode
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
