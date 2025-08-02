@@ -21,8 +21,19 @@ return {
 				end
 
 				if neogit_open then
-					-- Close the tab if Neogit is open
-					vim.cmd("tabclose")
+					-- Close the tab if Neogit is open and we have multiple tabs
+					if #vim.api.nvim_list_tabpages() > 1 then
+						vim.cmd("tabclose")
+					else
+						-- If it's the last tab, just close Neogit windows
+						for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+							local buf = vim.api.nvim_win_get_buf(win)
+							local name = vim.api.nvim_buf_get_name(buf)
+							if name:match("NeogitStatus") then
+								vim.api.nvim_win_close(win, true)
+							end
+						end
+					end
 				else
 					-- Open Neogit
 					vim.cmd("Neogit")
@@ -33,18 +44,38 @@ return {
 		{
 			"<leader>gd",
 			function()
-				-- Check if Diffview is open
+				-- Check if Diffview is open by looking for Diffview tabs
 				local diffview_open = false
-				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-					local name = vim.api.nvim_buf_get_name(buf)
-					if name:match("DiffviewFilePanel") or name:match("Diffview://") then
-						diffview_open = true
+
+				-- Check all tabs for Diffview buffers
+				for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+					for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						local name = vim.api.nvim_buf_get_name(buf)
+						local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+
+						-- More comprehensive Diffview detection
+						if
+							name:match("DiffviewFilePanel")
+							or name:match("Diffview://")
+							or name:match("diffview://")
+							or ft == "DiffviewFiles"
+							or ft == "DiffviewFileHistory"
+						then
+							diffview_open = true
+							break
+						end
+					end
+					if diffview_open then
 						break
 					end
 				end
 
 				if diffview_open then
+					-- Force close all Diffview windows
 					vim.cmd("DiffviewClose")
+					-- Also try to close any orphaned Diffview tabs
+					vim.cmd("silent! tabdo if bufname('%'):match('Diffview') then tabclose | endif")
 				else
 					vim.cmd("DiffviewOpen")
 				end

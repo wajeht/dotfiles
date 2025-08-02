@@ -57,7 +57,9 @@ vim.keymap.set({ "n", "v" }, "<leader>w", function()
 
 	-- Check if we're in a Diffview tab - simplified detection
 	local bufname = vim.api.nvim_buf_get_name(0)
-	local is_diffview = bufname:match("DiffviewFilePanel") or bufname:match("DiffviewFiles")
+	local is_diffview = bufname:match("DiffviewFilePanel")
+		or bufname:match("DiffviewFiles")
+		or bufname:match("NeogitStatus")
 
 	if is_diffview then
 		-- Only close tab if we have multiple tabs
