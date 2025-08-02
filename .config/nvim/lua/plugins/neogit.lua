@@ -11,6 +11,15 @@ return {
 		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
 	},
 	config = function()
+		-- Configure diffview to disable folding
+		require("diffview").setup({
+			hooks = {
+				diff_buf_read = function()
+					vim.opt_local.foldenable = false
+				end,
+			},
+		})
+
 		-- Neogit-specific styling
 		vim.api.nvim_set_hl(0, "NeogitBranch", {
 			fg = "#569cd6", -- VS Code blue for branch names
@@ -20,25 +29,25 @@ return {
 			fg = "#9cdcfe", -- VS Code light blue for remotes
 		})
 
-		-- Darker diff colors for transparent background (these work for diffview)
+		-- Brighter diff colors for better visibility with transparent background
 		vim.api.nvim_set_hl(0, "DiffAdd", {
-			bg = "#1a2e1a", -- Dark green background
-			fg = "NONE",
+			bg = "#2d4a2d", -- Brighter green background
+			fg = "#a8e4a0", -- Light green text
 		})
 
 		vim.api.nvim_set_hl(0, "DiffDelete", {
-			bg = "#2e1a1a", -- Dark red background
-			fg = "#6b2c2c", -- Darker red text
+			bg = "#4a2d2d", -- Brighter red background
+			fg = "#ff7b72", -- Bright red text
 		})
 
 		vim.api.nvim_set_hl(0, "DiffChange", {
-			bg = "#2e2a1a", -- Dark orange background
-			fg = "NONE",
+			bg = "#4a402d", -- Brighter orange background
+			fg = "#ffa657", -- Orange text
 		})
 
 		vim.api.nvim_set_hl(0, "DiffText", {
-			bg = "#3e3a1a", -- Slightly lighter orange for actual changed text
-			fg = "NONE",
+			bg = "#5a4a2d", -- Even brighter orange for actual changed text
+			fg = "#ffb86c", -- Bright orange text
 		})
 
 		-- Essential Neogit highlight groups to fix gray backgrounds
@@ -91,6 +100,7 @@ return {
 
 			-- UI preferences
 			disable_hint = false,
+			-- disable_status_hints = false,
 			notification_icon = "󰊢",
 
 			-- Console settings
@@ -112,11 +122,18 @@ return {
 
 			-- Section folding preferences
 			sections = {
-				stashes = { folded = true },
-				unpulled_upstream = { folded = true },
-				unpulled_pushRemote = { folded = true },
-				recent = { folded = true },
-				rebase = { folded = true },
+				head = { folded = true, hidden = true },
+				push = { folded = true, hidden = true },
+				untracked = { folded = false },
+				unstaged = { folded = false },
+				staged = { folded = false },
+				stashes = { folded = true, hidden = true },
+				unpulled_upstream = { folded = true, hidden = true },
+				unmerged_upstream = { folded = true, hidden = true },
+				unpulled_pushRemote = { folded = true, hidden = true },
+				unmerged_pushRemote = { folded = true, hidden = true },
+				recent = { folded = true, hidden = true },
+				rebase = { folded = true, hidden = true },
 			},
 		})
 	end,
