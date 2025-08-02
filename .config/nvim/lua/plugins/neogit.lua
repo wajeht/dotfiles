@@ -7,20 +7,52 @@ return {
 	},
 	cmd = { "Neogit" },
 	keys = {
-		{ "<leader>gs", "<cmd>Neogit<cr>", desc = "Open Neogit" },
-		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
-		{ "<leader>gD", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
+		{
+			"<leader>gs",
+			function()
+				-- Check if Neogit is open by looking for Neogit buffers
+				local neogit_open = false
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					local name = vim.api.nvim_buf_get_name(buf)
+					if name:match("NeogitStatus") then
+						neogit_open = true
+						break
+					end
+				end
+
+				if neogit_open then
+					-- Close the tab if Neogit is open
+					vim.cmd("tabclose")
+				else
+					-- Open Neogit
+					vim.cmd("Neogit")
+				end
+			end,
+			desc = "Toggle Neogit",
+		},
+		{
+			"<leader>gd",
+			function()
+				-- Check if Diffview is open
+				local diffview_open = false
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					local name = vim.api.nvim_buf_get_name(buf)
+					if name:match("DiffviewFilePanel") or name:match("Diffview://") then
+						diffview_open = true
+						break
+					end
+				end
+
+				if diffview_open then
+					vim.cmd("DiffviewClose")
+				else
+					vim.cmd("DiffviewOpen")
+				end
+			end,
+			desc = "Toggle Diffview",
+		},
 	},
 	config = function()
-		-- Configure diffview to disable folding
-		require("diffview").setup({
-			hooks = {
-				diff_buf_read = function()
-					vim.opt_local.foldenable = false
-				end,
-			},
-		})
-
 		-- Neogit-specific styling
 		vim.api.nvim_set_hl(0, "NeogitBranch", {
 			fg = "#569cd6", -- VS Code blue for branch names
