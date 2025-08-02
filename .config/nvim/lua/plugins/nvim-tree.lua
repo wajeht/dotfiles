@@ -86,6 +86,5 @@ return {
 			highlight NvimTreeEmptyFolderName guifg=#569cd6 ctermfg=75
 			highlight NvimTreeFileName guifg=#9cdcfe ctermfg=153
 		]])
-
 	end,
 }

@@ -2,6 +2,21 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "master",
+		cmd = "Telescope",
+		keys = {
+			{
+				"<D-p>",
+				"<cmd>Telescope git_files<cr>",
+				desc = "Toggle Telescope git_files",
+				mode = { "n", "i", "v", "t", "c" },
+			},
+			{ "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Fuzzy find git files" },
+			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Fuzzy find files in cwd" },
+			{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Fuzzy find recent files" },
+			{ "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find string in cwd" },
+			{ "<leader>fc", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
+			{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Find keymaps" },
+		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{
@@ -70,24 +85,6 @@ return {
 			})
 
 			pcall(require("telescope").load_extension, "fzf")
-
-			vim.keymap.set(
-				{ "n", "i", "v", "t", "c" },
-				"<D-p>",
-				"<cmd>Telescope git_files<cr>",
-				{ desc = "Toggle Telescope git_files" }
-			)
-			vim.keymap.set("n", "<leader>fg", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
-			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
-			vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-			vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-			vim.keymap.set(
-				"n",
-				"<leader>fc",
-				"<cmd>Telescope grep_string<cr>",
-				{ desc = "Find string under cursor in cwd" }
-			)
-			vim.keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymaps" })
 		end,
 	},
 }
