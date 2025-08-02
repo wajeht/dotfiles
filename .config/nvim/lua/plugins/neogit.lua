@@ -9,6 +9,7 @@ return {
 	keys = {
 		{ "<leader>gs", "<cmd>Neogit<cr>", desc = "Open Neogit" },
 		{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
+		{ "<leader>gD", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
 	},
 	config = function()
 		-- Configure diffview to disable folding
