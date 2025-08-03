@@ -20,6 +20,7 @@ return {
 			view = {
 				side = "right", -- Open on the right side
 				width = 40, -- Set the width of the nvim-tree window
+				adaptive_size = true, -- Adaptive size of the nvim-tree window
 			},
 			renderer = {
 				root_folder_label = false, -- Hide the root folder path at the top
