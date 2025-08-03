@@ -39,9 +39,17 @@ return {
 					preview = {
 						hide_on_startup = true, -- disable preview pane by default
 					},
-					-- Custom function to ensure files open in non-terminal windows
+					-- Custom function to ensure files open in current tab
 					get_selection_window = function()
-						local wins = vim.api.nvim_list_wins()
+						-- Get windows in current tab only
+						local wins = vim.api.nvim_tabpage_list_wins(0)
+						-- First try to use current window if it's not a terminal
+						local current_win = vim.api.nvim_get_current_win()
+						local current_buf = vim.api.nvim_win_get_buf(current_win)
+						if vim.bo[current_buf].buftype ~= "terminal" then
+							return current_win
+						end
+						-- Otherwise find first non-terminal window in current tab
 						for _, win in ipairs(wins) do
 							local buf = vim.api.nvim_win_get_buf(win)
 							if vim.bo[buf].buftype ~= "terminal" then

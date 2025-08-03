@@ -56,6 +56,8 @@ vim.opt.backup = false -- Disable backup files
 vim.opt.writebackup = false -- Disable backup before overwriting file
 
 -- Other settings
+vim.opt.hidden = true -- Allow switching between buffers without saving
+vim.opt.iskeyword:append("-") -- Include hyphens in keywords
 vim.opt.breakindent = true -- Enable break indent
 vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
 vim.opt.mouse = "a" -- Enable mouse support in all modes
