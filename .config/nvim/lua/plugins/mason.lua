@@ -21,12 +21,12 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = {
-				"ts_ls",
+				"vtsls",
+				"vue-language-server",
 				"html",
 				"cssls",
 				"tailwindcss",
 				"lua_ls",
-				"vue_ls",
 				"emmet_language_server",
 				"intelephense",
 				"gopls",

@@ -65,45 +65,35 @@ return {
 
 		lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
 
-		-- TypeScript server with Vue plugin (Hybrid Mode Configuration)
-		lspconfig.ts_ls.setup({
+		-- Get the Vue Language Server path from Mason
+		local vue_language_server_path = vim.fn.stdpath("data") .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+		local vue_plugin = {
+			name = "@vue/typescript-plugin",
+			location = vue_language_server_path,
+			languages = { "vue" },
+			configNamespace = "typescript",
+		}
+
+		-- Configure vtsls with Vue plugin
+		lspconfig.vtsls.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			init_options = {
-				plugins = {
-					{
-						name = "@vue/typescript-plugin",
-						location = vim.fn.stdpath("data")
-							.. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
-						languages = { "vue" },
+			settings = {
+				vtsls = {
+					tsserver = {
+						globalPlugins = {
+							vue_plugin,
+						},
 					},
-				},
-				preferences = {
-					-- Improve type inference for Express
-					includePackageJsonAutoImports = "on",
-					includeCompletionsForModuleExports = true,
-					includeCompletionsForImportStatements = true,
 				},
 			},
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-			settings = {
-				typescript = {
-					-- Better IntelliSense for Node.js/Express
-					suggest = {
-						includeCompletionsForModuleExports = true,
-						includeCompletionsForImportStatements = true,
-					},
-					preferences = {
-						includePackageJsonAutoImports = "on",
-					},
-				},
-				javascript = {
-					suggest = {
-						includeCompletionsForModuleExports = true,
-						includeCompletionsForImportStatements = true,
-					},
-				},
-			},
+		})
+
+		-- Configure vue_ls (if using recent nvim-lspconfig, the on_init handler is built-in)
+		lspconfig.vue_ls.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
 		})
 
 		lspconfig["gopls"].setup({ capabilities = capabilities, on_attach = on_attach })
