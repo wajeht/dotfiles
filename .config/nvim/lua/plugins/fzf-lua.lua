@@ -1,0 +1,118 @@
+return {
+	{
+		"ibhagwan/fzf-lua",
+		cmd = "FzfLua",
+		keys = {
+			{
+				"<D-p>",
+				"<cmd>FzfLua git_files<cr>",
+				desc = "Toggle FzfLua git_files",
+				mode = { "n", "i", "v", "t", "c" },
+			},
+			{ "<leader>fg", "<cmd>FzfLua git_files<cr>", desc = "Fuzzy find git files" },
+			{ "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Fuzzy find files in cwd" },
+			{ "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Fuzzy find recent files" },
+			{ "<leader>fs", "<cmd>FzfLua live_grep<cr>", desc = "Find string in cwd" },
+			{ "<leader>fc", "<cmd>FzfLua grep_cword<cr>", desc = "Find string under cursor in cwd" },
+			{ "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Find keymaps" },
+		},
+		config = function()
+			local actions = require("fzf-lua.actions")
+
+			-- Custom action to open files in non-terminal windows
+			local function smart_edit(selected, opts)
+				local wins = vim.api.nvim_tabpage_list_wins(0)
+				local current_win = vim.api.nvim_get_current_win()
+				local current_buf = vim.api.nvim_win_get_buf(current_win)
+
+				local target_win = current_win
+				if vim.bo[current_buf].buftype == "terminal" then
+					-- Find first non-terminal window in current tab
+					for _, win in ipairs(wins) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						if vim.bo[buf].buftype ~= "terminal" then
+							target_win = win
+							break
+						end
+					end
+					-- If all windows are terminals, create a new split
+					if target_win == current_win then
+						vim.cmd("vsplit")
+						target_win = vim.api.nvim_get_current_win()
+					end
+				end
+
+				vim.api.nvim_set_current_win(target_win)
+				actions.file_edit(selected, opts)
+			end
+
+			require("fzf-lua").setup({
+				defaults = {
+					formatter = "path.filename_first",
+					git_icons = false,
+					file_icons = false,
+					color_icons = false,
+				},
+				winopts = {
+					height = 0.5,
+					width = 0.6,
+					row = 0.35,
+					col = 0.50,
+					preview = {
+						hidden = "hidden",
+					},
+				},
+				keymap = {
+					builtin = {
+						["<C-k>"] = "preview-up",
+						["<C-j>"] = "preview-down",
+						["<M-p>"] = "toggle-preview",
+					},
+					fzf = {
+						["ctrl-q"] = "select-all+accept",
+						["ctrl-x"] = "abort",
+					},
+				},
+				files = {
+					prompt = "Files> ",
+					multiprocess = true,
+					git_icons = false,
+					file_icons = false,
+					find_opts = [[-type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/vendor/*' -not -path '*/storage/logs/*' -not -path '*/storage/framework/*' -not -path '*/bootstrap/cache/*' -not -path '*/public/build/*' -not -path '*/public/hot/*' -not -name '*.min.js' -not -name '*.min.css' -not -name '.DS_Store' -not -name 'yarn.lock' -not -name 'package-lock.json' -not -name 'composer.lock']],
+					fd_opts = "--color=never --type f --hidden --follow --exclude node_modules --exclude .git --exclude vendor --exclude 'storage/logs' --exclude 'storage/framework' --exclude 'bootstrap/cache' --exclude 'public/build' --exclude 'public/hot' --exclude '*.min.js' --exclude '*.min.css' --exclude '.DS_Store' --exclude 'yarn.lock' --exclude 'package-lock.json' --exclude 'composer.lock'",
+					actions = {
+						["default"] = smart_edit,
+					},
+				},
+				git = {
+					files = {
+						prompt = "Git Files> ",
+						multiprocess = true,
+						git_icons = false,
+						file_icons = false,
+						actions = {
+							["default"] = smart_edit,
+						},
+					},
+				},
+				grep = {
+					prompt = "Rg> ",
+					multiprocess = true,
+					git_icons = false,
+					file_icons = false,
+					rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --glob '!node_modules' --glob '!.git' --glob '!vendor' --glob '!storage/logs' --glob '!storage/framework' --glob '!bootstrap/cache' --glob '!public/build' --glob '!public/hot' --glob '!*.min.js' --glob '!*.min.css' --glob '!.DS_Store' --glob '!yarn.lock' --glob '!package-lock.json' --glob '!composer.lock'",
+					actions = {
+						["default"] = smart_edit,
+					},
+				},
+				oldfiles = {
+					prompt = "History> ",
+					cwd_only = true,
+					actions = {
+						["default"] = smart_edit,
+					},
+				},
+			})
+		end,
+	},
+}
