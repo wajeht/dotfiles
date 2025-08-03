@@ -33,8 +33,8 @@ return {
 					sorting_strategy = "ascending", -- display results top->bottom
 					layout_config = {
 						prompt_position = "top", -- search bar at the top
-						height = 0.6, -- 60% of screen height
-						width = 0.8, -- 80% of screen width
+						height = 0.5, -- 50% of screen height
+						width = 0.6, -- 60% of screen width
 					},
 					preview = {
 						hide_on_startup = true, -- disable preview pane by default
