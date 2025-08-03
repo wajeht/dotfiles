@@ -20,17 +20,17 @@ return {
 				lua = { "stylua" },
 			},
 			-- format_on_save = {
-			-- 	lsp_fallback = true,
-			-- 	async = false,
-			-- 	timeout_ms = 500,
+			-- lsp_fallback = true,
+			-- async = false, -- Must be false for save
+			-- timeout_ms = 1000, -- Reasonable timeout
 			-- },
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>mf", function()
 			conform.format({
-				-- lsp_fallback = true,
-				-- async = false,
-				-- timeout_ms = 500,
+				lsp_fallback = true,
+				async = true,
+				timeout_ms = 0,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 	end,
