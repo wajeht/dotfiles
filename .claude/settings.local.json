@@ -6,7 +6,16 @@
       "Bash(sed:*)",
       "Bash(mv:*)",
       "Bash(nvim:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:lugh.ch)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:blog.viktomas.com)",
+      "WebFetch(domain:0xunicorn.com)",
+      "WebFetch(domain:neovim.io)",
+      "Bash(ls:*)",
+      "Bash(cp:*)",
+      "Bash(true)"
     ],
     "deny": []
   }

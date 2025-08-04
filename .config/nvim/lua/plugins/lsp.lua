@@ -1,152 +1,172 @@
-return {
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPost", "BufNewFile" },
-	dependencies = {
-		"saghen/blink.cmp",
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-	},
-	config = function()
-		local lspconfig = require("lspconfig")
+-- Native LSP configuration
+vim.diagnostic.config({
+	virtual_lines = false,
+	virtual_text = true,
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+})
 
-		local keymap = vim.keymap
+-- Enable LSP servers
+local servers = {
+	"lua_ls",
+	"gopls",
+	"html",
+	"cssls",
+	"tailwindcss",
+	"emmet_language_server",
+	"intelephense",
+	"vtsls",
+}
 
-		local opts = { noremap = true, silent = true }
-		local on_attach = function(client, bufnr)
-			opts.buffer = bufnr
+for _, server in ipairs(servers) do
+	vim.lsp.enable(server)
+end
 
-			opts.desc = "Show LSP references"
-			keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+-- LspAttach autocmd
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(ev)
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
-			opts.desc = "Go to declaration"
-			keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-			opts.desc = "Show LSP definitions"
-			keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-			opts.desc = "Show LSP implementations"
-			keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-			opts.desc = "Show LSP type definitions"
-			keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-			opts.desc = "See available code actions"
-			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-			opts.desc = "Smart rename"
-			keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-			opts.desc = "Show buffer diagnostics"
-			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-			opts.desc = "Show line diagnostics"
-			keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-			opts.desc = "Go to previous diagnostic"
-			keymap.set("n", "[d", function()
-				vim.diagnostic.jump({ count = -1 })
-			end, opts) -- jump to previous diagnostic in buffer
-
-			opts.desc = "Go to next diagnostic"
-			keymap.set("n", "]d", function()
-				vim.diagnostic.jump({ count = 1 })
-			end, opts) -- jump to next diagnostic in buffer
-
-			opts.desc = "Show documentation for what is under cursor"
-			keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
-			opts.desc = "Restart LSP"
-			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+		-- Enable inlay hints if supported
+		if
+			client
+			and client.supports_method
+			and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
+		then
+			vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 		end
 
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
+		-- Setup completion if client supports it
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+			vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = false })
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
+			-- Completion keymaps
+			vim.keymap.set("i", "<C-k>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-p>"
+				else
+					return "<C-k>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Select previous completion" })
 
-		lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
+			vim.keymap.set("i", "<C-j>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-n>"
+				else
+					return "<C-j>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Select next completion" })
 
-		-- Get the Vue Language Server path from Mason
-		local vue_language_server_path = vim.fn.stdpath("data")
-			.. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
-		local vue_plugin = {
-			name = "@vue/typescript-plugin",
-			location = vue_language_server_path,
-			languages = { "vue" },
-			configNamespace = "typescript",
-		}
+			vim.keymap.set("i", "<C-b>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-b>"
+				else
+					return "<C-b>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Scroll documentation up" })
 
-		-- Configure vtsls with Vue plugin
-		lspconfig.vtsls.setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = {
-				vtsls = {
-					tsserver = {
-						globalPlugins = {
-							vue_plugin,
-						},
-					},
-				},
-			},
-			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-		})
+			vim.keymap.set("i", "<C-f>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-f>"
+				else
+					return "<C-f>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Scroll documentation down" })
 
-		-- Configure vue_ls (if using recent nvim-lspconfig, the on_init handler is built-in)
-		-- lspconfig.vue_ls.setup({
-		-- 	capabilities = capabilities,
-		-- 	on_attach = on_attach,
-		-- })
+			vim.keymap.set("i", "<C-Space>", function()
+				if vim.fn.pumvisible() == 1 then
+					-- If completion menu is open, show documentation for selected item
+					vim.lsp.buf.hover()
+				else
+					-- Otherwise trigger completion
+					vim.lsp.completion.get()
+				end
+			end, { buffer = ev.buf, desc = "Trigger completion or show docs" })
 
-		lspconfig["gopls"].setup({ capabilities = capabilities, on_attach = on_attach })
+			vim.keymap.set("i", "<D-i>", function()
+				vim.lsp.completion.get()
+			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
 
-		lspconfig["cssls"].setup({ capabilities = capabilities, on_attach = on_attach })
+			vim.keymap.set("i", "<C-e>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-e>"
+				else
+					return "<C-e>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Hide completion" })
 
-		lspconfig["tailwindcss"].setup({ capabilities = capabilities, on_attach = on_attach })
+			vim.keymap.set("i", "<CR>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-y>"
+				else
+					return "<CR>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Accept completion" })
 
-		lspconfig["emmet_language_server"].setup({ capabilities = capabilities, on_attach = on_attach })
+			vim.keymap.set("i", "<Tab>", function()
+				if vim.fn.pumvisible() == 1 then
+					return "<C-y>"
+				else
+					return "<Tab>"
+				end
+			end, { buffer = ev.buf, expr = true, desc = "Select and accept completion" })
+		end
 
-		lspconfig["intelephense"].setup({ capabilities = capabilities, on_attach = on_attach })
+		-- LSP keymaps
+		local opts = { buffer = ev.buf, noremap = true, silent = true }
 
-		lspconfig["lua_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = {
-				Lua = {
-					-- make the language server recognize "vim" global
-					diagnostics = {
-						globals = { "vim" },
-					},
-					workspace = {
-						-- make language server aware of runtime files
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.stdpath("config") .. "/lua"] = true,
-						},
-					},
-				},
-			},
-		})
+		opts.desc = "Show LSP references"
+		vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
 
-		vim.diagnostic.config({
-			virtual_text = true, -- Enable inline diagnostic messages
-			signs = {
-				text = {
-					[vim.diagnostic.severity.ERROR] = signs.Error,
-					[vim.diagnostic.severity.WARN] = signs.Warn,
-					[vim.diagnostic.severity.HINT] = signs.Hint,
-					[vim.diagnostic.severity.INFO] = signs.Info,
-				},
-			},
-			underline = true, -- Underline the text with an issue
-			update_in_insert = false, -- Don't update diagnostics in insert mode
-			severity_sort = true, -- Sort diagnostics by severity
-			float = {
-				focusable = false,
-				style = "minimal",
-				source = "always",
-				header = "",
-				prefix = "",
-			},
-		})
+		opts.desc = "Go to declaration"
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
+		opts.desc = "Show LSP definitions"
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+		opts.desc = "Show LSP implementations"
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+
+		opts.desc = "Show LSP type definitions"
+		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+
+		opts.desc = "See available code actions"
+		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
+		opts.desc = "Smart rename"
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
+		opts.desc = "Show buffer diagnostics"
+		vim.keymap.set("n", "<leader>D", vim.diagnostic.setloclist, opts)
+
+		opts.desc = "Show line diagnostics"
+		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+		opts.desc = "Go to previous diagnostic"
+		vim.keymap.set("n", "[d", function()
+			vim.diagnostic.jump({ count = -1 })
+		end, opts)
+
+		opts.desc = "Go to next diagnostic"
+		vim.keymap.set("n", "]d", function()
+			vim.diagnostic.jump({ count = 1 })
+		end, opts)
+
+		opts.desc = "Show documentation for what is under cursor"
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+		opts.desc = "Signature help"
+		vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, opts)
+
+		opts.desc = "Restart LSP"
+		vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+
+		opts.desc = "Toggle inlay hints"
+		vim.keymap.set("n", "<leader>hh", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf }), { bufnr = ev.buf })
+		end, opts)
 	end,
-}
+})
