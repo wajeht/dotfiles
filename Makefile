@@ -1,4 +1,4 @@
-.PHONY: install macos brew nvim git tmux zsh starship ghostty lsd bat push clean update format sync-nvim help
+.PHONY: install macos brew nvim git zsh starship ghostty lsd bat push clean update format sync-nvim help
 
 install:
 	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
@@ -11,9 +11,6 @@ nvim:
 
 git:
 	@./scripts/git.sh $(filter-out $@,$(MAKECMDGOALS))
-
-tmux:
-	@./scripts/tmux.sh $(filter-out $@,$(MAKECMDGOALS))
 
 zsh:
 	@./scripts/zsh.sh $(filter-out $@,$(MAKECMDGOALS))
@@ -73,7 +70,6 @@ help:
 	@echo "  make brew              Install Homebrew packages"
 	@echo "  make nvim              Install Neovim config"
 	@echo "  make git               Install Git config"
-	@echo "  make tmux              Install Tmux config"
 	@echo "  make zsh               Install Zsh config"
 	@echo "  make starship          Install Starship prompt"
 	@echo "  make ghostty           Install Ghostty config"

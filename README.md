@@ -18,7 +18,6 @@ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 - **📦 Homebrew & Packages** - Development tools and apps
 - **⚡ Neovim** - Modern editor configuration
 - **🔗 Git** - Aliases and workflow optimizations
-- **🖥️ Tmux** - Terminal multiplexer setup
 - **💻 Zsh** - Native shell with plugins
 - **⭐ Starship** - Fast, customizable prompt
 - **🖼️ Ghostty** - GPU-accelerated terminal
@@ -32,7 +31,7 @@ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 make install
 
 # Individual components
-make macos brew nvim git tmux zsh starship ghostty lsd bat
+make macos brew nvim git zsh starship ghostty lsd bat
 
 # Uninstall components
 make <component> uninstall

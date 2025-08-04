@@ -7,8 +7,6 @@ brew "lua"          # Lua programming language
 brew "neovim"       # Modern Vim
 brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
-brew "tmux"         # Terminal multiplexer
-brew "tmuxinator"   # Tmuxinator
 brew "docker"       # Docker CLI
 brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
