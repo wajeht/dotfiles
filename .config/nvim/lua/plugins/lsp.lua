@@ -92,10 +92,10 @@ return {
 		})
 
 		-- Configure vue_ls (if using recent nvim-lspconfig, the on_init handler is built-in)
-		lspconfig.vue_ls.setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		-- lspconfig.vue_ls.setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- })
 
 		lspconfig["gopls"].setup({ capabilities = capabilities, on_attach = on_attach })
 
