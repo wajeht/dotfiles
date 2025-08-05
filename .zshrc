@@ -86,3 +86,7 @@ done
 
 # Initialize Starship prompt (must be last, after all plugins and functions)
 eval "$(starship init zsh)"
+
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+
