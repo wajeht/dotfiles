@@ -1,6 +1,8 @@
 # Development Tools
 brew "gh"           # GitHub CLI
 brew "go"           # Go programming language
+brew "php"          # PHP programming languag
+brew "composer"     # PHP package mangager
 brew "node"         # Node.js LTS
 brew "oven-sh/bun/bun"          # Fast JavaScript runtime
 brew "lua"          # Lua programming language
