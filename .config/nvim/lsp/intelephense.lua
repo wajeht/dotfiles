@@ -65,18 +65,10 @@ return {
 					"**/bower_components/**",
 				},
 			},
-			-- Environment settings for better path resolution
-			environment = {
-				phpVersion = "8.2", -- Adjust to your PHP version
-			},
 			-- Diagnostics settings
 			diagnostics = {
 				enable = true,
 				run = "onType", -- or "onSave"
-			},
-			-- Format settings
-			format = {
-				enable = false, -- Usually handled by prettier or other formatters
 			},
 		},
 	},
