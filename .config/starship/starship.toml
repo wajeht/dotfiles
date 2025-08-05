@@ -24,7 +24,7 @@ format = "[$path]($style) "
 # Git branch
 [git_branch]
 format = "on[$symbol$branch(:$remote_branch)]($style) "
-style = "purple bold"
+style = "bold green"
 symbol = " "
 
 # Git commit
@@ -89,7 +89,7 @@ min_time = 500  # Show duration for commands taking 0.5+ seconds
 
 # Hostname
 [hostname]
-ssh_only = false
+ssh_only = true
 format = " [$hostname]($style)"
 style = "green bold"
 disabled = false
