@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Setup completion if client supports it
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
 			vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = false })
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 
 			-- Completion keymaps
 			vim.keymap.set("i", "<C-k>", function()
