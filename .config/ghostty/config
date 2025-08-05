@@ -52,3 +52,6 @@ keybind = cmd+kp_add=increase_font_size:1
 keybind = cmd+r=reload_config
 
 adjust-cell-height = 10%
+
+# Add a new line when shift+enter is pressed
+keybind = shift+enter=text:\n
