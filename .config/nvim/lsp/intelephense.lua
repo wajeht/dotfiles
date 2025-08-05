@@ -47,6 +47,8 @@ return {
 				"xmlwriter",
 				"zip",
 				"zlib",
+				"laravel",
+				"laravel-ide-helper",
 			},
 			-- File settings
 			files = {
