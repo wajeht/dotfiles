@@ -2,8 +2,6 @@ vim.pack.add({
 	{ src = "https://github.com/Mofiqul/vscode.nvim" },
 })
 
-vim.o.background = "dark"
-
 require("vscode").setup({
 	transparent = true,
 	italic_comments = false,
@@ -11,6 +9,8 @@ require("vscode").setup({
 	disable_nvimtree_bg = true,
 	terminal_colors = true,
 })
+
+vim.o.background = "dark"
 
 -- Load the theme
 vim.cmd("colorscheme vscode")
