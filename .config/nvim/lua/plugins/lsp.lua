@@ -15,7 +15,6 @@ local servers = {
 	"html",
 	"cssls",
 	"tailwindcss",
-	"emmet_language_server",
 	"intelephense",
 	"vtsls",
 }
