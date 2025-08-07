@@ -21,6 +21,7 @@ vim.keymap.set("n", "<leader>fD", "<cmd>FzfLua diagnostics_workspace<cr>", { des
 vim.keymap.set("n", "<leader>ft", "<cmd>FzfLua treesitter<cr>", { desc = "Find treesitter symbols" })
 vim.keymap.set("n", "<leader>fz", "<cmd>FzfLua spell_suggest<cr>", { desc = "Spell suggestions" })
 vim.keymap.set("n", "z=", "<cmd>FzfLua spell_suggest<cr>", { desc = "Spell suggestions" })
+vim.keymap.set("n", "<leader>f/", "<cmd>FzfLua blines<cr>", { desc = "Search lines in current buffer" })
 
 local actions = require("fzf-lua.actions")
 
