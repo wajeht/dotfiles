@@ -142,7 +142,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>D", vim.diagnostic.setloclist, opts)
 
 		opts.desc = "Show line diagnostics"
-		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+		vim.keymap.set("n", "<leader>d", function()
+			vim.diagnostic.open_float({
+				border = "rounded", -- Add border to diagnostic window
+			})
+		end, opts)
 
 		opts.desc = "Go to previous diagnostic"
 		vim.keymap.set("n", "[d", function()
@@ -155,7 +159,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 
 		opts.desc = "Show documentation for what is under cursor"
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "K", function()
+			vim.lsp.buf.hover({
+				border = "rounded", -- Add border to hover window
+			})
+		end, opts)
 
 		opts.desc = "Signature help"
 		vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, opts)
