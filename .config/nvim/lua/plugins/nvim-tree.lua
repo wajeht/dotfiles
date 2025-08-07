@@ -24,6 +24,7 @@ require("nvim-tree").setup({
 	},
 	renderer = {
 		root_folder_label = false, -- Hide the root folder path at the top
+		add_trailing = true, -- Add trailing slash to folders
 		indent_markers = {
 			enable = true, -- Show indent markers
 			inline_arrows = true,
