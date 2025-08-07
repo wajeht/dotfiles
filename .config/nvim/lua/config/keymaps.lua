@@ -125,3 +125,26 @@ vim.keymap.set("n", "zg", "zg", { desc = "Add word to dictionary" })
 vim.keymap.set("n", "zw", "zw", { desc = "Mark word as wrong" })
 vim.keymap.set("n", "zug", "zug", { desc = "Remove word from dictionary" })
 vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
+
+-- Quickfix list keymaps
+vim.keymap.set("n", "<leader>cc", function()
+	local qf_exists = false
+	for _, win in pairs(vim.fn.getwininfo()) do
+		if win["quickfix"] == 1 then
+			qf_exists = true
+		end
+	end
+	if qf_exists == true then
+		vim.cmd("cclose")
+	else
+		vim.cmd("copen")
+	end
+end, { desc = "Toggle quickfix list" })
+vim.keymap.set("n", "<leader>cx", function()
+	vim.fn.setqflist({})
+	print("Quickfix list cleared")
+end, { desc = "Clear quickfix list" })
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>zz", { desc = "Next quickfix item" })
+vim.keymap.set("n", "[q", "<cmd>cprev<cr>zz", { desc = "Previous quickfix item" })
+vim.keymap.set("n", "]Q", "<cmd>clast<cr>zz", { desc = "Last quickfix item" })
+vim.keymap.set("n", "[Q", "<cmd>cfirst<cr>zz", { desc = "First quickfix item" })

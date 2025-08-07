@@ -80,7 +80,6 @@ require("fzf-lua").setup({
 			["<M-p>"] = "toggle-preview",
 		},
 		fzf = {
-			["ctrl-q"] = "select-all+accept",
 			["ctrl-x"] = "abort",
 		},
 	},
@@ -91,6 +90,7 @@ require("fzf-lua").setup({
 		fd_opts = "--color=never --type f --hidden --follow --exclude node_modules --exclude .git --exclude vendor --exclude 'storage/logs' --exclude 'storage/framework' --exclude 'bootstrap/cache' --exclude 'public/build' --exclude 'public/hot' --exclude '*.min.js' --exclude '*.min.css' --exclude '.DS_Store' --exclude 'yarn.lock' --exclude 'package-lock.json' --exclude 'composer.lock'",
 		actions = {
 			["default"] = smart_edit,
+			["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
 		},
 	},
 	git = {
@@ -99,6 +99,7 @@ require("fzf-lua").setup({
 			multiprocess = true,
 			actions = {
 				["default"] = smart_edit,
+				["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
 			},
 		},
 	},
@@ -108,6 +109,7 @@ require("fzf-lua").setup({
 		rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --glob '!node_modules' --glob '!.git' --glob '!vendor' --glob '!storage/logs' --glob '!storage/framework' --glob '!bootstrap/cache' --glob '!public/build' --glob '!public/hot' --glob '!*.min.js' --glob '!*.min.css' --glob '!.DS_Store' --glob '!yarn.lock' --glob '!package-lock.json' --glob '!composer.lock'",
 		actions = {
 			["default"] = smart_edit,
+			["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
 		},
 	},
 	oldfiles = {
