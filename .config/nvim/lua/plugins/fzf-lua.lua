@@ -11,6 +11,17 @@ vim.keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Find st
 vim.keymap.set("n", "<leader>fc", "<cmd>FzfLua grep_cword<cr>", { desc = "Find string under cursor in cwd" })
 vim.keymap.set("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find keymaps" })
 
+vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find buffers" })
+vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua help_tags<cr>", { desc = "Find help tags" })
+vim.keymap.set("n", "<leader>fm", "<cmd>FzfLua marks<cr>", { desc = "Find marks" })
+vim.keymap.set("n", "<leader>fq", "<cmd>FzfLua quickfix<cr>", { desc = "Find quickfix" })
+vim.keymap.set("n", "<leader>fl", "<cmd>FzfLua loclist<cr>", { desc = "Find loclist" })
+vim.keymap.set("n", "<leader>fd", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Find diagnostics in document" })
+vim.keymap.set("n", "<leader>fD", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Find diagnostics in workspace" })
+vim.keymap.set("n", "<leader>ft", "<cmd>FzfLua treesitter<cr>", { desc = "Find treesitter symbols" })
+vim.keymap.set("n", "<leader>fz", "<cmd>FzfLua spell_suggest<cr>", { desc = "Spell suggestions" })
+vim.keymap.set("n", "z=", "<cmd>FzfLua spell_suggest<cr>", { desc = "Spell suggestions" })
+
 local actions = require("fzf-lua.actions")
 
 -- Custom action to open files in non-terminal windows
@@ -101,6 +112,24 @@ require("fzf-lua").setup({
 	oldfiles = {
 		-- prompt = "History> ",
 		cwd_only = true,
+		actions = {
+			["default"] = smart_edit,
+		},
+	},
+	spell_suggest = {
+		-- prompt = "Spell> ",
+		winopts = {
+			height = 0.3,
+			width = 0.3,
+		},
+	},
+	buffers = {
+		-- prompt = "Buffers> ",
+		actions = {
+			["default"] = smart_edit,
+		},
+	},
+	diagnostics = {
 		actions = {
 			["default"] = smart_edit,
 		},

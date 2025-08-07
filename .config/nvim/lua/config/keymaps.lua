@@ -113,3 +113,15 @@ vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor 
 -- copy and paste
 vim.keymap.set({ "n", "v", "i" }, "<D-c>", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v", "i", "t" }, "<D-v>", '"+p', { desc = "Paste from clipboard" })
+
+-- Spell checking keymaps
+vim.keymap.set("n", "<leader>ss", function()
+	vim.opt.spell = not vim.opt.spell:get()
+	print("Spell checking " .. (vim.opt.spell:get() and "enabled" or "disabled"))
+end, { desc = "Toggle spell checking" })
+vim.keymap.set("n", "]s", "]szz", { desc = "Next misspelled word" })
+vim.keymap.set("n", "[s", "[szz", { desc = "Previous misspelled word" })
+vim.keymap.set("n", "zg", "zg", { desc = "Add word to dictionary" })
+vim.keymap.set("n", "zw", "zw", { desc = "Mark word as wrong" })
+vim.keymap.set("n", "zug", "zug", { desc = "Remove word from dictionary" })
+vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
