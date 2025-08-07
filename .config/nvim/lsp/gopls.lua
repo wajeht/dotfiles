@@ -1,10 +1,10 @@
 return {
 	cmd = { "gopls" },
-	filetypes = { "go", "gomod", "gowork", "gotmpl" },
+	filetypes = { "go", "gomod", "gowork", "gotmpl", "gosum", "gotmpl" },
 	root_markers = { "go.work", "go.mod", ".git" },
 	settings = {
 		gopls = {
-			["ui.inlayhint.hints"] = {
+			hints = {
 				compositeLiteralFields = true,
 				constantValues = true,
 				parameterNames = true,
