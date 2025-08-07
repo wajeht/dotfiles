@@ -21,6 +21,7 @@ vim.cmd("set statusline=%{repeat('─',winwidth('.'))}") -- Custom statusline (o
 
 vim.cmd("hi StatusLine gui=NONE guibg=NONE guifg=#444444") -- GUI background transparent
 vim.cmd("hi StatusLineNC gui=NONE guibg=NONE guifg=#444444") -- Inactive StatusLine transparent for GUI
+vim.cmd("hi Winseparator gui=NONE guibg=NONE guifg=#444444") -- Winseparator transparent
 
 -- Tab customization for transparent background
 vim.cmd("hi TabLine gui=NONE guibg=NONE guifg=#444444") -- Inactive tabs transparent
