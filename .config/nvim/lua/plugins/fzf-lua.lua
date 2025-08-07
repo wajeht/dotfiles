@@ -52,9 +52,15 @@ require("fzf-lua").setup({
 		width = 0.6,
 		row = 0.35,
 		col = 0.50,
-		preview = { hidden = "hidden" },
+		preview = {
+			hidden = "hidden",
+			border = "border",
+		},
 	},
-	hls = { border = "FloatBorder" },
+	hls = {
+		border = "FloatBorder",
+		preview_border = "FloatBorder",
+	},
 	keymap = {
 		builtin = {
 			["<C-k>"] = "preview-up",
