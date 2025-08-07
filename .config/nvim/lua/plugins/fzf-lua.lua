@@ -54,6 +54,7 @@ require("fzf-lua").setup({
 		col = 0.50,
 		preview = { hidden = "hidden" },
 	},
+	hls = { border = "FloatBorder" },
 	keymap = {
 		builtin = {
 			["<C-k>"] = "preview-up",
@@ -99,3 +100,6 @@ require("fzf-lua").setup({
 		},
 	},
 })
+
+-- Set border color for fzf-lua window
+vim.cmd([[highlight FloatBorder guifg=#444444]])
