@@ -44,6 +44,7 @@ alias gss='git status --short'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gwip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
+alias gbd='git branch | fzf --multi --preview "git log {1}" | xargs -I{} git branch -D {}'
 
 # Cleanup aliases
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
