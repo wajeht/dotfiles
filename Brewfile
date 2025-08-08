@@ -32,6 +32,7 @@ brew "curl"         # Data transfer tool
 brew "tree"         # Directory tree visualization
 brew "rsync"        # File synchronization
 brew "ffmpeg"       # Video converter
+brew "kanata"       # Software keyboard remapper
 
 # Zsh & Shell Enhancements
 brew "zsh"                      # Modern shell
