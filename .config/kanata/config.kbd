@@ -1,0 +1,23 @@
+;; Kanata configuration for macOS
+;; Remaps Caps Lock to:
+;; - Escape on tap
+;; - Left Control on hold
+
+(defcfg
+  ;; macOS specific configuration
+  process-unmapped-keys yes
+  danger-enable-cmd yes
+)
+
+(defsrc
+  caps
+)
+
+(deflayer default
+  @caps_esc_ctrl
+)
+
+(defalias
+  ;; Caps Lock -> Escape on tap, Control on hold
+  caps_esc_ctrl (tap-hold 200 200 esc lctl)
+)
