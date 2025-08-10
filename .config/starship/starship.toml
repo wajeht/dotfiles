@@ -4,7 +4,6 @@
 format = """$directory\
 $git_branch\
 $git_status\
-$cmd_duration\
 $fill\
 $hostname\
 $time\
@@ -80,12 +79,6 @@ disabled = false
 [fill]
 symbol = "·"
 style = "dimmed 8"
-
-# Command duration
-[cmd_duration]
-format = "took [$duration]($style) "
-style = "yellow bold"
-min_time = 500  # Show duration for commands taking 0.5+ seconds
 
 # Hostname
 [hostname]
