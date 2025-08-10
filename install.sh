@@ -53,6 +53,7 @@ main() {
     run_component "./scripts/starship.sh" "install" "Starship config" || failed_components+=("Starship config")
     run_component "./scripts/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
     run_component "./scripts/bat.sh" "install" "Bat config" || failed_components+=("Bat config")
+    run_component "./scripts/kanata.sh" "" "Kanata keyboard config" || failed_components+=("Kanata keyboard config")
 
     step "🎉 Installation Complete!"
 

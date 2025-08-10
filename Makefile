@@ -1,4 +1,4 @@
-.PHONY: install macos brew nvim git zsh starship ghostty lsd bat push clean update format sync-nvim help
+.PHONY: install macos brew nvim git zsh starship ghostty lsd bat kanata push clean update format sync-nvim help
 
 install:
 	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
@@ -26,6 +26,9 @@ lsd:
 
 bat:
 	@./scripts/bat.sh $(filter-out $@,$(MAKECMDGOALS))
+
+kanata:
+	@./scripts/kanata.sh $(filter-out $@,$(MAKECMDGOALS))
 
 macos:
 	@./scripts/macos-defaults.sh
@@ -75,6 +78,7 @@ help:
 	@echo "  make ghostty           Install Ghostty config"
 	@echo "  make lsd               Install LSD config"
 	@echo "  make bat               Install Bat config"
+	@echo "  make kanata            Install Kanata keyboard config"
 	@echo ""
 	@echo "🗑️  Uninstallation:"
 	@echo "  make <component> uninstall    Uninstall specific component"
