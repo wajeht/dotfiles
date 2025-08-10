@@ -144,6 +144,7 @@ require("fzf-lua").setup({
 	blines = {
 		actions = {
 			["default"] = actions.buf_edit,
+			["ctrl-q"] = { fn = actions.buf_sel_to_qf, prefix = "select-all" },
 			["alt-q"] = actions.buf_sel_to_qf,
 		},
 	},
