@@ -80,7 +80,8 @@ require("fzf-lua").setup({
 			["<M-p>"] = "toggle-preview",
 		},
 		fzf = {
-			["ctrl-x"] = "abort",
+			["ctrl-a"] = "toggle-all",
+			["ctrl-q"] = "select-all+accept",
 		},
 	},
 	files = {
@@ -90,7 +91,7 @@ require("fzf-lua").setup({
 		fd_opts = "--color=never --type f --hidden --follow --exclude node_modules --exclude .git --exclude vendor --exclude 'storage/logs' --exclude 'storage/framework' --exclude 'bootstrap/cache' --exclude 'public/build' --exclude 'public/hot' --exclude '*.min.js' --exclude '*.min.css' --exclude '.DS_Store' --exclude 'yarn.lock' --exclude 'package-lock.json' --exclude 'composer.lock'",
 		actions = {
 			["default"] = smart_edit,
-			["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
+			["alt-q"] = actions.file_sel_to_qf,
 		},
 	},
 	git = {
@@ -99,7 +100,7 @@ require("fzf-lua").setup({
 			multiprocess = true,
 			actions = {
 				["default"] = smart_edit,
-				["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
+				["alt-q"] = actions.file_sel_to_qf,
 			},
 		},
 	},
@@ -109,7 +110,7 @@ require("fzf-lua").setup({
 		rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --glob '!node_modules' --glob '!.git' --glob '!vendor' --glob '!storage/logs' --glob '!storage/framework' --glob '!bootstrap/cache' --glob '!public/build' --glob '!public/hot' --glob '!*.min.js' --glob '!*.min.css' --glob '!.DS_Store' --glob '!yarn.lock' --glob '!package-lock.json' --glob '!composer.lock'",
 		actions = {
 			["default"] = smart_edit,
-			["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all" },
+			["alt-q"] = actions.file_sel_to_qf,
 		},
 	},
 	oldfiles = {
@@ -117,6 +118,7 @@ require("fzf-lua").setup({
 		cwd_only = true,
 		actions = {
 			["default"] = smart_edit,
+			["alt-q"] = actions.file_sel_to_qf,
 		},
 	},
 	spell_suggest = {
@@ -130,11 +132,19 @@ require("fzf-lua").setup({
 		-- prompt = "Buffers> ",
 		actions = {
 			["default"] = smart_edit,
+			["alt-q"] = actions.buf_sel_to_qf,
 		},
 	},
 	diagnostics = {
 		actions = {
 			["default"] = smart_edit,
+			["alt-q"] = actions.file_sel_to_qf,
+		},
+	},
+	blines = {
+		actions = {
+			["default"] = actions.buf_edit,
+			["alt-q"] = actions.buf_sel_to_qf,
 		},
 	},
 })
