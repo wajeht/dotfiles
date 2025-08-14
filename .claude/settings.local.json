@@ -17,6 +17,7 @@
       "Bash(cp:*)",
       "Bash(true)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

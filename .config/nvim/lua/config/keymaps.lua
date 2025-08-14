@@ -127,6 +127,29 @@ vim.keymap.set("n", "zug", "zug", { desc = "Remove word from dictionary" })
 vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
 
 -- Quickfix list keymaps
+--
+-- QUICKFIX WORKFLOW WITH FZF-LUA:
+-- 1. Search with <leader>fs (live grep)
+-- 2. Select multiple entries with Tab
+-- 3. Send to quickfix with Alt-q (M-q)
+--
+-- SEARCH & REPLACE ACROSS QUICKFIX:
+-- Interactive (with confirmation):
+--   :cfdo %s/old/new/gc | update    - Replace in all files, save after
+--   :cdo s/old/new/gc                - Replace only on quickfix lines
+--
+-- Non-interactive:
+--   :cfdo %s/old/new/g | update      - Replace in all files
+--
+-- SAVE AFTER REPLACEMENTS:
+--   :cfdo update                     - Save all modified files
+--   :wall                            - Save all modified buffers
+--
+-- CONFIRMATION FLAGS (when using 'c'):
+--   y - replace this match           n - skip this match
+--   a - replace all remaining        q - quit substitution
+--   l - replace this and quit        ^E/^Y - scroll up/down
+--
 vim.keymap.set("n", "<leader>cc", function()
 	local qf_exists = false
 	for _, win in pairs(vim.fn.getwininfo()) do
@@ -142,8 +165,9 @@ vim.keymap.set("n", "<leader>cc", function()
 end, { desc = "Toggle quickfix list" })
 vim.keymap.set("n", "<leader>cx", function()
 	vim.fn.setqflist({})
-	print("Quickfix list cleared")
-end, { desc = "Clear quickfix list" })
+	vim.cmd("cclose")
+	print("Quickfix list cleared and closed")
+end, { desc = "Clear and close quickfix list" })
 vim.keymap.set("n", "]q", "<cmd>cnext<cr>zz", { desc = "Next quickfix item" })
 vim.keymap.set("n", "[q", "<cmd>cprev<cr>zz", { desc = "Previous quickfix item" })
 vim.keymap.set("n", "]Q", "<cmd>clast<cr>zz", { desc = "Last quickfix item" })
