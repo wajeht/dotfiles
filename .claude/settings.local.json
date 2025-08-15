@@ -15,7 +15,8 @@
       "WebFetch(domain:neovim.io)",
       "Bash(ls:*)",
       "Bash(cp:*)",
-      "Bash(true)"
+      "Bash(true)",
+      "Bash(echo $TERM)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

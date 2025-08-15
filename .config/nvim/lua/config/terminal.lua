@@ -41,38 +41,32 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Store the terminal buffer number
 local terminal_buf = nil
 
+-- Store terminal window for faster toggling
+local terminal_win = nil
+
 -- Toggle terminal with Cmd+J (open or close)
 vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", function()
-	-- Check if the terminal buffer is valid and visible
-	if terminal_buf and vim.api.nvim_buf_is_valid(terminal_buf) then
-		-- Find the window displaying the terminal buffer
-		for _, win in ipairs(vim.api.nvim_list_wins()) do
-			if vim.api.nvim_win_get_buf(win) == terminal_buf then
-				-- Hide the terminal window if it's open
-				vim.api.nvim_win_hide(win)
-				return
-			end
-		end
-		-- Open the terminal buffer in a new split if it's not visible
-		vim.cmd("split")
-		vim.api.nvim_win_set_buf(0, terminal_buf)
-	else
-		-- Create a new terminal if no valid buffer exists
-		vim.cmd("split")
-		vim.cmd("terminal")
-		terminal_buf = vim.api.nvim_get_current_buf() -- Store the buffer number
+	-- Fast close if terminal window exists
+	if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+		vim.api.nvim_win_hide(terminal_win)
+		terminal_win = nil
+		return
 	end
 
-	-- Batch window adjustments for better performance
-	local win = vim.api.nvim_get_current_win()
-	vim.cmd("wincmd J") -- Move the terminal window to the bottom
-	vim.api.nvim_win_set_height(win, 15) -- Set a fixed height for the terminal
-	vim.api.nvim_set_option_value("winfixheight", true, { win = win }) -- Fix the height of the terminal window
+	-- Check if terminal buffer exists
+	if terminal_buf and vim.api.nvim_buf_is_valid(terminal_buf) then
+		-- Reuse existing buffer
+		vim.cmd("botright 15split")
+		vim.api.nvim_win_set_buf(0, terminal_buf)
+	else
+		-- Create new terminal with optimized settings
+		vim.cmd("botright 15split term://$SHELL")
+		terminal_buf = vim.api.nvim_get_current_buf()
+	end
 
-	-- Schedule insert mode to avoid blocking
-	vim.schedule(function()
-		if vim.api.nvim_win_is_valid(win) then
-			vim.cmd("startinsert")
-		end
-	end)
+	terminal_win = vim.api.nvim_get_current_win()
+	vim.api.nvim_set_option_value("winfixheight", true, { win = terminal_win })
+
+	-- Immediate insert mode
+	vim.cmd("startinsert")
 end)
