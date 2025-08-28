@@ -65,7 +65,23 @@ function cd() {
 
 # Function to display colored diffs to terminal, copy plain diffs to clipboard
 function git_diff_all() {
-  local target_branch="${1:-main}"  # Default to 'main' if no argument provided
+  local exclude_tests=false
+  local target_branch="main"
+  
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --exclude-tests|-et)
+        exclude_tests=true
+        shift
+        ;;
+      *)
+        target_branch="$1"
+        shift
+        ;;
+    esac
+  done
+
   local ALL_DIFFS
 
   # Check if the branch exists locally
@@ -88,10 +104,16 @@ function git_diff_all() {
     fi
   fi
 
+  # Build exclude patterns if needed
+  local exclude_args=""
+  if [ "$exclude_tests" = true ]; then
+    exclude_args="-- . ':(exclude)*Test.php' ':(exclude)*.test.php' ':(exclude)*.test.ts' ':(exclude)*.test.js' ':(exclude)*.test.jsx' ':(exclude)*.test.tsx' ':(exclude)*.spec.js' ':(exclude)*.spec.ts' ':(exclude)*.spec.jsx' ':(exclude)*.spec.tsx' ':(exclude)tests/*' ':(exclude)Tests/*'"
+  fi
+
   ALL_DIFFS=$( ( \
-      git -c color.diff=always --no-pager diff ${target_branch}... && \
-      git -c color.diff=always --no-pager diff && \
-      git -c color.diff=always --no-pager diff --cached \
+      eval "git -c color.diff=always --no-pager diff ${target_branch}... ${exclude_args}" && \
+      eval "git -c color.diff=always --no-pager diff ${exclude_args}" && \
+      eval "git -c color.diff=always --no-pager diff --cached ${exclude_args}" \
   ) );
 
   echo "$ALL_DIFFS";
