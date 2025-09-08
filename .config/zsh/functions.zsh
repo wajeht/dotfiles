@@ -66,6 +66,7 @@ function cd() {
 # Function to display colored diffs to terminal, copy plain diffs to clipboard
 function git_diff_all() {
   local exclude_tests=false
+  local only_tests=false
   local target_branch="main"
   
   # Parse arguments
@@ -73,6 +74,10 @@ function git_diff_all() {
     case "$1" in
       --exclude-tests|-et)
         exclude_tests=true
+        shift
+        ;;
+      --only-tests|-ot)
+        only_tests=true
         shift
         ;;
       *)
@@ -104,16 +109,18 @@ function git_diff_all() {
     fi
   fi
 
-  # Build exclude patterns if needed
-  local exclude_args=""
+  # Build exclude/include patterns if needed
+  local filter_args=""
   if [ "$exclude_tests" = true ]; then
-    exclude_args="-- . ':(exclude)*Test.php' ':(exclude)*.test.php' ':(exclude)*.test.ts' ':(exclude)*.test.js' ':(exclude)*.test.jsx' ':(exclude)*.test.tsx' ':(exclude)*.spec.js' ':(exclude)*.spec.ts' ':(exclude)*.spec.jsx' ':(exclude)*.spec.tsx' ':(exclude)tests/*' ':(exclude)Tests/*'"
+    filter_args="-- . ':(exclude)*Test.php' ':(exclude)*.test.php' ':(exclude)*.test.ts' ':(exclude)*.test.js' ':(exclude)*.test.jsx' ':(exclude)*.test.tsx' ':(exclude)*.spec.js' ':(exclude)*.spec.ts' ':(exclude)*.spec.jsx' ':(exclude)*.spec.tsx' ':(exclude)tests/*' ':(exclude)Tests/*'"
+  elif [ "$only_tests" = true ]; then
+    filter_args="-- '*Test.php' '*.test.php' '*.test.ts' '*.test.js' '*.test.jsx' '*.test.tsx' '*.spec.js' '*.spec.ts' '*.spec.jsx' '*.spec.tsx' 'tests/*' 'Tests/*'"
   fi
 
   ALL_DIFFS=$( ( \
-      eval "git -c color.diff=always --no-pager diff ${target_branch}... ${exclude_args}" && \
-      eval "git -c color.diff=always --no-pager diff ${exclude_args}" && \
-      eval "git -c color.diff=always --no-pager diff --cached ${exclude_args}" \
+      eval "git -c color.diff=always --no-pager diff ${target_branch}... ${filter_args}" && \
+      eval "git -c color.diff=always --no-pager diff ${filter_args}" && \
+      eval "git -c color.diff=always --no-pager diff --cached ${filter_args}" \
   ) );
 
   echo "$ALL_DIFFS";
