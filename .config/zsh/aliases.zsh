@@ -5,7 +5,7 @@ alias c='code'
 alias cr='cursor'
 alias clc='npx @anthropic-ai/claude-code@latest'
 alias oc='npx opencode-ai@latest'
-alias cdx='npx @openai/codes@latest'
+alias cdx='npx @openai/codex@latest'
 
 # Shell aliases
 alias resource='source ~/.zshrc'
