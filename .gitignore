@@ -6,6 +6,8 @@
 *.un~
 *~
 
+.claude
+
 node_modules
 
 .env
