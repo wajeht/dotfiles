@@ -7,6 +7,7 @@ brew "node"         # Node.js LTS
 brew "oven-sh/bun/bun"          # Fast JavaScript runtime
 brew "lua"          # Lua programming language
 brew "neovim"       # Modern Vim
+brew "bob"          # Neovim package manager
 brew "lazygit"      # Git TUI
 brew "jq"           # JSON processor
 brew "docker"       # Docker CLI
