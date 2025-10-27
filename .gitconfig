@@ -1,105 +1,114 @@
 [user]
-	# User information
+	# Your Git identity and commit signing configuration
 	user = wajeht
 	email = 58354193+wajeht@users.noreply.github.com
 	name = wajeht
+	# Path to your SSH public key used for signing commits
+	signingKey = "~/.ssh/key.pub"
+	signingkey = "~/.ssh/key.pub" # (duplicate, can safely remove one)
 
 [filter "lfs"]
-	# Git LFS configuration
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+	# Git LFS (Large File Storage) configuration
+	clean = git-lfs clean -- %f        # Cleans files before adding to Git
+	smudge = git-lfs smudge -- %f      # Restores files when checking out
+	process = git-lfs filter-process   # Optimized LFS file processing
+	required = true                    # Enforce LFS filters for tracked files
 
 [push]
-	# Automatically set up remote tracking branches when pushing
-	autoSetupRemote = true # Auto set up remote tracking branches
+	# Automatically set up remote tracking branches when pushing for the first time
+	autoSetupRemote = true
 
 [http]
-	# Increase the buffer size for HTTP operations
-	postBuffer = 524288000 # Increase HTTP buffer
+	# Increase HTTP post buffer to handle large pushes or fetches
+	postBuffer = 524288000 # 500MB buffer size
 
-	# Increase the buffer size for ssh operations
 [ssh]
-	postBuffer = 524288000 # Increase SSH buffer
+	# Increase SSH buffer size for large operations (rarely needed but safe)
+	postBuffer = 524288000 # 500MB buffer size
 
 [pull]
-	# Always rebase when pulling
-	rebase = true # Always rebase on pull
+	# Rebase instead of merge when pulling new changes (keeps history clean)
+	rebase = true
 
 [init]
-	# Set the default branch name to 'main' when initializing new repositories
-	defaultBranch = main # Default branch: main
+	# Default branch name for new repositories
+	defaultBranch = main
 
 [alias]
-	# Aliases for common Git commands
-	push = push --no-verify               # Push without verifying
-	discard = restore .                   # Discard all the staged changes
-	undo = reset --soft HEAD^             # Undo the last commit, keeping changes staged
-	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f"		# Use my server to generate conventional commits
-	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"        		# Add, Commit, and Push
-	pr-comments = "!zsh -c 'source ~/.zshrc && git_pr_comments'"
-	diff-all = "!f() { zsh -c \"source ~/.zshrc && git_diff_all $*\"; }; f"
+	# Useful Git command shortcuts
+	push = push --no-verify               # Push without pre-push hooks
+	discard = restore .                   # Revert all local changes in working directory
+	undo = reset --soft HEAD^             # Undo last commit but keep changes staged
+	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f" # Generate commit messages via your AI commit service
+	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"       # Add, commit (AI), and push in one step
+	pr-comments = "!zsh -c 'source ~/.zshrc && git_pr_comments'"                    # Show PR comments (custom zsh alias)
+	diff-all = "!f() { zsh -c \"source ~/.zshrc && git_diff_all $*\"; }; f"         # Show diffs for all repos or branches (custom zsh alias)
 
 [core]
-	editor = nvim
-
-[core]
-	# Set the default text editor for Git commands
-	editor = nvim # Default editor
-	# Handle line endings
-	autocrlf = input # Handle line endings
-	# Global gitignore file
-	excludesfile = ~/.gitignore_global # Global gitignore
+	# Core Git behavior and editor preferences
+	editor = nvim                      # Use Neovim as the default editor
+	fsmonitor = true                   # Enable filesystem monitoring for faster status checks
+	autocrlf = input                   # Normalize line endings (LF on Unix, CRLF ignored on input)
+	excludesfile = ~/.gitignore_global # Global .gitignore file
 
 [diff]
-	# Set the default tool for diff operations
-	tool = vimdiff # Diff tool
-	algorithm = histogram
-	colorMoved = zebra
+	# Configure how diffs are shown
+	tool = vimdiff                     # Use vimdiff for manual diffs
+	algorithm = histogram              # Smarter diff algorithm
+	colorMoved = zebra                 # Highlight moved lines with alternating colors
 
 [difftool]
-	# Don't prompt when using difftool
-	prompt = false # No prompt for difftool
+	# Configure difftool behavior
+	prompt = false                     # Don’t ask before opening difftool
 
 [merge]
-	# Set the default tool for merge operations
-	tool = vimdiff # Merge tool
-	conflictstyle = zdiff3
+	# Merge behavior
+	tool = vimdiff                     # Use vimdiff for merge conflict resolution
+	conflictstyle = zdiff3             # Show common ancestor in merge conflicts (better context)
 
 [mergetool]
-	# Don't keep backup files after a merge
-	keepBackup = false # No backup files after merge
+	# Don’t keep backup files when resolving merges
+	keepBackup = false
 
 [color]
-	# Enable color output for Git commands
-	ui = auto # Color UI
+	# Enable colored output in Git commands
+	ui = auto
 
 [credential]
-	# Cache credentials for an hour (3600 seconds)
-	helper = cache # Cache credentials
-	cacheTimeout = 3600 # Cache for 1 hour
+	# Cache credentials for one hour (3600 seconds)
+	helper = cache
+	cacheTimeout = 3600
 
 [rebase]
-	# Automatically squash fixup! commits during interactive rebase
-	autosquash = true
-	# Automatically stash uncommitted changes before rebase and apply after
-	autostash = true
+	# Improve rebase workflow
+	autosquash = true   # Automatically squash fixup! commits
+	autostash = true    # Temporarily stash uncommitted changes before rebase
 
 [branch]
-	# Sort branches by last commit date in 'git branch' output
+	# Sort branches by last commit date (most recent first)
 	sort = -committerdate
 
 [fetch]
-	# Remove remote-tracking branches that no longer exist on the remote
+	# Clean up old remote-tracking branches
 	prune = true
+	# Write commit-graph for faster operations
+	writeCommitGraph = true
 
 [rerere]
-	# Remember and reuse recorded resolutions of merge conflicts
+	# Automatically remember and reuse conflict resolutions
 	enabled = true
-	# Automatically stage files if rerere successfully resolves conflicts
+	# Auto-stage files after successful rerere resolution
 	autoUpdate = true
 
 [help]
-	# Automatically run suggested command if a git command is mistyped (1s delay)
+	# Automatically correct mistyped Git commands after 1 second
 	autocorrect = 10
+
+[column]
+	# Automatically format command output in columns where appropriate
+	ui = "auto"
+
+[commit]
+	# Automatically sign all commits with your GPG/SSH key
+	gpgSign = true
+
