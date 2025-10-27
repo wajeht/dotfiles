@@ -4,8 +4,7 @@
 	email = 58354193+wajeht@users.noreply.github.com
 	name = wajeht
 	# Path to your SSH public key used for signing commits
-	signingKey = "~/.ssh/key.pub"
-	signingkey = "~/.ssh/key.pub" # (duplicate, can safely remove one)
+    signingKey = ~/.ssh/id_ed25519.pub
 
 [filter "lfs"]
 	# Git LFS (Large File Storage) configuration
@@ -111,4 +110,7 @@
 [commit]
 	# Automatically sign all commits with your GPG/SSH key
 	gpgSign = true
+
+[gpg]
+	format = ssh
 

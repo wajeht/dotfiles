@@ -51,6 +51,8 @@ brew "fortune"      # Random quotes
 brew "sshpass"      # SSH password authentication
 
 # Productivity Apps
+cask "anki"                # Memory training application
+cask "audacity"            # Multi-track audio editor and recorder
 cask "alfred"              # Spotlight replacement
 cask "rectangle"           # Window manager
 cask "bitwarden"           # Password manager
@@ -60,6 +62,7 @@ cask "yubico-authenticator" # YubiKey Authenticator
 cask "superkey"            # SuperKey
 cask "caffeine"            # Keep screen awake
 cask "moom"                # Window manager
+cask "shortcat"            # Shortcat
 
 # Development Apps
 cask "cursor"             # AI code editor
