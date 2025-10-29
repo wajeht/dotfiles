@@ -111,41 +111,6 @@ main() {
         info "Created ~/Dev folder"
     fi
 
-    # Configure Finder sidebar favorites
-    # Install mysides if not already present
-    if ! command -v mysides &>/dev/null; then
-        info "Installing mysides tool..."
-        if command -v brew &>/dev/null; then
-            brew install mysides || true
-        else
-            # Download and install mysides manually using the .pkg installer
-            info "Downloading mysides .pkg installer..."
-            curl -L https://github.com/mosen/mysides/releases/download/v1.0.1/mysides-1.0.1.pkg -o /tmp/mysides-1.0.1.pkg
-            if [ -f /tmp/mysides-1.0.1.pkg ]; then
-                info "Installing mysides from .pkg..."
-                sudo installer -pkg /tmp/mysides-1.0.1.pkg -target /
-                rm -f /tmp/mysides-1.0.1.pkg
-            else
-                error "Failed to download mysides installer"
-            fi
-        fi
-    fi
-
-    # Remove existing problematic items
-    mysides remove "All My Files" &>/dev/null || true
-    mysides remove "iCloud" &>/dev/null || true
-    mysides remove "domain-AirDrop" &>/dev/null || true
-
-    # Add standard locations to sidebar in desired order
-    mysides add Applications file:///Applications/ &>/dev/null || true
-    mysides add Downloads file://${HOME}/Downloads/ &>/dev/null || true
-    mysides add Documents file://${HOME}/Documents/ &>/dev/null || true
-    mysides add Desktop file://${HOME}/Desktop/ &>/dev/null || true
-    mysides add Dev file://${HOME}/Dev/ &>/dev/null || true
-    mysides add Pictures file://${HOME}/Pictures/ &>/dev/null || true
-    mysides add Videos file://${HOME}/Videos/ &>/dev/null || true
-    mysides add Home file://${HOME}/ &>/dev/null || true
-
     # Configure Finder sidebar visibility
     set_default "com.apple.finder" "SidebarDevicesSectionDisclosedState" "bool" "true" # Show Locations section
     set_default "com.apple.finder" "SidebarPlacesSectionDisclosedState" "bool" "true"  # Show Favorites section
