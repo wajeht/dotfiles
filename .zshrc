@@ -86,12 +86,3 @@ done
 
 # Initialize Starship prompt (must be last, after all plugins and functions)
 eval "$(starship init zsh)"
-
-# For neovim version manager
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/jaw/.lmstudio/bin"
-
-export TERM=xterm-256color
-
