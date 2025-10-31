@@ -8,34 +8,37 @@ export LANG=en_US.UTF-8
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # NVM (Node Version Manager) - Lazy loading for faster startup
-export NVM_DIR="$HOME/.nvm"
+# Only load if NVM is installed
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
 
-# Lazy load NVM - only load when needed
-nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
-  nvm "$@"
-}
+  # Lazy load NVM - only load when needed
+  nvm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
+    nvm "$@"
+  }
 
-# Alias common node commands to trigger NVM loading
-node() {
-  unset -f node
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  node "$@"
-}
+  # Alias common node commands to trigger NVM loading
+  node() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    node "$@"
+  }
 
-npm() {
-  unset -f npm
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  npm "$@"
-}
+  npm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    npm "$@"
+  }
 
-npx() {
-  unset -f npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  npx "$@"
-}
+  npx() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    npx "$@"
+  }
+fi
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

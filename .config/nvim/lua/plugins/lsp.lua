@@ -29,10 +29,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
 		-- Disable inlay hints by default (can be toggled with <leader>hh)
-		if
-			client
-			and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint)
-		then
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
 			vim.lsp.inlay_hint.enable(false)
 		end
 
