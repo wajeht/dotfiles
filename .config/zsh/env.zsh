@@ -40,3 +40,11 @@ npx() {
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# For neovim version manager
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/jaw/.lmstudio/bin"
+
+export TERM=xterm-256color
