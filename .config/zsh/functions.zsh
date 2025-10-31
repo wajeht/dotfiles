@@ -198,3 +198,21 @@ function git_pr_comments() {
 function gh_login() {
   gh auth login --web --git-protocol https
 }
+
+# Kill process running on specified port
+function kill-port() {
+  if [ -z "$1" ]; then
+    echo "Usage: kill-port <port_number>"
+    return 1
+  fi
+
+  local pid=$(lsof -ti:$1)
+
+  if [ -z "$pid" ]; then
+    echo "No process found running on port $1"
+    return 1
+  fi
+
+  echo "Killing process $pid on port $1"
+  kill -9 $pid
+}

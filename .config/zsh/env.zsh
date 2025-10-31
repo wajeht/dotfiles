@@ -4,6 +4,9 @@ export EDITOR='nvim'
 # Language environment
 export LANG=en_US.UTF-8
 
+# Disable Homebrew auto-update
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # Colorize man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
