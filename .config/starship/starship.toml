@@ -13,6 +13,9 @@ $character"""
 # Disable the default newline that starship adds before each prompt
 add_newline = false
 
+# Increase command timeout to prevent git timeout warnings
+command_timeout = 2000
+
 # Directory
 [directory]
 style = "cyan bold"
