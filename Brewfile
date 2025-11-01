@@ -17,6 +17,7 @@ brew "parallel"     # Parallel
 brew "starship"     # Starship prompt
 brew "sqlite"       # SQLite database
 brew "nmap"         # Network scanner
+brew "tldr"         # Collaborative cheatsheets for console commands
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
