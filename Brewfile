@@ -64,6 +64,7 @@ cask "superkey"            # SuperKey
 cask "caffeine"            # Keep screen awake
 cask "moom"                # Window manager
 cask "shortcat"            # Shortcat
+cask "audio-hijack"       # Records audio from any application
 
 # Development Apps
 cask "cursor"             # AI code editor
