@@ -31,7 +31,7 @@ main() {
     set_default "com.apple.print.PrintingPrefs" "QuitWhenFinished" "bool" "true"           # Automatically quit printer app once the print jobs complete
     set_default "com.apple.LaunchServices" "LSQuarantine" "bool" "false"                   # Disable the "Are you sure you want to open this application?" dialog
 
-    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user # Remove duplicates in the "Open With" menu
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -r -domain local -domain system -domain user # Remove duplicates in the "Open With" menu
 
     set_default "NSGlobalDomain" "NSTextShowsControlCharacters" "bool" "true"           # Display ASCII control characters using caret notation
     set_default "com.apple.systempreferences" "NSQuitAlwaysKeepsWindows" "bool" "false" # Disable Resume system-wide
