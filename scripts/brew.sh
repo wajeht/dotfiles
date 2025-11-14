@@ -18,7 +18,7 @@ install_brew() {
 
     # Temporarily disable exit on error to handle brew bundle failures gracefully
     set +e
-    brew bundle --file=Brewfile --no-upgrade
+    brew bundle --file=.config/homebrew/Brewfile --no-upgrade
     local exit_code=$?
     set -e
 
@@ -41,7 +41,7 @@ uninstall_brew() {
     read -p "❓ Continue? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
 
     info "Removing Homebrew packages..."
-    brew bundle cleanup --file=Brewfile --force
+    brew bundle cleanup --file=.config/homebrew/Brewfile --force
     task "Removed packages from Brewfile"
 
     success "Homebrew packages removed"

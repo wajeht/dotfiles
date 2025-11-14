@@ -47,11 +47,17 @@ make help      # Show all commands
 
 | Component | Config Location |
 |-----------|----------------|
+| **Git** | `.config/git/` |
 | **Zsh** | `.config/zsh/` |
+| **Neovim** | `.config/nvim/` |
+| **Ghostty** | `.config/ghostty/` |
 | **Starship** | `.config/starship/` |
 | **LSD** | `.config/lsd/` |
 | **Bat** | `.config/bat/` |
-| **Packages** | `Brewfile` |
+| **Rectangle** | `.config/rectangle/` |
+| **Moom** | `.config/moom/` |
+| **Audio Hijack** | `.config/audio-hijack/` |
+| **Homebrew** | `.config/homebrew/` |
 
 ## 📋 Requirements
 
