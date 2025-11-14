@@ -17,3 +17,6 @@ node_modules
 AGENT.md
 
 .DS_Store
+
+# Ignore machine-specific zsh config
+.config/zsh/private.zsh

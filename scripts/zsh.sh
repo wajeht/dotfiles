@@ -45,37 +45,43 @@ fix_completion_permissions() {
 install_zsh() {
     step "💻 Installing Zsh Configuration"
 
-    backup_if_exists ~/.zshrc
+    backup_if_exists ~/.zshenv
+    backup_if_exists ~/.config/zsh
+
+    info "Installing ZDOTDIR configuration..."
+    cp .zshenv ~/.zshenv
+    task "Copied .zshenv to home directory"
 
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
-    cp -r .config/zsh/* ~/.config/zsh/
-    task "Copied modules to ~/.config/zsh/"
+    cp .config/zsh/.zshrc ~/.config/zsh/
+    cp .config/zsh/rc.zsh ~/.config/zsh/
+    cp .config/zsh/env.zsh ~/.config/zsh/
+    cp .config/zsh/aliases.zsh ~/.config/zsh/
+    cp .config/zsh/functions.zsh ~/.config/zsh/
+    task "Copied all config files to ~/.config/zsh/"
 
     info "Zsh plugins will be loaded from Homebrew installations..."
     task "Plugins: zsh-vi-mode, zsh-completions, zsh-autosuggestions, zsh-syntax-highlighting"
     info "Using native Zsh configuration (no Oh My Zsh overhead)"
 
-    info "Installing .zshrc..."
-    cp .zshrc ~/.zshrc
-    task "Copied .zshrc to home directory"
-
     # Fix completion permissions to prevent security warnings
     fix_completion_permissions
 
     info "Copying reload command to clipboard"
-    echo "source ~/.zshrc" | pbcopy
+    echo "exec zsh" | pbcopy
     task "Command copied to clipboard. Paste and run it, or restart your terminal."
 
     success "Zsh configuration installed"
-    info "💡 Don't forget to install Starship prompt: make starship install"
+    info "💡 Structure: ~/.zshenv → ~/.config/zsh/.zshrc → [rc.zsh, env.zsh, aliases.zsh, functions.zsh]"
+    info "💡 Using simple native Zsh prompt (Starship is commented out)"
 }
 
 uninstall_zsh() {
     step "🗑️  Removing Zsh Configuration"
 
     echo "📋 This will remove:"
-    echo "   • ~/.zshrc"
+    echo "   • ~/.zshenv"
     echo "   • ~/.config/zsh/ directory"
     echo "   • ~/.zsh_history (optional)"
     echo ""
@@ -83,12 +89,15 @@ uninstall_zsh() {
     echo ""
 
     info "Creating backup of current config..."
-    if [ -f ~/.zshrc ]; then
-        cp ~/.zshrc ~/.zshrc.backup.$(date +%Y%m%d_%H%M%S) && task "✅ ~/.zshrc backed up"
+    if [ -f ~/.zshenv ]; then
+        cp ~/.zshenv ~/.zshenv.backup.$(date +%Y%m%d_%H%M%S) && task "✅ ~/.zshenv backed up"
+    fi
+    if [ -d ~/.config/zsh ]; then
+        cp -r ~/.config/zsh ~/.config/zsh.backup.$(date +%Y%m%d_%H%M%S) && task "✅ ~/.config/zsh backed up"
     fi
 
     info "Removing Zsh config files..."
-    rm -f ~/.zshrc
+    rm -f ~/.zshenv
     rm -rf ~/.config/zsh
     task "Removed Zsh configuration files"
 
