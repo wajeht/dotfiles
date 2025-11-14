@@ -18,8 +18,8 @@ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 - **📦 Homebrew & Packages** - Development tools and apps
 - **⚡ Neovim** - Modern editor configuration
 - **🔗 Git** - Aliases and workflow optimizations
-- **💻 Zsh** - Native shell with plugins
-- **⭐ Starship** - Fast, customizable prompt
+- **💻 Zsh** - Async native prompt with zero bloat
+- **⭐ Starship** - Fast, customizable prompt (optional)
 - **🖼️ Ghostty** - GPU-accelerated terminal
 - **📁 LSD** - Beautiful file listing with colors
 - **🦇 Bat** - Syntax-highlighted cat replacement

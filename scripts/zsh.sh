@@ -55,7 +55,6 @@ install_zsh() {
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
     cp .config/zsh/.zshrc ~/.config/zsh/
-    cp .config/zsh/rc.zsh ~/.config/zsh/
     cp .config/zsh/env.zsh ~/.config/zsh/
     cp .config/zsh/aliases.zsh ~/.config/zsh/
     cp .config/zsh/functions.zsh ~/.config/zsh/
@@ -73,8 +72,8 @@ install_zsh() {
     task "Command copied to clipboard. Paste and run it, or restart your terminal."
 
     success "Zsh configuration installed"
-    info "💡 Structure: ~/.zshenv → ~/.config/zsh/.zshrc → [rc.zsh, env.zsh, aliases.zsh, functions.zsh]"
-    info "💡 Using simple native Zsh prompt (Starship is commented out)"
+    info "💡 Structure: ~/.zshenv → ~/.config/zsh/.zshrc → [env.zsh, aliases.zsh, functions.zsh]"
+    info "💡 Using async native prompt with instant rendering (no external dependencies)"
 }
 
 uninstall_zsh() {
