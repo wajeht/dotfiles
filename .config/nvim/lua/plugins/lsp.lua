@@ -35,7 +35,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Setup completion if client supports it
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-			vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
+			vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
+
+			-- Set omnifunc for CTRL-X CTRL-O completion
+			vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+			-- Extend trigger characters to all alphanumeric for auto-trigger on every keystroke
+			if client.server_capabilities.completionProvider then
+				local chars = {}
+				for i = string.byte("a"), string.byte("z") do
+					table.insert(chars, string.char(i))
+				end
+				for i = string.byte("A"), string.byte("Z") do
+					table.insert(chars, string.char(i))
+				end
+				for i = string.byte("0"), string.byte("9") do
+					table.insert(chars, string.char(i))
+				end
+				client.server_capabilities.completionProvider.triggerCharacters = chars
+			end
+
+			-- Enable LSP completion with autotrigger
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 
 			-- Completion keymaps

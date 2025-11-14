@@ -97,7 +97,7 @@ vim.opt.listchars = {
 }
 
 -- Editing
-vim.opt.completeopt = { "menuone", "noselect" } -- Better autocompletion experience
+vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" } -- Better autocompletion experience
 vim.opt.conceallevel = 0 -- So that I can see `` in markdown files
 vim.opt.concealcursor = "" -- Don't hide cursor line markup
 vim.opt.history = 100 -- Store lots of :cmdline history
