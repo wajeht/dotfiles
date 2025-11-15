@@ -50,7 +50,6 @@ main() {
     run_component "./scripts/git.sh" "install" "Git config" || failed_components+=("Git config")
     run_component "./scripts/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
     run_component "./scripts/zsh.sh" "install" "Zsh config" || failed_components+=("Zsh config")
-    run_component "./scripts/starship.sh" "install" "Starship config" || failed_components+=("Starship config")
     run_component "./scripts/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
     run_component "./scripts/bat.sh" "install" "Bat config" || failed_components+=("Bat config")
 

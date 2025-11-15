@@ -14,7 +14,6 @@ brew "docker"       # Docker CLI
 brew "kubectl"      # Kubernetes CLI
 brew "nvm"          # Node version manager
 brew "parallel"     # Parallel
-brew "starship"     # Starship prompt
 brew "sqlite"       # SQLite database
 brew "nmap"         # Network scanner
 brew "tldr"         # Collaborative cheatsheets for console commands

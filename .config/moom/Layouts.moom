@@ -101,26 +101,6 @@
 						</dict>
 						<dict>
 							<key>Application Name</key>
-							<string>Cursor</string>
-							<key>Available Screen Frame</key>
-							<string>{{0, 0}, {2560, 1415}}</string>
-							<key>Bundle Identifier</key>
-							<string>com.todesktop.230313mzl4w4u92</string>
-							<key>PID</key>
-							<string>4333</string>
-							<key>Screen Frame</key>
-							<string>{{0, 0}, {2560, 1440}}</string>
-							<key>Window Frame</key>
-							<string>{{0, 0}, {2560, 1415}}</string>
-							<key>Window Number</key>
-							<string>2368</string>
-							<key>Window Subrole</key>
-							<string>AXStandardWindow</string>
-							<key>Window Title</key>
-							<string>starship.toml — dotfiles</string>
-						</dict>
-						<dict>
-							<key>Application Name</key>
 							<string>TablePlus</string>
 							<key>Available Screen Frame</key>
 							<string>{{0, 0}, {2560, 1415}}</string>

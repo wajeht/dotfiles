@@ -233,9 +233,3 @@ source "$ZDOTDIR/functions.zsh"
 
 # Load private/machine-specific config if it exists
 [[ -f "$ZDOTDIR/private.zsh" ]] && source "$ZDOTDIR/private.zsh"
-
-# ======================
-# Alternative Prompts (Commented Out)
-# ======================
-# Starship prompt - uncomment to use instead of native prompt
-# eval "$(starship init zsh)"

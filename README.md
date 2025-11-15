@@ -19,7 +19,6 @@ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 - **⚡ Neovim** - Modern editor configuration
 - **🔗 Git** - Aliases and workflow optimizations
 - **💻 Zsh** - Async native prompt with zero bloat
-- **⭐ Starship** - Fast, customizable prompt (optional)
 - **🖼️ Ghostty** - GPU-accelerated terminal
 - **📁 LSD** - Beautiful file listing with colors
 - **🦇 Bat** - Syntax-highlighted cat replacement
@@ -31,7 +30,7 @@ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 make install
 
 # Individual components
-make macos brew nvim git zsh starship ghostty lsd bat
+make macos brew nvim git zsh ghostty lsd bat
 
 # Uninstall components
 make <component> uninstall
@@ -51,7 +50,6 @@ make help      # Show all commands
 | **Zsh** | `.config/zsh/` |
 | **Neovim** | `.config/nvim/` |
 | **Ghostty** | `.config/ghostty/` |
-| **Starship** | `.config/starship/` |
 | **LSD** | `.config/lsd/` |
 | **Bat** | `.config/bat/` |
 | **Rectangle** | `.config/rectangle/` |

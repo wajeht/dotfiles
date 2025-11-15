@@ -185,12 +185,6 @@ PROMPT='%F{cyan}%~%f...'  # Change cyan to any color
 ### Disable Async Git
 Comment out async functions in `.zshrc` and use synchronous version.
 
-### Switch to Starship
-Uncomment line 241 in `.zshrc`:
-```zsh
-eval "$(starship init zsh)"
-```
-
 ## Troubleshooting
 
 **Prompt not updating?**
