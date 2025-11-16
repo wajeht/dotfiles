@@ -1,3 +1,12 @@
+vim.opt.pumblend = 0 -- No transparency for completion menu
+vim.opt.winblend = 0 -- No transparency for floating windows
+
+-- Completion menu styling
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000", fg = "NONE" })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#03395e", fg = "NONE" })
+vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#000000" })
+vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#444444" })
+
 -- Native LSP configuration
 vim.diagnostic.config({
 	virtual_lines = false,
@@ -159,9 +168,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		opts.desc = "Show line diagnostics"
 		vim.keymap.set("n", "<leader>d", function()
-			vim.diagnostic.open_float({
-				border = "rounded", -- Add border to diagnostic window
-			})
+			vim.diagnostic.open_float({ border = "rounded" })
 		end, opts)
 
 		opts.desc = "Go to previous diagnostic"
@@ -176,13 +183,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		opts.desc = "Show documentation for what is under cursor"
 		vim.keymap.set("n", "K", function()
-			vim.lsp.buf.hover({
-				border = "rounded", -- Add border to hover window
-			})
+			vim.lsp.buf.hover({ border = "rounded" })
 		end, opts)
 
 		opts.desc = "Signature help"
-		vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("i", "<C-S>", function()
+			vim.lsp.buf.signature_help({ border = "rounded" })
+		end, opts)
 
 		opts.desc = "Restart LSP"
 		vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
