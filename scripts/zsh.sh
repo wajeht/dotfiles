@@ -54,10 +54,10 @@ install_zsh() {
 
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
-    cp .config/zsh/.zshrc ~/.config/zsh/
-    cp .config/zsh/env.zsh ~/.config/zsh/
-    cp .config/zsh/aliases.zsh ~/.config/zsh/
-    cp .config/zsh/functions.zsh ~/.config/zsh/
+    cp config/zsh/.zshrc ~/.config/zsh/
+    cp config/zsh/env.zsh ~/.config/zsh/
+    cp config/zsh/aliases.zsh ~/.config/zsh/
+    cp config/zsh/functions.zsh ~/.config/zsh/
     task "Copied all config files to ~/.config/zsh/"
 
     info "Zsh plugins will be loaded from Homebrew installations..."

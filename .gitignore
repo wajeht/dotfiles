@@ -19,4 +19,4 @@ AGENT.md
 .DS_Store
 
 # Ignore machine-specific zsh config
-.config/zsh/private.zsh
+config/zsh/private.zsh

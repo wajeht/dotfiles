@@ -10,7 +10,7 @@ install_git() {
 
     info "Installing Git configuration (XDG-compliant)..."
     mkdir -p ~/.config/git
-    cp .config/git/config ~/.config/git/config
+    cp config/git/config ~/.config/git/config
     task "Copied config to ~/.config/git/config"
 
     success "Git configuration installed"

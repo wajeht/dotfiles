@@ -46,16 +46,16 @@ make help      # Show all commands
 
 | Component | Config Location |
 |-----------|----------------|
-| **Git** | `.config/git/` |
-| **Zsh** | `.config/zsh/` |
-| **Neovim** | `.config/nvim/` |
-| **Ghostty** | `.config/ghostty/` |
-| **LSD** | `.config/lsd/` |
-| **Bat** | `.config/bat/` |
-| **Rectangle** | `.config/rectangle/` |
-| **Moom** | `.config/moom/` |
-| **Audio Hijack** | `.config/audio-hijack/` |
-| **Homebrew** | `.config/homebrew/` |
+| **Git** | `config/git/` |
+| **Zsh** | `config/zsh/` |
+| **Neovim** | `config/nvim/` |
+| **Ghostty** | `config/ghostty/` |
+| **LSD** | `config/lsd/` |
+| **Bat** | `config/bat/` |
+| **Rectangle** | `config/rectangle/` |
+| **Moom** | `config/moom/` |
+| **Audio Hijack** | `config/audio-hijack/` |
+| **Homebrew** | `config/homebrew/` |
 
 ## 📋 Requirements
 

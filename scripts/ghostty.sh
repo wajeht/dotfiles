@@ -7,7 +7,7 @@ install_ghostty() {
 
     info "Installing Ghostty configuration..."
     mkdir -p ~/.config/ghostty
-    cp -r .config/ghostty/* ~/.config/ghostty/
+    cp -r config/ghostty/* ~/.config/ghostty/
     task "Copied configuration to ~/.config/ghostty/"
 
     success "Ghostty configuration installed"

@@ -7,7 +7,7 @@ install_nvim() {
 
     info "Installing Neovim configuration..."
     mkdir -p ~/.config/nvim
-    cp -r .config/nvim/* ~/.config/nvim/
+    cp -r config/nvim/* ~/.config/nvim/
     task "Copied configuration to ~/.config/nvim/"
 
     info "Cleaning LSP/Mason cache to prevent conflicts..."
@@ -22,7 +22,7 @@ install_nvim() {
 link_nvim() {
     step "🔗 Linking Neovim Configuration"
 
-    local dotfiles_nvim="$(pwd)/.config/nvim"
+    local dotfiles_nvim="$(pwd)/config/nvim"
     local config_nvim="$HOME/.config/nvim"
 
     if [ ! -d "$dotfiles_nvim" ]; then

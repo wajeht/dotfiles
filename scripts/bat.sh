@@ -11,7 +11,7 @@ install_bat() {
 
     backup_if_exists ~/.config/bat/config
 
-    cp .config/bat/config ~/.config/bat/config
+    cp config/bat/config ~/.config/bat/config
     task "Copied config to ~/.config/bat/"
 
     success "Bat configuration installed"
