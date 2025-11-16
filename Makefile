@@ -44,7 +44,7 @@ update:
 	@echo "✅ Update complete"
 
 format:
-	@./src/format-code.sh
+	@./src/_format-code.sh
 
 sync-nvim:
 	@echo "🔄 Syncing Neovim plugin lock file..."
