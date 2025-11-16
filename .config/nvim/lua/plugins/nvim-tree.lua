@@ -81,10 +81,11 @@ require("nvim-tree").setup({
 	end,
 })
 
--- Custom highlighting for folders
+-- Custom highlighting
 vim.cmd([[
   highlight NvimTreeFolderName guifg=#569cd6 ctermfg=75
   highlight NvimTreeOpenedFolderName guifg=#569cd6 ctermfg=75
   highlight NvimTreeEmptyFolderName guifg=#569cd6 ctermfg=75
   highlight NvimTreeFileName guifg=#9cdcfe ctermfg=153
+  highlight NvimTreeCursorLine guibg=#03395e
 ]])
