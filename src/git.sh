@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/_util.sh"
 
 install_git() {
     step "🔗 Installing Git Configuration"
@@ -10,7 +10,7 @@ install_git() {
 
     info "Installing Git configuration (XDG-compliant)..."
     mkdir -p ~/.config/git
-    cp config/git/config ~/.config/git/config
+    cp "$(dirname "$0")/configs/git/config" ~/.config/git/config
     task "Copied config to ~/.config/git/config"
 
     success "Git configuration installed"

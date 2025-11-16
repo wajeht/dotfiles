@@ -6,10 +6,10 @@ Clean, modular macOS development setup with old school tooling.
 
 ```bash
 # Remote install (recommended)
-curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/remote-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/src/remote-install.sh | bash
 
 # Or clone and install locally
-git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
+git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/install.sh
 ```
 
 ## 📦 What Gets Installed
@@ -46,16 +46,16 @@ make help      # Show all commands
 
 | Component | Config Location |
 |-----------|----------------|
-| **Git** | `config/git/` |
-| **Zsh** | `config/zsh/` |
-| **Neovim** | `config/nvim/` |
-| **Ghostty** | `config/ghostty/` |
-| **LSD** | `config/lsd/` |
-| **Bat** | `config/bat/` |
-| **Rectangle** | `config/rectangle/` |
-| **Moom** | `config/moom/` |
-| **Audio Hijack** | `config/audio-hijack/` |
-| **Homebrew** | `config/homebrew/` |
+| **Git** | `src/configs/git/` |
+| **Zsh** | `src/configs/zsh/` |
+| **Neovim** | `src/configs/nvim/` |
+| **Ghostty** | `src/configs/ghostty/` |
+| **LSD** | `src/configs/lsd/` |
+| **Bat** | `src/configs/bat/` |
+| **Rectangle** | `src/configs/rectangle/` |
+| **Moom** | `src/configs/moom/` |
+| **Audio Hijack** | `src/configs/audio-hijack/` |
+| **Homebrew** | `src/configs/homebrew/` |
 
 ## 📋 Requirements
 

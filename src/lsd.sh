@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/_util.sh"
 
 install_lsd() {
     step "📁 Installing LSD Configuration"
@@ -12,10 +12,11 @@ install_lsd() {
     backup_if_exists ~/.config/lsd/config.yaml
     backup_if_exists ~/.config/lsd/colors.yaml
 
-    cp config/lsd/config.yaml ~/.config/lsd/config.yaml
+    local script_dir="$(dirname "$0")"
+    cp "$script_dir/configs/lsd/config.yaml" ~/.config/lsd/config.yaml
     task "Copied config.yaml to ~/.config/lsd/"
 
-    cp config/lsd/colors.yaml ~/.config/lsd/colors.yaml
+    cp "$script_dir/configs/lsd/colors.yaml" ~/.config/lsd/colors.yaml
     task "Copied colors.yaml (VS Code Dark Modern theme) to ~/.config/lsd/"
 
     success "LSD configuration installed"

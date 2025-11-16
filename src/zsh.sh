@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/_util.sh"
 
 fix_completion_permissions() {
     info "Fixing zsh completion permissions..."
@@ -49,15 +49,17 @@ install_zsh() {
     backup_if_exists ~/.config/zsh
 
     info "Installing ZDOTDIR configuration..."
-    cp .zshenv ~/.zshenv
+    local dotfiles_root="$(cd "$(dirname "$0")/.." && pwd)"
+    cp "$dotfiles_root/.zshenv" ~/.zshenv
     task "Copied .zshenv to home directory"
 
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
-    cp config/zsh/.zshrc ~/.config/zsh/
-    cp config/zsh/env.zsh ~/.config/zsh/
-    cp config/zsh/aliases.zsh ~/.config/zsh/
-    cp config/zsh/functions.zsh ~/.config/zsh/
+    local script_dir="$(dirname "$0")"
+    cp "$script_dir/configs/zsh/.zshrc" ~/.config/zsh/
+    cp "$script_dir/configs/zsh/env.zsh" ~/.config/zsh/
+    cp "$script_dir/configs/zsh/aliases.zsh" ~/.config/zsh/
+    cp "$script_dir/configs/zsh/functions.zsh" ~/.config/zsh/
     task "Copied all config files to ~/.config/zsh/"
 
     info "Zsh plugins will be loaded from Homebrew installations..."

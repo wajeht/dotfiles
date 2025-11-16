@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/_util.sh"
 
 install_ghostty() {
     step "🖼️ Installing Ghostty Configuration"
 
     info "Installing Ghostty configuration..."
     mkdir -p ~/.config/ghostty
-    cp -r config/ghostty/* ~/.config/ghostty/
+    cp -r "$(dirname "$0")/configs/ghostty/"* ~/.config/ghostty/
     task "Copied configuration to ~/.config/ghostty/"
 
     success "Ghostty configuration installed"

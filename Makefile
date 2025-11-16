@@ -1,31 +1,31 @@
 .PHONY: install macos brew nvim git zsh ghostty lsd bat push clean update format sync-nvim help
 
 install:
-	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
+	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./src/install.sh; fi
 
 brew:
-	@./scripts/brew.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/brew.sh $(filter-out $@,$(MAKECMDGOALS))
 
 nvim:
-	@./scripts/nvim.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/nvim.sh $(filter-out $@,$(MAKECMDGOALS))
 
 git:
-	@./scripts/git.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/git.sh $(filter-out $@,$(MAKECMDGOALS))
 
 zsh:
-	@./scripts/zsh.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/zsh.sh $(filter-out $@,$(MAKECMDGOALS))
 
 ghostty:
-	@./scripts/ghostty.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/ghostty.sh $(filter-out $@,$(MAKECMDGOALS))
 
 lsd:
-	@./scripts/lsd.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/lsd.sh $(filter-out $@,$(MAKECMDGOALS))
 
 bat:
-	@./scripts/bat.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./src/bat.sh $(filter-out $@,$(MAKECMDGOALS))
 
 macos:
-	@./scripts/macos-defaults.sh
+	@./src/macos-defaults.sh
 
 push:
 	@make format
@@ -44,15 +44,15 @@ update:
 	@echo "✅ Update complete"
 
 format:
-	@./scripts/format-code.sh
+	@./src/format-code.sh
 
 sync-nvim:
 	@echo "🔄 Syncing Neovim plugin lock file..."
-	@cp ~/.config/nvim/lazy-lock.json config/nvim/lazy-lock.json 2>/dev/null || (echo "❌ lazy-lock.json not found. Run :Lazy sync in Neovim first." && exit 1)
-	@if git diff --quiet config/nvim/lazy-lock.json 2>/dev/null; then \
+	@cp ~/.config/nvim/lazy-lock.json src/configs/nvim/lazy-lock.json 2>/dev/null || (echo "❌ lazy-lock.json not found. Run :Lazy sync in Neovim first." && exit 1)
+	@if git diff --quiet src/configs/nvim/lazy-lock.json 2>/dev/null; then \
 		echo "✅ Lock file already up to date"; \
 	else \
-		git add config/nvim/lazy-lock.json && \
+		git add src/configs/nvim/lazy-lock.json && \
 		git commit -m "Update Neovim plugin lock file" && \
 		echo "✅ Lock file synced and committed"; \
 	fi

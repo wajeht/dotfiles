@@ -73,10 +73,10 @@ main() {
 
     cd "$TEMP_DIR/dotfiles"
 
-    chmod +x install.sh
+    chmod +x src/install.sh
 
     step "⚙️ Running Installation"
-    if ./install.sh; then
+    if ./src/install.sh; then
         success "Installation completed successfully!"
     else
         error "Installation failed"

@@ -44,7 +44,8 @@ check_internet() {
 }
 
 check_directory() {
-    [[ -f "config/homebrew/Brewfile" && -d "config" ]] || error "Run from dotfiles directory"
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    [[ -f "$script_dir/configs/homebrew/Brewfile" && -d "$script_dir/configs" ]] || error "Run from dotfiles directory"
 }
 
 check_xcode_tools() {

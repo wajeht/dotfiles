@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/scripts/common.sh"
+source "$(dirname "$0")/_util.sh"
 
 run_component() {
     local script="$1"
@@ -38,20 +38,20 @@ main() {
     check_xcode_tools
 
     task "Making scripts executable"
-    chmod +x scripts/*.sh
+    chmod +x "$(dirname "$0")"/*.sh
 
     # Track component results
     local failed_components=()
 
     # Run each component, continuing even if some fail
-    run_component "./scripts/macos-defaults.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
-    run_component "./scripts/brew.sh" "install" "Homebrew packages" || failed_components+=("Homebrew packages")
-    run_component "./scripts/nvim.sh" "install" "Neovim config" || failed_components+=("Neovim config")
-    run_component "./scripts/git.sh" "install" "Git config" || failed_components+=("Git config")
-    run_component "./scripts/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
-    run_component "./scripts/zsh.sh" "install" "Zsh config" || failed_components+=("Zsh config")
-    run_component "./scripts/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
-    run_component "./scripts/bat.sh" "install" "Bat config" || failed_components+=("Bat config")
+    run_component "$(dirname "$0")/macos-defaults.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
+    run_component "$(dirname "$0")/brew.sh" "install" "Homebrew packages" || failed_components+=("Homebrew packages")
+    run_component "$(dirname "$0")/nvim.sh" "install" "Neovim config" || failed_components+=("Neovim config")
+    run_component "$(dirname "$0")/git.sh" "install" "Git config" || failed_components+=("Git config")
+    run_component "$(dirname "$0")/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
+    run_component "$(dirname "$0")/zsh.sh" "install" "Zsh config" || failed_components+=("Zsh config")
+    run_component "$(dirname "$0")/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
+    run_component "$(dirname "$0")/bat.sh" "install" "Bat config" || failed_components+=("Bat config")
 
     step "🎉 Installation Complete!"
 
