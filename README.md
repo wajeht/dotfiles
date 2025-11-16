@@ -6,7 +6,7 @@ Clean, modular macOS development setup with old school tooling.
 
 ```bash
 # Remote install (recommended)
-curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/src/remote-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/src/install.sh | bash -s -- --remote
 
 # Or clone and install locally
 git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/install.sh
@@ -42,23 +42,5 @@ make format    # Format code
 make help      # Show all commands
 ```
 
-## 📁 Configuration
-
-| Component | Config Location |
-|-----------|----------------|
-| **Git** | `src/configs/git/` |
-| **Zsh** | `src/configs/zsh/` |
-| **Neovim** | `src/configs/nvim/` |
-| **Ghostty** | `src/configs/ghostty/` |
-| **LSD** | `src/configs/lsd/` |
-| **Bat** | `src/configs/bat/` |
-| **Rectangle** | `src/configs/rectangle/` |
-| **Moom** | `src/configs/moom/` |
-| **Audio Hijack** | `src/configs/audio-hijack/` |
-| **Homebrew** | `src/configs/homebrew/` |
-
-## 📋 Requirements
-
-- macOS (any recent version)
-- Internet connection
-- That's it! 🎯
+## 📜 License
+Distributed under the MIT License © [wajeht](https://github.com/wajeht). See [LICENSE](./LICENSE) for more information.
