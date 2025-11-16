@@ -51,6 +51,7 @@ brew "fortune"      # Random quotes
 brew "sshpass"      # SSH password authentication
 
 # Productivity Apps
+cask "sensiblesidebuttons" # Utilise mouse side navigation buttons
 cask "anki"                # Memory training application
 cask "audacity"            # Multi-track audio editor and recorder
 cask "alfred"              # Spotlight replacement
