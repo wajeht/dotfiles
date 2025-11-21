@@ -17,20 +17,7 @@ vim.diagnostic.config({
 	severity_sort = true,
 })
 
--- Enable LSP servers
-local servers = {
-	"lua_ls",
-	"gopls",
-	"html",
-	"cssls",
-	"tailwindcss",
-	"intelephense",
-	"vtsls",
-}
-
-for _, server in ipairs(servers) do
-	vim.lsp.enable(server)
-end
+-- LSP servers are auto-enabled by mason.lua based on installed packages
 
 -- LspAttach autocmd
 vim.api.nvim_create_autocmd("LspAttach", {
