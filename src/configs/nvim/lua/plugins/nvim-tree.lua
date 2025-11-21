@@ -66,12 +66,10 @@ require("nvim-tree").setup({
 	},
 	-- Open files in Finder on macOS (reveal in Finder instead of opening in TextEdit)
 	-- Usage: Press 's' on a file in nvim-tree to reveal it in Finder
-	system_open = vim.fn.has("mac") == 1
-			and {
-				cmd = "open",
-				args = { "-R" },
-			}
-		or nil,
+	system_open = vim.fn.has("mac") == 1 and {
+		cmd = "open",
+		args = { "-R" },
+	} or nil,
 	-- Minimal on_attach to disable live filter
 	on_attach = function(bufnr)
 		local api = require("nvim-tree.api")
