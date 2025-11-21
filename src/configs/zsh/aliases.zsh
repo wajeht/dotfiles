@@ -15,6 +15,12 @@ alias resource='source ~/.zshrc'
 alias lg="lazygit"
 alias air='$(go env GOPATH)/bin/air'
 
+# Directory navigation
+alias desktop="cd ~/Desktop"
+alias downloads="cd ~/Downloads"
+alias documents="cd ~/Documents"
+alias music="cd ~/Music"
+
 # File operations
 alias ls="lsd -lF"
 alias lst="lsd --tree --all"
