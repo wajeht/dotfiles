@@ -89,6 +89,13 @@ require("nvim-tree").setup({
 	end,
 })
 
+-- Automatically open file upon creation
+-- Usage: Press 'a' in nvim-tree to create a new file, it will automatically open after creation
+local api = require("nvim-tree.api")
+api.events.subscribe(api.events.Event.FileCreated, function(file)
+	vim.cmd("edit " .. vim.fn.fnameescape(file.fname))
+end)
+
 -- Custom highlighting
 vim.cmd([[
   highlight NvimTreeFolderName guifg=#569cd6 ctermfg=75
