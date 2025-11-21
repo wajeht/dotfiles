@@ -5,7 +5,7 @@ local function guides(sw)
 	if sw == 0 then
 		sw = vim.bo.tabstop
 	end
-	local char = "┆" .. (" "):rep(sw - 1)
+	local char = "┆" .. ("·"):rep(sw - 1)
 	vim.opt_local.listchars:append({ leadmultispace = char })
 end
 
