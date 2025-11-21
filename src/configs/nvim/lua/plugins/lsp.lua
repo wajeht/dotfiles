@@ -1,11 +1,13 @@
 vim.opt.pumblend = 0 -- No transparency for completion menu
 vim.opt.winblend = 0 -- No transparency for floating windows
+vim.opt.pumborder = "rounded" -- Border style for completion menu
 
 -- Completion menu styling
 vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000", fg = "NONE" })
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#03395e", fg = "NONE" })
 vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#000000" })
 vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#444444" })
+vim.api.nvim_set_hl(0, "PmenuBorder", { fg = "#444444" })
 
 -- Native LSP configuration
 vim.diagnostic.config({
