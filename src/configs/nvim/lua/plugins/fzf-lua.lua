@@ -3,8 +3,8 @@ vim.pack.add({
 })
 
 -- Keymaps
--- vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", "<cmd>FzfLua git_files<cr>", { desc = "Toggle FzfLua git_files" })
-vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", "<cmd>FzfLua files<cr>", { desc = "Fuzzy find files in cwd" })
+vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", "<cmd>FzfLua git_files<cr>", { desc = "Toggle FzfLua git_files" })
+-- vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", "<cmd>FzfLua files<cr>", { desc = "Fuzzy find files in cwd" })
 vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua git_files<cr>", { desc = "Fuzzy find git files" })
 vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Fuzzy find files in cwd" })
 vim.keymap.set("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Fuzzy find recent files" })
