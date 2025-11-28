@@ -7,7 +7,7 @@ alias clc='npx @anthropic-ai/claude-code@latest'
 # alias oc='bunx opencode-ai@opentui'
 alias oc='npx opencode-ai@latest'
 alias cdx='npx @openai/codex@latest'
-alias gli='npx @google/gemini-cli@latest'
+alias gcli='npx @google/gemini-cli@latest'
 
 # Shell aliases
 alias resource='source ~/.zshrc'
