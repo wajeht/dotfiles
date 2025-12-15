@@ -17,6 +17,7 @@ brew "parallel"     # Parallel
 brew "sqlite"       # SQLite database
 brew "nmap"         # Network scanner
 brew "tldr"         # Collaborative cheatsheets for console commands
+brew "stripe/stripe-cli/stripe" # Stripe CLI
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
