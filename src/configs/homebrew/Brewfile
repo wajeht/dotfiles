@@ -67,6 +67,7 @@ cask "moom"                # Window manager
 cask "shortcat"            # Shortcat
 cask "audio-hijack"        # Records audio from any application
 cask "jiggler"             # Keep your computer awake
+cask "doll"                # Utility to show apps badges from the dock in the menu bare
 
 # Development Apps
 cask "cursor"             # AI code editor
