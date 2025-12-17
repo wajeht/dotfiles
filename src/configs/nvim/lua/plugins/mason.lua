@@ -4,7 +4,7 @@ vim.pack.add({
 
 require("mason").setup()
 
--- Auto-install LSPs without mason-lspconfig
+-- Auto-install LSPs without mason-lspconfig (deferred for faster startup)
 -- Names must be Mason package names
 local ensure_installed = {
 	"lua-language-server",
@@ -18,12 +18,14 @@ local ensure_installed = {
 	"emmet-language-server",
 }
 
-local installed_package_names = require("mason-registry").get_installed_package_names()
-for _, v in ipairs(ensure_installed) do
-	if not vim.tbl_contains(installed_package_names, v) then
-		vim.cmd(":MasonInstall " .. v)
+vim.schedule(function()
+	local installed_package_names = require("mason-registry").get_installed_package_names()
+	for _, v in ipairs(ensure_installed) do
+		if not vim.tbl_contains(installed_package_names, v) then
+			vim.cmd(":MasonInstall " .. v)
+		end
 	end
-end
+end)
 
 -- Load custom LSP configs from lsp/ directory
 local function load_lsp_config(lsp_name)
