@@ -101,8 +101,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" } -- Bet
 vim.opt.conceallevel = 0 -- So that I can see `` in markdown files
 vim.opt.concealcursor = "" -- Don't hide cursor line markup
 vim.opt.history = 100 -- Store lots of :cmdline history
-vim.opt.updatetime = 50 -- Faster completion
-
 -- Undo settings
 vim.opt.undofile = true -- Save undo history to an undo file
 local undodir = os.getenv("HOME") .. "/.vim/undodir"
@@ -112,14 +110,11 @@ end
 vim.opt.undodir = undodir -- Set undo directory
 
 -- Performance optimizations
-vim.opt.lazyredraw = true -- Do not redraw while executing macros
 vim.opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (reduced from 400ms)
 vim.opt.ttimeoutlen = 0 -- Instant key code recognition
 vim.opt.updatetime = 50 -- Faster completion
 vim.opt.redrawtime = 1500 -- Time in milliseconds for redrawing the display (default: 2000)
-vim.opt.synmaxcol = 120 -- Only highlight the first 120 columns for better performance
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-vim.opt.regexpengine = 1 -- Use old regex engine for better performance
 
 -- Custom statusline for terminal buffers
 -- vim.cmd("set laststatus=0")  -- Disable default statusline
