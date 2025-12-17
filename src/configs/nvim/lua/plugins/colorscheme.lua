@@ -48,8 +48,9 @@ vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#5a5a5a", bg = "NONE", italic = t
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000", blend = 80 }) -- Black transparent background
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#5a5a5a", bg = "NONE" }) -- Gray border
 
--- Completion menu styling
-vim.api.nvim_set_hl(0, "Pmenu", { fg = "#d4d4d4", bg = "#1a1a1a" }) -- Completion menu background with light gray text
-vim.api.nvim_set_hl(0, "PmenuSel", { fg = "#ffffff", bg = "#404040" }) -- Selected item with white text
-vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#2a2a2a" }) -- Scrollbar background
-vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#606060" }) -- Scrollbar thumb
+-- Completion menu styling (black bg, dark blue selection)
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000", fg = "NONE" })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#03395e", fg = "NONE" })
+vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#000000" })
+vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#444444" })
+vim.api.nvim_set_hl(0, "PmenuBorder", { fg = "#444444" })
