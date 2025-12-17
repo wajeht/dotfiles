@@ -4,72 +4,72 @@ vim.pack.add({
 	{ src = "https://github.com/sindrets/diffview.nvim" },
 })
 
+-- State tracking (O(1) lookup instead of iterating tabs/windows)
+local neogit_tab = nil
+local diffview_tab = nil
+
+-- Track Neogit tab via autocmds
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "NeogitStatus",
+	callback = function()
+		neogit_tab = vim.api.nvim_get_current_tabpage()
+	end,
+})
+
+vim.api.nvim_create_autocmd("TabClosed", {
+	callback = function()
+		if neogit_tab and not vim.api.nvim_tabpage_is_valid(neogit_tab) then
+			neogit_tab = nil
+		end
+		if diffview_tab and not vim.api.nvim_tabpage_is_valid(diffview_tab) then
+			diffview_tab = nil
+		end
+	end,
+})
+
+-- Track Diffview tab via autocmds
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "DiffviewFiles", "DiffviewFileHistory" },
+	callback = function()
+		diffview_tab = vim.api.nvim_get_current_tabpage()
+	end,
+})
+
 -- Keymaps
 vim.keymap.set("n", "<leader>gs", function()
-	-- Check if Neogit is open by looking for Neogit buffers
-	local neogit_open = false
-	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		local name = vim.api.nvim_buf_get_name(buf)
-		if name:match("NeogitStatus") then
-			neogit_open = true
-			break
-		end
-	end
-
-	if neogit_open then
-		-- Close the tab if Neogit is open and we have multiple tabs
-		if #vim.api.nvim_list_tabpages() > 1 then
-			vim.cmd("tabclose")
-		else
-			-- If it's the last tab, just close Neogit windows
-			for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-				local buf = vim.api.nvim_win_get_buf(win)
-				local name = vim.api.nvim_buf_get_name(buf)
-				if name:match("NeogitStatus") then
-					vim.api.nvim_win_close(win, true)
-				end
+	if neogit_tab and vim.api.nvim_tabpage_is_valid(neogit_tab) then
+		if neogit_tab == vim.api.nvim_get_current_tabpage() then
+			-- On Neogit tab -> close it
+			if #vim.api.nvim_list_tabpages() > 1 then
+				vim.cmd("tabclose")
+			else
+				vim.cmd("Neogit close")
 			end
+		else
+			-- Neogit open elsewhere -> switch to it
+			vim.api.nvim_set_current_tabpage(neogit_tab)
 		end
 	else
-		-- Open Neogit
+		-- Not open -> open it
 		vim.cmd("Neogit")
 	end
 end, { desc = "Toggle Neogit" })
 
 vim.keymap.set("n", "<leader>gd", function()
-	-- Check if Diffview is open by looking for Diffview tabs
-	local diffview_open = false
-
-	-- Check all tabs for Diffview buffers
-	for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
-		for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
-			local buf = vim.api.nvim_win_get_buf(win)
-			local name = vim.api.nvim_buf_get_name(buf)
-			local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-
-			-- More comprehensive Diffview detection
-			if
-				name:match("DiffviewFilePanel")
-				or name:match("Diffview://")
-				or name:match("diffview://")
-				or ft == "DiffviewFiles"
-				or ft == "DiffviewFileHistory"
-			then
-				diffview_open = true
-				break
+	if diffview_tab and vim.api.nvim_tabpage_is_valid(diffview_tab) then
+		if diffview_tab == vim.api.nvim_get_current_tabpage() then
+			-- On Diffview tab -> close it
+			if #vim.api.nvim_list_tabpages() > 1 then
+				vim.cmd("tabclose")
+			else
+				vim.cmd("DiffviewClose")
 			end
+		else
+			-- Diffview open elsewhere -> switch to it
+			vim.api.nvim_set_current_tabpage(diffview_tab)
 		end
-		if diffview_open then
-			break
-		end
-	end
-
-	if diffview_open then
-		-- Force close all Diffview windows
-		vim.cmd("DiffviewClose")
-		-- Also try to close any orphaned Diffview tabs
-		vim.cmd("silent! tabdo if bufname('%'):match('Diffview') then tabclose | endif")
 	else
+		-- Not open -> open it
 		vim.cmd("DiffviewOpen")
 	end
 end, { desc = "Toggle Diffview" })
@@ -151,30 +151,32 @@ require("neogit").setup({
 	disable_line_numbers = true,
 	remember_settings = true,
 	use_per_project_settings = true,
+	fetch_after_checkout = false, -- Don't auto-fetch (slow on large repos)
+	process_spinner = false, -- Disable spinner for faster perceived performance
 
 	-- UI preferences
-	disable_hint = false,
-	-- disable_status_hints = false,
+	disable_hint = true, -- Disable hints for cleaner UI
 	notification_icon = "󰊢",
 
 	-- Console settings
 	console_timeout = 2000,
-	auto_show_console = false, -- Don't auto-show console for faster operations
+	auto_show_console = false,
 	auto_close_console = true,
 
 	-- Integrations
 	integrations = {
-		telescope = true,
+		telescope = false, -- Disable telescope integration (use fzf-lua)
 		diffview = true,
+		fzf_lua = true, -- Enable fzf-lua instead
 	},
 
-	-- View configurations (only non-defaults)
+	-- Commit editor
 	commit_editor = {
-		show_staged_diff = true,
+		show_staged_diff = false, -- Disable for faster commit opening
 		spell_check = true,
 	},
 
-	-- Section folding preferences
+	-- Section folding - hide more sections for faster loading
 	sections = {
 		head = { folded = true, hidden = true },
 		push = { folded = true, hidden = true },
