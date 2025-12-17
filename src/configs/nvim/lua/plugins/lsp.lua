@@ -2,13 +2,6 @@ vim.opt.pumblend = 0 -- No transparency for completion menu
 vim.opt.winblend = 0 -- No transparency for floating windows
 vim.opt.pumborder = "rounded" -- Border style for completion menu
 
--- Completion menu styling
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000", fg = "NONE" })
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#03395e", fg = "NONE" })
-vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#000000" })
-vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#444444" })
-vim.api.nvim_set_hl(0, "PmenuBorder", { fg = "#444444" })
-
 -- Native LSP configuration
 vim.diagnostic.config({
 	virtual_lines = false,
@@ -38,23 +31,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			-- Set omnifunc for CTRL-X CTRL-O completion
 			vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-			-- Extend trigger characters to all alphanumeric for auto-trigger on every keystroke
-			if client.server_capabilities.completionProvider then
-				local chars = {}
-				for i = string.byte("a"), string.byte("z") do
-					table.insert(chars, string.char(i))
-				end
-				for i = string.byte("A"), string.byte("Z") do
-					table.insert(chars, string.char(i))
-				end
-				for i = string.byte("0"), string.byte("9") do
-					table.insert(chars, string.char(i))
-				end
-				client.server_capabilities.completionProvider.triggerCharacters = chars
-			end
-
-			-- Enable LSP completion with autotrigger
+			-- Enable LSP completion
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+
+			-- Trigger completion on every alphanumeric keystroke
+			vim.api.nvim_create_autocmd("TextChangedI", {
+				buffer = ev.buf,
+				callback = function()
+					local col = vim.fn.col(".") - 1
+					if col > 0 then
+						local char = vim.fn.getline("."):sub(col, col)
+						if char:match("[%w_]") then
+							vim.lsp.completion.get()
+						end
+					end
+				end,
+			})
 
 			-- Completion keymaps
 			vim.keymap.set("i", "<C-k>", function()
