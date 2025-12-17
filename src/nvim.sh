@@ -5,9 +5,21 @@ source "$(dirname "$0")/_util.sh"
 install_nvim() {
     step "⚡ Installing Neovim Configuration"
 
+    local config_nvim="$HOME/.config/nvim"
+    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)/configs/nvim"
+
+    # Check if already symlinked to dotfiles
+    if [ -L "$config_nvim" ]; then
+        local current_target=$(readlink "$config_nvim")
+        if [ "$current_target" = "$dotfiles_nvim" ]; then
+            success "Neovim config already linked to dotfiles (no copy needed)"
+            return 0
+        fi
+    fi
+
     info "Installing Neovim configuration..."
     mkdir -p ~/.config/nvim
-    cp -r "$(dirname "$0")/configs/nvim/"* ~/.config/nvim/
+    cp -r "$dotfiles_nvim/"* ~/.config/nvim/
     task "Copied configuration to ~/.config/nvim/"
 
     info "Cleaning LSP/Mason cache to prevent conflicts..."
