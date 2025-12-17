@@ -1,0 +1,48 @@
+{
+  "plugins": {
+    "conform.nvim": {
+      "rev": "9b8fa5e",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "diffview.nvim": {
+      "rev": "4516612",
+      "src": "https://github.com/sindrets/diffview.nvim"
+    },
+    "fzf-lua": {
+      "rev": "3b53b0e",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gitsigns.nvim": {
+      "rev": "5813e48",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "mason.nvim": {
+      "rev": "57e5a8a",
+      "src": "https://github.com/williamboman/mason.nvim"
+    },
+    "neogit": {
+      "rev": "d8bf9102",
+      "src": "https://github.com/NeogitOrg/neogit"
+    },
+    "nvim-autopairs": {
+      "rev": "d9e44e5",
+      "src": "https://github.com/windwp/nvim-autopairs"
+    },
+    "nvim-tree.lua": {
+      "rev": "eb33612",
+      "src": "https://github.com/nvim-tree/nvim-tree.lua"
+    },
+    "nvim-treesitter": {
+      "rev": "42fc28ba",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "vscode.nvim": {
+      "rev": "aa1102a",
+      "src": "https://github.com/Mofiqul/vscode.nvim"
+    }
+  }
+}
