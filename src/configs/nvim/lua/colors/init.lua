@@ -34,7 +34,16 @@ local c = {
 	yellow_orange = "#D7BA7D",
 	pink = "#C586C0",
 
-	-- Git/Diff
+	-- Git/Diff (with backgrounds for better visibility)
+	diff_add_bg = "#2d4a2d",
+	diff_add_fg = "#a8e4a0",
+	diff_delete_bg = "#4a2d2d",
+	diff_delete_fg = "#ff7b72",
+	diff_change_bg = "#4a402d",
+	diff_change_fg = "#ffa657",
+	diff_text_bg = "#5a4a2d",
+	diff_text_fg = "#ffb86c",
+	-- For gitsigns (simpler colors)
 	diff_add = "#81b88b",
 	diff_delete = "#c74e39",
 	diff_change = "#569CD6",
@@ -101,11 +110,11 @@ local function set_highlights()
 	hl(0, "Folded", { fg = c.gray, bg = "NONE" })
 	hl(0, "FoldColumn", { fg = c.gray, bg = "NONE" })
 
-	-- Diff
-	hl(0, "DiffAdd", { fg = c.diff_add, bg = "NONE" })
-	hl(0, "DiffChange", { fg = c.diff_change, bg = "NONE" })
-	hl(0, "DiffDelete", { fg = c.diff_delete, bg = "NONE" })
-	hl(0, "DiffText", { fg = c.fg, bg = c.selection })
+	-- Diff (with backgrounds for visibility)
+	hl(0, "DiffAdd", { fg = c.diff_add_fg, bg = c.diff_add_bg })
+	hl(0, "DiffChange", { fg = c.diff_change_fg, bg = c.diff_change_bg })
+	hl(0, "DiffDelete", { fg = c.diff_delete_fg, bg = c.diff_delete_bg })
+	hl(0, "DiffText", { fg = c.diff_text_fg, bg = c.diff_text_bg })
 
 	-- Diagnostics
 	hl(0, "DiagnosticError", { fg = c.red })
@@ -272,12 +281,16 @@ local function set_highlights()
 	hl(0, "GitSignsDelete", { fg = c.diff_delete })
 
 	-- Neogit
-	hl(0, "NeogitBranch", { fg = c.pink })
-	hl(0, "NeogitRemote", { fg = c.pink })
-	hl(0, "NeogitHunkHeader", { fg = c.fg, bg = c.selection })
-	hl(0, "NeogitHunkHeaderHighlight", { fg = c.blue, bg = c.selection })
-	hl(0, "NeogitDiffAdd", { fg = c.diff_add })
-	hl(0, "NeogitDiffDelete", { fg = c.diff_delete })
+	hl(0, "NeogitBranch", { fg = c.blue })
+	hl(0, "NeogitRemote", { fg = c.light_blue })
+	hl(0, "NeogitHunkHeader", { fg = c.pink, bg = "NONE" })
+	hl(0, "NeogitHunkHeaderHighlight", { fg = c.pink, bg = "NONE" })
+	hl(0, "NeogitDiffContext", { fg = c.gray, bg = "NONE" })
+	hl(0, "NeogitDiffContextHighlight", { fg = c.gray, bg = "NONE" })
+	hl(0, "NeogitDiffAdd", { link = "DiffAdd" })
+	hl(0, "NeogitDiffDelete", { link = "DiffDelete" })
+	hl(0, "NeogitDiffAddHighlight", { link = "DiffAdd" })
+	hl(0, "NeogitDiffDeleteHighlight", { link = "DiffDelete" })
 
 	-- Telescope/FZF
 	hl(0, "TelescopeNormal", { fg = c.fg, bg = "NONE" })
