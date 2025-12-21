@@ -156,6 +156,3 @@ require("fzf-lua").setup({
 		},
 	},
 })
-
--- Set border color for fzf-lua window
-vim.cmd([[highlight FloatBorder guifg=#444444]])

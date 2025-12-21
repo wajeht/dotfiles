@@ -93,11 +93,3 @@ local api = require("nvim-tree.api")
 api.events.subscribe(api.events.Event.FileCreated, function(file)
 	vim.cmd("edit " .. vim.fn.fnameescape(file.fname))
 end)
-
--- Custom highlighting
-vim.cmd([[
-  highlight NvimTreeFolderName guifg=#569cd6 ctermfg=75
-  highlight NvimTreeOpenedFolderName guifg=#569cd6 ctermfg=75
-  highlight NvimTreeEmptyFolderName guifg=#569cd6 ctermfg=75
-  highlight NvimTreeCursorLine guibg=#03395e
-]])

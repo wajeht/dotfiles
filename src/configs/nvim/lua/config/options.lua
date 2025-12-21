@@ -116,9 +116,3 @@ vim.opt.updatetime = 50 -- Faster completion
 vim.opt.redrawtime = 1500 -- Time in milliseconds for redrawing the display (default: 2000)
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 
--- Custom statusline for terminal buffers
--- vim.cmd("set laststatus=0")  -- Disable default statusline
--- vim.cmd("set statusline=%{repeat('─',winwidth('.'))}")  -- Custom statusline (only a line of dashes)
-
--- vim.cmd("hi StatusLine gui=NONE guibg=NONE guifg=#2d4f56")  -- GUI background transparent
--- vim.cmd("hi StatusLineNC gui=NONE guibg=NONE guifg=#2d4f56")  -- Inactive StatusLine transparent for GUI
