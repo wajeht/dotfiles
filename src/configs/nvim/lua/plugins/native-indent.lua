@@ -1,4 +1,3 @@
--- Native dynamic indent guides using listchars
 local augroup = vim.api.nvim_create_augroup("indentlines", {})
 
 local function guides(sw)

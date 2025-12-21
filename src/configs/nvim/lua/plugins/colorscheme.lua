@@ -1,4 +1,3 @@
--- Load VSCode-inspired colorscheme
 vim.o.background = "dark"
 vim.cmd("colorscheme vscode")
 

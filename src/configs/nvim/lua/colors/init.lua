@@ -1,4 +1,3 @@
--- VSCode-inspired colorscheme
 -- Based on Mofiqul/vscode.nvim with custom modifications
 
 local M = {}
