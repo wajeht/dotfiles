@@ -15,7 +15,7 @@ local c = {
 	line_nr_dim = "#28292c",
 	cursor_line = "#2A2A2A",
 	popup_bg = "#000000",
-	popup_border = "#444444",
+	popup_border = "#5a5a5a",
 	search = "#613315",
 	search_current = "#515c6a",
 
@@ -73,7 +73,7 @@ local function set_highlights()
 	hl(0, "LineNr", { fg = c.line_nr_dim, bg = "NONE" })
 	hl(0, "LineNrAbove", { fg = c.line_nr_dim, bg = "NONE" })
 	hl(0, "LineNrBelow", { fg = c.line_nr_dim, bg = "NONE" })
-	hl(0, "CursorLineNr", { fg = c.white, bg = "NONE" })
+	hl(0, "CursorLineNr", { fg = c.fg, bg = "NONE" })
 	hl(0, "SignColumn", { fg = c.fg, bg = "NONE" })
 
 	-- Search
@@ -164,6 +164,9 @@ local function set_highlights()
 
 	-- TreeSitter
 	hl(0, "@comment", { link = "Comment" })
+	hl(0, "@comment.note", { fg = c.blue_green, bold = true })
+	hl(0, "@comment.warning", { fg = c.yellow_orange, bold = true })
+	hl(0, "@comment.error", { fg = c.red, bold = true })
 	hl(0, "@constant", { fg = c.blue })
 	hl(0, "@constant.builtin", { fg = c.blue })
 	hl(0, "@constant.macro", { fg = c.blue })
@@ -183,9 +186,9 @@ local function set_highlights()
 	hl(0, "@function.method.call", { fg = c.yellow })
 	hl(0, "@method", { fg = c.yellow })
 	hl(0, "@method.call", { fg = c.yellow })
-	hl(0, "@constructor", { fg = c.blue_green })
+	hl(0, "@constructor", { fg = c.blue })
 	hl(0, "@parameter", { fg = c.light_blue })
-	hl(0, "@keyword", { fg = c.pink })
+	hl(0, "@keyword", { fg = c.blue })
 	hl(0, "@keyword.function", { fg = c.blue })
 	hl(0, "@keyword.operator", { fg = c.pink })
 	hl(0, "@keyword.return", { fg = c.pink })
@@ -199,7 +202,7 @@ local function set_highlights()
 	hl(0, "@operator", { fg = c.fg })
 	hl(0, "@exception", { fg = c.pink })
 	hl(0, "@variable", { fg = c.light_blue })
-	hl(0, "@variable.builtin", { fg = c.light_blue })
+	hl(0, "@variable.builtin", { fg = c.blue })
 	hl(0, "@variable.parameter", { fg = c.light_blue })
 	hl(0, "@variable.member", { fg = c.light_blue })
 	hl(0, "@type", { fg = c.blue_green })
@@ -231,6 +234,7 @@ local function set_highlights()
 	hl(0, "@text.reference", { fg = c.light_blue })
 	hl(0, "@text.todo", { fg = c.yellow_orange, bold = true })
 	hl(0, "@attribute", { fg = c.yellow })
+	hl(0, "@attribute.builtin", { fg = c.blue_green })
 	hl(0, "@property", { fg = c.light_blue })
 	hl(0, "@field", { fg = c.light_blue })
 
@@ -306,6 +310,49 @@ local function set_highlights()
 
 	-- Match paren
 	hl(0, "MatchParen", { bg = c.selection, bold = true })
+
+	-- WinBar
+	hl(0, "WinBar", { fg = c.fg, bg = "NONE", bold = true })
+	hl(0, "WinBarNC", { fg = c.gray, bg = "NONE" })
+
+	-- Markdown headings
+	hl(0, "@markup.heading.1", { fg = c.blue, bold = true })
+	hl(0, "@markup.heading.2", { fg = c.orange, bold = true })
+	hl(0, "@markup.heading.3", { fg = c.yellow, bold = true })
+	hl(0, "@markup.heading.4", { fg = c.green, bold = true })
+	hl(0, "@markup.heading.5", { fg = c.pink, bold = true })
+	hl(0, "@markup.heading.6", { fg = c.blue_green, bold = true })
+	hl(0, "@markup.raw", { fg = c.orange })
+	hl(0, "@markup.link.label", { fg = c.light_blue, underline = true })
+	hl(0, "@markup.link.url", { fg = c.fg, underline = true })
+	hl(0, "@markup.list.checked", { link = "Todo" })
+	hl(0, "@markup.list.unchecked", { link = "Todo" })
+
+	-- Indent guides (indent-blankline)
+	hl(0, "IblIndent", { fg = "#2a2a2a" })
+	hl(0, "IblScope", { fg = c.dim })
+
+	-- Rainbow delimiters
+	hl(0, "RainbowDelimiterRed", { fg = c.red })
+	hl(0, "RainbowDelimiterYellow", { fg = c.yellow })
+	hl(0, "RainbowDelimiterBlue", { fg = c.blue })
+	hl(0, "RainbowDelimiterOrange", { fg = c.orange })
+	hl(0, "RainbowDelimiterGreen", { fg = c.green })
+	hl(0, "RainbowDelimiterViolet", { fg = c.pink })
+	hl(0, "RainbowDelimiterCyan", { fg = c.blue_green })
+
+	-- Copilot
+	hl(0, "CopilotSuggestion", { fg = c.gray })
+
+	-- Which-key
+	hl(0, "WhichKey", { fg = c.pink })
+	hl(0, "WhichKeyGroup", { fg = c.blue })
+	hl(0, "WhichKeyDesc", { fg = c.fg })
+	hl(0, "WhichKeySeparator", { fg = c.gray })
+	hl(0, "WhichKeyBorder", { fg = c.dim })
+
+	-- LSP control flow keywords
+	hl(0, "@lsp.typemod.keyword.controlFlow", { fg = c.pink })
 
 	-- Misc
 	hl(0, "Directory", { fg = c.blue })
