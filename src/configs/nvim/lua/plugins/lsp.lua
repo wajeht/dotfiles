@@ -1,6 +1,7 @@
 vim.opt.pumblend = 0 -- No transparency for completion menu
 vim.opt.winblend = 0 -- No transparency for floating windows
 vim.opt.pumborder = "rounded" -- Border style for completion menu
+vim.opt.winborder = "rounded" -- Border style for floating windows (docs popup)
 
 -- LSP servers are auto-enabled by mason.lua based on installed packages
 
