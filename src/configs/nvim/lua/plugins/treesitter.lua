@@ -37,6 +37,7 @@ require("nvim-treesitter.configs").setup({
 		"gitignore",
 		"sql",
 		"vimdoc",
+		"embedded_template", -- EJS, ERB, etc.
 	},
 	incremental_selection = {
 		enable = true,
@@ -55,3 +56,11 @@ require("nvim-treesitter.configs").setup({
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false -- Disable folding at startup
+
+-- Filetype detection for template languages
+vim.filetype.add({
+	extension = {
+		ejs = "embedded_template",
+		html = "embedded_template",
+	},
+})
