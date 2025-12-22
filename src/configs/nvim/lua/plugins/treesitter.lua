@@ -2,7 +2,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 })
 
--- Deferred treesitter loading to avoid UI blocking
+-- Deferred treesitter loading to avoid UI blocking from parser binary loading
 -- Based on: https://www.reddit.com/r/neovim/comments/1klxlvu/remove_treesitter_delays_when_opening_files/
 
 local ensure_installed = {
@@ -25,19 +25,20 @@ local ensure_installed = {
 	"gitignore",
 	"sql",
 	"vimdoc",
-	"embedded_template",
+	"embedded_template", -- EJS, ERB, etc.
 }
 
-local parsers_loaded = {}
-local parsers_pending = {}
-local parsers_failed = {}
+-- Track parser loading state
+local parsers_loaded = {} -- Parsers that have been successfully loaded
+local parsers_pending = {} -- Parsers waiting to be loaded
+local parsers_failed = {} -- Parsers that failed to load
 
 local ns = vim.api.nvim_create_namespace("treesitter.deferred")
 
 -- Filetypes to skip treesitter processing
 local ignored_filetypes = { "lazy", "mason", "help", "qf", "man" }
 
----Start treesitter for the current buffer
+-- Start treesitter highlighting for the current buffer
 ---@param lang string
 ---@return boolean
 local function start_treesitter(lang)
@@ -45,15 +46,11 @@ local function start_treesitter(lang)
 	if not ok then
 		return false
 	end
-
-	-- Set fold expression to use treesitter
 	vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
 	return true
 end
 
--- Defer parser loading using decoration provider
--- Parsers may take time to load (big binary files) so start them async
+-- Defer parser binary loading using decoration provider
 vim.api.nvim_set_decoration_provider(ns, {
 	on_start = vim.schedule_wrap(function()
 		if #parsers_pending == 0 then
@@ -75,10 +72,9 @@ vim.api.nvim_set_decoration_provider(ns, {
 	end),
 })
 
--- FileType autocmd to trigger deferred treesitter loading
+-- FileType autocmd to trigger deferred loading
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(event)
-		-- Skip ignored filetypes
 		if vim.tbl_contains(ignored_filetypes, event.match) then
 			return
 		end
@@ -89,10 +85,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 
 		if parsers_loaded[lang] then
-			-- Parser already loaded, start immediately
 			start_treesitter(lang)
 		else
-			-- Defer parser loading to avoid UI block
 			table.insert(parsers_pending, {
 				lang = lang,
 				winnr = vim.api.nvim_get_current_win(),
@@ -102,14 +96,21 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Command to install all configured parsers
-vim.api.nvim_create_user_command("TSInstallAll", function()
-	for _, lang in ipairs(ensure_installed) do
-		vim.cmd("TSInstall " .. lang)
-	end
-end, {})
+-- Auto-install missing parsers (deferred)
+vim.api.nvim_create_autocmd("VimEnter", {
+	once = true,
+	callback = vim.schedule_wrap(function()
+		require("nvim-treesitter.configs").setup({
+			ensure_installed = ensure_installed,
+			sync_install = false, -- Async install to avoid race conditions
+			auto_install = true, -- Auto-install missing parsers when entering buffer
+			highlight = { enable = false }, -- Handled by deferred loading above
+			indent = { enable = true }, -- Enable indentation
+		})
+	end),
+})
 
--- Fold settings
+-- Fold settings using treesitter
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false -- Disable folding at startup
