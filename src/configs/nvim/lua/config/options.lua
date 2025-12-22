@@ -115,4 +115,3 @@ vim.opt.ttimeoutlen = 0 -- Instant key code recognition
 vim.opt.updatetime = 50 -- Faster completion
 vim.opt.redrawtime = 1500 -- Time in milliseconds for redrawing the display (default: 2000)
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-
