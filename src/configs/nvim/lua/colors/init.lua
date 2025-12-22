@@ -34,19 +34,15 @@ local c = {
 	yellow_orange = "#D7BA7D",
 	pink = "#C586C0",
 
-	-- Git/Diff (with backgrounds for better visibility)
-	diff_add_bg = "#2d4a2d",
-	diff_add_fg = "#a8e4a0",
-	diff_delete_bg = "#4a2d2d",
-	diff_delete_fg = "#ff7b72",
-	diff_change_bg = "#4a402d",
-	diff_change_fg = "#ffa657",
-	diff_text_bg = "#5a4a2d",
-	diff_text_fg = "#ffb86c",
-	-- For gitsigns (simpler colors)
-	diff_add = "#81b88b",
-	diff_delete = "#c74e39",
-	diff_change = "#569CD6",
+	-- Git/Diff (matching VSCode style with transparency)
+	diff_add_line = "#234023", -- added line background (green tint)
+	diff_delete_line = "#402323", -- deleted line background (red tint - more visible)
+	diff_add_text = "#2e4d2e", -- inline added text
+	diff_delete_text = "#4d2e2e", -- inline deleted text
+	-- For gitsigns gutter indicators
+	diff_add = "#587c0c", -- green for added
+	diff_delete = "#94151b", -- red for deleted
+	diff_change = "#0c7d9d", -- blue for changed
 
 	-- Misc
 	white = "#ffffff",
@@ -110,11 +106,11 @@ local function set_highlights()
 	hl(0, "Folded", { fg = c.gray, bg = "NONE" })
 	hl(0, "FoldColumn", { fg = c.gray, bg = "NONE" })
 
-	-- Diff (with backgrounds for visibility)
-	hl(0, "DiffAdd", { fg = c.diff_add_fg, bg = c.diff_add_bg })
-	hl(0, "DiffChange", { fg = c.diff_change_fg, bg = c.diff_change_bg })
-	hl(0, "DiffDelete", { fg = c.diff_delete_fg, bg = c.diff_delete_bg })
-	hl(0, "DiffText", { fg = c.diff_text_fg, bg = c.diff_text_bg })
+	-- Diff (VSCode-style: subtle backgrounds with transparency)
+	hl(0, "DiffAdd", { bg = c.diff_add_line, blend = 50 })
+	hl(0, "DiffChange", { bg = c.diff_add_line, blend = 50 })
+	hl(0, "DiffDelete", { fg = "#5a3535", bg = c.diff_delete_line, blend = 50 }) -- match bg color
+	hl(0, "DiffText", { bg = c.diff_add_text, blend = 30 })
 
 	-- Diagnostics
 	hl(0, "DiagnosticError", { fg = c.red })
@@ -272,8 +268,8 @@ local function set_highlights()
 	hl(0, "NvimTreeEmptyFolderName", { fg = c.gray })
 	hl(0, "NvimTreeIndentMarker", { fg = c.line_nr_dim })
 	hl(0, "NvimTreeGitDirty", { fg = c.yellow })
-	hl(0, "NvimTreeGitNew", { fg = c.diff_add })
-	hl(0, "NvimTreeGitDeleted", { fg = c.diff_delete })
+	hl(0, "NvimTreeGitNew", { fg = "#81b88b" })
+	hl(0, "NvimTreeGitDeleted", { fg = "#c74e39" })
 	hl(0, "NvimTreeGitIgnored", { fg = "#8c8c8c" })
 	hl(0, "NvimTreeGitRenamed", { fg = "#73c991" })
 	hl(0, "NvimTreeGitStaged", { fg = "#e2c08d" })
@@ -289,10 +285,19 @@ local function set_highlights()
 	hl(0, "GitSignsChange", { fg = c.diff_change })
 	hl(0, "GitSignsDelete", { fg = c.diff_delete })
 
-	-- Diffview
+	-- Diffview (VSCode-style diff colors with transparency)
 	hl(0, "DiffviewFilePanelTitle", { fg = c.blue, bold = true })
 	hl(0, "DiffviewFilePanelCounter", { fg = c.pink })
 	hl(0, "DiffviewFilePanelFileName", { fg = c.fg })
+	hl(0, "DiffviewDiffAdd", { bg = c.diff_add_line, blend = 50 })
+	hl(0, "DiffviewDiffAddAsDelete", { bg = c.diff_delete_line, blend = 50 })
+	hl(0, "DiffviewDiffDelete", { fg = "#5a3535", bg = c.diff_delete_line, blend = 50 })
+	hl(0, "DiffviewDiffAddText", { bg = c.diff_add_text, blend = 30 })
+	hl(0, "DiffviewDiffDeleteText", { bg = c.diff_delete_text, blend = 30 })
+	hl(0, "DiffviewStatusAdded", { fg = c.diff_add })
+	hl(0, "DiffviewStatusModified", { fg = c.diff_change })
+	hl(0, "DiffviewStatusDeleted", { fg = c.diff_delete })
+	hl(0, "DiffviewStatusRenamed", { fg = "#73c991" })
 
 	-- Telescope/FZF
 	hl(0, "TelescopeNormal", { fg = c.fg, bg = "NONE" })
@@ -390,7 +395,7 @@ function M.setup()
 	vim.g.terminal_color_7 = c.fg
 	vim.g.terminal_color_8 = c.gray
 	vim.g.terminal_color_9 = c.light_red
-	vim.g.terminal_color_10 = c.diff_add
+	vim.g.terminal_color_10 = "#81b88b"
 	vim.g.terminal_color_11 = c.yellow_orange
 	vim.g.terminal_color_12 = c.light_blue
 	vim.g.terminal_color_13 = c.pink
