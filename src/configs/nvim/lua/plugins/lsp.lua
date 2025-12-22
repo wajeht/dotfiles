@@ -2,17 +2,22 @@ vim.opt.pumblend = 0 -- No transparency for completion menu
 vim.opt.winblend = 0 -- No transparency for floating windows
 vim.opt.pumborder = "rounded" -- Border style for completion menu
 
--- Native LSP configuration
-vim.diagnostic.config({
-	virtual_lines = false,
-	virtual_text = true,
-	signs = true,
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
-})
-
 -- LSP servers are auto-enabled by mason.lua based on installed packages
+
+-- Deferred diagnostic config to avoid startup blocking
+vim.api.nvim_create_autocmd("LspAttach", {
+	once = true,
+	callback = function()
+		vim.diagnostic.config({
+			virtual_lines = false,
+			virtual_text = true,
+			signs = true,
+			underline = true,
+			update_in_insert = false,
+			severity_sort = true,
+		})
+	end,
+})
 
 -- LspAttach autocmd
 vim.api.nvim_create_autocmd("LspAttach", {

@@ -36,18 +36,24 @@ local function load_lsp_config(lsp_name)
 	return nil
 end
 
--- Auto-enable all Mason-installed LSPs
-local installed_packages = require("mason-registry").get_installed_packages()
-for _, pack in ipairs(installed_packages) do
-	-- Only process packages that have LSP configuration
-	if pack.spec.neovim and pack.spec.neovim.lspconfig then
-		local lsp_name = pack.spec.neovim.lspconfig
-		local custom_config = load_lsp_config(lsp_name)
+-- Defer LSP enabling to avoid startup blocking
+vim.api.nvim_create_autocmd("VimEnter", {
+	once = true,
+	callback = vim.schedule_wrap(function()
+		-- Auto-enable all Mason-installed LSPs
+		local installed_packages = require("mason-registry").get_installed_packages()
+		for _, pack in ipairs(installed_packages) do
+			-- Only process packages that have LSP configuration
+			if pack.spec.neovim and pack.spec.neovim.lspconfig then
+				local lsp_name = pack.spec.neovim.lspconfig
+				local custom_config = load_lsp_config(lsp_name)
 
-		if custom_config then
-			vim.lsp.enable(lsp_name, custom_config)
-		else
-			vim.lsp.enable(lsp_name)
+				if custom_config then
+					vim.lsp.enable(lsp_name, custom_config)
+				else
+					vim.lsp.enable(lsp_name)
+				end
+			end
 		end
-	end
-end
+	end),
+})
