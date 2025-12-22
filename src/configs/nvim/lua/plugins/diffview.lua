@@ -54,6 +54,7 @@ end, { desc = "File history" })
 
 require("diffview").setup({
 	use_icons = false,
+	show_help_hints = false,
 	view = {
 		default = { winbar_info = false },
 		file_history = { winbar_info = false },
@@ -62,7 +63,7 @@ require("diffview").setup({
 		listing_style = "list",
 		win_config = {
 			position = "right",
-			width = 35,
+			width = 40,
 		},
 	},
 })
