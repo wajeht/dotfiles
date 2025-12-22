@@ -1,3 +1,16 @@
+-- Git hunk keymaps:
+--   ]h / [h          - Next/prev hunk
+--   <leader>hp       - Preview hunk
+--   <leader>hs       - Stage hunk (visual: partial stage)
+--   <leader>hu       - Undo stage hunk
+--   <leader>hr       - Reset hunk (discard changes)
+--   <leader>hS       - Stage entire buffer
+--   <leader>hR       - Reset entire buffer
+--   <leader>hb       - Blame line
+--   <leader>hB       - Toggle line blame
+--   <leader>hd       - Diff this file
+--   ih               - Text object: select hunk
+
 vim.pack.add({
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
