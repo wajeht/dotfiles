@@ -289,17 +289,10 @@ local function set_highlights()
 	hl(0, "GitSignsChange", { fg = c.diff_change })
 	hl(0, "GitSignsDelete", { fg = c.diff_delete })
 
-	-- Neogit
-	hl(0, "NeogitBranch", { fg = c.blue })
-	hl(0, "NeogitRemote", { fg = c.light_blue })
-	hl(0, "NeogitHunkHeader", { fg = c.pink, bg = "NONE" })
-	hl(0, "NeogitHunkHeaderHighlight", { fg = c.pink, bg = "NONE" })
-	hl(0, "NeogitDiffContext", { fg = c.gray, bg = "NONE" })
-	hl(0, "NeogitDiffContextHighlight", { fg = c.gray, bg = "NONE" })
-	hl(0, "NeogitDiffAdd", { link = "DiffAdd" })
-	hl(0, "NeogitDiffDelete", { link = "DiffDelete" })
-	hl(0, "NeogitDiffAddHighlight", { link = "DiffAdd" })
-	hl(0, "NeogitDiffDeleteHighlight", { link = "DiffDelete" })
+	-- Diffview
+	hl(0, "DiffviewFilePanelTitle", { fg = c.blue, bold = true })
+	hl(0, "DiffviewFilePanelCounter", { fg = c.pink })
+	hl(0, "DiffviewFilePanelFileName", { fg = c.fg })
 
 	-- Telescope/FZF
 	hl(0, "TelescopeNormal", { fg = c.fg, bg = "NONE" })
