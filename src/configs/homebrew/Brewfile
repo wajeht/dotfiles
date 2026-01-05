@@ -18,6 +18,7 @@ brew "sqlite"       # SQLite database
 brew "nmap"         # Network scanner
 brew "tldr"         # Collaborative cheatsheets for console commands
 brew "stripe/stripe-cli/stripe" # Stripe CLI
+brew "bruno"        # Bruno is a fully local and Git-native solution to accelerate and secure API work and collaboration
 
 # CLI Utilities & System Tools
 brew "ripgrep"      # Fast grep alternative
