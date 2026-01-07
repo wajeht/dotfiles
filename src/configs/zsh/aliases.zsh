@@ -64,6 +64,7 @@ alias update='brew update && brew upgrade && brew doctor && brew autoremove && b
 
 # SSH aliases (consider moving to a separate file if you have many)
 alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
+alias work="ssh kyaw@192.168.4.120"
 alias zero="sshpass -p 'password' ssh jaw@192.168.4.160"
 alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
 alias tv="sshpass -p 'password' ssh tv@192.168.4.201"
