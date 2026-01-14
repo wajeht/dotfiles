@@ -73,6 +73,9 @@ export PATH="$HOME/go/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Local bin (bob, etc)
+export PATH="$HOME/.local/bin:$PATH"
+
 # For neovim version manager
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 

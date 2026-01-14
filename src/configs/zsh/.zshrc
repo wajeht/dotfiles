@@ -38,7 +38,14 @@ SAVEHIST=10000
 # ======================
 # Enable completion system (optimized - only rebuild once per day)
 autoload -Uz compinit
-if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+_zcompdump_day() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null
+    else
+        date -r ~/.zcompdump +'%j' 2>/dev/null
+    fi
+}
+if [ "$(date +'%j')" != "$(_zcompdump_day)" ]; then
     compinit
 else
     compinit -C
@@ -154,7 +161,7 @@ function prompt_dots() {
 
     # Calculate lengths (without ANSI color codes)
     local left_length=$((${#dir_display} + ${#git_display} + _prompt_git_status_len))
-    local right_length=15  # " at HH:MM:SS AM" = 15 chars
+    local right_length=$((${#HOST} + 16))  # " hostname at HH:MM:SS AM"
     local dots_length=$((COLUMNS - left_length - right_length))
 
     # Generate dots
@@ -175,7 +182,7 @@ precmd() {
 # Two-line prompt with dots
 # Line 1: directory + git branch + git status + dots + time
 # Line 2: prompt symbol
-PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f$(prompt_git_status) %F{240}$(prompt_dots)%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
+PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f$(prompt_git_status) %F{240}$(prompt_dots)%f %F{magenta}%m%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
 %F{green}❯%f '
 
 # ======================
@@ -184,39 +191,45 @@ PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0
 source "$ZDOTDIR/env.zsh"
 
 # ======================
-# Load Homebrew Plugins
+# Load Zsh Plugins
 # ======================
-# Use single Homebrew prefix check
-if [[ -d "/opt/homebrew" ]]; then
-    HOMEBREW_PREFIX="/opt/homebrew"
-elif [[ -d "/usr/local" ]]; then
-    HOMEBREW_PREFIX="/usr/local"
+# Detect plugin source: Homebrew (macOS) or git clones (Linux/server)
+_PLUGIN_DIR=""
+if [[ -d "/opt/homebrew/share" ]]; then
+    _PLUGIN_DIR="/opt/homebrew/share"
+elif [[ -d "/usr/local/share" ]]; then
+    _PLUGIN_DIR="/usr/local/share"
+elif [[ -d "$HOME/.zsh/plugins" ]]; then
+    _PLUGIN_DIR="$HOME/.zsh/plugins"
 fi
 
-if [[ -n "$HOMEBREW_PREFIX" ]]; then
+if [[ -n "$_PLUGIN_DIR" ]]; then
     # Load completions first
-    if [[ -d "$HOMEBREW_PREFIX/share/zsh-completions" ]]; then
-        fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
+    if [[ -d "$_PLUGIN_DIR/zsh-completions" ]]; then
+        fpath=("$_PLUGIN_DIR/zsh-completions" $fpath)
+    elif [[ -d "$_PLUGIN_DIR/zsh-completions/src" ]]; then
+        fpath=("$_PLUGIN_DIR/zsh-completions/src" $fpath)
     fi
 
     # Load zsh-vi-mode first (order matters)
-    if [[ -f "$HOMEBREW_PREFIX/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
-        source "$HOMEBREW_PREFIX/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+    if [[ -f "$_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
+        source "$_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
     else
         # Fallback: enable vi mode manually
         bindkey -v
     fi
 
     # Load autosuggestions
-    if [[ -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-        source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    if [[ -f "$_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+        source "$_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
 
     # Load syntax highlighting (must be last)
-    if [[ -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-        source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    if [[ -f "$_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+        source "$_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     fi
 fi
+unset _PLUGIN_DIR
 
 # Lazy load bun completions (faster startup)
 bun() {
