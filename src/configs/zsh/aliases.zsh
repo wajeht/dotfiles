@@ -68,6 +68,7 @@ alias work="ssh kyaw@192.168.4.120"
 alias zero="sshpass -p 'password' ssh jaw@192.168.4.160"
 alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
 alias tv="sshpass -p 'password' ssh tv@192.168.4.201"
+alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
 
 function onesudo() {
     sshpass -p 'password' ssh -t jaw@192.168.4.161 "echo 'password' | sudo -S $*"
