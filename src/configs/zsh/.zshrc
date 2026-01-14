@@ -161,7 +161,8 @@ function prompt_dots() {
 
     # Calculate lengths (without ANSI color codes)
     local left_length=$((${#dir_display} + ${#git_display} + _prompt_git_status_len))
-    local right_length=$((${#HOST} + 16))  # " hostname at HH:MM:SS AM"
+    local short_host="${HOST%%.*}"  # %m shows short hostname
+    local right_length=$((${#short_host} + 16))  # " hostname at HH:MM:SS AM"
     local dots_length=$((COLUMNS - left_length - right_length))
 
     # Generate dots
