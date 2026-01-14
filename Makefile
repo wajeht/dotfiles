@@ -1,4 +1,4 @@
-.PHONY: install macos brew nvim git zsh ghostty lsd bat push clean update format sync-nvim help
+.PHONY: install macos brew nvim git zsh ghostty lsd bat server push clean update format sync-nvim help
 
 install:
 	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./src/install.sh; fi
@@ -23,6 +23,9 @@ lsd:
 
 bat:
 	@./src/bat.sh $(filter-out $@,$(MAKECMDGOALS))
+
+server:
+	@./src/server.sh $(filter-out $@,$(MAKECMDGOALS))
 
 macos:
 	@./src/macos-defaults.sh
@@ -71,6 +74,7 @@ help:
 	@echo "  make ghostty           Install Ghostty config"
 	@echo "  make lsd               Install LSD config"
 	@echo "  make bat               Install Bat config"
+	@echo "  make server            Install server dotfiles (Linux)"
 	@echo ""
 	@echo "🗑️  Uninstallation:"
 	@echo "  make <component> uninstall    Uninstall specific component"
