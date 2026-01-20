@@ -60,6 +60,9 @@ alias rmds="find . -name '.DS_Store' -type f -delete"
 
 if [[ "$(uname)" == "Darwin" ]]; then
     alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
+else
+    alias update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
+fi
 
 alias work="ssh kyaw@192.168.4.120"
 alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
