@@ -9,8 +9,8 @@ check_linux() {
 install_apt_deps() {
     info "Installing dependencies via apt..."
     sudo apt-get update -qq
-    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go
-    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go"
+    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop
+    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go, btop"
 
     # Debian names bat as batcat, symlink it
     if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
@@ -130,6 +130,40 @@ install_zsh_config() {
     success "Zsh configuration installed"
 }
 
+install_bat_config() {
+    step "Installing Bat Configuration"
+
+    local script_dir="$(dirname "$0")"
+    mkdir -p ~/.config/bat
+    cp "$script_dir/configs/bat/config" ~/.config/bat/
+    task "Copied bat config to ~/.config/bat/"
+
+    success "Bat configuration installed"
+}
+
+install_lsd_config() {
+    step "Installing LSD Configuration"
+
+    local script_dir="$(dirname "$0")"
+    mkdir -p ~/.config/lsd
+    cp "$script_dir/configs/lsd/config.yaml" ~/.config/lsd/
+    cp "$script_dir/configs/lsd/colors.yaml" ~/.config/lsd/
+    task "Copied lsd config to ~/.config/lsd/"
+
+    success "LSD configuration installed"
+}
+
+install_btop_config() {
+    step "Installing Btop Configuration"
+
+    local script_dir="$(dirname "$0")"
+    mkdir -p ~/.config/btop
+    cp "$script_dir/configs/btop/btop.conf" ~/.config/btop/
+    task "Copied btop config to ~/.config/btop/"
+
+    success "Btop configuration installed"
+}
+
 install_nvim_config() {
     step "Installing Neovim Configuration"
 
@@ -169,6 +203,9 @@ install_server() {
     install_zsh_plugins
     install_zsh_config
     install_nvim_config
+    install_bat_config
+    install_lsd_config
+    install_btop_config
 
     echo ""
     read -p "❓ Set zsh as your default shell? [y/N] " confirm
