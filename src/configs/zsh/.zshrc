@@ -196,11 +196,11 @@ source "$ZDOTDIR/env.zsh"
 # ======================
 # Detect plugin source: Homebrew (macOS) or git clones (Linux/server)
 _PLUGIN_DIR=""
-if [[ -d "/opt/homebrew/share" ]]; then
+if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
     _PLUGIN_DIR="/opt/homebrew/share"
-elif [[ -d "/usr/local/share" ]]; then
+elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
     _PLUGIN_DIR="/usr/local/share"
-elif [[ -d "$HOME/.zsh/plugins" ]]; then
+elif [[ -f "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
     _PLUGIN_DIR="$HOME/.zsh/plugins"
 fi
 
