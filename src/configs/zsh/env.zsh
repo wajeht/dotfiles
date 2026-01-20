@@ -10,8 +10,7 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Colorize man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# NVM (Node Version Manager) - Lazy loading for faster startup
-# Check for Homebrew-installed nvm first, then ~/.nvm
+# NVM (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
   NVM_HOMEBREW="/opt/homebrew/opt/nvm"
@@ -19,11 +18,16 @@ elif [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
   NVM_HOMEBREW="/usr/local/opt/nvm"
 fi
 
-# Only set up lazy loading if NVM is available
+# Add nvm's default node to PATH for tools like Mason that need npm
+if [[ -d "$NVM_DIR/versions/node" ]]; then
+  NODE_DEFAULT=$(ls -t "$NVM_DIR/versions/node" 2>/dev/null | head -1)
+  [[ -n "$NODE_DEFAULT" ]] && export PATH="$NVM_DIR/versions/node/$NODE_DEFAULT/bin:$PATH"
+fi
+
+# Lazy load NVM commands - only load full nvm when needed
 if [[ -n "$NVM_HOMEBREW" ]] || [[ -d "$NVM_DIR" ]]; then
-  # Lazy load NVM - only load when needed
   nvm() {
-    unset -f nvm node npm npx
+    unset -f nvm
     if [[ -n "$NVM_HOMEBREW" ]]; then
       [ -s "$NVM_HOMEBREW/nvm.sh" ] && \. "$NVM_HOMEBREW/nvm.sh"
       [ -s "$NVM_HOMEBREW/etc/bash_completion.d/nvm" ] && \. "$NVM_HOMEBREW/etc/bash_completion.d/nvm"
@@ -32,37 +36,6 @@ if [[ -n "$NVM_HOMEBREW" ]] || [[ -d "$NVM_DIR" ]]; then
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     fi
     nvm "$@"
-  }
-
-  # Alias common node commands to trigger NVM loading
-  node() {
-    unset -f nvm node npm npx
-    if [[ -n "$NVM_HOMEBREW" ]]; then
-      [ -s "$NVM_HOMEBREW/nvm.sh" ] && \. "$NVM_HOMEBREW/nvm.sh"
-    else
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    fi
-    node "$@"
-  }
-
-  npm() {
-    unset -f nvm node npm npx
-    if [[ -n "$NVM_HOMEBREW" ]]; then
-      [ -s "$NVM_HOMEBREW/nvm.sh" ] && \. "$NVM_HOMEBREW/nvm.sh"
-    else
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    fi
-    npm "$@"
-  }
-
-  npx() {
-    unset -f nvm node npm npx
-    if [[ -n "$NVM_HOMEBREW" ]]; then
-      [ -s "$NVM_HOMEBREW/nvm.sh" ] && \. "$NVM_HOMEBREW/nvm.sh"
-    else
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    fi
-    npx "$@"
   }
 fi
 
