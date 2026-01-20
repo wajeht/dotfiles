@@ -55,19 +55,14 @@ alias gstp='git stash pop'
 alias gwip="git add -A && git commit -am 'chore: wip' --no-verify && git push --no-verify"
 alias gbd='git branch | fzf --multi --preview "git log {1}" | xargs -I{} git branch -D {}'
 
-# Cleanup aliases
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
 alias rmds="find . -name '.DS_Store' -type f -delete"
 
-# System maintenance
 alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
 
-# SSH aliases (consider moving to a separate file if you have many)
-alias mac="sshpass -p 'password' ssh jaw@192.168.4.29"
 alias work="ssh kyaw@192.168.4.120"
-alias zero="sshpass -p 'password' ssh jaw@192.168.4.160"
 alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
-alias tv="sshpass -p 'password' ssh tv@192.168.4.201"
+alias plex="sshpass -p 'password' ssh jaw@192.168.4.162"
 alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
 
 function onesudo() {
