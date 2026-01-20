@@ -9,8 +9,8 @@ check_linux() {
 install_apt_deps() {
     info "Installing dependencies via apt..."
     sudo apt-get update -qq
-    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat
-    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat"
+    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go
+    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go"
 
     # Debian names bat as batcat, symlink it
     if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
@@ -51,6 +51,23 @@ install_neovim() {
     task "Installed nvim nightly via bob"
 
     info "Ensure ~/.local/share/bob/nvim-bin is in your PATH"
+}
+
+install_nvm() {
+    info "Installing nvm and Node.js..."
+
+    if [[ -d "$HOME/.nvm" ]]; then
+        task "nvm already installed"
+    else
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+        task "Installed nvm"
+    fi
+
+    # Load nvm and install latest LTS node
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install --lts
+    task "Installed Node.js LTS via nvm"
 }
 
 install_zsh_plugins() {
@@ -147,6 +164,7 @@ install_server() {
     check_internet
 
     install_apt_deps
+    install_nvm
     install_neovim
     install_zsh_plugins
     install_zsh_config
