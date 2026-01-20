@@ -58,13 +58,10 @@ alias gbd='git branch | fzf --multi --preview "git log {1}" | xargs -I{} git bra
 alias rmnm="find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
 alias rmds="find . -name '.DS_Store' -type f -delete"
 
-alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias update='brew update && brew upgrade && brew doctor && brew autoremove && brew cleanup && brew missing'
 
 alias work="ssh kyaw@192.168.4.120"
 alias one="sshpass -p 'password' ssh jaw@192.168.4.161"
 alias plex="sshpass -p 'password' ssh jaw@192.168.4.162"
 alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
-
-function onesudo() {
-    sshpass -p 'password' ssh -t jaw@192.168.4.161 "echo 'password' | sudo -S $*"
-}
