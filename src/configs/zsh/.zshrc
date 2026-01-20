@@ -162,7 +162,7 @@ function prompt_dots() {
     # Calculate lengths (without ANSI color codes)
     local left_length=$((${#dir_display} + ${#git_display} + _prompt_git_status_len))
     local short_host="${HOST%%.*}"  # %m shows short hostname
-    local right_length=$((${#short_host} + 16))  # " hostname at HH:MM:SS AM"
+    local right_length=$((${#USER} + 1 + ${#short_host} + 16))  # " user@hostname at HH:MM:SS AM"
     local dots_length=$((COLUMNS - left_length - right_length))
 
     # Generate dots
@@ -183,7 +183,7 @@ precmd() {
 # Two-line prompt with dots
 # Line 1: directory + git branch + git status + dots + time
 # Line 2: prompt symbol
-PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f$(prompt_git_status) %F{240}$(prompt_dots)%f %F{magenta}%m%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
+PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f$(prompt_git_status) %F{240}$(prompt_dots)%f %F{magenta}%n@%m%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
 %F{green}❯%f '
 
 # ======================
