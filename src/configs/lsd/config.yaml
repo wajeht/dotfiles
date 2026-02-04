@@ -128,9 +128,3 @@ header: false
 # == Hyperlink ==
 # Whether to enable hyperlink support for file paths
 hyperlink: never
-
-# == Truncate ==
-# How to truncate file names when they are too long
-truncate-owner:
-  after: 4
-  marker: "…"
