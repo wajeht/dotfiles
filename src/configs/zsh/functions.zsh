@@ -217,6 +217,19 @@ function kill-port() {
   kill -9 $pid
 }
 
+# Encrypt
+sopse() {
+  export SOPS_AGE_KEY_FILE=~/.sops/age-key.txt
+  sops -e --age "$(age-keygen -y ~/.sops/age-key.txt)" "$1" > "$1.sops"
+}
+
+# Decrypt
+sopsd() {
+  export SOPS_AGE_KEY_FILE=~/.sops/age-key.txt
+  sops -d "$1"
+}
+
+
 # ======================
 # Custom Keybindings
 # ======================
