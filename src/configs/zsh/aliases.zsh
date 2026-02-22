@@ -68,4 +68,5 @@ fi
 alias work="ssh kyaw@192.168.4.120"
 alias one="ssh jaw@192.168.4.161"
 alias plex="sshpass -p 'password' ssh jaw@192.168.4.162"
+alias mini="sshpass -p 'password' ssh jaw@192.168.4.48"
 alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
