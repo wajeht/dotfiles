@@ -73,10 +73,12 @@ vim.opt.cmdheight = 0 -- hide command line when it is not actively used
 
 -- Appearance
 vim.opt.winblend = 0 -- Floating window transparency
+vim.opt.winborder = "rounded" -- Border style for floating windows
 vim.opt.linebreak = true -- Break lines at word boundaries
 vim.opt.showbreak = "↪ " -- Show line breaks
 vim.opt.pumheight = 10 -- Limit completion menu height
 vim.opt.pumblend = 10 -- Slight transparency for popup menu
+vim.opt.pumborder = "rounded" -- Border style for completion menu
 vim.opt.showcmd = true -- Display incomplete commands
 vim.opt.wildmenu = true -- Visual autocomplete for command menu
 vim.opt.wildmode = { "longest:full", "full" } -- Command-line completion mode

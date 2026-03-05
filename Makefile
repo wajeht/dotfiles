@@ -87,7 +87,7 @@ help:
 	@echo "  make update            Update all packages"
 	@echo "  make clean             Clean backup files"
 	@echo "  make format            Format shell and Lua files"
-	@echo "  make sync-nvim         Sync Neovim plugin lock file"
+	@echo "  make sync-nvim         Sync Neovim plugin lock file (run :lua vim.pack.update() first)"
 	@echo "  make push              Format, commit and push changes"
 	@echo "  make help              Show this help message"
 	@echo ""

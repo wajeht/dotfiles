@@ -39,6 +39,7 @@ make <component> uninstall
 make update    # Update packages
 make clean     # Clean backups
 make format    # Format code
+make sync-nvim # Sync nvim-pack-lock.json (run :lua vim.pack.update() first)
 make help      # Show all commands
 ```
 

@@ -1,8 +1,3 @@
-vim.opt.pumblend = 0 -- No transparency for completion menu
-vim.opt.winblend = 0 -- No transparency for floating windows
-vim.opt.pumborder = "rounded" -- Border style for completion menu
-vim.opt.winborder = "rounded" -- Border style for floating windows (docs popup)
-
 -- LSP servers are auto-enabled by mason.lua based on installed packages
 
 -- Deferred diagnostic config to avoid startup blocking
@@ -32,27 +27,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Setup completion if client supports it
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-			vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
-
 			-- Set omnifunc for CTRL-X CTRL-O completion
 			vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 			-- Enable LSP completion
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-
-			-- Trigger completion on every alphanumeric keystroke
-			vim.api.nvim_create_autocmd("TextChangedI", {
-				buffer = ev.buf,
-				callback = function()
-					local col = vim.fn.col(".") - 1
-					if col > 0 then
-						local char = vim.fn.getline("."):sub(col, col)
-						if char:match("[%w_]") then
-							vim.lsp.completion.get()
-						end
-					end
-				end,
-			})
 
 			-- Completion keymaps
 			vim.keymap.set("i", "<C-k>", function()
