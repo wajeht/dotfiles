@@ -5,8 +5,8 @@
 	name = wajeht
 	signingKey = ~/.ssh/id_ed25519.pub
 
-# Work profile
-[includeIf "gitdir:~/Dev/"]
+# Work profile override for repos in ~/work/
+[includeIf "gitdir:~/work/"]
 	path = ~/.config/git/work
 
 [filter "lfs"]

@@ -2,3 +2,4 @@
 	user = clevyr-kyaw
 	email = 265659615+clevyr-kyaw@users.noreply.github.com
 	name = clevyr-kyaw
+	signingKey = ~/.ssh/id_ed25519.pub
