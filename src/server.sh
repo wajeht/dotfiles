@@ -25,6 +25,32 @@ install_neovim() {
 
     local arch=$(uname -m)
     local bob_bin="$HOME/.local/bin/bob"
+    local script_dir="$(cd "$(dirname "$0")" && pwd)"
+    local bob_target_file="$script_dir/configs/nvim/.bob-version"
+    local bob_target_raw="nightly"
+    local bob_target="nightly"
+    local expected_hash=""
+
+    if [[ -f "$bob_target_file" ]]; then
+        bob_target_raw="$(tr -d '[:space:]' <"$bob_target_file")"
+    fi
+
+    if [[ -z "$bob_target_raw" ]]; then
+        bob_target_raw="nightly"
+    fi
+
+    bob_target_raw="${bob_target_raw#NVIM }"
+    bob_target="$bob_target_raw"
+
+    # Bob cannot parse numeric-leading commit hashes directly. For pinned dev
+    # versions, install nightly and verify exact hash afterwards.
+    if [[ "$bob_target_raw" =~ \+g([0-9a-fA-F]+)$ ]]; then
+        bob_target="nightly"
+        expected_hash="${BASH_REMATCH[1],,}"
+    elif [[ "$bob_target_raw" =~ ^nightly@([0-9a-fA-F]+)$ ]]; then
+        bob_target="nightly"
+        expected_hash="${BASH_REMATCH[1],,}"
+    fi
 
     # Download bob
     mkdir -p "$HOME/.local/bin"
@@ -46,9 +72,43 @@ install_neovim() {
     rm /tmp/bob.zip
     task "Installed bob to ~/.local/bin/bob"
 
-    # Install nightly nvim via bob
-    "$bob_bin" use nightly
-    task "Installed nvim nightly via bob"
+    info "Pinned target from dotfiles: $bob_target_raw"
+    if [[ "$bob_target" != "$bob_target_raw" ]]; then
+        info "Resolved bob install target: $bob_target"
+    fi
+
+    # Install nvim via bob using dotfiles-pinned target
+    "$bob_bin" install "$bob_target"
+    "$bob_bin" use "$bob_target"
+    task "Installed nvim $bob_target via bob"
+
+    if [[ -n "$expected_hash" ]]; then
+        local pinned_nvim="$HOME/.local/share/bob/$bob_target/bin/nvim"
+        [[ -x "$pinned_nvim" ]] || error "Pinned nvim binary not found at $pinned_nvim"
+
+        local actual_line
+        actual_line="$("$pinned_nvim" --version | head -1)"
+
+        local actual_hash=""
+        if [[ "$actual_line" =~ g([0-9a-fA-F]+)$ ]]; then
+            actual_hash="${BASH_REMATCH[1],,}"
+        else
+            error "Could not parse hash from nvim version line: $actual_line"
+        fi
+
+        if [[ "$actual_hash" != "$expected_hash" ]]; then
+            error "Pinned Neovim hash mismatch. Expected g$expected_hash from '$bob_target_raw', got: $actual_line"
+        fi
+
+        if [[ "$bob_target_raw" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev-[0-9]+\+g[0-9a-fA-F]+$ ]]; then
+            local expected_line="NVIM $bob_target_raw"
+            if [[ "$actual_line" != "$expected_line" ]]; then
+                error "Pinned Neovim version mismatch. Expected '$expected_line', got: '$actual_line'"
+            fi
+        fi
+
+        task "Verified pinned Neovim hash: g$expected_hash"
+    fi
 
     info "Ensure ~/.local/share/bob/nvim-bin is in your PATH"
 }
