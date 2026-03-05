@@ -12,6 +12,8 @@ install_git() {
     mkdir -p ~/.config/git
     cp "$(dirname "$0")/configs/git/config" ~/.config/git/config
     task "Copied config to ~/.config/git/config"
+    cp "$(dirname "$0")/configs/git/work" ~/.config/git/work
+    task "Copied work profile override to ~/.config/git/work"
 
     success "Git configuration installed"
     info "💡 Using XDG location: ~/.config/git/config (modern standard)"

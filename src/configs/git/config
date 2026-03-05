@@ -1,10 +1,13 @@
 [user]
-	# Your Git identity and commit signing configuration
+	# Default profile
 	user = wajeht
 	email = 58354193+wajeht@users.noreply.github.com
 	name = wajeht
-	# Path to your SSH public key used for signing commits
 	signingKey = ~/.ssh/id_ed25519.pub
+
+# Work profile
+[includeIf "gitdir:~/Dev/"]
+	path = ~/.config/git/work
 
 [filter "lfs"]
 	# Git LFS (Large File Storage) configuration
@@ -113,3 +116,5 @@
 
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
