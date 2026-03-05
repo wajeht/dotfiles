@@ -13,7 +13,7 @@
         { "before": ["<leader>", "q"], "commands": [":q"] },
         { "before": ["<leader>", "p"], "commands": ["workbench.action.quickOpen"] },
         { "before": ["<leader>", "f"], "commands": ["workbench.action.findInFiles"] },
-        { "before": ["<leader>", "e"], "commands": ["workbench.view.explorer"] }
+        { "before": ["<leader>", "e"], "commands": ["workbench.action.toggleSidebarVisibility"] }
     ],
     "vim.highlightedyank.enable": true,
     "vim.highlightedyank.duration": 150,
