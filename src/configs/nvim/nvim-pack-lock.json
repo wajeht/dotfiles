@@ -20,10 +20,6 @@
       "rev": "57e5a8a",
       "src": "https://github.com/williamboman/mason.nvim"
     },
-    "neogit": {
-      "rev": "d8bf9102",
-      "src": "https://github.com/NeogitOrg/neogit"
-    },
     "nvim-autopairs": {
       "rev": "d9e44e5",
       "src": "https://github.com/windwp/nvim-autopairs"
@@ -39,10 +35,6 @@
     "plenary.nvim": {
       "rev": "b9fd522",
       "src": "https://github.com/nvim-lua/plenary.nvim"
-    },
-    "vscode.nvim": {
-      "rev": "aa1102a",
-      "src": "https://github.com/Mofiqul/vscode.nvim"
     }
   }
 }

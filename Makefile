@@ -51,11 +51,11 @@ format:
 
 sync-nvim:
 	@echo "🔄 Syncing Neovim plugin lock file..."
-	@cp ~/.config/nvim/lazy-lock.json src/configs/nvim/lazy-lock.json 2>/dev/null || (echo "❌ lazy-lock.json not found. Run :Lazy sync in Neovim first." && exit 1)
-	@if git diff --quiet src/configs/nvim/lazy-lock.json 2>/dev/null; then \
+	@cp ~/.config/nvim/nvim-pack-lock.json src/configs/nvim/nvim-pack-lock.json 2>/dev/null || (echo "❌ nvim-pack-lock.json not found. Run :lua vim.pack.update() in Neovim first." && exit 1)
+	@if git diff --quiet src/configs/nvim/nvim-pack-lock.json 2>/dev/null; then \
 		echo "✅ Lock file already up to date"; \
 	else \
-		git add src/configs/nvim/lazy-lock.json && \
+		git add src/configs/nvim/nvim-pack-lock.json && \
 		git commit -m "Update Neovim plugin lock file" && \
 		echo "✅ Lock file synced and committed"; \
 	fi

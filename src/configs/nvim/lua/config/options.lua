@@ -29,7 +29,6 @@ vim.opt.ignorecase = true -- Ignore case when searching
 vim.opt.smartcase = true -- If you include mixed case in your search, assumes you want case-sensitive
 vim.opt.incsearch = true -- Show search matches as you type
 vim.opt.hlsearch = true -- Highlight search results
-vim.opt.magic = true -- Use extended regular expressions
 vim.opt.wrapscan = true -- Searches wrap around the end of the file
 
 vim.opt.cursorline = false -- Highlight the current line
@@ -56,7 +55,6 @@ vim.opt.backup = false -- Disable backup files
 vim.opt.writebackup = false -- Disable backup before overwriting file
 
 -- Other settings
-vim.opt.hidden = true -- Allow switching between buffers without saving
 vim.opt.iskeyword:append("-") -- Include hyphens in keywords
 vim.opt.breakindent = true -- Enable break indent
 vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
@@ -67,7 +65,6 @@ vim.opt.scrolloff = 8 -- Keep 8 lines visible above/below the cursor
 vim.opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
 -- vim.opt.colorcolumn = "80" -- Highlight the 80th column
 vim.opt.spelllang = "en_us" -- Set the spell check language to US English
-vim.opt.ttyfast = true -- Assume a fast terminal connection
 -- vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
 -- vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
 vim.opt.equalalways = true -- Ensure all windows are always equally sized
