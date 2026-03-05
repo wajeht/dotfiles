@@ -1,6 +1,4 @@
 {
-    "workbench.activityBar.orientation": "vertical", // to fix the vim ctrl+l/h bug in cursor
-
     /**
     * vim
     */
@@ -139,8 +137,12 @@
 	"files.watcherExclude": {
 			"**/.git/objects/**": true,
 			"**/.git/subtree-cache/**": true,
-			"**/node_modules/*/**": true
+			"**/node_modules/*/**": true,
+			"**/vendor/**": true,
+			"**/storage/framework/**": true,
+			"**/.docker/**": true
 	},
+	"search.followSymlinks": false,
 
 	// ESLint config: https://github.com/antfu/eslint-config
 	"eslint.codeAction.showDocumentation": {
@@ -187,7 +189,7 @@
 	"git.ignoreRebaseWarning": true,
 	"terminal.integrated.enableMultiLinePasteWarning": "never",
 	"git.openRepositoryInParentFolders": "never",
-	"editor.inlineSuggest.enabled": true,
+	"editor.inlineSuggest.enabled": false,
 	"typescript.updateImportsOnFileMove.enabled": "always",
 	// "eslint.codeActionsOnSave.rules": null,
 	"prettier.requireConfig": true,
@@ -227,6 +229,7 @@
 	"explorer.confirmPasteNative": false,
 	"editor.matchBrackets": "never",
 	"update.showReleaseNotes": false,
+	"update.mode": "manual",
 	"go.toolsManagement.autoUpdate": true,
 	"cSpell.userWords": [
 			"autofetch",
@@ -291,5 +294,19 @@
     * Fixed annoying "Unknown part workbench.parts.activitybar" when moving to the sidebar! with ctrl + l/r
     */
     "workbench.activityBar.orientation": "vertical",
-    "workbench.activityBar.location": "default"
+    "workbench.activityBar.location": "default",
+    /**
+    * Disable AI
+    */
+    "chat.disableAIFeatures": true,
+    "github.copilot.enable": {
+        "*": false
+    },
+    "github.copilot.editor.enableAutoCompletions": false,
+    "github.copilot.chat.enabled": false,
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "chat.agent.enabled": false,
+    "chat.commandCenter.enabled": false,
+    "inlineChat.enabled": false,
+    "terminal.integrated.initialHint": false
 }
