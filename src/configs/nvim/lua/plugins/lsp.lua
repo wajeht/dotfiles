@@ -50,22 +50,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				end
 			end, { buffer = ev.buf, expr = true, desc = "Select next completion" })
 
-			vim.keymap.set("i", "<C-b>", function()
-				if vim.fn.pumvisible() == 1 then
-					return "<C-b>"
-				else
-					return "<C-b>"
-				end
-			end, { buffer = ev.buf, expr = true, desc = "Scroll documentation up" })
-
-			vim.keymap.set("i", "<C-f>", function()
-				if vim.fn.pumvisible() == 1 then
-					return "<C-f>"
-				else
-					return "<C-f>"
-				end
-			end, { buffer = ev.buf, expr = true, desc = "Scroll documentation down" })
-
 			vim.keymap.set("i", "<C-Space>", function()
 				if vim.fn.pumvisible() == 1 then
 					-- If completion menu is open, show documentation for selected item
@@ -79,14 +63,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set("i", "<D-i>", function()
 				vim.lsp.completion.get()
 			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
-
-			vim.keymap.set("i", "<C-e>", function()
-				if vim.fn.pumvisible() == 1 then
-					return "<C-e>"
-				else
-					return "<C-e>"
-				end
-			end, { buffer = ev.buf, expr = true, desc = "Hide completion" })
 
 			vim.keymap.set("i", "<CR>", function()
 				if vim.fn.pumvisible() == 1 then
