@@ -8,6 +8,13 @@
     "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
     "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        { "before": ["<leader>", "w"], "commands": [":w"] },
+        { "before": ["<leader>", "q"], "commands": [":q"] },
+        { "before": ["<leader>", "p"], "commands": ["workbench.action.quickOpen"] },
+        { "before": ["<leader>", "f"], "commands": ["workbench.action.findInFiles"] },
+        { "before": ["<leader>", "e"], "commands": ["workbench.view.explorer"] }
+    ],
     "vim.highlightedyank.enable": true,
     "vim.highlightedyank.duration": 150,
     "vim.highlightedyank.color": "#263238",

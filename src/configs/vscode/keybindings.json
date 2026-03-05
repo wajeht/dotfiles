@@ -108,6 +108,16 @@
     "when": "filesExplorerFocus && !inputFocus"
   },
   {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp",
+    "when": "editorFocus"
+  },
+  {
     "key": "ctrl+=",
     "command": "workbench.action.increaseViewSize",
     "when": "editorFocus"
