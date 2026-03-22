@@ -58,13 +58,12 @@ function importMDB() {
 # change dr and list them at same time
 function cd() {
   if [ $# -eq 0 ]; then
-    # No arguments - go to home directory
     builtin cd "$HOME" && lsd -lF
+  elif [ "$1" = "-" ]; then
+    builtin cd - && lsd -lF
   elif [ -d "$1" ]; then
-    # Valid directory - change to it
     builtin cd "$1" && lsd -lF
   else
-    # Invalid directory - show error and stay in current directory
     echo "cd: no such file or directory: $1"
     return 1
   fi
