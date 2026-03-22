@@ -11,6 +11,8 @@ classic: false
 # Possible values: permission, user, group, size, size_value, date, name, inode
 blocks:
   - permission
+  - user
+  - group
   - size
   - date
   - name
