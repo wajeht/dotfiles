@@ -11,10 +11,17 @@ function mkcd() {
   fi
 }
 
-# Browse directories in ~/Dev with fzf
+# Browse project directories with fzf
+DEV_DIRS=(~/Dev ~/Work)
+
 function dev() {
-  local selected_dir
-  selected_dir=$(find ~/Dev -maxdepth 1 -type d -not -path "*/\.*" | grep -v "^$HOME/Dev$" | fzf --height 40% --layout=reverse --border)
+  local selected_dir search_dirs=()
+  for d in "${DEV_DIRS[@]}"; do [ -d "$d" ] && search_dirs+=("$d"); done
+  if (( ${#search_dirs} == 0 )); then
+    echo "No project directories found"
+    return 1
+  fi
+  selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf --height 40% --layout=reverse --border)
   if [ -n "$selected_dir" ]; then
     builtin cd "$selected_dir" && nvim .
   fi
