@@ -30,6 +30,6 @@ vim.keymap.set({ "n", "v" }, "<leader>mf", function()
 	conform.format({
 		lsp_fallback = true,
 		async = true,
-		timeout_ms = 0,
+		timeout_ms = 5000,
 	})
 end, { desc = "Format file or range (in visual mode)" })

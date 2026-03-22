@@ -46,7 +46,7 @@ local function start_treesitter(lang)
 	if not ok then
 		return false
 	end
-	vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+	vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.treesitter.foldexpr()", { scope = "local" })
 	return true
 end
 
