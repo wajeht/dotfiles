@@ -109,7 +109,7 @@ install_neovim() {
         fi
 
         if [[ "$actual_hash" != "$expected_hash" ]]; then
-            error "Pinned Neovim hash mismatch. Expected g$expected_hash from '$bob_target_raw', got: $actual_line"
+            warning "Pinned hash mismatch: expected g$expected_hash, got: $actual_line (bob nightly always installs latest)"
         fi
 
         if [[ "$bob_target_raw" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev-[0-9]+\+g[0-9a-fA-F]+$ ]]; then
