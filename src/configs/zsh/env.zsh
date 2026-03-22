@@ -55,7 +55,5 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/jaw/.lmstudio/bin"
 
-export TERM=xterm-256color
-
 # SOPS age key
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"

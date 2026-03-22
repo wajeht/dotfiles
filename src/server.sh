@@ -6,6 +6,18 @@ check_linux() {
     [[ "$(uname)" == "Linux" ]] || error "Linux required (this script is for servers)"
 }
 
+install_terminfo() {
+    info "Installing Ghostty terminfo..."
+    local script_dir="$(cd "$(dirname "$0")" && pwd)"
+    local terminfo_file="$script_dir/configs/ghostty/xterm-ghostty.terminfo"
+    if [[ -f "$terminfo_file" ]]; then
+        tic -x "$terminfo_file"
+        task "Installed xterm-ghostty terminfo"
+    else
+        warning "xterm-ghostty.terminfo not found, skipping"
+    fi
+}
+
 install_apt_deps() {
     info "Installing dependencies via apt..."
     sudo apt-get update -qq
@@ -258,6 +270,7 @@ install_server() {
     check_internet
 
     install_apt_deps
+    install_terminfo
     install_nvm
     install_neovim
     install_zsh_plugins
