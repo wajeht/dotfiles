@@ -1,8 +1,7 @@
 # Create a directory and cd into it
 function mkcd() {
-  local last
-  last=$(eval "echo \$$#")
-  if [ ! -n "$last" ]; then
+  local last="${@: -1}"
+  if [ -z "$last" ]; then
     echo "Enter a directory name"
   elif [ -d "$last" ]; then
     echo "\`$last' already exists"
