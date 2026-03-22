@@ -85,29 +85,46 @@ typeset -g _prompt_git_deleted=0
 typeset -g _prompt_git_untracked=0
 typeset -g _prompt_git_status_len=0
 typeset -g _prompt_in_git=0
-typeset -g _prompt_git_pid=0
+typeset -g _prompt_git_fd=0
 
-# Async git status update (runs in background)
+# Callback for zle -F: read result from fd, update prompt
+function _prompt_git_fd_handler() {
+    local fd=$1 result=""
+    if read -r result <&$fd; then
+        IFS=':' read -r _prompt_in_git _prompt_git_staged _prompt_git_modified _prompt_git_deleted _prompt_git_untracked _prompt_git_status_len <<< "$result"
+    fi
+    # Clean up fd watcher
+    zle -F $fd
+    exec {fd}<&-
+    _prompt_git_fd=0
+    zle && zle reset-prompt
+}
+
+# Async git status — runs in background, notifies via fd
 function _prompt_async_git_status() {
-    # Run in subshell to avoid blocking
-    {
+    # Close previous fd if still open
+    if (( _prompt_git_fd > 0 )); then
+        zle -F $_prompt_git_fd
+        exec {_prompt_git_fd}<&-
+        _prompt_git_fd=0
+    fi
+
+    # Create a pipe: fd for reading, background process writes
+    exec {_prompt_git_fd}< <(
         local staged=0 modified=0 deleted=0 untracked=0 in_git=0
 
-        # Quick check if in git repo
         git rev-parse --is-inside-work-tree &>/dev/null || {
             echo "0:0:0:0:0:0"
             return
         }
         in_git=1
 
-        # Single git status call
         local status_output=$(git status --porcelain 2>/dev/null)
         [[ -z "$status_output" ]] && {
             echo "1:0:0:0:0:0"
             return
         }
 
-        # Parse status output
         while IFS= read -r line; do
             case "${line:0:2}" in
                 'A '|'M '|'D '|'R '|'C ') ((staged++)) ;;
@@ -118,7 +135,6 @@ function _prompt_async_git_status() {
             esac
         done <<< "$status_output"
 
-        # Calculate status length for dots
         local status_len=0
         [[ $staged -gt 0 ]] && status_len=$((status_len + 1 + ${#staged}))
         [[ $modified -gt 0 ]] && status_len=$((status_len + 1 + ${#modified}))
@@ -127,17 +143,10 @@ function _prompt_async_git_status() {
         [[ $status_len -gt 0 ]] && status_len=$((status_len + 3))
 
         echo "$in_git:$staged:$modified:$deleted:$untracked:$status_len"
-    } &!
-}
+    )
 
-# Callback to update git status from async result
-function _prompt_async_callback() {
-    local result="$1"
-    IFS=':' read -r _prompt_in_git _prompt_git_staged _prompt_git_modified _prompt_git_deleted _prompt_git_untracked _prompt_git_status_len <<< "$result"
-    _prompt_git_pid=0
-
-    # Refresh prompt
-    zle && zle reset-prompt
+    # Tell zle to call our handler when fd is readable
+    zle -F $_prompt_git_fd _prompt_git_fd_handler
 }
 
 # Function to render git status (uses cached data)
@@ -172,12 +181,7 @@ function prompt_dots() {
 # Precmd - runs before each prompt
 precmd() {
     vcs_info
-
-    # Start async git status update if not already running
-    if [[ $_prompt_git_pid -eq 0 ]]; then
-        local git_result=$(_prompt_async_git_status)
-        _prompt_async_callback "$git_result"
-    fi
+    _prompt_async_git_status
 }
 
 # Two-line prompt with dots
