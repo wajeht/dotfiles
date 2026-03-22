@@ -53,7 +53,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/jaw/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 
 export TERM=xterm-256color
 
