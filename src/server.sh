@@ -115,11 +115,11 @@ install_neovim() {
         if [[ "$bob_target_raw" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev-[0-9]+\+g[0-9a-fA-F]+$ ]]; then
             local expected_line="NVIM $bob_target_raw"
             if [[ "$actual_line" != "$expected_line" ]]; then
-                error "Pinned Neovim version mismatch. Expected '$expected_line', got: '$actual_line'"
+                warning "Pinned version mismatch: expected '$expected_line', got: '$actual_line'"
             fi
         fi
 
-        task "Verified pinned Neovim hash: g$expected_hash"
+        task "Installed Neovim nightly (pinned: g$expected_hash, actual: g$actual_hash)"
     fi
 
     info "Ensure ~/.local/share/bob/nvim-bin is in your PATH"
