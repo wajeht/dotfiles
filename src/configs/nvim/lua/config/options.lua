@@ -108,6 +108,10 @@ if not vim.fn.isdirectory(undodir) then
 end
 vim.opt.undodir = undodir -- Set undo directory
 
+-- Diff settings (affects diffview tab switching speed)
+vim.opt.diffopt:append("internal") -- use nvim's built-in xdiff (faster than external)
+vim.opt.diffopt:append("algorithm:patience") -- cleaner diffs on refactored code
+
 -- Performance optimizations
 vim.opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (reduced from 400ms)
 vim.opt.ttimeoutlen = 0 -- Instant key code recognition
