@@ -17,6 +17,7 @@ node_modules
 AGENT.md
 
 .DS_Store
+nvim.log
 
 # Ignore machine-specific zsh config
 src/configs/zsh/private.zsh
