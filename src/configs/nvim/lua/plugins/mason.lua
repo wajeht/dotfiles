@@ -27,15 +27,6 @@ vim.schedule(function()
 	end
 end)
 
--- Load custom LSP configs from lsp/ directory
-local function load_lsp_config(lsp_name)
-	local ok, config = pcall(require, "lsp." .. lsp_name)
-	if ok then
-		return config
-	end
-	return nil
-end
-
 -- Defer LSP enabling to avoid startup blocking
 vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
@@ -43,16 +34,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		-- Auto-enable all Mason-installed LSPs
 		local installed_packages = require("mason-registry").get_installed_packages()
 		for _, pack in ipairs(installed_packages) do
-			-- Only process packages that have LSP configuration
+			-- Native LSP automatically merges matching lsp/*.lua configs from runtimepath.
 			if pack.spec.neovim and pack.spec.neovim.lspconfig then
 				local lsp_name = pack.spec.neovim.lspconfig
-				local custom_config = load_lsp_config(lsp_name)
-
-				if custom_config then
-					vim.lsp.enable(lsp_name, custom_config)
-				else
-					vim.lsp.enable(lsp_name)
-				end
+				vim.lsp.enable(lsp_name)
 			end
 		end
 	end),

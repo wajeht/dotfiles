@@ -25,11 +25,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.inlay_hint.enable(false)
 		end
 
+		-- Enable linked editing (e.g. rename both opening/closing HTML tags simultaneously)
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_linkedEditingRange) then
+			vim.lsp.linked_editing_range.enable(true, { bufnr = ev.buf, client_id = client.id })
+		end
+
+		-- Enable code lenses (run with grx)
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
+			if vim.lsp.codelens.enable then
+				vim.lsp.codelens.enable(true, { bufnr = ev.buf, client_id = client.id })
+			else
+				pcall(vim.lsp.codelens.refresh, { bufnr = ev.buf })
+				vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+					buffer = ev.buf,
+					callback = function()
+						pcall(vim.lsp.codelens.refresh, { bufnr = ev.buf })
+					end,
+					desc = "Refresh LSP code lenses",
+				})
+			end
+		end
+
 		-- Setup completion if client supports it
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-			-- Set omnifunc for CTRL-X CTRL-O completion
-			vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
 			-- Enable LSP completion
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 
@@ -84,26 +102,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- LSP keymaps
 		local opts = { buffer = ev.buf, noremap = true, silent = true }
 
-		opts.desc = "Show LSP references"
-		vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
-
 		opts.desc = "Go to declaration"
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
 		opts.desc = "Show LSP definitions"
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-		opts.desc = "Show LSP implementations"
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-
-		opts.desc = "Show LSP type definitions"
-		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-
-		opts.desc = "See available code actions"
-		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-
-		opts.desc = "Smart rename"
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
 		opts.desc = "Show buffer diagnostics"
 		vim.keymap.set("n", "<leader>D", vim.diagnostic.setloclist, opts)
@@ -128,11 +131,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.buf.hover({ border = "rounded" })
 		end, opts)
 
-		opts.desc = "Signature help"
-		vim.keymap.set("i", "<C-S>", function()
-			vim.lsp.buf.signature_help({ border = "rounded" })
-		end, opts)
-
 		opts.desc = "Restart LSP"
 		vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 
@@ -140,5 +138,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>hh", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 		end, opts)
+
+		if vim.lsp.codelens.enable and vim.lsp.codelens.is_enabled then
+			opts.desc = "Toggle code lenses"
+			vim.keymap.set("n", "<leader>cl", function()
+				vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled({ bufnr = ev.buf }), { bufnr = ev.buf })
+			end, opts)
+		end
 	end,
 })

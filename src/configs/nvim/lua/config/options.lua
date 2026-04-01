@@ -77,6 +77,7 @@ vim.opt.winborder = "rounded" -- Border style for floating windows
 vim.opt.linebreak = true -- Break lines at word boundaries
 vim.opt.showbreak = "↪ " -- Show line breaks
 vim.opt.pumheight = 10 -- Limit completion menu height
+vim.opt.pummaxwidth = 80 -- Keep completion popups readable on long LSP labels
 vim.opt.pumblend = 10 -- Slight transparency for popup menu
 vim.opt.pumborder = "rounded" -- Border style for completion menu
 vim.opt.showcmd = true -- Display incomplete commands
@@ -96,7 +97,7 @@ vim.opt.listchars = {
 }
 
 -- Editing
-vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" } -- Better autocompletion experience
+vim.opt.completeopt:append({ "menuone", "noselect", "fuzzy", "nearest" }) -- Keep 0.12 defaults and add better completion behavior
 vim.opt.conceallevel = 0 -- So that I can see `` in markdown files
 vim.opt.concealcursor = "" -- Don't hide cursor line markup
 vim.opt.history = 100 -- Store lots of :cmdline history
@@ -109,7 +110,6 @@ end
 vim.opt.undodir = undodir -- Set undo directory
 
 -- Diff settings (affects diffview tab switching speed)
-vim.opt.diffopt:append("internal") -- use nvim's built-in xdiff (faster than external)
 vim.opt.diffopt:append("algorithm:patience") -- cleaner diffs on refactored code
 
 -- Performance optimizations

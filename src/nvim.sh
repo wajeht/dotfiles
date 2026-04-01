@@ -2,198 +2,6 @@
 
 source "$(dirname "$0")/_util.sh"
 
-get_bob_target() {
-    local target_file="$(cd "$(dirname "$0")" && pwd)/configs/nvim/.bob-version"
-
-    if [ ! -f "$target_file" ]; then
-        error "Bob target file not found: $target_file"
-    fi
-
-    local target
-    target="$(tr -d '[:space:]' <"$target_file")"
-
-    if [ -z "$target" ]; then
-        error "Bob target file is empty: $target_file"
-    fi
-
-    # Allow users to paste the raw first line from `nvim --version`.
-    target="${target#NVIM }"
-
-    printf "%s" "$target"
-}
-
-extract_expected_hash() {
-    local raw="$1"
-
-    if [[ "$raw" =~ \+g([0-9a-fA-F]+)$ ]]; then
-        printf "%s" "${BASH_REMATCH[1],,}"
-        return
-    fi
-
-    if [[ "$raw" =~ ^nightly@([0-9a-fA-F]+)$ ]]; then
-        printf "%s" "${BASH_REMATCH[1],,}"
-        return
-    fi
-}
-
-resolve_bob_install_target() {
-    local raw="$1"
-
-    # Bob can't parse numeric-leading commit hashes directly, so pinned dev
-    # versions are resolved through nightly and then verified post-install.
-    if [[ "$raw" =~ \+g[0-9a-fA-F]+$ ]] || [[ "$raw" =~ ^nightly@[0-9a-fA-F]+$ ]]; then
-        printf "%s" "nightly"
-        return
-    fi
-
-    printf "%s" "$raw"
-}
-
-verify_pinned_nvim() {
-    local raw="$1"
-    local expected_hash
-    expected_hash="$(extract_expected_hash "$raw")"
-
-    if [ -z "$expected_hash" ]; then
-        return
-    fi
-
-    if ! command -v nvim >/dev/null 2>&1; then
-        error "nvim not found while verifying pinned version"
-    fi
-
-    local actual_line
-    actual_line="$(nvim --version | head -1)"
-
-    local actual_hash=""
-    if [[ "$actual_line" =~ g([0-9a-fA-F]+)$ ]]; then
-        actual_hash="${BASH_REMATCH[1],,}"
-    else
-        error "Could not parse hash from nvim version line: $actual_line"
-    fi
-
-    if [ "$actual_hash" != "$expected_hash" ]; then
-        error "Pinned Neovim hash mismatch. Expected g$expected_hash from '$raw', got: $actual_line"
-    fi
-
-    # If the full dev version is pinned, enforce exact string match too.
-    if [[ "$raw" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev-[0-9]+\+g[0-9a-fA-F]+$ ]]; then
-        local expected_line="NVIM $raw"
-        if [ "$actual_line" != "$expected_line" ]; then
-            error "Pinned Neovim version mismatch. Expected '$expected_line', got: '$actual_line'"
-        fi
-    fi
-}
-
-install_nvim_binary() {
-    step "📦 Installing Neovim Binary (bob)"
-
-    if ! command -v bob >/dev/null 2>&1; then
-        error "bob not found. Install it first (e.g. brew install bob)."
-    fi
-
-    local raw_target
-    raw_target="$(get_bob_target)"
-    local target
-    target="$(resolve_bob_install_target "$raw_target")"
-
-    info "Pinned target from dotfiles: $raw_target"
-    if [ "$target" != "$raw_target" ]; then
-        info "Resolved bob install target: $target"
-    fi
-    info "Installing bob target: $target"
-    bob install "$target"
-    bob use "$target"
-    task "Installed and activated: $target"
-
-    if command -v nvim >/dev/null 2>&1; then
-        task "$(nvim --version | head -1)"
-    fi
-
-    verify_pinned_nvim "$raw_target"
-
-    success "Neovim binary installed via bob"
-}
-
-update_nvim_binary() {
-    step "🔄 Updating Neovim Binary (bob)"
-
-    if ! command -v bob >/dev/null 2>&1; then
-        error "bob not found. Install it first (e.g. brew install bob)."
-    fi
-
-    local raw_target
-    raw_target="$(get_bob_target)"
-    local target
-    target="$(resolve_bob_install_target "$raw_target")"
-    local expected_hash
-    expected_hash="$(extract_expected_hash "$raw_target")"
-
-    info "Pinned target from dotfiles: $raw_target"
-    if [ "$target" != "$raw_target" ]; then
-        info "Resolved bob update target: $target"
-    fi
-
-    if [ -n "$expected_hash" ]; then
-        info "Exact pin detected; using install+verify for reproducibility."
-        bob install "$target"
-    else
-        info "Updating bob target: $target"
-        bob update "$target"
-    fi
-
-    bob use "$target"
-    task "Updated and activated: $target"
-
-    if command -v nvim >/dev/null 2>&1; then
-        task "$(nvim --version | head -1)"
-    fi
-
-    verify_pinned_nvim "$raw_target"
-
-    success "Neovim binary updated via bob"
-}
-
-status_nvim_binary() {
-    step "🧾 Neovim Binary Status (bob)"
-
-    if ! command -v bob >/dev/null 2>&1; then
-        error "bob not found. Install it first (e.g. brew install bob)."
-    fi
-
-    local raw_target
-    raw_target="$(get_bob_target)"
-    local target
-    target="$(resolve_bob_install_target "$raw_target")"
-    local expected_hash
-    expected_hash="$(extract_expected_hash "$raw_target")"
-
-    info "Pinned target from dotfiles: $raw_target"
-    if [ "$target" != "$raw_target" ]; then
-        info "Resolved bob target: $target"
-    fi
-    bob list
-
-    if command -v nvim >/dev/null 2>&1; then
-        local actual_line
-        actual_line="$(nvim --version | head -1)"
-        info "Current nvim:"
-        echo "$actual_line"
-
-        if [ -n "$expected_hash" ]; then
-            local actual_hash=""
-            if [[ "$actual_line" =~ g([0-9a-fA-F]+)$ ]]; then
-                actual_hash="${BASH_REMATCH[1],,}"
-            fi
-            if [ "$actual_hash" = "$expected_hash" ]; then
-                success "Pinned hash matches: g$expected_hash"
-            else
-                warning "Pinned hash mismatch: expected g$expected_hash"
-            fi
-        fi
-    fi
-}
-
 install_nvim() {
     step "⚡ Installing Neovim Configuration"
 
@@ -210,9 +18,10 @@ install_nvim() {
     fi
 
     info "Installing Neovim configuration..."
-    mkdir -p ~/.config/nvim
-    cp -r "$dotfiles_nvim/"* ~/.config/nvim/
-    task "Copied configuration to ~/.config/nvim/"
+    rm -rf "$config_nvim"
+    mkdir -p "$config_nvim"
+    cp -R "$dotfiles_nvim/." "$config_nvim/"
+    task "Replaced configuration in ~/.config/nvim/"
 
     info "Cleaning LSP/Mason cache to prevent conflicts..."
     rm -rf ~/.local/share/nvim/mason 2>/dev/null || true
@@ -320,15 +129,6 @@ main() {
     case "${1:-install}" in
     install)
         install_nvim
-        ;;
-    install-bin | bin)
-        install_nvim_binary
-        ;;
-    update-bin)
-        update_nvim_binary
-        ;;
-    status-bin)
-        status_nvim_binary
         ;;
     link)
         link_nvim

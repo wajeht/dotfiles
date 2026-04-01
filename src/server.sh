@@ -33,43 +33,18 @@ install_apt_deps() {
 }
 
 install_neovim() {
-    info "Installing Neovim via bob..."
+    info "Installing Neovim nightly from GitHub releases..."
 
     local arch=$(uname -m)
-    local bob_bin="$HOME/.local/bin/bob"
-    local script_dir="$(cd "$(dirname "$0")" && pwd)"
-    local bob_target_file="$script_dir/configs/nvim/.bob-version"
-    local bob_target_raw="nightly"
-    local bob_target="nightly"
-    local expected_hash=""
+    local install_dir="$HOME/.local"
 
-    if [[ -f "$bob_target_file" ]]; then
-        bob_target_raw="$(tr -d '[:space:]' <"$bob_target_file")"
-    fi
+    mkdir -p "$install_dir/bin"
 
-    if [[ -z "$bob_target_raw" ]]; then
-        bob_target_raw="nightly"
-    fi
-
-    bob_target_raw="${bob_target_raw#NVIM }"
-    bob_target="$bob_target_raw"
-
-    # Bob cannot parse numeric-leading commit hashes directly. For pinned dev
-    # versions, install nightly and verify exact hash afterwards.
-    if [[ "$bob_target_raw" =~ \+g([0-9a-fA-F]+)$ ]]; then
-        bob_target="nightly"
-        expected_hash="${BASH_REMATCH[1],,}"
-    elif [[ "$bob_target_raw" =~ ^nightly@([0-9a-fA-F]+)$ ]]; then
-        bob_target="nightly"
-        expected_hash="${BASH_REMATCH[1],,}"
-    fi
-
-    # Download bob
-    mkdir -p "$HOME/.local/bin"
+    local tarball=""
     if [[ "$arch" == "x86_64" ]]; then
-        curl -sL "https://github.com/MordechaiHadad/bob/releases/latest/download/bob-linux-x86_64.zip" -o /tmp/bob.zip
+        tarball="nvim-linux-x86_64.tar.gz"
     elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        curl -sL "https://github.com/MordechaiHadad/bob/releases/latest/download/bob-linux-arm.zip" -o /tmp/bob.zip
+        tarball="nvim-linux-arm64.tar.gz"
     else
         warning "Unknown arch $arch, falling back to apt"
         sudo apt-get install -y neovim
@@ -77,52 +52,26 @@ install_neovim() {
         return
     fi
 
-    unzip -o /tmp/bob.zip -d /tmp >/dev/null
-    mv /tmp/bob-linux-*/bob "$bob_bin"
-    rmdir /tmp/bob-linux-* 2>/dev/null || true
-    chmod +x "$bob_bin"
-    rm /tmp/bob.zip
-    task "Installed bob to ~/.local/bin/bob"
+    local download_url="https://github.com/neovim/neovim/releases/download/nightly/$tarball"
 
-    info "Pinned target from dotfiles: $bob_target_raw"
-    if [[ "$bob_target" != "$bob_target_raw" ]]; then
-        info "Resolved bob install target: $bob_target"
+    info "Downloading $tarball..."
+    curl -sL "$download_url" -o "/tmp/$tarball"
+
+    info "Extracting to $install_dir..."
+    tar -xzf "/tmp/$tarball" -C /tmp
+    local extracted_dir="/tmp/${tarball%.tar.gz}"
+
+    # Copy contents into ~/.local (bin/, lib/, share/)
+    cp -rf "$extracted_dir"/* "$install_dir/"
+    rm -rf "$extracted_dir" "/tmp/$tarball"
+
+    task "Installed Neovim to $install_dir"
+
+    if command -v nvim >/dev/null 2>&1; then
+        task "$(nvim --version | head -1)"
     fi
 
-    # Install nvim via bob using dotfiles-pinned target
-    "$bob_bin" install "$bob_target"
-    "$bob_bin" use "$bob_target"
-    task "Installed nvim $bob_target via bob"
-
-    if [[ -n "$expected_hash" ]]; then
-        local pinned_nvim="$HOME/.local/share/bob/$bob_target/bin/nvim"
-        [[ -x "$pinned_nvim" ]] || error "Pinned nvim binary not found at $pinned_nvim"
-
-        local actual_line
-        actual_line="$("$pinned_nvim" --version | head -1)"
-
-        local actual_hash=""
-        if [[ "$actual_line" =~ g([0-9a-fA-F]+)$ ]]; then
-            actual_hash="${BASH_REMATCH[1],,}"
-        else
-            error "Could not parse hash from nvim version line: $actual_line"
-        fi
-
-        if [[ "$actual_hash" != "$expected_hash" ]]; then
-            warning "Pinned hash mismatch: expected g$expected_hash, got: $actual_line (bob nightly always installs latest)"
-        fi
-
-        if [[ "$bob_target_raw" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-dev-[0-9]+\+g[0-9a-fA-F]+$ ]]; then
-            local expected_line="NVIM $bob_target_raw"
-            if [[ "$actual_line" != "$expected_line" ]]; then
-                warning "Pinned version mismatch: expected '$expected_line', got: '$actual_line'"
-            fi
-        fi
-
-        task "Installed Neovim nightly (pinned: g$expected_hash, actual: g$actual_hash)"
-    fi
-
-    info "Ensure ~/.local/share/bob/nvim-bin is in your PATH"
+    info "Ensure ~/.local/bin is in your PATH"
 }
 
 install_nvm() {
@@ -241,10 +190,11 @@ install_nvim_config() {
 
     backup_if_exists ~/.config/nvim
 
+    rm -rf ~/.config/nvim
     mkdir -p ~/.config/nvim
     local script_dir="$(dirname "$0")"
-    cp -r "$script_dir/configs/nvim/"* ~/.config/nvim/
-    task "Copied nvim config to ~/.config/nvim/"
+    cp -R "$script_dir/configs/nvim/." ~/.config/nvim/
+    task "Replaced nvim config in ~/.config/nvim/"
 
     # Clean caches
     rm -rf ~/.local/share/nvim/mason 2>/dev/null || true
@@ -286,7 +236,7 @@ install_server() {
 
     success "Server dotfiles installed!"
     info "Run 'exec zsh' or log out and back in to use zsh"
-    info "Run 'nvim' to install plugins via Lazy"
+    info "Run 'nvim' once to install plugins via vim.pack"
 }
 
 uninstall_server() {

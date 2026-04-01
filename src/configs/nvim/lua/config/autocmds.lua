@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, {
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	pattern = "*",
 	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+		vim.hl.on_yank({ higroup = "IncSearch", timeout = 150 })
 	end,
 	desc = "Briefly highlight yanked text",
 })
