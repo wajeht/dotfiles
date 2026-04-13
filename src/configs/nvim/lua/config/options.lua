@@ -1,6 +1,25 @@
 -- Netrw settings
 vim.g.loaded_netrw = 1 -- disable nerd tree
 vim.g.loaded_netrwPlugin = 1 -- disable nerd tree
+
+-- Filetype detection needed by LSP/Treesitter for custom extensions and filenames.
+vim.filetype.add({
+	extension = {
+		ejs = "embedded_template",
+		gotmpl = "gotmpl",
+		tmpl = "gotmpl",
+		tpl = "gotmpl",
+	},
+	filename = {
+		["go.mod"] = "gomod",
+		["go.sum"] = "gosum",
+		["go.work"] = "gowork",
+	},
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+	},
+})
+
 -- vim.cmd("let g:netrw_keepdir = 0")  -- Make Netrw change to the directory you are browsing
 -- vim.cmd("let g:netrw_banner = 0")   -- Disable the banner at the top of Netrw
 -- vim.cmd("let g:netrw_winsize = 30") -- Set the initial size of the Netrw window to 30% of the screen

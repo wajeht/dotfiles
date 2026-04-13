@@ -1,18 +1,10 @@
--- LSP servers are auto-enabled by mason.lua based on installed packages
-
--- Deferred diagnostic config to avoid startup blocking
-vim.api.nvim_create_autocmd("LspAttach", {
-	once = true,
-	callback = function()
-		vim.diagnostic.config({
-			virtual_lines = false,
-			virtual_text = true,
-			signs = true,
-			underline = true,
-			update_in_insert = false,
-			severity_sort = true,
-		})
-	end,
+vim.diagnostic.config({
+	virtual_lines = false,
+	virtual_text = true,
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
 })
 
 -- LspAttach autocmd
@@ -22,28 +14,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Disable inlay hints by default (can be toggled with <leader>hh)
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-			vim.lsp.inlay_hint.enable(false)
+			vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
 		end
 
 		-- Enable linked editing (e.g. rename both opening/closing HTML tags simultaneously)
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_linkedEditingRange) then
-			vim.lsp.linked_editing_range.enable(true, { bufnr = ev.buf, client_id = client.id })
+			vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
 		end
 
 		-- Enable code lenses (run with grx)
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
-			if vim.lsp.codelens.enable then
-				vim.lsp.codelens.enable(true, { bufnr = ev.buf, client_id = client.id })
-			else
-				pcall(vim.lsp.codelens.refresh, { bufnr = ev.buf })
-				vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-					buffer = ev.buf,
-					callback = function()
-						pcall(vim.lsp.codelens.refresh, { bufnr = ev.buf })
-					end,
-					desc = "Refresh LSP code lenses",
-				})
-			end
+			vim.lsp.codelens.enable(true, { bufnr = ev.buf })
 		end
 
 		-- Setup completion if client supports it
