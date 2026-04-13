@@ -36,20 +36,9 @@ SAVEHIST=10000
 # ======================
 # Completion System
 # ======================
-# Enable completion system (optimized - only rebuild once per day)
+# Enable completion system
 autoload -Uz compinit
-_zcompdump_day() {
-    if [[ "$(uname)" == "Darwin" ]]; then
-        stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null
-    else
-        date -r ~/.zcompdump +'%j' 2>/dev/null
-    fi
-}
-if [ "$(date +'%j')" != "$(_zcompdump_day)" ]; then
-    compinit
-else
-    compinit -C
-fi
+compinit -d "$ZDOTDIR/.zcompdump"
 
 # Completion styling
 zstyle ':completion:*' menu select
