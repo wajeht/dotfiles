@@ -84,7 +84,11 @@ vim.api.nvim_create_autocmd("FileType", {
 			return
 		end
 
-		vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		-- Skip indentation for diffview buffers (read-only, don't need it)
+		local bufname = vim.api.nvim_buf_get_name(event.buf)
+		if not bufname:match("^diffview://") then
+			vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end
 
 		if parsers_loaded[lang] then
 			start_treesitter(lang)

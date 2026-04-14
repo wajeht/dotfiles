@@ -10,6 +10,15 @@ vim.diagnostic.config({
 -- LspAttach autocmd
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
+		-- Detach LSP from diffview buffers (they're read-only git blobs)
+		local bufname = vim.api.nvim_buf_get_name(ev.buf)
+		if bufname:match("^diffview://") then
+			vim.schedule(function()
+				pcall(vim.lsp.buf_detach_client, ev.buf, ev.data.client_id)
+			end)
+			return
+		end
+
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
 		-- Disable inlay hints by default (can be toggled with <leader>hh)

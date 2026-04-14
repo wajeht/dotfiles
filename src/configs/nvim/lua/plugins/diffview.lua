@@ -68,4 +68,10 @@ require("diffview").setup({
 			width = 40,
 		},
 	},
+	hooks = {
+		diff_buf_read = function(bufnr)
+			vim.opt_local.foldmethod = "diff"
+			vim.opt_local.foldexpr = ""
+		end,
+	},
 })
