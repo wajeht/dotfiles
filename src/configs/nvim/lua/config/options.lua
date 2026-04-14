@@ -62,7 +62,26 @@ vim.opt.signcolumn = "yes" -- Show sign column so that text doesn't shift
 vim.opt.backspace = "indent,eol,start" -- Allow backspace on indent, end of line or insert mode start position
 
 -- Clipboard
-vim.opt.clipboard = "unnamedplus" -- Use system clipboard as default register
+vim.opt.clipboard = "unnamedplus"
+
+-- Use OSC 52 over SSH (copy syncs to local clipboard, paste uses Neovim registers)
+if os.getenv("SSH_TTY") then
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = {
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+		},
+		paste = {
+			["+"] = function()
+				return vim.fn.getreg("0")
+			end,
+			["*"] = function()
+				return vim.fn.getreg("0")
+			end,
+		},
+	}
+end
 
 -- Split windows
 vim.opt.splitright = true -- Split vertical window to the right
