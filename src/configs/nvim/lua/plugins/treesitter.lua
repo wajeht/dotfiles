@@ -58,12 +58,14 @@ vim.api.nvim_set_decoration_provider(ns, {
 
 		for _, data in ipairs(parsers_pending) do
 			if vim.api.nvim_win_is_valid(data.winnr) and vim.api.nvim_buf_is_valid(data.bufnr) then
-				vim._with({ win = data.winnr, buf = data.bufnr }, function()
-					if start_treesitter(data.lang) then
-						parsers_loaded[data.lang] = true
-					else
-						parsers_failed[data.lang] = true
-					end
+				vim.api.nvim_win_call(data.winnr, function()
+					vim.api.nvim_buf_call(data.bufnr, function()
+						if start_treesitter(data.lang) then
+							parsers_loaded[data.lang] = true
+						else
+							parsers_failed[data.lang] = true
+						end
+					end)
 				end)
 			end
 		end
