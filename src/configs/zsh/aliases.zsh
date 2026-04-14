@@ -66,7 +66,7 @@ else
     alias update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
 fi
 
-alias start_work_db="ssh -N -L 5432:localhost:5432 kyaw@192.168.4.120"
+alias start_work_db="ssh -L 5432:localhost:5432 kyaw@192.168.4.120"
 alias work="ssh kyaw@192.168.4.120"
 alias one="ssh jaw@192.168.4.161"
 alias two="ssh jaw@192.168.4.162"
