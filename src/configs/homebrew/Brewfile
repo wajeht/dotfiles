@@ -17,6 +17,7 @@ brew "parallel"     # Parallel
 brew "sqlite"       # SQLite database
 brew "nmap"         # Network scanner
 brew "tldr"         # Collaborative cheatsheets for console commands
+brew "difftastic"   # Structural diff tool for Git
 brew "stripe/stripe-cli/stripe" # Stripe CLI
 brew "bruno"        # Bruno is a fully local and Git-native solution to accelerate and secure API work and collaboration
 
