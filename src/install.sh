@@ -55,7 +55,7 @@ if [[ "${1:-}" == "--remote" ]]; then
     fi
 
     step "🎉 Installation Complete!"
-    info "To use the dotfiles, run 'source ~/.zshrc' or restart your terminal"
+    info "To use the dotfiles, run 'exec zsh' or restart your terminal"
     info "💡 For individual component management, use: make <component> [install|uninstall]"
 
     exit 0
@@ -124,7 +124,7 @@ main() {
         info "This is normal - you can retry individual components later with 'make <component>'"
     fi
 
-    info "Run 'source ~/.zshrc' or restart your terminal to apply changes"
+    info "Run 'exec zsh' or restart your terminal to apply changes"
 }
 
 main "$@"

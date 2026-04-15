@@ -115,18 +115,49 @@ function git_diff_all() {
   fi
 
   # Build exclude/include patterns if needed
-  local filter_args=""
+  local -a filter_args=()
   if [ "$exclude_tests" = true ]; then
-    filter_args="-- . ':(exclude)*Test.php' ':(exclude)*.test.php' ':(exclude)*.test.ts' ':(exclude)*.test.js' ':(exclude)*.test.jsx' ':(exclude)*.test.tsx' ':(exclude)*.spec.js' ':(exclude)*.spec.ts' ':(exclude)*.spec.jsx' ':(exclude)*.spec.tsx' ':(exclude)tests/*' ':(exclude)Tests/*'"
+    filter_args=(
+      --
+      .
+      ':(exclude)*Test.php'
+      ':(exclude)*.test.php'
+      ':(exclude)*.test.ts'
+      ':(exclude)*.test.js'
+      ':(exclude)*.test.jsx'
+      ':(exclude)*.test.tsx'
+      ':(exclude)*.spec.js'
+      ':(exclude)*.spec.ts'
+      ':(exclude)*.spec.jsx'
+      ':(exclude)*.spec.tsx'
+      ':(exclude)tests/*'
+      ':(exclude)Tests/*'
+    )
   elif [ "$only_tests" = true ]; then
-    filter_args="-- '*Test.php' '*.test.php' '*.test.ts' '*.test.js' '*.test.jsx' '*.test.tsx' '*.spec.js' '*.spec.ts' '*.spec.jsx' '*.spec.tsx' 'tests/*' 'Tests/*'"
+    filter_args=(
+      --
+      '*Test.php'
+      '*.test.php'
+      '*.test.ts'
+      '*.test.js'
+      '*.test.jsx'
+      '*.test.tsx'
+      '*.spec.js'
+      '*.spec.ts'
+      '*.spec.jsx'
+      '*.spec.tsx'
+      'tests/*'
+      'Tests/*'
+    )
   fi
 
-  ALL_DIFFS=$( ( \
-      eval "git -c color.diff=always --no-pager diff ${target_branch}... ${filter_args}" && \
-      eval "git -c color.diff=always --no-pager diff ${filter_args}" && \
-      eval "git -c color.diff=always --no-pager diff --cached ${filter_args}" \
-  ) );
+  ALL_DIFFS=$(
+    (
+      git -c color.diff=always --no-pager diff "${target_branch}..." "${filter_args[@]}" &&
+      git -c color.diff=always --no-pager diff "${filter_args[@]}" &&
+      git -c color.diff=always --no-pager diff --cached "${filter_args[@]}"
+    )
+  )
 
   echo "$ALL_DIFFS";
 

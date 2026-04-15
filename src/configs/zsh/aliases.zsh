@@ -11,7 +11,7 @@ alias cdx='npx @openai/codex@latest'
 alias gcli='npx @google/gemini-cli@latest'
 
 # Shell aliases
-alias resource='source ~/.zshrc'
+alias resource='source "${ZDOTDIR:-$HOME/.config/zsh}/.zshrc"'
 
 # Development tools
 alias lg="lazygit"
@@ -39,7 +39,7 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 # Essential git aliases (replacing Oh My Zsh git plugin)
 alias g='git'
 alias ga='git add'
-alias gacp='git add . && curl -s https://commit.jaw.dev/ | sh -s -- --no-verify && git push'
+alias gacp='git add -A && curl -s https://commit.jaw.dev/ | sh -s -- --no-verify && git push'
 alias gaa='git add --all'
 alias gb='git branch'
 alias gc='git commit -v'

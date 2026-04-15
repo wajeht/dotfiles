@@ -34,9 +34,35 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 # ======================
+# Load Environment & PATH
+# ======================
+source "$ZDOTDIR/env.zsh"
+
+# ======================
+# Plugin Discovery
+# ======================
+# Detect plugin source: Homebrew (macOS) or git clones (Linux/server)
+_PLUGIN_DIR=""
+if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    _PLUGIN_DIR="/opt/homebrew/share"
+elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    _PLUGIN_DIR="/usr/local/share"
+elif [[ -f "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    _PLUGIN_DIR="$HOME/.zsh/plugins"
+fi
+
+if [[ -n "$_PLUGIN_DIR" ]]; then
+    if [[ -d "$_PLUGIN_DIR/zsh-completions" ]]; then
+        fpath=("$_PLUGIN_DIR/zsh-completions" $fpath)
+    elif [[ -d "$_PLUGIN_DIR/zsh-completions/src" ]]; then
+        fpath=("$_PLUGIN_DIR/zsh-completions/src" $fpath)
+    fi
+fi
+
+# ======================
 # Completion System
 # ======================
-# Enable completion system
+# Enable completion system after completion paths are on fpath
 autoload -Uz compinit
 compinit -d "$ZDOTDIR/.zcompdump"
 
@@ -180,31 +206,9 @@ PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0
 %F{green}❯%f '
 
 # ======================
-# Load Environment & PATH
-# ======================
-source "$ZDOTDIR/env.zsh"
-
-# ======================
 # Load Zsh Plugins
 # ======================
-# Detect plugin source: Homebrew (macOS) or git clones (Linux/server)
-_PLUGIN_DIR=""
-if [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-    _PLUGIN_DIR="/opt/homebrew/share"
-elif [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-    _PLUGIN_DIR="/usr/local/share"
-elif [[ -f "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-    _PLUGIN_DIR="$HOME/.zsh/plugins"
-fi
-
 if [[ -n "$_PLUGIN_DIR" ]]; then
-    # Load completions first
-    if [[ -d "$_PLUGIN_DIR/zsh-completions" ]]; then
-        fpath=("$_PLUGIN_DIR/zsh-completions" $fpath)
-    elif [[ -d "$_PLUGIN_DIR/zsh-completions/src" ]]; then
-        fpath=("$_PLUGIN_DIR/zsh-completions/src" $fpath)
-    fi
-
     # Load zsh-vi-mode first (order matters)
     if [[ -f "$_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]]; then
         source "$_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
