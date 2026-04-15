@@ -66,9 +66,9 @@ local function set_highlights()
 	hl(0, "VisualNOS", { bg = c.selection })
 
 	-- Line numbers
-	hl(0, "LineNr", { fg = c.line_nr_dim, bg = "NONE" })
-	hl(0, "LineNrAbove", { fg = c.line_nr_dim, bg = "NONE" })
-	hl(0, "LineNrBelow", { fg = c.line_nr_dim, bg = "NONE" })
+	hl(0, "LineNr", { fg = c.line_nr, bg = "NONE" })
+	hl(0, "LineNrAbove", { fg = c.line_nr, bg = "NONE" })
+	hl(0, "LineNrBelow", { fg = c.line_nr, bg = "NONE" })
 	hl(0, "CursorLineNr", { fg = c.fg, bg = "NONE" })
 	hl(0, "SignColumn", { fg = c.fg, bg = "NONE" })
 

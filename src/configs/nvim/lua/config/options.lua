@@ -50,7 +50,8 @@ vim.opt.incsearch = true -- Show search matches as you type
 vim.opt.hlsearch = true -- Highlight search results
 vim.opt.wrapscan = true -- Searches wrap around the end of the file
 
-vim.opt.cursorline = false -- Highlight the current line
+vim.opt.cursorline = true -- Highlight the current line number
+vim.opt.cursorlineopt = "number" -- Only highlight the current line number
 vim.opt.cursorcolumn = false -- Highlight the current column
 
 -- Colors and appearance
