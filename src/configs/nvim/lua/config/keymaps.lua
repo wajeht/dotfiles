@@ -129,10 +129,10 @@ vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
 
 -- Quickfix list keymaps
 --
--- QUICKFIX WORKFLOW WITH FZF-LUA:
+-- QUICKFIX WORKFLOW WITH FFF.NVIM:
 -- 1. Search with <leader>fs (live grep)
 -- 2. Select multiple entries with Tab
--- 3. Send to quickfix with Alt-q (M-q)
+-- 3. Send to quickfix with Ctrl-q or Alt-q (M-q)
 --
 -- SEARCH & REPLACE ACROSS QUICKFIX:
 -- Interactive (with confirmation):

@@ -29,6 +29,11 @@ install_nvim() {
     rm -rf ~/.cache/nvim/lsp.log* 2>/dev/null || true
     task "Cleaned LSP/Mason cache"
 
+    info "Removing retired Neovim plugin packages..."
+    rm -rf ~/.local/share/nvim/site/pack/core/opt/fzf-lua 2>/dev/null || true
+    rm -rf ~/.local/share/nvim/site/pack/core/start/fzf-lua 2>/dev/null || true
+    task "Removed retired plugin packages"
+
     success "Neovim configuration installed"
 }
 

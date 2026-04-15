@@ -8,9 +8,9 @@
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"
     },
-    "fzf-lua": {
-      "rev": "c9e7b7bfbd01f949164988ee1684035468e1995c",
-      "src": "https://github.com/ibhagwan/fzf-lua"
+    "fff.nvim": {
+      "rev": "7de55be63d725d94944e5e89206284a67b8baa08",
+      "src": "https://github.com/dmtrKovalenko/fff.nvim"
     },
     "gitsigns.nvim": {
       "rev": "0f00d07c2c3106ba6abd594ac1c17f211141b7b5",
