@@ -40,6 +40,7 @@ local parsers_loaded = {} -- Parsers that have been successfully loaded
 local parsers_pending = {} -- Parsers waiting to be loaded
 local parsers_failed = {} -- Parsers that failed to load
 local parsers_install_requested = {} -- Parsers already queued for install
+local parsers_invalid_warned = {} -- Invalid parsers already warned about
 
 local ns = vim.api.nvim_create_namespace("treesitter.deferred")
 
@@ -51,6 +52,16 @@ local function parser_installed(lang)
 	return vim.tbl_contains(nvim_treesitter.get_installed("parsers"), lang)
 end
 
+---@param lang string
+---@return boolean
+local function parser_healthy(lang)
+	if not parser_installed(lang) then
+		return false
+	end
+
+	return pcall(vim.treesitter.language.add, lang)
+end
+
 ---@param languages string[]
 ---@return string[]
 local function missing_languages(languages)
@@ -60,14 +71,25 @@ local function missing_languages(languages)
 end
 
 ---@param languages string[]
+---@return string[]
+local function invalid_languages(languages)
+	return vim.tbl_filter(function(lang)
+		return parser_installed(lang) and not parser_healthy(lang)
+	end, languages)
+end
+
+---@param languages string[]
 ---@param wait_ms integer|nil
+---@param install_opts table|nil
 ---@return boolean
-local function install_languages(languages, wait_ms)
+local function install_languages(languages, wait_ms, install_opts)
 	if #languages == 0 then
 		return true
 	end
 
-	local ok, task = pcall(nvim_treesitter.install, languages, { summary = true })
+	local ok, task = pcall(nvim_treesitter.install, languages, vim.tbl_extend("force", {
+		summary = true,
+	}, install_opts or {}))
 	if not ok then
 		vim.notify("nvim-treesitter install failed: " .. task, vim.log.levels.WARN)
 		return false
@@ -88,20 +110,66 @@ local function install_languages(languages, wait_ms)
 end
 
 ---@param lang string
-local function request_parser_install(lang)
-	if not managed_languages[lang] or parser_installed(lang) or parsers_install_requested[lang] then
+---@param force boolean|nil
+local function request_parser_install(lang, force)
+	if not managed_languages[lang] or (not force and parser_installed(lang)) or parsers_install_requested[lang] then
 		return
 	end
 
 	parsers_install_requested[lang] = true
 	vim.schedule(function()
-		install_languages({ lang })
+		install_languages({ lang }, nil, { force = force == true })
 	end)
+end
+
+local original_treesitter_start = vim.treesitter.start
+
+---@param lang string|nil
+local function warn_invalid_parser(lang)
+	if not lang or parsers_invalid_warned[lang] then
+		return
+	end
+
+	parsers_invalid_warned[lang] = true
+	vim.schedule(function()
+		vim.notify(
+			("Treesitter parser '%s' is invalid for this Neovim build; reinstalling it."):format(lang),
+			vim.log.levels.WARN
+		)
+	end)
+end
+
+vim.treesitter.start = function(bufnr, lang)
+	local ok, result = pcall(original_treesitter_start, bufnr, lang)
+	if ok then
+		return result
+	end
+
+	local resolved_buf = vim._resolve_bufnr(bufnr)
+	local resolved_lang = lang
+	if not resolved_lang then
+		local filetype = vim.bo[resolved_buf].filetype
+		resolved_lang = filetype ~= "" and vim.treesitter.language.get_lang(filetype) or nil
+	end
+
+	if type(result) == "string" and result:match("Parser could not be created") then
+		if resolved_lang then
+			warn_invalid_parser(resolved_lang)
+			request_parser_install(resolved_lang, true)
+		end
+		return nil
+	end
+
+	error(result)
 end
 
 -- Bootstrap the managed parser list on fresh installs so core runtime features
 -- like markdown hover rendering do not trip over missing parsers.
-install_languages(missing_languages(ensure_installed), 300000)
+local bootstrap_missing = missing_languages(ensure_installed)
+local bootstrap_invalid = invalid_languages(ensure_installed)
+install_languages(vim.list_extend(bootstrap_missing, bootstrap_invalid), 300000, {
+	force = #bootstrap_invalid > 0,
+})
 
 ---@param lang string
 ---@return boolean
@@ -127,7 +195,12 @@ vim.api.nvim_set_decoration_provider(ns, {
 						if start_treesitter(data.lang) then
 							parsers_loaded[data.lang] = true
 						elseif parser_installed(data.lang) then
-							parsers_failed[data.lang] = true
+							if parser_healthy(data.lang) then
+								parsers_failed[data.lang] = true
+							else
+								warn_invalid_parser(data.lang)
+								request_parser_install(data.lang, true)
+							end
 						else
 							request_parser_install(data.lang)
 						end
@@ -152,6 +225,12 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		if not parser_installed(lang) then
 			request_parser_install(lang)
+			return
+		end
+
+		if not parser_healthy(lang) then
+			warn_invalid_parser(lang)
+			request_parser_install(lang, true)
 			return
 		end
 
@@ -181,12 +260,15 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = vim.schedule_wrap(function()
 		local missing = missing_languages(ensure_installed)
+		local invalid = invalid_languages(ensure_installed)
 
-		if #missing == 0 then
+		if #missing == 0 and #invalid == 0 then
 			return
 		end
 
-		install_languages(missing)
+		install_languages(vim.list_extend(missing, invalid), nil, {
+			force = #invalid > 0,
+		})
 	end),
 })
 
