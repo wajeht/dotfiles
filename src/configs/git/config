@@ -45,9 +45,12 @@
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"       # Add, commit (AI), and push in one step
 	pr-comments = "!zsh -c 'source ~/.zshrc && git_pr_comments'"                    # Show PR comments (custom zsh alias)
 	diff-all = "!f() { zsh -c \"source ~/.zshrc && git_diff_all $*\"; }; f"         # Show diffs for all repos or branches (custom zsh alias)
-	dft = "!f() { DFT_DISPLAY=side-by-side-show-both git -c diff.external=difft diff \"$@\"; }; f"      # Structural git diff with difftastic
-	ds = "!f() { DFT_DISPLAY=side-by-side-show-both git -c diff.external=difft show --ext-diff \"$@\"; }; f" # Show the latest commit with difftastic
-	dl = "!f() { DFT_DISPLAY=side-by-side-show-both git -c diff.external=difft log -p --ext-diff \"$@\"; }; f" # Show git log patches with difftastic
+	diff-plain = diff --no-ext-diff                                                # Plain git diff without difftastic
+	show-plain = show --no-ext-diff                                                # Plain git show without difftastic
+	log-plain = log -p --no-ext-diff                                               # Plain git log -p without difftastic
+	dft = diff                                                                     # Structural git diff with difftastic
+	ds = show --ext-diff                                                           # Show the latest commit with difftastic
+	dl = log -p --ext-diff                                                         # Show git log patches with difftastic
 
 [core]
 	# Core Git behavior and editor preferences
@@ -58,6 +61,7 @@
 
 [diff]
 	# Configure how diffs are shown
+	external = difft                    # Use difftastic as the default diff renderer
 	tool = difftastic                  # Use difftastic as the default git difftool
 	algorithm = histogram              # Smarter diff algorithm
 	colorMoved = zebra                 # Highlight moved lines with alternating colors
@@ -68,7 +72,7 @@
 
 [difftool "difftastic"]
 	# Use difftastic as the CLI difftool
-	cmd = DFT_DISPLAY=side-by-side-show-both difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
+	cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 
 [pager]
 	# Page difftool output like regular git diff output

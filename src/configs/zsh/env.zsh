@@ -17,6 +17,12 @@ fi
 # Colorize man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+# Difftastic defaults
+export DFT_DISPLAY="side-by-side-show-both"
+export DFT_CONTEXT="2"
+export DFT_BACKGROUND="dark"
+export DFT_SYNTAX_HIGHLIGHT="off"
+
 # NVM (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
