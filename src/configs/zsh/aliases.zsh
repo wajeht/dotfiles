@@ -69,7 +69,7 @@ else
 fi
 
 alias start_work_db="ssh -L 5432:localhost:5432 kyaw@192.168.4.120"
-alias work="ssh kyaw@192.168.4.120"
+alias work="ssh kyaw@192.168.4.74"
 alias one="ssh jaw@192.168.4.161"
 alias two="ssh jaw@192.168.4.162"
 alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
