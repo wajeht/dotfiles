@@ -386,24 +386,6 @@ function M.setup()
 	vim.g.colors_name = "vscode"
 
 	set_highlights()
-
-	-- Terminal colors
-	vim.g.terminal_color_0 = "#1E1E1E"
-	vim.g.terminal_color_1 = c.red
-	vim.g.terminal_color_2 = c.green
-	vim.g.terminal_color_3 = c.yellow
-	vim.g.terminal_color_4 = c.blue
-	vim.g.terminal_color_5 = c.pink
-	vim.g.terminal_color_6 = c.blue_green
-	vim.g.terminal_color_7 = c.fg
-	vim.g.terminal_color_8 = c.gray
-	vim.g.terminal_color_9 = c.light_red
-	vim.g.terminal_color_10 = "#81b88b"
-	vim.g.terminal_color_11 = c.yellow_orange
-	vim.g.terminal_color_12 = c.light_blue
-	vim.g.terminal_color_13 = c.pink
-	vim.g.terminal_color_14 = c.blue_green
-	vim.g.terminal_color_15 = c.white
 end
 
 return M
