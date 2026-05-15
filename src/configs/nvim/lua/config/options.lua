@@ -1,6 +1,6 @@
 -- Netrw settings
-vim.g.loaded_netrw = 1 -- disable nerd tree
-vim.g.loaded_netrwPlugin = 1 -- disable nerd tree
+vim.g.loaded_netrw = 1 -- disable netrw
+vim.g.loaded_netrwPlugin = 1 -- disable netrw plugin
 
 -- Filetype detection needed by LSP/Treesitter for custom extensions and filenames.
 vim.filetype.add({
@@ -10,14 +10,6 @@ vim.filetype.add({
 		tmpl = "gotmpl",
 		tpl = "gotmpl",
 	},
-	filename = {
-		["go.mod"] = "gomod",
-		["go.sum"] = "gosum",
-		["go.work"] = "gowork",
-	},
-	pattern = {
-		[".*%.blade%.php"] = "blade",
-	},
 })
 
 -- vim.cmd("let g:netrw_keepdir = 0")  -- Make Netrw change to the directory you are browsing
@@ -26,44 +18,60 @@ vim.filetype.add({
 -- vim.cmd("let g:netrw_liststyle = 3")-- Set the listing style to a tree-style view
 -- vim.cmd("let g:netrw_altv = 1")     -- Open splits to the right
 
-vim.opt.relativenumber = true -- Show relative line numbers
-vim.opt.number = true -- Show absolute line numbers
+local opt = vim.opt
 
--- Tabs & indentation
-vim.opt.tabstop = 4 -- 4 spaces for tabs
-vim.opt.shiftwidth = 4 -- 4 spaces for indent width
-vim.opt.expandtab = true -- Expand tab to spaces
-vim.opt.autoindent = true -- Copy indent from current line when starting new one
-vim.opt.smarttab = true -- Make tabbing smarter
-vim.opt.smartindent = true -- Enable smart indentation
-vim.opt.softtabstop = 4 -- Set the number of spaces a tab counts for in insert mode
+-- UI
+opt.number = true -- Show absolute line numbers
+opt.relativenumber = true -- Show relative line numbers
+opt.cursorline = true -- Highlight the current line number
+opt.cursorlineopt = "number" -- Only highlight the current line number
+opt.signcolumn = "yes" -- Show sign column so that text doesn't shift
+opt.termguicolors = true -- Enable true color support
+opt.winborder = "rounded" -- Border style for floating windows
+opt.pumborder = "rounded" -- Border style for completion menu
+opt.pumheight = 10 -- Limit completion menu height
+opt.pummaxwidth = 80 -- Keep completion popups readable on long LSP labels
+opt.pumblend = 10 -- Slight transparency for popup menu
+opt.cmdheight = 0 -- Hide command line when it is not actively used
 
-vim.opt.wrap = false -- Disable line wrapping
+-- Custom statusline for terminal buffers
+opt.laststatus = 0 -- Disable default statusline
+opt.statusline = "%{repeat('─',winwidth('.'))}" -- Custom statusline (only a line of dashes)
 
--- Remove ~ from buffer
-vim.opt.fillchars:append({ eob = " " })
+opt.ruler = false -- Hide ruler
+opt.showmode = false -- Don't show the mode, since it's already in the status line
+opt.title = true -- Set the terminal's title to the file being edited
+opt.fillchars:append({ eob = " " }) -- Remove ~ from buffer
 
--- Search settings
-vim.opt.ignorecase = true -- Ignore case when searching
-vim.opt.smartcase = true -- If you include mixed case in your search, assumes you want case-sensitive
-vim.opt.incsearch = true -- Show search matches as you type
-vim.opt.hlsearch = true -- Highlight search results
-vim.opt.wrapscan = true -- Searches wrap around the end of the file
+-- Text layout
+opt.wrap = false -- Disable line wrapping
+opt.linebreak = true -- Break lines at word boundaries
+opt.showbreak = "↪ " -- Show line breaks
+opt.breakindent = true -- Enable break indent
+opt.scrolloff = 8 -- Keep 8 lines visible above/below the cursor
+opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
 
-vim.opt.cursorline = true -- Highlight the current line number
-vim.opt.cursorlineopt = "number" -- Only highlight the current line number
-vim.opt.cursorcolumn = false -- Highlight the current column
+-- Indentation
+opt.tabstop = 4 -- 4 spaces for tabs
+opt.shiftwidth = 4 -- 4 spaces for indent width
+opt.softtabstop = 4 -- Set the number of spaces a tab counts for in insert mode
+opt.expandtab = true -- Expand tab to spaces
+opt.smartindent = true -- Enable smart indentation
 
--- Colors and appearance
-vim.opt.termguicolors = true -- Enable true color support
-vim.opt.background = "dark" -- Colorschemes that can be light or dark will be made dark
-vim.opt.signcolumn = "yes" -- Show sign column so that text doesn't shift
+-- Search
+opt.ignorecase = true -- Ignore case when searching
+opt.smartcase = true -- If you include mixed case in your search, assumes you want case-sensitive
 
--- Backspace
-vim.opt.backspace = "indent,eol,start" -- Allow backspace on indent, end of line or insert mode start position
-
--- Clipboard
-vim.opt.clipboard = "unnamedplus"
+-- Editing
+opt.clipboard = "unnamedplus" -- Use the system clipboard
+opt.inccommand = "split" -- Preview substitutions live, as you type!
+opt.mouse = "a" -- Enable mouse support in all modes
+opt.spelllang = "en_us" -- Set the spell check language to US English
+opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+opt.wildmode = { "longest:full", "full" } -- Command-line completion mode
+opt.completeopt:append({ "menuone", "noselect", "fuzzy", "nearest" }) -- Keep 0.12 defaults and add better completion behavior
+opt.iskeyword:append("-") -- Include hyphens in keywords
+opt.shortmess:remove("S") -- Show occurrence of search terms
 
 -- Use OSC 52 over SSH (copy syncs to local clipboard, paste uses Neovim registers)
 if os.getenv("SSH_TTY") then
@@ -84,47 +92,15 @@ if os.getenv("SSH_TTY") then
 	}
 end
 
--- Split windows
-vim.opt.splitright = true -- Split vertical window to the right
-vim.opt.splitbelow = true -- Split horizontal window to the bottom
+-- Splits and files
+opt.splitright = true -- Split vertical window to the right
+opt.splitbelow = true -- Split horizontal window to the bottom
+opt.swapfile = false -- Disable swap file creation
+opt.writebackup = false -- Disable backup before overwriting file
 
--- Turn off swapfile
-vim.opt.swapfile = false -- Disable swap file creation
-vim.opt.backup = false -- Disable backup files
-vim.opt.writebackup = false -- Disable backup before overwriting file
-
--- Other settings
-vim.opt.iskeyword:append("-") -- Include hyphens in keywords
-vim.opt.breakindent = true -- Enable break indent
-vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
-vim.opt.mouse = "a" -- Enable mouse support in all modes
-vim.opt.showmode = false -- Don't show the mode, since it's already in the status line
-vim.opt.shortmess:remove("S") -- Show occurrence of search terms
-vim.opt.scrolloff = 8 -- Keep 8 lines visible above/below the cursor
-vim.opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
--- vim.opt.colorcolumn = "80" -- Highlight the 80th column
-vim.opt.spelllang = "en_us" -- Set the spell check language to US English
--- vim.opt.showmatch = true                -- Briefly jump to matching bracket if one is inserted
--- vim.opt.matchtime = 0                   -- Make the jump shorter (0.2 seconds)
-vim.opt.equalalways = true -- Ensure all windows are always equally sized
-vim.opt.ruler = false -- hide ruler
-vim.opt.cmdheight = 0 -- hide command line when it is not actively used
-
--- Appearance
-vim.opt.winblend = 0 -- Floating window transparency
-vim.opt.winborder = "rounded" -- Border style for floating windows
-vim.opt.linebreak = true -- Break lines at word boundaries
-vim.opt.showbreak = "↪ " -- Show line breaks
-vim.opt.pumheight = 10 -- Limit completion menu height
-vim.opt.pummaxwidth = 80 -- Keep completion popups readable on long LSP labels
-vim.opt.pumblend = 10 -- Slight transparency for popup menu
-vim.opt.pumborder = "rounded" -- Border style for completion menu
-vim.opt.showcmd = true -- Display incomplete commands
-vim.opt.wildmenu = true -- Visual autocomplete for command menu
-vim.opt.wildmode = { "longest:full", "full" } -- Command-line completion mode
-vim.opt.list = true -- Show some invisible characters
-vim.opt.title = true -- Set the terminal's title to the file being edited
-vim.opt.listchars = {
+-- Whitespace
+opt.list = true -- Show some invisible characters
+opt.listchars = {
 	tab = "▸ ", -- Tab characters will appear as "▸ ".
 	trail = "·", -- Trailing spaces will appear as "·".
 	precedes = "←", -- "←" indicates hidden text to the left.
@@ -135,25 +111,15 @@ vim.opt.listchars = {
 	leadmultispace = ".", -- Leading spaces will appear as ".".
 }
 
--- Editing
-vim.opt.completeopt:append({ "menuone", "noselect", "fuzzy", "nearest" }) -- Keep 0.12 defaults and add better completion behavior
-vim.opt.conceallevel = 0 -- So that I can see `` in markdown files
-vim.opt.concealcursor = "" -- Don't hide cursor line markup
-vim.opt.history = 100 -- Store lots of :cmdline history
--- Undo settings
-vim.opt.undofile = true -- Save undo history to an undo file
+-- Undo
+opt.undofile = true -- Save undo history to an undo file
 local undodir = os.getenv("HOME") .. "/.vim/undodir"
 if not vim.fn.isdirectory(undodir) then
 	vim.fn.mkdir(undodir, "p")
 end
-vim.opt.undodir = undodir -- Set undo directory
+opt.undodir = undodir -- Set undo directory
 
--- Diff settings (affects diffview tab switching speed)
-vim.opt.diffopt:append("algorithm:patience") -- cleaner diffs on refactored code
-
--- Performance optimizations
-vim.opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (reduced from 400ms)
-vim.opt.ttimeoutlen = 0 -- Instant key code recognition
-vim.opt.updatetime = 50 -- Faster completion
-vim.opt.redrawtime = 1500 -- Time in milliseconds for redrawing the display (default: 2000)
-vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+-- Diff and responsiveness
+opt.diffopt:append("algorithm:patience") -- Cleaner diffs on refactored code
+opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete
+opt.updatetime = 50 -- Faster completion

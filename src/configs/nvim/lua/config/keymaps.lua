@@ -41,7 +41,6 @@ vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab"
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>tabp<CR>", { desc = "Go to previous tab with Shift-Tab" })
 vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab" })
-vim.keymap.set("n", "<leader>u", "<cmd>Undotree<CR>", { desc = "Open builtin undo tree" })
 
 -- Quick File Navigation (netrw file explorer on the right)
 -- vim.keymap.set({"n", "v"}, "<leader>e", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Leader+e
@@ -120,12 +119,6 @@ vim.keymap.set("n", "<leader>ss", function()
 	vim.opt.spell = not vim.opt.spell:get()
 	print("Spell checking " .. (vim.opt.spell:get() and "enabled" or "disabled"))
 end, { desc = "Toggle spell checking" })
-vim.keymap.set("n", "]s", "]szz", { desc = "Next misspelled word" })
-vim.keymap.set("n", "[s", "[szz", { desc = "Previous misspelled word" })
-vim.keymap.set("n", "zg", "zg", { desc = "Add word to dictionary" })
-vim.keymap.set("n", "zw", "zw", { desc = "Mark word as wrong" })
-vim.keymap.set("n", "zug", "zug", { desc = "Remove word from dictionary" })
-vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
 
 -- Quickfix list keymaps
 --
@@ -133,6 +126,12 @@ vim.keymap.set("n", "zuw", "zuw", { desc = "Remove word from wrong list" })
 -- 1. Search with <leader>fs (live grep)
 -- 2. Select multiple entries with Tab
 -- 3. Send to quickfix with Ctrl-q or Alt-q (M-q)
+--
+-- BUILTIN QUICKFIX NAVIGATION:
+--   ]q - next quickfix item
+--   [q - previous quickfix item
+--   ]Q - last quickfix item
+--   [Q - first quickfix item
 --
 -- SEARCH & REPLACE ACROSS QUICKFIX:
 -- Interactive (with confirmation):
@@ -169,7 +168,3 @@ vim.keymap.set("n", "<leader>cx", function()
 	vim.cmd("cclose")
 	print("Quickfix list cleared and closed")
 end, { desc = "Clear and close quickfix list" })
-vim.keymap.set("n", "]q", "<cmd>cnext<cr>zz", { desc = "Next quickfix item" })
-vim.keymap.set("n", "[q", "<cmd>cprev<cr>zz", { desc = "Previous quickfix item" })
-vim.keymap.set("n", "]Q", "<cmd>clast<cr>zz", { desc = "Last quickfix item" })
-vim.keymap.set("n", "[Q", "<cmd>cfirst<cr>zz", { desc = "First quickfix item" })

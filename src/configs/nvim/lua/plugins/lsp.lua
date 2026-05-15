@@ -1,9 +1,5 @@
 vim.diagnostic.config({
-	virtual_lines = false,
 	virtual_text = true,
-	signs = true,
-	underline = true,
-	update_in_insert = false,
 	severity_sort = true,
 })
 
@@ -104,16 +100,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		opts.desc = "Show line diagnostics"
 		vim.keymap.set("n", "<leader>d", function()
 			vim.diagnostic.open_float({ border = "rounded" })
-		end, opts)
-
-		opts.desc = "Go to previous diagnostic"
-		vim.keymap.set("n", "[d", function()
-			vim.diagnostic.jump({ count = -1 })
-		end, opts)
-
-		opts.desc = "Go to next diagnostic"
-		vim.keymap.set("n", "]d", function()
-			vim.diagnostic.jump({ count = 1 })
 		end, opts)
 
 		opts.desc = "Show documentation for what is under cursor"
