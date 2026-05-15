@@ -69,7 +69,7 @@ opt.mouse = "a" -- Enable mouse support in all modes
 opt.spelllang = "en_us" -- Set the spell check language to US English
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = { "longest:full", "full" } -- Command-line completion mode
-opt.completeopt:append({ "menuone", "noselect", "fuzzy", "nearest" }) -- Keep 0.12 defaults and add better completion behavior
+opt.completeopt:append({ "menuone", "noselect", "fuzzy" }) -- Keep 0.13 defaults and add fuzzy, no-preselect completion
 opt.iskeyword:append("-") -- Include hyphens in keywords
 opt.shortmess:remove("S") -- Show occurrence of search terms
 
@@ -122,4 +122,4 @@ opt.undodir = undodir -- Set undo directory
 -- Diff and responsiveness
 opt.diffopt:append("algorithm:patience") -- Cleaner diffs on refactored code
 opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete
-opt.updatetime = 50 -- Faster completion
+opt.updatetime = 50 -- Faster CursorHold/autocmd feedback
