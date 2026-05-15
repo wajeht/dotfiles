@@ -9,7 +9,6 @@ require("config.terminal")
 
 require("plugins.autopairs")
 require("plugins.colorscheme")
-require("plugins.formatting")
 require("plugins.fff")
 require("plugins.gitsigns")
 require("plugins.native-indent")

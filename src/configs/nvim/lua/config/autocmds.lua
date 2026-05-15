@@ -141,12 +141,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 	desc = "Automatically create parent directories when saving a file",
 })
-
--- Enable auto-formatting on save for specific filetypes
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
---   pattern = { "*.py", "*.lua", "*.js", "*.ts", "*.html", "*.css", "*.go" },
---   callback = function()
---     vim.lsp.buf.format()
---   end,
---   desc = "Auto-format files on save for specific filetypes"
--- })

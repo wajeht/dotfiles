@@ -94,6 +94,14 @@ vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines without losing cursor pos
 -- Paste without modifying the clipboard in visual mode
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without modifying the clipboard" })
 
+-- Format with the attached LSP if it supports textDocument/formatting.
+vim.keymap.set({ "n", "v" }, "<leader>mf", function()
+	vim.lsp.buf.format({
+		async = true,
+		timeout_ms = 5000,
+	})
+end, { desc = "Format with LSP" })
+
 -- Centering the buffer while navigating
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
