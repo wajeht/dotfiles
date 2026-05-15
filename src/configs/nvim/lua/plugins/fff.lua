@@ -31,13 +31,10 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 vim.g.fff = {
 	prompt = "> ",
-	lazy_sync = true,
 	layout = {
 		height = 0.5,
 		width = 0.6,
 		prompt_position = "top",
-		preview_size = 0.5,
-		show_scrollbar = true,
 	},
 	preview = {
 		enabled = false,
@@ -45,15 +42,7 @@ vim.g.fff = {
 	keymaps = {
 		preview_scroll_up = "<C-k>",
 		preview_scroll_down = "<C-j>",
-		toggle_select = "<Tab>",
 		send_to_quickfix = { "<C-q>", "<M-q>" },
-	},
-	hl = {
-		border = "FloatBorder",
-	},
-	debug = {
-		enabled = false,
-		show_scores = false,
 	},
 }
 

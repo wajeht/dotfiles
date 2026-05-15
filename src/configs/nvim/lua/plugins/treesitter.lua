@@ -35,8 +35,6 @@ local ignored_filetypes = {
 	man = true,
 }
 
-nvim_treesitter.setup()
-
 vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = function()

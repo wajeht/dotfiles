@@ -7,7 +7,6 @@ vim.keymap.set("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle fil
 vim.keymap.set("n", "<D-b>", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer (right side)" })
 
 require("nvim-tree").setup({
-	auto_reload_on_write = true,
 	-- Disable automatic opening of nvim-tree when starting with directory
 	hijack_directories = {
 		enable = false, -- Disable hijacking of netrw when opening directories
@@ -15,7 +14,6 @@ require("nvim-tree").setup({
 	},
 	update_focused_file = {
 		enable = true, -- Automatically update the focused file
-		update_cwd = false, -- Don't update the root directory when focusing files
 	},
 	view = {
 		side = "right", -- Open on the right side
@@ -27,11 +25,7 @@ require("nvim-tree").setup({
 		add_trailing = true, -- Add trailing slash to folders
 		indent_markers = {
 			enable = true, -- Show indent markers
-			inline_arrows = true,
 			icons = {
-				corner = "└",
-				bottom = "─",
-				none = " ",
 				-- Use the same character as indent-blankline
 				edge = "┊",
 				item = "┊",
@@ -41,11 +35,10 @@ require("nvim-tree").setup({
 			show = {
 				file = false,
 				folder = false,
-				folder_arrow = true,
 				git = false,
 			},
 		},
-		highlight_git = true,
+		highlight_git = "name",
 	},
 	-- disable window_picker for
 	-- explorer to work well with
@@ -57,11 +50,7 @@ require("nvim-tree").setup({
 			},
 		},
 	},
-	git = {
-		ignore = false,
-	},
 	filters = {
-		dotfiles = false, -- Show dotfiles
 		git_ignored = false, -- Show gitignored files
 	},
 	-- Open files in Finder on macOS (reveal in Finder instead of opening in TextEdit)

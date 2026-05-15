@@ -55,11 +55,10 @@ end, { desc = "File history" })
 require("diffview").setup({
 	use_icons = false,
 	show_help_hints = false,
-	watch_index = true,
 	git_cmd = { "git", "--no-optional-locks" },
 	view = {
-		default = { disable_diagnostics = true, winbar_info = false },
-		file_history = { disable_diagnostics = true, winbar_info = false },
+		default = { disable_diagnostics = true },
+		file_history = { disable_diagnostics = true },
 	},
 	file_panel = {
 		listing_style = "list",
