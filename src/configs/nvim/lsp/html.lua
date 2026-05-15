@@ -3,8 +3,6 @@ return {
 	filetypes = {
 		"html",
 		"blade",
-		"javascriptreact",
-		"typescriptreact",
 		"svelte",
 	},
 	root_markers = { "package.json", ".git", "index.html" },

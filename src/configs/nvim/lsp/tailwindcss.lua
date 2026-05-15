@@ -1,3 +1,19 @@
+local config_files = {
+	"tailwind.config.js",
+	"tailwind.config.cjs",
+	"tailwind.config.mjs",
+	"tailwind.config.ts",
+}
+
+local function has_tailwind_package(package_json)
+	local ok, lines = pcall(vim.fn.readfile, package_json)
+	if not ok then
+		return false
+	end
+
+	return table.concat(lines, "\n"):find('"tailwindcss"', 1, true) ~= nil
+end
+
 return {
 	cmd = { "tailwindcss-language-server", "--stdio" },
 	filetypes = {
@@ -12,18 +28,22 @@ return {
 		"blade",
 		"svelte",
 	},
-	root_markers = {
-		"tailwind.config.js",
-		"tailwind.config.cjs",
-		"tailwind.config.mjs",
-		"tailwind.config.ts",
-		"postcss.config.js",
-		"postcss.config.cjs",
-		"postcss.config.mjs",
-		"postcss.config.ts",
-		"package.json",
-		".git",
-	},
+	root_dir = function(bufnr, on_dir)
+		local bufname = vim.api.nvim_buf_get_name(bufnr)
+		local start = bufname ~= "" and bufname or vim.uv.cwd()
+
+		-- Tailwind is expensive; avoid starting it in every generic JS/CSS project.
+		local config_root = vim.fs.root(start, config_files)
+		if config_root then
+			on_dir(config_root)
+			return
+		end
+
+		local package_json = vim.fs.find("package.json", { path = start, upward = true })[1]
+		if package_json and has_tailwind_package(package_json) then
+			on_dir(vim.fs.dirname(package_json))
+		end
+	end,
 	settings = {
 		tailwindCSS = {
 			emmetCompletions = true,
