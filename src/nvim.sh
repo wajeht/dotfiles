@@ -32,6 +32,8 @@ install_nvim() {
     info "Removing retired Neovim plugin packages..."
     rm -rf ~/.local/share/nvim/site/pack/core/opt/fzf-lua 2>/dev/null || true
     rm -rf ~/.local/share/nvim/site/pack/core/start/fzf-lua 2>/dev/null || true
+    rm -rf ~/.local/share/nvim/site/pack/core/opt/diffview.nvim 2>/dev/null || true
+    rm -rf ~/.local/share/nvim/site/pack/core/start/diffview.nvim 2>/dev/null || true
     task "Removed retired plugin packages"
 
     success "Neovim configuration installed"

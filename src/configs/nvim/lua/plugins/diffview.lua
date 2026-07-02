@@ -9,7 +9,7 @@
 
 vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/sindrets/diffview.nvim" },
+	{ src = "https://github.com/dlyongemallo/diffview-plus.nvim" },
 })
 
 -- Track Diffview tab for toggle behavior
@@ -56,6 +56,8 @@ require("diffview").setup({
 	use_icons = false,
 	show_help_hints = false,
 	git_cmd = { "git", "--no-optional-locks" },
+	watch_index = false,
+	large_file_threshold = 5000,
 	view = {
 		default = { disable_diagnostics = true },
 		file_history = { disable_diagnostics = true },

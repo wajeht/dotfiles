@@ -1,8 +1,8 @@
 {
   "plugins": {
-    "diffview.nvim": {
-      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
-      "src": "https://github.com/sindrets/diffview.nvim"
+    "diffview-plus.nvim": {
+      "rev": "8cc426835d88238cf59a6812b7ae1b1dc8d33efd",
+      "src": "https://github.com/dlyongemallo/diffview-plus.nvim"
     },
     "fff.nvim": {
       "rev": "3826905a4bbf6bd3ffffe90b5ed5aa475b112ec6",
