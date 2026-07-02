@@ -58,14 +58,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 
 		vim.treesitter.start(event.buf, lang)
-
-		if vim.api.nvim_buf_get_name(event.buf):match("^diffview://") then
-			return
-		end
-
-		if vim.treesitter.query.get(lang, "indents") ~= nil then
-			vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-		end
 	end,
 })
 
