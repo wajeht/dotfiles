@@ -1,3 +1,16 @@
+function pr() {
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+    echo "Not in a git repository"
+    return 1
+  }
+
+  git rev-parse --abbrev-ref @{u} >/dev/null 2>&1 \
+    || git push -u origin HEAD \
+    || return 1
+
+  gh pr create --fill
+}
+
 # Create a directory and cd into it
 function mkcd() {
   local last="${@: -1}"
