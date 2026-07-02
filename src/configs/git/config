@@ -43,6 +43,7 @@
 	undo = reset --soft HEAD^             # Undo last commit but keep changes staged
 	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f" # Generate commit messages via your AI commit service
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"       # Add, commit (AI), and push in one step
+	pr = "!f() { git rev-parse --abbrev-ref @{u} >/dev/null 2>&1 || git push -u origin HEAD || exit $?; gh pr create --fill \"$@\"; }; f" # Push branch if needed, then create PR
 	pr-comments = "!zsh -c 'source \"${ZDOTDIR:-$HOME/.config/zsh}/.zshrc\" && git_pr_comments'"                    # Show PR comments (custom zsh alias)
 	diff-all = "!f() { zsh -c \"source \\\"${ZDOTDIR:-$HOME/.config/zsh}/.zshrc\\\" && git_diff_all \\$*\"; }; f"         # Show diffs for all repos or branches (custom zsh alias)
 	diff-plain = diff --no-ext-diff                                                # Plain git diff without difftastic
