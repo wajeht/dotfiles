@@ -56,7 +56,7 @@ require("diffview").setup({
 	use_icons = false,
 	show_help_hints = false,
 	git_cmd = { "git", "--no-optional-locks" },
-	watch_index = false,
+	watch_index = true,
 	large_file_threshold = 5000,
 	view = {
 		default = { disable_diagnostics = true },
