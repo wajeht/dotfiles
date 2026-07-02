@@ -17,8 +17,9 @@ require("nvim-tree").setup({
 	},
 	view = {
 		side = "right", -- Open on the right side
-		width = 40, -- Set the width of the nvim-tree window
-		adaptive_size = true, -- Adaptive size of the nvim-tree window
+		width = {
+			min = 40, -- Adaptive width with a 40-column minimum
+		},
 	},
 	renderer = {
 		root_folder_label = false, -- Hide the root folder path at the top
@@ -58,7 +59,7 @@ require("nvim-tree").setup({
 		local api = require("nvim-tree.api")
 
 		-- Apply all default mappings
-		api.config.mappings.default_on_attach(bufnr)
+		api.map.on_attach.default(bufnr)
 
 		-- Override 'f' key to do nothing (disable live filter)
 		vim.keymap.set("n", "f", function() end, {
