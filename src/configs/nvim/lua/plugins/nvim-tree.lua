@@ -53,12 +53,6 @@ require("nvim-tree").setup({
 	filters = {
 		git_ignored = false, -- Show gitignored files
 	},
-	-- Open files in Finder on macOS (reveal in Finder instead of opening in TextEdit)
-	-- Usage: Press 's' on a file in nvim-tree to reveal it in Finder
-	system_open = vim.fn.has("mac") == 1 and {
-		cmd = "open",
-		args = { "-R" },
-	} or nil,
 	-- Minimal on_attach to disable live filter
 	on_attach = function(bufnr)
 		local api = require("nvim-tree.api")
@@ -73,6 +67,20 @@ require("nvim-tree").setup({
 			silent = true,
 			desc = "Disabled live filter",
 		})
+
+		if vim.fn.has("mac") == 1 then
+			vim.keymap.set("n", "s", function()
+				local node = api.tree.get_node_under_cursor()
+				if node then
+					vim.system({ "open", "-R", node.link_to or node.absolute_path })
+				end
+			end, {
+				buffer = bufnr,
+				noremap = true,
+				silent = true,
+				desc = "Reveal in Finder",
+			})
+		end
 	end,
 })
 

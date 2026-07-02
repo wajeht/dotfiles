@@ -33,7 +33,7 @@ install_apt_deps() {
 }
 
 install_neovim() {
-    info "Installing Neovim nightly from GitHub releases..."
+    info "Installing Neovim stable from GitHub releases..."
 
     local arch=$(uname -m)
     local install_dir="$HOME/.local"
@@ -52,7 +52,7 @@ install_neovim() {
         return
     fi
 
-    local download_url="https://github.com/neovim/neovim/releases/download/nightly/$tarball"
+    local download_url="https://github.com/neovim/neovim/releases/latest/download/$tarball"
 
     info "Downloading $tarball..."
     curl -sL "$download_url" -o "/tmp/$tarball"

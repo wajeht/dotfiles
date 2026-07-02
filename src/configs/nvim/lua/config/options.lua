@@ -1,6 +1,10 @@
 -- Netrw settings
 vim.g.loaded_netrw = 1 -- disable netrw
 vim.g.loaded_netrwPlugin = 1 -- disable netrw plugin
+vim.g.loaded_node_provider = 0 -- disable unused Node provider
+vim.g.loaded_perl_provider = 0 -- disable unused Perl provider
+vim.g.loaded_python3_provider = 0 -- disable unused Python provider
+vim.g.loaded_ruby_provider = 0 -- disable unused Ruby provider
 
 -- Filetype detection needed by LSP/Treesitter for custom extensions and filenames.
 vim.filetype.add({
