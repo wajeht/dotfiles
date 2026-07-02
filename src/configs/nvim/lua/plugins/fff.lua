@@ -1,3 +1,21 @@
+vim.g.fff = {
+	lazy_sync = true,
+	prompt = "> ",
+	layout = {
+		height = 0.5,
+		width = 0.6,
+		prompt_position = "top",
+	},
+	preview = {
+		enabled = false,
+	},
+	keymaps = {
+		preview_scroll_up = "<C-k>",
+		preview_scroll_down = "<C-j>",
+		send_to_quickfix = { "<C-q>", "<M-q>" },
+	},
+}
+
 vim.pack.add({
 	{ src = "https://github.com/dmtrKovalenko/fff.nvim" },
 })
@@ -28,23 +46,6 @@ vim.api.nvim_create_autocmd("PackChanged", {
 		require("fff.download").download_or_build_binary()
 	end,
 })
-
-vim.g.fff = {
-	prompt = "> ",
-	layout = {
-		height = 0.5,
-		width = 0.6,
-		prompt_position = "top",
-	},
-	preview = {
-		enabled = false,
-	},
-	keymaps = {
-		preview_scroll_up = "<C-k>",
-		preview_scroll_down = "<C-j>",
-		send_to_quickfix = { "<C-q>", "<M-q>" },
-	},
-}
 
 local function ensure_fff_binary()
 	local ok, download = pcall(require, "fff.download")
