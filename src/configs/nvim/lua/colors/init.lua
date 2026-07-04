@@ -47,6 +47,8 @@ local c = {
 	-- Misc
 	white = "#ffffff",
 	dim = "#444444",
+	list_match = "#2AAAFF", -- VSCode list-highlight blue (fuzzy-matched chars)
+	list_sel_bg = "#03395e", -- selected-row background (Pmenu, NvimTree cursorline)
 }
 
 local function set_highlights()
@@ -92,14 +94,14 @@ local function set_highlights()
 	-- Pmenu (completion) — bg stays NONE so the menu shows the terminal's own
 	-- transparent/blurred background, same as the editor
 	hl(0, "Pmenu", { fg = c.fg, bg = "NONE" })
-	hl(0, "PmenuSel", { bg = "#03395e" })
+	hl(0, "PmenuSel", { bg = c.list_sel_bg })
 	hl(0, "PmenuSbar", { bg = "NONE" })
 	hl(0, "PmenuThumb", { bg = c.dim })
 	hl(0, "PmenuBorder", { fg = c.dim })
-	hl(0, "PmenuMatch", { fg = "#2AAAFF", bold = true }) -- fuzzy-matched chars (VSCode list highlight blue)
-	hl(0, "PmenuMatchSel", { fg = "#2AAAFF", bold = true })
+	hl(0, "PmenuMatch", { fg = c.list_match, bold = true }) -- fuzzy-matched chars
+	hl(0, "PmenuMatchSel", { link = "PmenuMatch" })
 	hl(0, "PmenuKind", { fg = c.gray }) -- kind column fallback; LSP items get syntax colors
-	hl(0, "PmenuKindSel", { fg = c.gray })
+	hl(0, "PmenuKindSel", { link = "PmenuKind" })
 
 	-- Whitespace/Special
 	hl(0, "SpecialKey", { fg = c.line_nr_dim })
@@ -283,7 +285,7 @@ local function set_highlights()
 	hl(0, "NvimTreeImageFile", { fg = c.fg })
 	hl(0, "NvimTreeSymlink", { fg = c.blue_green })
 	hl(0, "NvimTreeWinSeparator", { fg = c.dim, bg = "NONE" })
-	hl(0, "NvimTreeCursorLine", { bg = "#03395e" })
+	hl(0, "NvimTreeCursorLine", { bg = c.list_sel_bg })
 
 	-- GitSigns
 	hl(0, "GitSignsAdd", { fg = c.diff_add })
