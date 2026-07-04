@@ -22,8 +22,8 @@ confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#000000
 background-opacity = 0.85
-# Native macOS 26 glass material — reads as frosted glass even over dark backdrops
 background-blur = macos-glass-regular
+# background-blur = 35
 # Apply opacity+blur to cells with explicit background colors too (frosted popups)
 background-opacity-cells = true
 
