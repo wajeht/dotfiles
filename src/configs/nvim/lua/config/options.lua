@@ -76,7 +76,9 @@ opt.mouse = "a" -- Enable mouse support in all modes
 opt.spelllang = "en_us" -- Set the spell check language to US English
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = { "longest:full", "full" } -- Command-line completion mode
-opt.completeopt:append({ "menuone", "noselect", "fuzzy" }) -- Keep 0.13 defaults and add fuzzy, no-preselect completion
+-- noinsert (not noselect): pre-select the first match like VSCode — highlighted
+-- but not inserted until accepted. noselect would leave nothing selected.
+opt.completeopt:append({ "menuone", "noinsert", "fuzzy" })
 opt.iskeyword:append("-") -- Include hyphens in keywords
 opt.shortmess:remove("S") -- Show occurrence of search terms
 
