@@ -89,7 +89,8 @@ local function set_highlights()
 	hl(0, "TabLineFill", { bg = "NONE" })
 	hl(0, "TabLineSel", { fg = c.white, bg = "NONE" })
 
-	-- Pmenu (completion)
+	-- Pmenu (completion) — bg stays NONE so the menu shows the terminal's own
+	-- transparent/blurred background, same as the editor
 	hl(0, "Pmenu", { fg = c.fg, bg = "NONE" })
 	hl(0, "PmenuSel", { bg = "#03395e" })
 	hl(0, "PmenuSbar", { bg = "NONE" })

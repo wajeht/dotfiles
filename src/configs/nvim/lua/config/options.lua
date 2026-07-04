@@ -35,7 +35,10 @@ opt.winborder = "rounded" -- Border style for floating windows
 opt.pumborder = "rounded" -- Border style for completion menu
 opt.pumheight = 10 -- Limit completion menu height
 opt.pummaxwidth = 80 -- Keep completion popups readable on long LSP labels
-opt.pumblend = 10 -- Slight transparency for popup menu
+-- pumblend blends the menu with the CODE behind it (crisp ghost text — nvim
+-- draws characters, so no blur can ever apply). The pretty transparency is the
+-- other kind: Pmenu bg=NONE showing the ghostty-blurred desktop through.
+opt.pumblend = 0
 opt.cmdheight = 0 -- Hide command line when it is not actively used
 
 -- Custom statusline for terminal buffers
