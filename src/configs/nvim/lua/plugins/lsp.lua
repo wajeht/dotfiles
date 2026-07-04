@@ -38,6 +38,21 @@ local kind_hl = {
 -- Keep LspAttach reload-safe; sourcing this file again replaces the old autocmd.
 local lsp_augroup = vim.api.nvim_create_augroup("custom_lsp", { clear = true })
 
+-- Give the completion docs float the same rounded border as the menu. It
+-- ignores 'winborder' and is created only after the server's docs resolve
+-- (so a CompleteChanged autocmd fires too early to see it); vim.lsp.completion
+-- creates it through this API, which is the one reliable hook.
+local complete_set = vim.api.nvim__complete_set
+if complete_set then
+	vim.api.nvim__complete_set = function(...)
+		local windata = complete_set(...)
+		if type(windata) == "table" and windata.winid and vim.api.nvim_win_is_valid(windata.winid) then
+			pcall(vim.api.nvim_win_set_config, windata.winid, { border = "rounded" })
+		end
+		return windata
+	end
+end
+
 -- Built-in completion uses Vim's popup menu. These mappings only send completion
 -- keys when the popup is visible, otherwise they fall back to the original key.
 local function pum_keymap(visible_key, fallback_key)
