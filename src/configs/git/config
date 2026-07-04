@@ -57,6 +57,7 @@
 	# Core Git behavior and editor preferences
 	editor = nvim                      # Use Neovim as the default editor
 	fsmonitor = true                   # Enable filesystem monitoring for faster status checks
+	untrackedcache = true              # Cache untracked-file scans for faster status/diff listings
 	autocrlf = input                   # Normalize line endings (LF on Unix, CRLF ignored on input)
 	excludesfile = ~/.gitignore_global # Global .gitignore file
 

@@ -8,7 +8,6 @@
 --   q                - Close diffview
 
 vim.pack.add({
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/dlyongemallo/diffview-plus.nvim" },
 })
 
