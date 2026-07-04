@@ -82,9 +82,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client:supports_method(methods.textDocument_completion, ev.buf) then
 			-- Autotrigger only fires on the server's trigger characters; extend
 			-- them with identifier characters so completion also pops while
-			-- typing plain words (:h lsp-autocompletion)
+			-- typing plain words (:h lsp-autocompletion). Emmet is excluded:
+			-- it already letter-triggers natively and would flood every word
+			-- with abbreviation noise.
 			local provider = client.server_capabilities.completionProvider
-			if provider then
+			if provider and client.name ~= "emmet_language_server" then
 				local triggers = {}
 				for _, char in ipairs(provider.triggerCharacters or {}) do
 					triggers[char] = true
@@ -106,6 +108,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 						kind_hlgroup = kind_hl[kind],
 						menu = "", -- drop server detail text (e.g. emmet's "Unknown Emmet Abbreviation")
 					}
+				end,
+				-- Same ordering as the default (fuzzy score, then the server's
+				-- sortText) plus an alphabetical tiebreak the default lacks:
+				-- members often share one sortText and table.sort is unstable,
+				-- which scrambles e.g. `router.` member lists.
+				cmp = function(a, b)
+					local score_a, score_b = a._fuzzy_score or 0, b._fuzzy_score or 0
+					if score_a ~= score_b then
+						return score_a > score_b
+					end
+					local item_a = vim.tbl_get(a, "user_data", "nvim", "lsp", "completion_item") or {}
+					local item_b = vim.tbl_get(b, "user_data", "nvim", "lsp", "completion_item") or {}
+					local sort_a = item_a.sortText or item_a.label or a.word
+					local sort_b = item_b.sortText or item_b.label or b.word
+					if sort_a ~= sort_b then
+						return sort_a < sort_b
+					end
+					return (item_a.label or a.word) < (item_b.label or b.word)
 				end,
 			})
 
