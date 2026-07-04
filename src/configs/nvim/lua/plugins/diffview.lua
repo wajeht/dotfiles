@@ -30,19 +30,29 @@ vim.api.nvim_create_autocmd("TabClosed", {
 	end,
 })
 
+-- Tab to return to when toggling Diffview off
+local return_tab = nil
+
 -- Toggle Diffview
 vim.keymap.set("n", "<leader>gd", function()
+	local cur = vim.api.nvim_get_current_tabpage()
 	if diffview_tab and vim.api.nvim_tabpage_is_valid(diffview_tab) then
-		if diffview_tab == vim.api.nvim_get_current_tabpage() then
-			if #vim.api.nvim_list_tabpages() > 1 then
-				vim.cmd("tabclose")
+		if diffview_tab == cur then
+			-- Switch away instead of closing: a closed view is destroyed and
+			-- re-fetches everything on reopen, a hidden one reopens instantly.
+			if return_tab and vim.api.nvim_tabpage_is_valid(return_tab) and return_tab ~= cur then
+				vim.api.nvim_set_current_tabpage(return_tab)
+			elseif #vim.api.nvim_list_tabpages() > 1 then
+				vim.cmd("tabprevious")
 			else
 				vim.cmd("DiffviewClose")
 			end
 		else
+			return_tab = cur
 			vim.api.nvim_set_current_tabpage(diffview_tab)
 		end
 	else
+		return_tab = cur
 		vim.cmd("DiffviewOpen")
 	end
 end, { desc = "Toggle Diffview" })
