@@ -7,6 +7,34 @@ vim.diagnostic.config({
 -- Short alias so capability checks stay readable below.
 local methods = vim.lsp.protocol.Methods
 
+-- Completion menu: color the kind column like the matching syntax element.
+local kind_hl = {
+	Class = "Structure",
+	Color = "Constant",
+	Constant = "Constant",
+	Constructor = "Function",
+	Enum = "Structure",
+	EnumMember = "Constant",
+	Event = "Type",
+	Field = "Identifier",
+	File = "Directory",
+	Folder = "Directory",
+	Function = "Function",
+	Interface = "Structure",
+	Keyword = "Keyword",
+	Method = "Function",
+	Module = "Structure",
+	Operator = "Keyword",
+	Property = "Identifier",
+	Reference = "Identifier",
+	Snippet = "Special",
+	Struct = "Structure",
+	TypeParameter = "Type",
+	Unit = "Number",
+	Value = "Number",
+	Variable = "Identifier",
+}
+
 -- Keep LspAttach reload-safe; sourcing this file again replaces the old autocmd.
 local lsp_augroup = vim.api.nvim_create_augroup("custom_lsp", { clear = true })
 
@@ -52,8 +80,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Setup completion if client supports it
 		if client:supports_method(methods.textDocument_completion, ev.buf) then
+			-- Autotrigger only fires on the server's trigger characters; extend
+			-- them with identifier characters so completion also pops while
+			-- typing plain words (:h lsp-autocompletion)
+			local provider = client.server_capabilities.completionProvider
+			if provider then
+				local triggers = {}
+				for _, char in ipairs(provider.triggerCharacters or {}) do
+					triggers[char] = true
+				end
+				for char in ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"):gmatch(".") do
+					triggers[char] = true
+				end
+				provider.triggerCharacters = vim.tbl_keys(triggers)
+			end
+
 			-- Enable LSP completion
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+			vim.lsp.completion.enable(true, client.id, ev.buf, {
+				autotrigger = true,
+				convert = function(item)
+					local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or ""
+					return {
+						abbr = item.label:gsub("%b()", ""),
+						kind = kind,
+						kind_hlgroup = kind_hl[kind],
+						menu = "", -- drop server detail text (e.g. emmet's "Unknown Emmet Abbreviation")
+					}
+				end,
+			})
 
 			-- Completion keymaps
 			vim.keymap.set("i", "<C-k>", pum_keymap("<C-p>", "<C-k>"), {

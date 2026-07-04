@@ -95,6 +95,10 @@ local function set_highlights()
 	hl(0, "PmenuSbar", { bg = "NONE" })
 	hl(0, "PmenuThumb", { bg = c.dim })
 	hl(0, "PmenuBorder", { fg = c.dim })
+	hl(0, "PmenuMatch", { fg = "#2AAAFF", bold = true }) -- fuzzy-matched chars (VSCode list highlight blue)
+	hl(0, "PmenuMatchSel", { fg = "#2AAAFF", bold = true })
+	hl(0, "PmenuKind", { fg = c.gray }) -- kind column fallback; LSP items get syntax colors
+	hl(0, "PmenuKindSel", { fg = c.gray })
 
 	-- Whitespace/Special
 	hl(0, "SpecialKey", { fg = c.line_nr_dim })
