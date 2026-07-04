@@ -41,10 +41,11 @@ local kind_hl = {
 local lsp_augroup = vim.api.nvim_create_augroup("custom_lsp", { clear = true })
 
 -- Give the completion docs float the same rounded border as the menu. It
--- ignores 'winborder' and is created only after the server's docs resolve
--- (so a CompleteChanged autocmd fires too early to see it); vim.lsp.completion
--- creates it through this API, which is the one reliable hook. There is no
--- public option yet — track neovim/neovim#38248 and delete this when it lands.
+-- ignores 'winborder', and there is no public option yet (track
+-- neovim/neovim#38248 — delete this when it lands). This covers servers that
+-- resolve docs lazily (e.g. vtsls), which create the float through this API.
+-- Servers that send docs inline (e.g. gopls) let core create the float on a
+-- redraw with no hook to style it, so those stay borderless until upstream.
 --
 -- Stash the untouched original so re-sourcing this file rewraps it instead of
 -- stacking a new wrapper on the previous one each time.
@@ -53,7 +54,9 @@ local complete_set = _G.__orig_complete_set
 if complete_set then
 	vim.api.nvim__complete_set = function(...)
 		local windata = complete_set(...)
-		if type(windata) == "table" and windata.winid then
+		-- winid ~= 0 matters: 0 is truthy in Lua and resolves to the current
+		-- window, which nvim_win_set_config would happily border.
+		if type(windata) == "table" and windata.winid and windata.winid ~= 0 then
 			pcall(vim.api.nvim_win_set_config, windata.winid, { border = "rounded" })
 		end
 		return windata
