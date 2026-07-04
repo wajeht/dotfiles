@@ -22,6 +22,8 @@ confirm-close-surface = false
 macos-titlebar-style = tabs
 background=#000000
 background-opacity = 0.85
+# Native macOS 26+ glass. On older macOS the glass material is unavailable and
+# blur silently falls back — swap the two lines below for a numeric radius there.
 background-blur = macos-glass-regular
 # background-blur = 35
 # Apply opacity+blur to cells with explicit background colors too (frosted popups)

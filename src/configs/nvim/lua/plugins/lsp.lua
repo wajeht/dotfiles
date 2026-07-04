@@ -8,9 +8,11 @@ vim.diagnostic.config({
 local methods = vim.lsp.protocol.Methods
 
 -- Completion menu: color the kind column like the matching syntax element.
+-- No Color entry on purpose: the runtime renders Color items as a swatch tinted
+-- with the actual color (an auto-created @lsp.color.<hex> group), and leaving
+-- kind_hlgroup unset here lets that survive.
 local kind_hl = {
 	Class = "Structure",
-	Color = "Constant",
 	Constant = "Constant",
 	Constructor = "Function",
 	Enum = "Structure",
@@ -41,12 +43,17 @@ local lsp_augroup = vim.api.nvim_create_augroup("custom_lsp", { clear = true })
 -- Give the completion docs float the same rounded border as the menu. It
 -- ignores 'winborder' and is created only after the server's docs resolve
 -- (so a CompleteChanged autocmd fires too early to see it); vim.lsp.completion
--- creates it through this API, which is the one reliable hook.
-local complete_set = vim.api.nvim__complete_set
+-- creates it through this API, which is the one reliable hook. There is no
+-- public option yet — track neovim/neovim#38248 and delete this when it lands.
+--
+-- Stash the untouched original so re-sourcing this file rewraps it instead of
+-- stacking a new wrapper on the previous one each time.
+_G.__orig_complete_set = _G.__orig_complete_set or vim.api.nvim__complete_set
+local complete_set = _G.__orig_complete_set
 if complete_set then
 	vim.api.nvim__complete_set = function(...)
 		local windata = complete_set(...)
-		if type(windata) == "table" and windata.winid and vim.api.nvim_win_is_valid(windata.winid) then
+		if type(windata) == "table" and windata.winid then
 			pcall(vim.api.nvim_win_set_config, windata.winid, { border = "rounded" })
 		end
 		return windata
@@ -116,25 +123,46 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.completion.enable(true, client.id, ev.buf, {
 				autotrigger = true,
 				convert = function(item)
+					-- Only override kind_hlgroup (not kind): omitting kind lets the
+					-- runtime's default through, including the color swatch for Color
+					-- items. tbl_extend keeps our keys and fills the rest from default.
 					local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or ""
-					return {
-						abbr = item.label:gsub("%b()", ""),
-						kind = kind,
-						kind_hlgroup = kind_hl[kind],
-						menu = "", -- drop server detail text (e.g. emmet's "Unknown Emmet Abbreviation")
-					}
+					local converted = { kind_hlgroup = kind_hl[kind] }
+
+					-- Strip signature parens only when present (skip the pattern
+					-- engine for the common paren-free label).
+					if item.label:find("(", 1, true) then
+						converted.abbr = item.label:gsub("%b()", "")
+					end
+
+					-- Blank only emmet's noise ("... Emmet Abbreviation"); every other
+					-- server keeps its detail column (e.g. TS auto-import source).
+					local detail = vim.tbl_get(item, "labelDetails", "description") or item.detail
+					if detail and detail:find("Emmet Abbreviation") then
+						converted.menu = ""
+					end
+
+					return converted
 				end,
-				-- Same ordering as the default (fuzzy score, then the server's
-				-- sortText) plus an alphabetical tiebreak the default lacks:
-				-- members often share one sortText and table.sort is unstable,
-				-- which scrambles e.g. `router.` member lists.
+				-- Mirrors the runtime default sort (nvim runtime
+				-- lua/vim/lsp/completion.lua, compare_by_sortText_and_label): fuzzy
+				-- score desc, then the server's sortText. Adds the alphabetical
+				-- tiebreak the default lacks, so member lists like `router.` (which
+				-- share one sortText, and table.sort is unstable) stop coming out in
+				-- random order. `_fuzzy_score` is an internal field only fresh
+				-- candidates carry; items carried over from another server's open
+				-- menu sort by sortText/label alone (acceptable — rare and stable).
 				cmp = function(a, b)
 					local score_a, score_b = a._fuzzy_score or 0, b._fuzzy_score or 0
 					if score_a ~= score_b then
 						return score_a > score_b
 					end
-					local item_a = vim.tbl_get(a, "user_data", "nvim", "lsp", "completion_item") or {}
-					local item_b = vim.tbl_get(b, "user_data", "nvim", "lsp", "completion_item") or {}
+					-- user_data survives the completion round-trip; index it directly
+					-- rather than via vim.tbl_get, which is called O(n log n) times.
+					local lsp_a = a.user_data and a.user_data.nvim and a.user_data.nvim.lsp
+					local lsp_b = b.user_data and b.user_data.nvim and b.user_data.nvim.lsp
+					local item_a = lsp_a and lsp_a.completion_item or {}
+					local item_b = lsp_b and lsp_b.completion_item or {}
 					local sort_a = item_a.sortText or item_a.label or a.word
 					local sort_b = item_b.sortText or item_b.label or b.word
 					if sort_a ~= sort_b then
