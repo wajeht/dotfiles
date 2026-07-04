@@ -23,6 +23,8 @@ macos-titlebar-style = tabs
 background=#000000
 background-opacity = 0.85
 background-blur = 35
+# Apply opacity+blur to cells with explicit background colors too (frosted popups)
+background-opacity-cells = true
 
 bold-is-bright = true
 cursor-opacity = .8
