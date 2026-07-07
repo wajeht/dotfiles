@@ -83,6 +83,11 @@ vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", function()
 	require("fff").find_files()
 end, { desc = "Find repository files" })
 
+-- Ghostty sends cmd+p as ESC p (<M-p>) so the key survives tmux
+vim.keymap.set({ "n", "i", "v", "t", "c" }, "<M-p>", function()
+	require("fff").find_files()
+end, { desc = "Find repository files" })
+
 vim.keymap.set("n", "<leader>fg", function()
 	require("fff").find_files()
 end, { desc = "Find repository files" })
