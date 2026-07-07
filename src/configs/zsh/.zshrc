@@ -198,6 +198,7 @@ function prompt_dots() {
 precmd() {
     vcs_info
     _prompt_async_git_status
+    print -Pn "\e]2;%~\a" # Set terminal/pane title to cwd (~-abbreviated)
 }
 
 # Two-line prompt with dots
