@@ -1,9 +1,6 @@
 vim.diagnostic.config({
 	float = { source = "if_many" },
-	-- Fully on-demand: no inline text or lines cluttering the buffer. Errors still
-	-- surface via the sign column and underline; read the message with <leader>d.
-	virtual_text = false,
-	virtual_lines = false,
+	virtual_text = true,
 	severity_sort = true,
 })
 
