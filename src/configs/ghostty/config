@@ -19,7 +19,9 @@ window-width = 100
 
 theme = "dark modern"
 confirm-close-surface = false
-macos-titlebar-style = tabs
+# Frameless window; on macOS this also disables tabs entirely (system-enforced)
+# — tmux handles multiplexing
+window-decoration = none
 background=#000000
 background-opacity = 0.85
 # Native macOS 26+ glass. On older macOS the glass material is unavailable and
