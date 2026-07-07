@@ -81,6 +81,10 @@ opt.wildmode = { "longest:full", "full" } -- Command-line completion mode
 opt.completeopt:append({ "menuone", "noinsert", "fuzzy" })
 opt.iskeyword:append("-") -- Include hyphens in keywords
 opt.shortmess:remove("S") -- Show occurrence of search terms
+-- Suppress ins-completion-menu messages ("match 1 of 5", "Pattern not found",
+-- etc.). With autotrigger completion + cmdheight=0 they flash the zero-height
+-- cmdline on every keystroke, so the last line flickers as you type.
+opt.shortmess:append("c")
 
 -- Use OSC 52 over SSH (copy syncs to local clipboard, paste uses Neovim registers)
 if os.getenv("SSH_TTY") then
