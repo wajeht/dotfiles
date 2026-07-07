@@ -38,6 +38,9 @@ the rest are tmux defaults.
 
 | Action | Keys |
 |---|---|
+| New session (named), **inside** tmux | `C-a :` then `new -s <name>` (don't run `tmux new` — it refuses to nest) |
+| New session (named), from a plain shell | `tmux new -s <name>` (the `-s` names it; a bare word is treated as a command to run) |
+| New session for a project | `C-f` ⚙ (the sessionizer — creates/attaches per project) |
 | Detach (leave tmux running) | `C-a d` |
 | List / switch sessions | `C-a s` |
 | Rename session | `C-a $` |
