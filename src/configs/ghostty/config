@@ -99,6 +99,12 @@ keybind = cmd+/=esc:/
 keybind = cmd+a=esc:a
 keybind = cmd+i=esc:i
 
+# Ctrl+Tab / Ctrl+Shift+Tab -> standard CSI-u sequences (9=Tab; 5=Ctrl,
+# 6=Ctrl+Shift). Ghostty/macOS grab Ctrl+Tab, so we emit it explicitly with the
+# csi: action; tmux decodes these into C-Tab / C-S-Tab via extended-keys.
+keybind = ctrl+tab=csi:9;5u
+keybind = ctrl+shift+tab=csi:9;6u
+
 # Notify when long commands finish (if terminal is unfocused)
 notify-on-command-finish = unfocused
 notify-on-command-finish-after = 10s
