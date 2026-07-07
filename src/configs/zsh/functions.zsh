@@ -33,9 +33,37 @@ function dev() {
     echo "No project directories found"
     return 1
   fi
-  selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf --height 40% --layout=reverse --border)
-  if [ -n "$selected_dir" ]; then
+
+  if [ -n "$1" ]; then
+    selected_dir="$1"
+  else
+    selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf --height 40% --layout=reverse --border)
+  fi
+  [ -n "$selected_dir" ] || return 0
+  if [ ! -d "$selected_dir" ]; then
+    echo "Not a directory: $selected_dir"
+    return 1
+  fi
+
+  if ! command -v tmux > /dev/null 2>&1; then
+    echo "tmux not found; opening without a session"
     builtin cd "$selected_dir" && nvim .
+    return
+  fi
+
+  # tmux forbids dots in session names
+  local session_name="${${selected_dir:t}//./_}"
+
+  if ! tmux has-session -t "=$session_name" 2> /dev/null; then
+    tmux new-session -ds "$session_name" -c "$selected_dir" -n nvim nvim .
+    tmux new-window -t "$session_name" -c "$selected_dir" -n shell
+    tmux select-window -t "$session_name:nvim"
+  fi
+
+  if [ -n "$TMUX" ]; then
+    tmux switch-client -t "=$session_name"
+  else
+    tmux attach -t "=$session_name"
   fi
 }
 
