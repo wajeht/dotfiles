@@ -20,6 +20,7 @@ $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/insta
 - **Git** - Aliases and workflow optimizations
 - **Zsh** - Async native prompt with zero bloat
 - **Ghostty** - GPU-accelerated terminal
+- **Tmux** - Per-project terminal sessions
 - **LSD** - Beautiful file listing with colors
 - **Bat** - Syntax-highlighted cat replacement
 
@@ -30,7 +31,7 @@ $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/insta
 make install
 
 # Individual components
-make macos brew nvim git zsh ghostty lsd bat
+make macos brew nvim git zsh ghostty tmux lsd bat
 
 # Uninstall components
 make <component> uninstall
