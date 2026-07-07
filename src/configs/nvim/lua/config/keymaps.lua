@@ -6,9 +6,11 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
 vim.keymap.set({ "n", "v", "i" }, "<D-f>", "/", { desc = "Start search and replace" })
+vim.keymap.set({ "n", "v", "i" }, "<M-f>", "/", { desc = "Start search and replace" }) -- cmd+f via tmux (Ghostty sends ESC f)
 
 -- Comment Toggle (Normal and Visual Mode)
 vim.keymap.set({ "n", "i", "v" }, "<D-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
+vim.keymap.set({ "n", "i", "v" }, "<M-/>", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" }) -- cmd+/ via tmux
 
 -- Save and Select All
 vim.keymap.set({ "n", "v", "i" }, "<D-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
@@ -17,6 +19,10 @@ vim.keymap.set({ "n", "v", "i" }, "<M-s>", "<cmd>w!<CR>", { desc = "Save file (f
 vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all in normal mode" }) -- Cmd+a to select all text in normal mode
 vim.keymap.set("i", "<D-a>", "<Esc>ggVG", { desc = "Select all in insert mode" }) -- Cmd+a to select all text in insert mode
 vim.keymap.set("v", "<D-a>", "<Esc>ggVG", { desc = "Select all in visual mode" }) -- Cmd+a to select all text in visual mode
+-- cmd+a via tmux (Ghostty sends ESC a)
+vim.keymap.set("n", "<M-a>", "ggVG", { desc = "Select all in normal mode" })
+vim.keymap.set("i", "<M-a>", "<Esc>ggVG", { desc = "Select all in insert mode" })
+vim.keymap.set("v", "<M-a>", "<Esc>ggVG", { desc = "Select all in visual mode" })
 
 -- Window Management
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })

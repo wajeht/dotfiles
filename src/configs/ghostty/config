@@ -90,6 +90,10 @@ keybind = cmd+p=esc:p
 keybind = cmd+b=esc:b
 keybind = cmd+j=esc:j
 keybind = cmd+s=esc:s
+keybind = cmd+f=esc:f
+keybind = cmd+/=esc:/
+keybind = cmd+a=esc:a
+keybind = cmd+i=esc:i
 
 # Notify when long commands finish (if terminal is unfocused)
 notify-on-command-finish = unfocused

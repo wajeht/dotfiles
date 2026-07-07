@@ -191,6 +191,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				vim.lsp.completion.get()
 			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
 
+			-- cmd+i via tmux (Ghostty sends ESC i)
+			vim.keymap.set("i", "<M-i>", function()
+				vim.lsp.completion.get()
+			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
+
 			vim.keymap.set("i", "<CR>", pum_keymap("<C-y>", "<CR>"), {
 				buffer = ev.buf,
 				expr = true,
