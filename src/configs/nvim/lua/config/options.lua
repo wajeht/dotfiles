@@ -115,18 +115,8 @@ opt.splitbelow = true -- Split horizontal window to the bottom
 opt.swapfile = false -- Disable swap file creation
 opt.writebackup = false -- Disable backup before overwriting file
 
--- Whitespace
-opt.list = true -- Show some invisible characters
-opt.listchars = {
-	tab = "▸ ", -- Tab characters will appear as "▸ ".
-	trail = "·", -- Trailing spaces will appear as "·".
-	nbsp = "␣", -- Non-breaking spaces will appear as "␣".
-	-- precedes = "←", -- "←" indicates hidden text to the left.
-	-- extends = "→", -- "→" indicates hidden text to the right.
-	-- eol = "↲", -- End-of-line characters will appear as "↲".
-	-- space = "·", -- Regular spaces will appear as "·".
-	-- leadmultispace = ".", -- Leading spaces will appear as ".".
-}
+-- Whitespace display (list/listchars) lives in config/whitespace.lua:
+-- off by default, toggled on with <leader>l.
 
 -- Undo
 opt.undofile = true -- Save undo history to an undo file
