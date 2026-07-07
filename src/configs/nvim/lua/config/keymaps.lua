@@ -122,6 +122,10 @@ vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor 
 vim.keymap.set({ "n", "v", "i" }, "<D-c>", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v", "i", "t" }, "<D-v>", '"+p', { desc = "Paste from clipboard" })
 
+-- Toggle the built-in undo-tree visualizer (enabled in options.lua). Moving the
+-- cursor inside the window travels the branching undo history.
+vim.keymap.set("n", "<leader>u", "<cmd>Undotree<cr>", { desc = "Toggle undo tree" })
+
 -- Spell checking keymaps
 vim.keymap.set("n", "<leader>ss", function()
 	vim.opt.spell = not vim.opt.spell:get()
