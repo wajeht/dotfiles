@@ -69,7 +69,6 @@ keybind = cmd+c=copy_to_clipboard:mixed
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+q=quit
 keybind = cmd+n=new_window
-keybind = cmd+w=close_surface
 keybind = cmd+enter=toggle_fullscreen
 # cmd+k clears via Ctrl+L (form feed) not clear_screen: inside tmux, Ghostty's
 # clear_screen is instantly repainted by tmux, so it looks dead. Ctrl+L clears
@@ -100,6 +99,9 @@ keybind = cmd+f=esc:f
 keybind = cmd+/=esc:/
 keybind = cmd+a=esc:a
 keybind = cmd+i=esc:i
+# cmd+w -> M-w, which tmux binds to kill-window (close the current window/tab),
+# so cmd+w closes the tmux window instead of the Ghostty surface.
+keybind = cmd+w=esc:w
 
 # Ctrl+Tab / Ctrl+Shift+Tab -> standard CSI-u sequences (9=Tab; 5=Ctrl,
 # 6=Ctrl+Shift). Ghostty/macOS grab Ctrl+Tab, so we emit it explicitly with the
