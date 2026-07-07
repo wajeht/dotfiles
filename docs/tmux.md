@@ -38,14 +38,14 @@ the rest are tmux defaults.
 
 | Action | Keys |
 |---|---|
-| New session (named), **inside** tmux | `C-a :` then `new -s <name>` (don't run `tmux new` — it refuses to nest) |
+| Sessionizer — switch / open / create, one prompt | `C-f` ⚙ (no prefix — works even inside nvim) |
+| New session (named), the easy way | `C-f`, type a name that matches no folder, Enter → creates it (rooted at `$HOME`) |
 | New session (named), from a plain shell | `tmux new -s <name>` (the `-s` names it; a bare word is treated as a command to run) |
-| New session for a project | `C-f` ⚙ (the sessionizer — creates/attaches per project) |
+| New session (named), **inside** tmux without `C-f` | `C-a :` then `new -s <name>` (don't run `tmux new` — it refuses to nest) |
 | Detach (leave tmux running) | `C-a d` |
 | List / switch sessions | `C-a s` |
 | Rename session | `C-a $` |
 | Previous / next session | `C-a (` / `C-a )` |
-| Open the project sessionizer | `C-f` ⚙ (no prefix — works even inside nvim) |
 
 ## Copy / scroll (vi mode)
 
