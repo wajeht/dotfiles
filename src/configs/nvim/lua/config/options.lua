@@ -8,7 +8,7 @@ vim.g.loaded_ruby_provider = 0 -- disable unused Ruby provider
 
 -- Enable the built-in undo-tree visualizer. It ships inside Neovim (runtime
 -- pack/dist/opt) but is off by default; packadd turns it on. Keymap in keymaps.lua.
-vim.cmd.packadd("nvim.undotree")
+pcall(vim.cmd.packadd, "nvim.undotree") -- pcall: missing on nvim < 0.12, don't abort the rest of options
 
 -- Filetype detection needed by LSP/Treesitter for custom extensions and filenames.
 vim.filetype.add({
