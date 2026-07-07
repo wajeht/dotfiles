@@ -37,7 +37,11 @@ function dev() {
   if [ -n "$1" ]; then
     selected_dir="$1"
   else
-    selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf --height 40% --layout=reverse --border)
+    # Inside the tmux popup the popup draws the border and fzf fills it;
+    # inline (outside tmux) fzf draws its own
+    local fzf_opts=(--height 40% --layout=reverse --border)
+    [ -n "$DEV_POPUP" ] && fzf_opts=(--layout=reverse)
+    selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf "${fzf_opts[@]}")
   fi
   [ -n "$selected_dir" ] || return 0
   if [ ! -d "$selected_dir" ]; then
