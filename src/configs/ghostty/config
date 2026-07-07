@@ -89,6 +89,7 @@ keybind = shift+enter=text:\n
 keybind = cmd+p=esc:p
 keybind = cmd+b=esc:b
 keybind = cmd+j=esc:j
+keybind = cmd+s=esc:s
 
 # Notify when long commands finish (if terminal is unfocused)
 notify-on-command-finish = unfocused

@@ -12,6 +12,8 @@ vim.keymap.set({ "n", "i", "v" }, "<D-/>", "gcc", { remap = true, desc = "Toggle
 
 -- Save and Select All
 vim.keymap.set({ "n", "v", "i" }, "<D-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
+-- Ghostty sends cmd+s as ESC s (<M-s>) so the key survives tmux
+vim.keymap.set({ "n", "v", "i" }, "<M-s>", "<cmd>w!<CR>", { desc = "Save file (force write)" })
 vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all in normal mode" }) -- Cmd+a to select all text in normal mode
 vim.keymap.set("i", "<D-a>", "<Esc>ggVG", { desc = "Select all in insert mode" }) -- Cmd+a to select all text in insert mode
 vim.keymap.set("v", "<D-a>", "<Esc>ggVG", { desc = "Select all in visual mode" }) -- Cmd+a to select all text in visual mode
