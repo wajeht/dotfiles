@@ -1,9 +1,9 @@
 vim.diagnostic.config({
 	float = { source = "if_many" },
-	-- virtual_lines only under the cursor: full multi-line diagnostics where you
-	-- are, no always-on virtual_text trailing every offending line.
+	-- Fully on-demand: no inline text or lines cluttering the buffer. Errors still
+	-- surface via the sign column and underline; read the message with <leader>d.
 	virtual_text = false,
-	virtual_lines = { current_line = true },
+	virtual_lines = false,
 	severity_sort = true,
 })
 
