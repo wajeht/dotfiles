@@ -23,12 +23,18 @@ function mkcd() {
   fi
 }
 
-# Browse project directories with fzf
-DEV_DIRS=(~/Dev ~/Work)
+# Browse project directories with fzf (upper/lowercase both supported;
+# duplicates deduped by inode since macOS filesystems are case-insensitive)
+DEV_DIRS=(~/Dev ~/Work ~/dev ~/work)
 
 function dev() {
-  local selected_dir search_dirs=()
-  for d in "${DEV_DIRS[@]}"; do [ -d "$d" ] && search_dirs+=("$d"); done
+  local selected_dir search_dirs=() d e dup
+  for d in "${DEV_DIRS[@]}"; do
+    [ -d "$d" ] || continue
+    dup=0
+    for e in "${search_dirs[@]}"; do [[ "$d" -ef "$e" ]] && { dup=1; break; }; done
+    (( dup )) || search_dirs+=("$d")
+  done
   if (( ${#search_dirs} == 0 )); then
     echo "No project directories found"
     return 1
