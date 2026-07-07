@@ -52,51 +52,40 @@ clipboard-paste-protection = false
 # split-divider-color = #454545
 unfocused-split-opacity = 1.0
 
-keybind = cmd+plus=increase_font_size:1
-keybind = cmd+kp_add=increase_font_size:1
+adjust-cell-height = 10%
+
+# ======================
+# Keybindings
+# ======================
+# Wipe ALL default keybinds (tabs, splits, 1.3's cmd+j/cmd+e steals, etc.) —
+# tmux handles multiplexing. Only the allowlist below exists.
+keybind = clear
+
+# Essentials
+keybind = cmd+c=copy_to_clipboard:mixed
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+q=quit
+keybind = cmd+n=new_window
+keybind = cmd+w=close_surface
+keybind = cmd+enter=toggle_fullscreen
+keybind = cmd+k=clear_screen
 keybind = cmd+r=reload_config
 
-adjust-cell-height = 10%
+# Font size
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+equal=increase_font_size:1
+keybind = cmd+kp_add=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+zero=reset_font_size
 
 # Add a new line when shift+enter is pressed
 keybind = shift+enter=text:\n
 
-# Open links from terminal output
-# hint: action does not exist in Ghostty (checked 1.3.1) — revisit when link hints ship
-# keybind = cmd+shift+o=hint:link:link-url:open_browser
-
 # Send cmd+key as ESC key (meta) so they survive tmux; nvim maps <M-...>
 # (tmux can't forward the cmd/super modifier: tmux/tmux#3335)
-# cmd+j/cmd+e also override new Ghostty 1.3 defaults (scroll/search selection)
 keybind = cmd+p=esc:p
 keybind = cmd+b=esc:b
 keybind = cmd+j=esc:j
-
-# Tabs disabled — tmux handles multiplexing
-keybind = cmd+t=unbind
-keybind = cmd+alt+w=unbind
-keybind = ctrl+tab=unbind
-keybind = ctrl+shift+tab=unbind
-keybind = cmd+shift+[=unbind
-keybind = cmd+shift+]=unbind
-keybind = cmd+1=unbind
-keybind = cmd+2=unbind
-keybind = cmd+3=unbind
-keybind = cmd+4=unbind
-keybind = cmd+5=unbind
-keybind = cmd+6=unbind
-keybind = cmd+7=unbind
-keybind = cmd+8=unbind
-keybind = cmd+9=unbind
-keybind = cmd+digit_1=unbind
-keybind = cmd+digit_2=unbind
-keybind = cmd+digit_3=unbind
-keybind = cmd+digit_4=unbind
-keybind = cmd+digit_5=unbind
-keybind = cmd+digit_6=unbind
-keybind = cmd+digit_7=unbind
-keybind = cmd+digit_8=unbind
-keybind = cmd+digit_9=unbind
 
 # Notify when long commands finish (if terminal is unfocused)
 notify-on-command-finish = unfocused
