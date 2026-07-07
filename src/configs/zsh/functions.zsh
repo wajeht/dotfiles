@@ -28,7 +28,7 @@ function mkcd() {
 DEV_DIRS=(~/Dev ~/Work ~/dev ~/work)
 
 function dev() {
-  local selected_dir search_dirs=() d e dup
+  local search_dirs=() d e dup
   for d in "${DEV_DIRS[@]}"; do
     [ -d "$d" ] || continue
     dup=0
@@ -40,42 +40,88 @@ function dev() {
     return 1
   fi
 
-  if [ -n "$1" ]; then
-    selected_dir="$1"
-  else
-    # Inside the tmux popup the popup draws the border and fzf fills it;
-    # inline (outside tmux) fzf draws its own
-    local fzf_opts=(--height 40% --layout=reverse --border)
-    [ -n "$DEV_POPUP" ] && fzf_opts=(--layout=reverse)
-    selected_dir=$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf "${fzf_opts[@]}")
-  fi
-  [ -n "$selected_dir" ] || return 0
-  if [ ! -d "$selected_dir" ]; then
-    echo "Not a directory: $selected_dir"
-    return 1
-  fi
+  # Inside the tmux popup the popup draws the border and fzf fills it;
+  # inline (outside tmux) fzf draws its own.
+  local fzf_opts=(--height 40% --layout=reverse --border)
+  [ -n "$DEV_POPUP" ] && fzf_opts=(--layout=reverse)
 
+  # No tmux: just pick a dir and open nvim in place (no sessions to manage).
   if ! command -v tmux > /dev/null 2>&1; then
+    local dir="${1:-$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf "${fzf_opts[@]}")}"
+    [ -n "$dir" ] || return 0
+    [ -d "$dir" ] || { echo "Not a directory: $dir"; return 1; }
     echo "tmux not found; opening without a session"
-    builtin cd "$selected_dir" && nvim .
+    builtin cd "$dir" && nvim .
     return
   fi
 
-  # Session name = parent dir + project dir (tmux forbids dots), so same-named
-  # projects under different roots (~/Dev/api vs ~/Work/api) don't collide onto
-  # one session and silently reopen the wrong repo.
-  local session_name="${${selected_dir:h:t}//./_}_${${selected_dir:t}//./_}"
-
-  if ! tmux has-session -t "=$session_name" 2> /dev/null; then
-    tmux new-session -ds "$session_name" -c "$selected_dir" -n nvim nvim .
-    tmux new-window -t "$session_name" -c "$selected_dir" -n shell
-    tmux select-window -t "$session_name:nvim"
+  local mode name dir query result target rc
+  if [ -n "$1" ]; then
+    mode=project; dir="$1"
+  else
+    # One fuzzy prompt over: existing sessions (bare names -> switch to) and
+    # project dirs (absolute paths -> create/attach). A project that already has
+    # a session shows once, as the session — its folder is dropped (matched by the
+    # @dev_path we stamp on each project session). Type a name that matches
+    # nothing and press Enter to create a new session with it.
+    local -a cand dirs; local dpath line p
+    typeset -A have_dir
+    while IFS= read -r line; do
+      [[ -n $line ]] || continue
+      cand+=("$line")
+      p=$(tmux show-options -t "=$line" -qv @dev_path 2>/dev/null)
+      [[ -n $p ]] && have_dir[$p]=1
+    done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null)
+    dirs=(${(f)"$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$")"})
+    for dpath in $dirs; do
+      [[ -n $dpath ]] && [[ -z ${have_dir[${dpath:A}]} ]] && cand+=("$dpath")
+    done
+    # Header hint appears only when the typed query matches nothing — i.e. the
+    # only thing Enter can do is create a session with that name.
+    result=$(print -rl -- "${cand[@]}" | fzf --print-query \
+      --bind 'change:transform-header:[ "$FZF_MATCH_COUNT" -eq 0 ] && echo "Enter: create new session \"$FZF_QUERY\""' \
+      "${fzf_opts[@]}")
+    rc=$?
+    # 0 = picked an item, 1 = no match but Enter (create from query); other = aborted (Esc/^C)
+    [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ] && return 0
+    query="${result%%$'\n'*}"
+    if [[ "$result" == *$'\n'* ]]; then target="${result#*$'\n'}"; else target=""; fi
+    if [ -n "$target" ]; then
+      if [[ "$target" == /* ]]; then mode=project; dir="$target"; else mode=session; name="$target"; fi
+    elif [ -n "$query" ]; then
+      mode=new; name="${query//[^A-Za-z0-9_-]/_}"   # sanitize: tmux forbids dots/colons
+    else
+      return 0
+    fi
   fi
 
+  if [ "$mode" = project ]; then
+    [ -d "$dir" ] || { echo "Not a directory: $dir"; return 1; }
+    dir="${dir:A}"   # absolutize so a relative arg names/opens the right dir
+    # Session name = project dir basename (tmux forbids dots). Only if that name
+    # is already owned by a DIFFERENT project do we disambiguate the new one by
+    # prefixing its parent dir (docker-cd vs Dev_docker-cd) — names stay clean
+    # until there's an actual clash.
+    name="${${dir:t}//./_}"
+    local owner
+    owner=$(tmux show-options -t "$name" -qv @dev_path 2>/dev/null)   # show-options rejects the =prefix
+    [ -n "$owner" ] && [ "$owner" != "$dir" ] && name="${${dir:h:t}//./_}_${name}"
+    if ! tmux has-session -t "=$name" 2> /dev/null; then
+      tmux new-session -ds "$name" -c "$dir" -n nvim nvim .
+      tmux new-window -t "$name" -c "$dir" -n shell
+      tmux select-window -t "$name:nvim"
+      tmux set-option -t "$name" @dev_path "$dir"   # stamp for dedup + clash check (set-option rejects the =prefix)
+    fi
+  elif [ "$mode" = new ]; then
+    # Ad-hoc session from the typed name, rooted at $HOME.
+    tmux has-session -t "=$name" 2> /dev/null || tmux new-session -ds "$name" -c "$HOME"
+  fi
+  # mode=session: it already exists; just attach/switch below.
+
   if [ -n "$TMUX" ]; then
-    tmux switch-client -t "=$session_name"
+    tmux switch-client -t "=$name"
   else
-    tmux attach -t "=$session_name"
+    tmux attach -t "=$name"
   fi
 }
 
