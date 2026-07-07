@@ -1,5 +1,5 @@
 #!/bin/sh
-# Emits the git segment for the status-right zone: white 'on', green branch,
+# Emits the git segment for the right zone of the status line: white 'on', green branch,
 # then change counts [+staged !modified xdeleted ?untracked] in the same colors
 # as prompt_git_status (.zshrc) so the two match. The session name is prepended
 # by tmux; this prints nothing when the pane is not inside a git repo.
