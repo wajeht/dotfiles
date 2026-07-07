@@ -309,18 +309,6 @@ local function set_highlights()
 	hl(0, "DiffviewStatusDeleted", { fg = c.diff_delete })
 	hl(0, "DiffviewStatusRenamed", { fg = "#73c991" })
 
-	-- Telescope/FZF
-	hl(0, "TelescopeNormal", { fg = c.fg, bg = "NONE" })
-	hl(0, "TelescopeBorder", { fg = c.dim, bg = "NONE" })
-	hl(0, "TelescopePromptNormal", { fg = c.fg, bg = "NONE" })
-	hl(0, "TelescopePromptBorder", { fg = c.dim, bg = "NONE" })
-	hl(0, "TelescopeResultsNormal", { fg = c.fg, bg = "NONE" })
-	hl(0, "TelescopeResultsBorder", { fg = c.dim, bg = "NONE" })
-	hl(0, "TelescopePreviewNormal", { fg = c.fg, bg = "NONE" })
-	hl(0, "TelescopePreviewBorder", { fg = c.dim, bg = "NONE" })
-	hl(0, "TelescopeMatching", { fg = c.yellow })
-	hl(0, "TelescopeSelection", { bg = c.selection })
-
 	-- Match paren
 	hl(0, "MatchParen", { bg = c.selection, bold = true })
 
@@ -340,29 +328,6 @@ local function set_highlights()
 	hl(0, "@markup.link.url", { fg = c.fg, underline = true })
 	hl(0, "@markup.list.checked", { link = "Todo" })
 	hl(0, "@markup.list.unchecked", { link = "Todo" })
-
-	-- Indent guides (indent-blankline)
-	hl(0, "IblIndent", { fg = "#2a2a2a" })
-	hl(0, "IblScope", { fg = c.dim })
-
-	-- Rainbow delimiters
-	hl(0, "RainbowDelimiterRed", { fg = c.red })
-	hl(0, "RainbowDelimiterYellow", { fg = c.yellow })
-	hl(0, "RainbowDelimiterBlue", { fg = c.blue })
-	hl(0, "RainbowDelimiterOrange", { fg = c.orange })
-	hl(0, "RainbowDelimiterGreen", { fg = c.green })
-	hl(0, "RainbowDelimiterViolet", { fg = c.pink })
-	hl(0, "RainbowDelimiterCyan", { fg = c.blue_green })
-
-	-- Copilot
-	hl(0, "CopilotSuggestion", { fg = c.gray })
-
-	-- Which-key
-	hl(0, "WhichKey", { fg = c.pink })
-	hl(0, "WhichKeyGroup", { fg = c.blue })
-	hl(0, "WhichKeyDesc", { fg = c.fg })
-	hl(0, "WhichKeySeparator", { fg = c.gray })
-	hl(0, "WhichKeyBorder", { fg = c.dim })
 
 	-- LSP control flow keywords
 	hl(0, "@lsp.typemod.keyword.controlFlow", { fg = c.pink })
