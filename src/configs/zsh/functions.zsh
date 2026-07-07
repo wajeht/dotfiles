@@ -64,13 +64,23 @@ function dev() {
     # a session shows once, as the session — its folder is dropped (matched by the
     # @dev_path we stamp on each project session). A "+ create session" line is
     # added as you type (below) for making a brand-new named session.
-    local -a cand dirs; local dpath line p
+    local -a cand dirs snames; local dpath sname wins p
     typeset -A have_dir
-    while IFS= read -r line; do
-      [[ -n $line ]] || continue
-      cand+=("$line")
-      p=$(tmux show-options -t "=$line" -qv @dev_path 2>/dev/null)
+    local active; active=$(tmux display-message -p '#{session_name}' 2>/dev/null)
+    # Session rows colored from the vscode palette: green = the session you're
+    # attached to, blue = other sessions; window names trail in dim gray.
+    local G=$'\e[38;2;106;153;85m' B=$'\e[38;2;86;156;214m' DIM=$'\e[38;2;90;90;90m' RST=$'\e[0m'
+    while IFS= read -r sname; do
+      [[ -n $sname ]] || continue
+      snames+=("$sname")
+      p=$(tmux show-options -t "$sname" -qv @dev_path 2>/dev/null)
       [[ -n $p ]] && have_dir[$p]=1
+      wins=$(tmux list-windows -t "$sname" -F '#{window_name}' 2>/dev/null | paste -sd '|' - | sed 's/|/ | /g')
+      if [[ "$sname" == "$active" ]]; then
+        cand+=("${G}${sname}${RST}  ${DIM}${wins}${RST}")
+      else
+        cand+=("${B}${sname}${RST}  ${DIM}${wins}${RST}")
+      fi
     done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null)
     dirs=(${(f)"$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | sort)"})
     for dpath in $dirs; do
@@ -80,12 +90,12 @@ function dev() {
     # `create session "<query>"` line is prepended and pinned to the very top. To
     # keep it reliably on top we turn fzf's relevance sort OFF (--no-sort below),
     # so the rest shows in a fixed order: sessions first, then folders A-Z.
-    local tmpf namesf c
+    local tmpf namesf
     tmpf=$(mktemp); namesf=$(mktemp)
     print -rl -- "${cand[@]}" > "$tmpf"
-    # names that already exist = session names + project-dir basenames
-    for c in "${cand[@]}"; do [[ "$c" == /* ]] && print -r -- "${c:t}" || print -r -- "$c"; done > "$namesf"
-    local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[32mcreate session \"%s\"\033[0m\n" "$q"; cat '${(q)tmpf}
+    # existing names (plain session names + folder basenames) for create-line suppression
+    { print -rl -- "${snames[@]}"; for dpath in $dirs; do print -r -- "${dpath:t}"; done } > "$namesf"
+    local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[38;2;106;153;85mcreate session \"%s\"\033[0m\n" "$q"; cat '${(q)tmpf}
     result=$(fzf --ansi --no-sort --print-query --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
     rc=$?
     rm -f "$tmpf" "$namesf"
@@ -99,7 +109,7 @@ function dev() {
     elif [[ "$target" == /* ]]; then
       mode=project; dir="$target"
     elif [ -n "$target" ]; then
-      mode=session; name="$target"
+      mode=session; name="${target%%[[:space:]]*}"   # session row is "name  <windows>"; take the name
     elif [ -n "$query" ]; then
       mode=new; name="${query//[^A-Za-z0-9_-]/_}"
     else
