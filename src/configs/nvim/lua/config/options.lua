@@ -124,7 +124,7 @@ opt.listchars = {
 	extends = "→", -- "→" indicates hidden text to the right.
 	eol = "↲", -- End-of-line characters will appear as "↲".
 	nbsp = "␣", -- Non-breaking spaces will appear as "␣".
-	space = "·", -- Regular spaces will appear as "·".
+	-- space = "·", -- Off: rendering a dot per space adds glyph cost to every scroll repaint.
 	leadmultispace = ".", -- Leading spaces will appear as ".".
 }
 
