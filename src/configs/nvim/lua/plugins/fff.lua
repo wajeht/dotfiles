@@ -79,12 +79,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	callback = ensure_fff_binary,
 })
 
-vim.keymap.set({ "n", "i", "v", "t", "c" }, "<D-p>", function()
-	require("fff").find_files()
-end, { desc = "Find repository files" })
-
--- Ghostty sends cmd+p as ESC p (<M-p>) so the key survives tmux
-vim.keymap.set({ "n", "i", "v", "t", "c" }, "<M-p>", function()
+require("config.cmdmap")({ "n", "i", "v", "t", "c" }, "p", function()
 	require("fff").find_files()
 end, { desc = "Find repository files" })
 

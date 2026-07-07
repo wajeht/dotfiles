@@ -187,12 +187,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				end
 			end, { buffer = ev.buf, desc = "Trigger completion or show docs" })
 
-			vim.keymap.set("i", "<D-i>", function()
-				vim.lsp.completion.get()
-			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
-
-			-- cmd+i via tmux (Ghostty sends ESC i)
-			vim.keymap.set("i", "<M-i>", function()
+			require("config.cmdmap")("i", "i", function()
 				vim.lsp.completion.get()
 			end, { buffer = ev.buf, desc = "Trigger completion (alternative)" })
 

@@ -71,6 +71,4 @@ local function toggle_terminal()
 	vim.cmd("startinsert")
 end
 
-vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", toggle_terminal)
--- Ghostty sends cmd+j as ESC j (<M-j>) so the key survives tmux
-vim.keymap.set({ "n", "i", "v", "c", "t" }, "<M-j>", toggle_terminal)
+require("config.cmdmap")({ "n", "i", "v", "c", "t" }, "j", toggle_terminal)
