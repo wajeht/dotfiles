@@ -2,7 +2,7 @@
 --
 -- This palette is mirrored (hard-coded hex) in other tools — keep in sync:
 --   tmux:    src/configs/tmux/tmux.conf        (status bar, panes, mode)
---   fzf:     src/configs/zsh/.zshrc            (FZF_DEFAULT_OPTS)
+--   fzf:     src/configs/zsh/env.zsh           (FZF_DEFAULT_OPTS)
 --   ripgrep: src/configs/zsh/ripgreprc         (match/path/line colors)
 --   lsd:     src/configs/lsd/colors.yaml       (already VSCode Dark Modern)
 --   bat:     theme "Visual Studio Dark+"       (src/configs/bat/config)
