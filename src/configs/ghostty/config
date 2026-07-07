@@ -19,10 +19,9 @@ window-width = 100
 
 theme = "dark modern"
 confirm-close-surface = false
-# Hide the titlebar (and with it the tab bar) but keep the window frame —
-# window-decoration=none leaves a titlebar-sized gap at the top on macOS 26.
-# Tab keybinds are cleared below; tmux handles multiplexing.
-macos-titlebar-style = hidden
+# Transparent titlebar (blends with the background). No tabs in practice:
+# every tab keybind is cleared below — tmux handles multiplexing.
+macos-titlebar-style = transparent
 background=#000000
 background-opacity = 0.85
 # Native macOS 26+ glass. On older macOS the glass material is unavailable and
