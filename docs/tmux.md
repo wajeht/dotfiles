@@ -11,6 +11,7 @@ the rest are tmux defaults.
 | New window | `C-a c` |
 | Rename window | `C-a ,` |
 | Close window | `C-a &` (asks to confirm) |
+| Close window (no prefix) | `Cmd+W` ⚙ (asks to confirm) |
 | Next / previous window | `C-a n` / `C-a p` |
 | Next / previous window (no prefix) | `Ctrl+Tab` / `Ctrl+Shift+Tab` ⚙ |
 | Jump to window N | `C-a 0`…`9` |
