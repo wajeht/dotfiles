@@ -49,10 +49,6 @@
     "key": "cmd+k cmd+b",
     "command": "workbench.action.toggleSidebarVisibility"
   },
-  {
-    "key": "cmd+k cmd+c",
-    "command": "workbench.panel.chat.view.copilot.focus"
-  },
   /**
    * tabs
    **/

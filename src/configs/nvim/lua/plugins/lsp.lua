@@ -1,6 +1,9 @@
 vim.diagnostic.config({
 	float = { source = "if_many" },
-	virtual_text = true,
+	-- virtual_lines only under the cursor: full multi-line diagnostics where you
+	-- are, no always-on virtual_text trailing every offending line.
+	virtual_text = false,
+	virtual_lines = { current_line = true },
 	severity_sort = true,
 })
 
@@ -83,6 +86,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Enable code lenses (run with grx)
 		if client:supports_method(methods.textDocument_codeLens, ev.buf) then
 			vim.lsp.codelens.enable(true, { bufnr = ev.buf })
+		end
+
+		-- Render color values inline (CSS/Tailwind/HTML) via textDocument/documentColor.
+		-- "virtual" draws a swatch glyph rather than a background fill, so it reads
+		-- the color without painting solid blocks over the transparent UI.
+		if client:supports_method(methods.textDocument_documentColor, ev.buf) then
+			vim.lsp.document_color.enable(true, { client_id = client.id, bufnr = ev.buf }, { style = "virtual" })
 		end
 
 		-- Setup completion if client supports it
