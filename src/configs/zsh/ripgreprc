@@ -1,0 +1,10 @@
+# Ripgrep colors — mirrors the nvim vscode theme (nvim/lua/colors/init.lua)
+# match bg = Search highlight (#613315), path = blue, line/col = line_nr gray
+--colors=match:none
+--colors=match:bg:0x61,0x33,0x15
+--colors=match:style:bold
+--colors=path:none
+--colors=path:fg:0x56,0x9C,0xD6
+--colors=line:none
+--colors=line:fg:0x5A,0x5A,0x5A
+--colors=column:fg:0x5A,0x5A,0x5A

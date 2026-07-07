@@ -74,12 +74,13 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # ======================
 # FZF Theme Configuration
 # ======================
+# Colors mirror the nvim vscode theme (nvim/lua/colors/init.lua)
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:-1,fg+:#d4d4d4,bg:-1,bg+:#03395e
-  --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87,marker:#9cdcfe
-  --color=prompt:#60d701,spinner:#60d701,pointer:#d4d4d4,header:#87afaf
+  --color=fg:-1,fg+:#D4D4D4,bg:-1,bg+:#03395e
+  --color=hl:#2AAAFF,hl+:#2AAAFF,info:#808080,marker:#9CDCFE
+  --color=prompt:#569CD6,spinner:#4EC9B0,pointer:#D4D4D4,header:#4EC9B0
   --color=border:#444444,separator:#444444,scrollbar:#444444
-  --color=preview-border:#444444,preview-scrollbar:#444444,label:#aeaeae,query:#d9d9d9
+  --color=preview-border:#444444,preview-scrollbar:#444444,label:#808080,query:#D4D4D4
   --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
   --marker="+" --pointer=">" --separator="─" --scrollbar="│" --gutter=" "'
 

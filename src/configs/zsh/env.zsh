@@ -1,6 +1,9 @@
 # Preferred editor
 export EDITOR='nvim'
 
+# Ripgrep config (vscode-theme colors)
+export RIPGREP_CONFIG_PATH="$HOME/.config/zsh/ripgreprc"
+
 # Language environment
 export LANG=en_US.UTF-8
 
