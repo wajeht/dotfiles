@@ -102,6 +102,8 @@ keybind = cmd+i=esc:i
 # cmd+w -> M-w, which tmux binds to kill-window (close the current window/tab),
 # so cmd+w closes the tmux window instead of the Ghostty surface.
 keybind = cmd+w=esc:w
+# cmd+t -> M-t, which tmux binds to new-window (new tab in the current session).
+keybind = cmd+t=esc:t
 
 # Ctrl+Tab / Ctrl+Shift+Tab -> standard CSI-u sequences (9=Tab; 5=Ctrl,
 # 6=Ctrl+Shift). Ghostty/macOS grab Ctrl+Tab, so we emit it explicitly with the

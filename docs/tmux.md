@@ -9,6 +9,7 @@ the rest are tmux defaults.
 | Action | Keys |
 |---|---|
 | New window | `C-a c` |
+| New window (no prefix) | `Cmd+T` ⚙ (opens in the current dir) |
 | Rename window | `C-a ,` |
 | Close window | `C-a &` (asks to confirm) |
 | Close window (no prefix) | `Cmd+W` ⚙ (asks to confirm) |
