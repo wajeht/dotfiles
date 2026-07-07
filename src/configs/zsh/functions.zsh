@@ -62,8 +62,8 @@ function dev() {
     # One fuzzy prompt over: existing sessions (bare names -> switch to) and
     # project dirs (absolute paths -> create/attach). A project that already has
     # a session shows once, as the session — its folder is dropped (matched by the
-    # @dev_path we stamp on each project session). Type a name that matches
-    # nothing and press Enter to create a new session with it.
+    # @dev_path we stamp on each project session). A "+ create session" line is
+    # added as you type (below) for making a brand-new named session.
     local -a cand dirs; local dpath line p
     typeset -A have_dir
     while IFS= read -r line; do
@@ -76,20 +76,35 @@ function dev() {
     for dpath in $dirs; do
       [[ -n $dpath ]] && [[ -z ${have_dir[${dpath:A}]} ]] && cand+=("$dpath")
     done
-    # Header hint appears only when the typed query matches nothing — i.e. the
-    # only thing Enter can do is create a session with that name.
-    result=$(print -rl -- "${cand[@]}" | fzf --print-query \
-      --bind 'change:transform-header:[ "$FZF_MATCH_COUNT" -eq 0 ] && echo "Enter: create new session \"$FZF_QUERY\""' \
-      "${fzf_opts[@]}")
+    # As you type a NEW name, a selectable "<query> → create new session" line is
+    # injected and sorts to the top; Enter on it makes a brand-new session — even
+    # when the query also matches folders (e.g. "server" matches *-server dirs but
+    # you want a plain "server" session). Everything else is Enter to open/switch.
+    local tmpf namesf c
+    tmpf=$(mktemp); namesf=$(mktemp)
+    print -rl -- "${cand[@]}" > "$tmpf"
+    # names that already exist = session names + project-dir basenames
+    for c in "${cand[@]}"; do [[ "$c" == /* ]] && print -r -- "${c:t}" || print -r -- "$c"; done > "$namesf"
+    # Reload on each keystroke: if the query is a new name (not an existing session
+    # or project basename), prepend a green "<query> → create new session" line.
+    # Leading with the query makes it sort to the top; relevance sort is kept.
+    local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[32m%s → create new session\033[0m\n" "$q"; cat '${(q)tmpf}
+    result=$(fzf --ansi --print-query --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
     rc=$?
-    # 0 = picked an item, 1 = no match but Enter (create from query); other = aborted (Esc/^C)
-    [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ] && return 0
+    rm -f "$tmpf" "$namesf"
+    [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ] && return 0   # aborted (Esc/^C)
+    # Output lines: 1 = query (--print-query), 2 = selected item
     query="${result%%$'\n'*}"
     if [[ "$result" == *$'\n'* ]]; then target="${result#*$'\n'}"; else target=""; fi
-    if [ -n "$target" ]; then
-      if [[ "$target" == /* ]]; then mode=project; dir="$target"; else mode=session; name="$target"; fi
-    elif [ -n "$query" ]; then
+    if [[ "$target" == *"→ create new session"* ]]; then
+      [ -n "$query" ] || return 0
       mode=new; name="${query//[^A-Za-z0-9_-]/_}"   # sanitize: tmux forbids dots/colons
+    elif [[ "$target" == /* ]]; then
+      mode=project; dir="$target"
+    elif [ -n "$target" ]; then
+      mode=session; name="$target"
+    elif [ -n "$query" ]; then
+      mode=new; name="${query//[^A-Za-z0-9_-]/_}"
     else
       return 0
     fi
