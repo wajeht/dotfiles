@@ -61,8 +61,10 @@ function dev() {
     return
   fi
 
-  # tmux forbids dots in session names
-  local session_name="${${selected_dir:t}//./_}"
+  # Session name = parent dir + project dir (tmux forbids dots), so same-named
+  # projects under different roots (~/Dev/api vs ~/Work/api) don't collide onto
+  # one session and silently reopen the wrong repo.
+  local session_name="${${selected_dir:h:t}//./_}_${${selected_dir:t}//./_}"
 
   if ! tmux has-session -t "=$session_name" 2> /dev/null; then
     tmux new-session -ds "$session_name" -c "$selected_dir" -n nvim nvim .
@@ -334,8 +336,8 @@ zle -N dev-widget
 # Set up key bindings after zsh-vi-mode initializes
 # zsh-vi-mode overrides many bindings, so we need to set ours after it loads
 function zvm_after_init() {
-  # Bind Cmd+F (Ghostty sends \x06 escape sequence when cmd+f is pressed)
-  # Bind in insert mode (vi mode)
+  # Bind Ctrl+F (\x06) to the sessionizer, matching tmux's `bind -n C-f`.
+  # (cmd+f is routed to nvim's M-f via Ghostty, so Ctrl+F is the trigger here.)
   zvm_bindkey viins '\x06' dev-widget
   # Also bind in normal/command mode for convenience
   zvm_bindkey vicmd '\x06' dev-widget
@@ -343,4 +345,4 @@ function zvm_after_init() {
 
 # Fallback: If zsh-vi-mode is not loaded, bind directly
 # This will be overridden by zvm_after_init if the plugin loads later
-bindkey '\x06' dev-widget  # Cmd+F for dev widget
+bindkey '\x06' dev-widget  # Ctrl+F for dev widget

@@ -48,7 +48,7 @@ A blazing-fast, clean Zsh configuration with async git prompt and zero framework
 - Database import helpers (importDB, importMDB)
 - Enhanced cd (auto-list with lsd)
 - Git workflow functions (git_diff_all, git_pr_comments)
-- Custom keybindings (dev-widget for Cmd+F)
+- Custom keybindings (dev-widget for Ctrl+F)
 
 ### `private.zsh` (optional)
 - Machine-specific configuration

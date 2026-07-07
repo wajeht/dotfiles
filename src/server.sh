@@ -20,9 +20,10 @@ install_terminfo() {
 
 install_apt_deps() {
     info "Installing dependencies via apt..."
+    local apt_pkgs="zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop tmux"
     sudo apt-get update -qq
-    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop tmux
-    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go, btop, tmux"
+    sudo apt-get install -y $apt_pkgs
+    task "Installed: $apt_pkgs"
 
     # Debian names bat as batcat, symlink it
     if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
