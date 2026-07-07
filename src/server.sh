@@ -21,8 +21,8 @@ install_terminfo() {
 install_apt_deps() {
     info "Installing dependencies via apt..."
     sudo apt-get update -qq
-    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop
-    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go, btop"
+    sudo apt-get install -y zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop tmux
+    task "Installed zsh, git, curl, fzf, ripgrep, unzip, lsd, bat, build-essential, go, btop, tmux"
 
     # Debian names bat as batcat, symlink it
     if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
@@ -146,9 +146,29 @@ install_zsh_config() {
     cp "$script_dir/configs/zsh/env.zsh" ~/.config/zsh/
     cp "$script_dir/configs/zsh/aliases.zsh" ~/.config/zsh/
     cp "$script_dir/configs/zsh/functions.zsh" ~/.config/zsh/
+    cp "$script_dir/configs/zsh/ripgreprc" ~/.config/zsh/
     task "Copied zsh configs to ~/.config/zsh/"
 
     success "Zsh configuration installed"
+}
+
+install_tmux_config() {
+    step "Installing Tmux Configuration"
+
+    backup_if_exists ~/.config/tmux/tmux.conf
+
+    local script_dir="$(dirname "$0")"
+    mkdir -p ~/.config/tmux
+    cp "$script_dir/configs/tmux/"* ~/.config/tmux/
+    task "Copied tmux config to ~/.config/tmux/"
+
+    # display-popup (Ctrl+F sessionizer) needs tmux >= 3.2
+    local tmux_version=$(tmux -V | grep -oE '[0-9]+\.[0-9]+' | head -1)
+    if [ "$(printf '%s\n3.2\n' "$tmux_version" | sort -V | head -1)" != "3.2" ]; then
+        warning "tmux $tmux_version < 3.2: Ctrl+F popup binding will not work"
+    fi
+
+    success "Tmux configuration installed"
 }
 
 install_bat_config() {
@@ -225,6 +245,7 @@ install_server() {
     install_neovim
     install_zsh_plugins
     install_zsh_config
+    install_tmux_config
     install_nvim_config
     install_bat_config
     install_lsd_config
@@ -245,6 +266,7 @@ uninstall_server() {
     echo "This will remove:"
     echo "  - ~/.zshenv"
     echo "  - ~/.config/zsh/"
+    echo "  - ~/.config/tmux/"
     echo "  - ~/.config/nvim/"
     echo "  - ~/.zsh/plugins/"
     echo "  - ~/.local/bin/nvim (AppImage)"
@@ -253,6 +275,7 @@ uninstall_server() {
 
     rm -f ~/.zshenv
     rm -rf ~/.config/zsh
+    rm -rf ~/.config/tmux
     rm -rf ~/.config/nvim
     rm -rf ~/.zsh/plugins
     rm -rf ~/.local/bin/nvim 2>/dev/null || true
