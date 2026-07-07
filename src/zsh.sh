@@ -60,6 +60,7 @@ install_zsh() {
     cp "$script_dir/configs/zsh/env.zsh" ~/.config/zsh/
     cp "$script_dir/configs/zsh/aliases.zsh" ~/.config/zsh/
     cp "$script_dir/configs/zsh/functions.zsh" ~/.config/zsh/
+    cp "$script_dir/configs/zsh/ripgreprc" ~/.config/zsh/
     task "Copied all config files to ~/.config/zsh/"
 
     info "Zsh plugins will be loaded from Homebrew installations..."
