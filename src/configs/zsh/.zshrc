@@ -191,7 +191,7 @@ precmd() {
 # Two-line prompt with dots
 # Line 1: directory + git branch + git status + dots + time
 # Line 2: prompt symbol
-PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f$(prompt_git_status) %F{240}$(prompt_dots)%f %F{magenta}%n@%m%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
+PROMPT='%F{cyan}%~%f%F{white}${vcs_info_msg_0_:+ on }%f%F{green}${vcs_info_msg_0_}%f %F{240}$(prompt_dots)%f %F{magenta}%n@%m%f %F{white}at %F{blue}%D{%I:%M:%S %p}%f
 %F{green}❯%f '
 
 # ======================
