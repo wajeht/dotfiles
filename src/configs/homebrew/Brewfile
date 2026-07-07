@@ -26,6 +26,7 @@ brew "ripgrep"      # Fast grep alternative
 brew "fd"           # Fast find alternative
 brew "awk"          # Awk
 brew "fzf"          # Fuzzy finder
+brew "tmux"         # Terminal multiplexer
 brew "bat"          # Better cat
 brew "lsd"          # Better ls
 brew "btop"         # System monitor

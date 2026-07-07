@@ -111,6 +111,7 @@ main() {
     run_component "$(dirname "$0")/nvim.sh" "install" "Neovim config" || failed_components+=("Neovim config")
     run_component "$(dirname "$0")/git.sh" "install" "Git config" || failed_components+=("Git config")
     run_component "$(dirname "$0")/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
+    run_component "$(dirname "$0")/tmux.sh" "install" "Tmux config" || failed_components+=("Tmux config")
     run_component "$(dirname "$0")/zsh.sh" "install" "Zsh config" || failed_components+=("Zsh config")
     run_component "$(dirname "$0")/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
     run_component "$(dirname "$0")/bat.sh" "install" "Bat config" || failed_components+=("Bat config")

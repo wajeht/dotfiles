@@ -1,4 +1,4 @@
-.PHONY: install macos brew nvim git zsh ghostty lsd bat server push clean update format sync-nvim help
+.PHONY: install macos brew nvim git zsh ghostty tmux lsd bat server push clean update format sync-nvim help
 
 install:
 	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./src/install.sh; fi
@@ -17,6 +17,9 @@ zsh:
 
 ghostty:
 	@./src/ghostty.sh $(filter-out $@,$(MAKECMDGOALS))
+
+tmux:
+	@./src/tmux.sh $(filter-out $@,$(MAKECMDGOALS))
 
 lsd:
 	@./src/lsd.sh $(filter-out $@,$(MAKECMDGOALS))
@@ -72,6 +75,7 @@ help:
 	@echo "  make git               Install Git config"
 	@echo "  make zsh               Install Zsh config"
 	@echo "  make ghostty           Install Ghostty config"
+	@echo "  make tmux              Install Tmux config"
 	@echo "  make lsd               Install LSD config"
 	@echo "  make bat               Install Bat config"
 	@echo "  make server            Install server dotfiles (Linux)"
