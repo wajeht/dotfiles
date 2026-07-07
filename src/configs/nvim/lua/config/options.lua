@@ -120,11 +120,11 @@ opt.list = true -- Show some invisible characters
 opt.listchars = {
 	tab = "▸ ", -- Tab characters will appear as "▸ ".
 	trail = "·", -- Trailing spaces will appear as "·".
-	precedes = "←", -- "←" indicates hidden text to the left.
-	extends = "→", -- "→" indicates hidden text to the right.
-	-- eol = "↲", -- End-of-line characters will appear as "↲".
 	nbsp = "␣", -- Non-breaking spaces will appear as "␣".
-    -- space = "·", -- Regular spaces will appear as "·".
+	-- precedes = "←", -- "←" indicates hidden text to the left.
+	-- extends = "→", -- "→" indicates hidden text to the right.
+	-- eol = "↲", -- End-of-line characters will appear as "↲".
+	-- space = "·", -- Regular spaces will appear as "·".
 	leadmultispace = ".", -- Leading spaces will appear as ".".
 }
 
