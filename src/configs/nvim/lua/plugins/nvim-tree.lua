@@ -5,6 +5,8 @@ vim.pack.add({
 -- Keymaps
 vim.keymap.set("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer (right side)" })
 vim.keymap.set("n", "<D-b>", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer (right side)" })
+-- Ghostty sends cmd+b as ESC b (<M-b>) so the key survives tmux
+vim.keymap.set("n", "<M-b>", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer (right side)" })
 
 require("nvim-tree").setup({
 	-- Disable automatic opening of nvim-tree when starting with directory
