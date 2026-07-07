@@ -78,12 +78,14 @@ keybind = cmd+k=text:\x0c
 keybind = cmd+comma=open_config
 keybind = cmd+r=reload_config
 
-# Font size
-keybind = cmd+plus=increase_font_size:1
-keybind = cmd+equal=increase_font_size:1
+# Font size. Use the literal +/=/-/0 keys, matching Ghostty's own defaults. The
+# key-NAME forms (cmd+minus, cmd+zero, …) don't match the key event on macOS —
+# that's why cmd+minus silently failed to zoom out while cmd+= still worked.
+keybind = cmd+==increase_font_size:1
+keybind = cmd++=increase_font_size:1
 keybind = cmd+kp_add=increase_font_size:1
-keybind = cmd+minus=decrease_font_size:1
-keybind = cmd+zero=reset_font_size
+keybind = cmd+-=decrease_font_size:1
+keybind = cmd+0=reset_font_size
 
 # Add a new line when shift+enter is pressed
 keybind = shift+enter=text:\n
