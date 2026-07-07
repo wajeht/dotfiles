@@ -38,6 +38,13 @@ Ctrl+F → `dev-widget` → `dev()`:
 6. If `tmux` is not on PATH, warn and fall back to the current
    `cd + nvim .` behavior.
 
+Inside tmux the zsh widget never sees the keystroke (the focused pane —
+usually nvim — receives the raw `\x06` byte and inserts `^F`). So
+`tmux.conf` also binds `C-f` in the root key table to run the sessionizer
+in a popup: `bind -n C-f display-popup -E -w 80% -h 60% "zsh -ic dev"`.
+The tmux binding handles Ctrl+F everywhere inside tmux; the zsh widget
+handles it outside.
+
 ## tmux.conf
 
 New file `src/configs/tmux/tmux.conf`, deployed to
