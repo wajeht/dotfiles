@@ -45,7 +45,7 @@ local terminal_buf = nil
 local terminal_win = nil
 
 -- Toggle terminal with Cmd+J (open or close)
-vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", function()
+local function toggle_terminal()
 	-- Fast close if terminal window exists
 	if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
 		vim.api.nvim_win_hide(terminal_win)
@@ -69,4 +69,8 @@ vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", function()
 
 	-- Immediate insert mode
 	vim.cmd("startinsert")
-end)
+end
+
+vim.keymap.set({ "n", "i", "v", "c", "t" }, "<D-j>", toggle_terminal)
+-- Ghostty sends cmd+j as ESC j (<M-j>) so the key survives tmux
+vim.keymap.set({ "n", "i", "v", "c", "t" }, "<M-j>", toggle_terminal)

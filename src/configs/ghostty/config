@@ -65,9 +65,12 @@ keybind = shift+enter=text:\n
 # hint: action does not exist in Ghostty (checked 1.3.1) — revisit when link hints ship
 # keybind = cmd+shift+o=hint:link:link-url:open_browser
 
-# Send cmd+p as ESC p (meta-p) so it survives tmux; nvim maps <M-p>
+# Send cmd+key as ESC key (meta) so they survive tmux; nvim maps <M-...>
 # (tmux can't forward the cmd/super modifier: tmux/tmux#3335)
+# cmd+j/cmd+e also override new Ghostty 1.3 defaults (scroll/search selection)
 keybind = cmd+p=esc:p
+keybind = cmd+b=esc:b
+keybind = cmd+j=esc:j
 
 # Notify when long commands finish (if terminal is unfocused)
 notify-on-command-finish = unfocused
