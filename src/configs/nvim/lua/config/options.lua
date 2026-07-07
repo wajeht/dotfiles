@@ -52,7 +52,7 @@ opt.statusline = "%{repeat('─',winwidth('.'))}" -- Custom statusline (only a l
 opt.ruler = false -- Hide ruler
 opt.showmode = false -- Don't show the mode, since it's already in the status line
 opt.title = true -- Set the terminal's title to the file being edited
-opt.titlestring = "%{expand('%:p')}" -- Full file path only (no parens, no '- Nvim')
+opt.titlestring = "%{expand('%:p:~:.')}" -- File path relative to cwd (~-abbreviated outside it)
 opt.fillchars:append({ eob = " " }) -- Remove ~ from buffer
 
 -- Text layout
