@@ -72,31 +72,28 @@ function dev() {
       p=$(tmux show-options -t "=$line" -qv @dev_path 2>/dev/null)
       [[ -n $p ]] && have_dir[$p]=1
     done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null)
-    dirs=(${(f)"$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$")"})
+    dirs=(${(f)"$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | sort)"})
     for dpath in $dirs; do
       [[ -n $dpath ]] && [[ -z ${have_dir[${dpath:A}]} ]] && cand+=("$dpath")
     done
-    # As you type a NEW name, a selectable "<query> → create new session" line is
-    # injected and sorts to the top; Enter on it makes a brand-new session — even
-    # when the query also matches folders (e.g. "server" matches *-server dirs but
-    # you want a plain "server" session). Everything else is Enter to open/switch.
+    # As you type a NEW name (not an existing session or project basename), a green
+    # `create session "<query>"` line is prepended and pinned to the very top. To
+    # keep it reliably on top we turn fzf's relevance sort OFF (--no-sort below),
+    # so the rest shows in a fixed order: sessions first, then folders A-Z.
     local tmpf namesf c
     tmpf=$(mktemp); namesf=$(mktemp)
     print -rl -- "${cand[@]}" > "$tmpf"
     # names that already exist = session names + project-dir basenames
     for c in "${cand[@]}"; do [[ "$c" == /* ]] && print -r -- "${c:t}" || print -r -- "$c"; done > "$namesf"
-    # Reload on each keystroke: if the query is a new name (not an existing session
-    # or project basename), prepend a green "<query> → create new session" line.
-    # Leading with the query makes it sort to the top; relevance sort is kept.
-    local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[32m%s → create new session\033[0m\n" "$q"; cat '${(q)tmpf}
-    result=$(fzf --ansi --print-query --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
+    local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[32mcreate session \"%s\"\033[0m\n" "$q"; cat '${(q)tmpf}
+    result=$(fzf --ansi --no-sort --print-query --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
     rc=$?
     rm -f "$tmpf" "$namesf"
     [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ] && return 0   # aborted (Esc/^C)
     # Output lines: 1 = query (--print-query), 2 = selected item
     query="${result%%$'\n'*}"
     if [[ "$result" == *$'\n'* ]]; then target="${result#*$'\n'}"; else target=""; fi
-    if [[ "$target" == *"→ create new session"* ]]; then
+    if [[ "$target" == 'create session "'* ]]; then
       [ -n "$query" ] || return 0
       mode=new; name="${query//[^A-Za-z0-9_-]/_}"   # sanitize: tmux forbids dots/colons
     elif [[ "$target" == /* ]]; then
