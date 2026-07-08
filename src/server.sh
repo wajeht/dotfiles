@@ -55,19 +55,6 @@ install_tree_sitter_cli() {
     task "$("$HOME/.local/bin/tree-sitter" --version)"
 }
 
-install_difftastic() {
-    info "Installing Difftastic..."
-
-    if command -v difft >/dev/null 2>&1; then
-        task "Difftastic already installed: $(difft --version)"
-        return
-    fi
-
-    local asset="difft-x86_64-unknown-linux-gnu.tar.gz"
-    install_release_bin "https://github.com/Wilfred/difftastic/releases/latest/download/$asset" difft
-    task "$("$HOME/.local/bin/difft" --version)"
-}
-
 install_neovim() {
     info "Installing Neovim stable from GitHub releases..."
 
@@ -285,7 +272,6 @@ install_server() {
     install_terminfo
     install_nvm
     install_tree_sitter_cli
-    install_difftastic
     install_neovim
     install_zsh_plugins
     install_zsh_config
@@ -311,7 +297,7 @@ uninstall_server() {
     echo "  - ~/.zshenv, ~/.config/{zsh,tmux,nvim,bat,lsd,btop}/"
     echo "  - ~/.zsh/plugins/"
     echo "  - Neovim (~/.local/bin/nvim + its lib/share) and its state/cache"
-    echo "  - CLIs installed to ~/.local/bin: tree-sitter, difft"
+    echo "  - CLIs installed to ~/.local/bin: tree-sitter"
     echo ""
     read -p "❓ Continue? [y/N] " confirm && [[ "$confirm" == "y" ]] || exit 1
 
@@ -325,7 +311,7 @@ uninstall_server() {
     rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 
     # CLIs installed via install_release_bin (gh/shfmt come from apt, not here)
-    rm -f ~/.local/bin/tree-sitter ~/.local/bin/difft
+    rm -f ~/.local/bin/tree-sitter
 
     success "Server dotfiles removed"
 }
