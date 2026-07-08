@@ -20,7 +20,7 @@ install_terminfo() {
 
 install_apt_deps() {
     info "Installing dependencies via apt..."
-    local apt_pkgs="zsh git gh curl fzf ripgrep unzip tar gzip shfmt lsd bat build-essential golang-go btop tmux"
+    local apt_pkgs="zsh git curl fzf ripgrep unzip tar gzip lsd bat build-essential golang-go btop tmux"
     sudo apt-get update -qq
     sudo apt-get install -y $apt_pkgs
     task "Installed: $apt_pkgs"
@@ -31,6 +31,98 @@ install_apt_deps() {
         ln -sf /usr/bin/batcat ~/.local/bin/bat
         task "Symlinked batcat -> bat"
     fi
+}
+
+install_gh_cli() {
+    info "Installing GitHub CLI..."
+
+    if command -v gh >/dev/null 2>&1; then
+        task "GitHub CLI already installed: $(gh --version | head -1)"
+        return
+    fi
+
+    # Ubuntu 22.04+ ships gh in the universe repo; use apt when available.
+    if command -v apt-get >/dev/null 2>&1 && apt-cache show gh >/dev/null 2>&1; then
+        sudo apt-get install -y gh
+        task "Installed GitHub CLI via apt"
+        return
+    fi
+
+    # Fallback for Debian / older Ubuntu (gh not in their repos): GitHub releases.
+    local arch asset_arch
+    arch=$(uname -m)
+    if [[ "$arch" == "x86_64" ]]; then
+        asset_arch="amd64"
+    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
+        asset_arch="arm64"
+    else
+        error "Unsupported arch for GitHub CLI: $arch"
+        exit 1
+    fi
+
+    local version
+    version="$(curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/cli/cli/releases/latest 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)"
+    if [[ -z "$version" ]]; then
+        error "Could not determine latest GitHub CLI version"
+        exit 1
+    fi
+
+    local asset="gh_${version#v}_linux_${asset_arch}.tar.gz"
+    local download_url="https://github.com/cli/cli/releases/download/${version}/${asset}"
+    local tmp_dir="/tmp/gh-cli-install"
+    local tmp_file="/tmp/$asset"
+
+    rm -rf "$tmp_dir"
+    mkdir -p "$tmp_dir"
+    curl -fsSL "$download_url" -o "$tmp_file"
+    tar -xzf "$tmp_file" -C "$tmp_dir"
+    local gh_bin
+    gh_bin="$(find "$tmp_dir" -type f -name gh | head -1)"
+    if [[ -z "$gh_bin" ]]; then
+        error "Could not find gh binary in $asset"
+        exit 1
+    fi
+    mkdir -p "$HOME/.local/bin"
+    cp "$gh_bin" "$HOME/.local/bin/gh"
+    chmod +x "$HOME/.local/bin/gh"
+    rm -rf "$tmp_dir" "$tmp_file"
+
+    task "$("$HOME/.local/bin/gh" --version | head -1)"
+}
+
+install_shfmt() {
+    info "Installing shfmt..."
+
+    if command -v shfmt >/dev/null 2>&1; then
+        task "shfmt already installed: $(shfmt --version)"
+        return
+    fi
+
+    # Ubuntu 22.04+ ships shfmt in the universe repo; use apt when available.
+    if command -v apt-get >/dev/null 2>&1 && apt-cache show shfmt >/dev/null 2>&1; then
+        sudo apt-get install -y shfmt
+        task "Installed shfmt via apt"
+        return
+    fi
+
+    # Fallback for Debian / older Ubuntu (shfmt not in their repos): GitHub releases.
+    local arch asset_arch
+    arch=$(uname -m)
+    if [[ "$arch" == "x86_64" ]]; then
+        asset_arch="amd64"
+    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
+        asset_arch="arm64"
+    else
+        error "Unsupported arch for shfmt: $arch"
+        exit 1
+    fi
+
+    local version="v3.13.1"
+    mkdir -p "$HOME/.local/bin"
+    curl -fsSL "https://github.com/mvdan/sh/releases/download/${version}/shfmt_${version}_linux_${asset_arch}" -o "$HOME/.local/bin/shfmt"
+    chmod +x "$HOME/.local/bin/shfmt"
+
+    task "shfmt $("$HOME/.local/bin/shfmt" --version) installed"
 }
 
 install_tree_sitter_cli() {
@@ -258,9 +350,12 @@ install_tmux_config() {
 
     if tmux_supports_sessionizer; then
         info "Installing Tmux persistence plugins..."
-        tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
-        ~/.config/tmux/plugins/tpm/bin/install_plugins
-        task "Installed tmux plugins"
+        if tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1 &&
+            ~/.config/tmux/plugins/tpm/bin/install_plugins; then
+            task "Installed tmux plugins"
+        else
+            warning "Could not auto-install tmux plugins; run prefix + I inside tmux to finish"
+        fi
     else
         warning "Skipping tmux plugin install until tmux is upgraded to 3.2+"
     fi
@@ -338,6 +433,8 @@ install_server() {
     check_internet
 
     install_apt_deps
+    install_gh_cli
+    install_shfmt
     install_terminfo
     install_nvm
     install_tree_sitter_cli
