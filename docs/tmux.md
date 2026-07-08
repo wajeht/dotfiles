@@ -47,6 +47,14 @@ the rest are tmux defaults.
 | List / switch sessions | `C-a s` |
 | Rename session | `C-a $` |
 | Previous / next session | `C-a (` / `C-a )` |
+| Save sessions for reboot | `C-a Ctrl-s` ⚙ |
+| Restore saved sessions | `C-a Ctrl-r` ⚙ |
+
+Sessions are autosaved every 5 minutes and restored when the tmux server starts.
+This uses `tmux-resurrect` and `tmux-continuum` through TPM. Layouts, panes,
+working directories, and pane contents are saved. Running programs are restored
+where `tmux-resurrect` supports them; otherwise the pane reopens in the saved
+directory.
 
 ## Copy / scroll (vi mode)
 
