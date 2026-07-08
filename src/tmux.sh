@@ -12,6 +12,20 @@ install_tmux() {
     cp -r "$(dirname "$0")/configs/tmux/"* ~/.config/tmux/
     task "Copied configuration to ~/.config/tmux/"
 
+    info "Installing Tmux Plugin Manager..."
+    mkdir -p ~/.config/tmux/plugins
+    if [[ ! -d ~/.config/tmux/plugins/tpm ]]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+        task "Installed TPM to ~/.config/tmux/plugins/tpm"
+    else
+        task "TPM already installed"
+    fi
+
+    info "Installing Tmux persistence plugins..."
+    tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
+    ~/.config/tmux/plugins/tpm/bin/install_plugins
+    task "Installed tmux plugins"
+
     check_sessionizer_deps
 
     success "Tmux configuration installed"
@@ -23,6 +37,7 @@ uninstall_tmux() {
     echo "📋 This will remove:"
     echo "   • ~/.config/tmux/ directory"
     echo "   • All Tmux configuration files"
+    echo "   • Tmux plugins installed under ~/.config/tmux/plugins/"
     echo ""
     read -p "❓ Continue with Tmux uninstall? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
 

@@ -245,6 +245,20 @@ install_tmux_config() {
     cp "$script_dir/configs/tmux/"* ~/.config/tmux/
     task "Copied tmux config to ~/.config/tmux/"
 
+    info "Installing Tmux Plugin Manager..."
+    mkdir -p ~/.config/tmux/plugins
+    if [[ ! -d ~/.config/tmux/plugins/tpm ]]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+        task "Installed TPM to ~/.config/tmux/plugins/tpm"
+    else
+        task "TPM already installed"
+    fi
+
+    info "Installing Tmux persistence plugins..."
+    tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
+    ~/.config/tmux/plugins/tpm/bin/install_plugins
+    task "Installed tmux plugins"
+
     check_sessionizer_deps
 
     success "Tmux configuration installed"
