@@ -2,8 +2,7 @@
 
 source "$(dirname "$0")/_util.sh"
 
-# Pinned tool versions. Everything else resolves 'latest' from GitHub releases.
-readonly SHFMT_VERSION="v3.13.1"
+# Pinned nvm version (everything else resolves 'latest' from GitHub releases).
 readonly NVM_VERSION="v0.40.1"
 
 check_linux() {
@@ -24,7 +23,7 @@ install_terminfo() {
 
 install_apt_deps() {
     info "Installing dependencies via apt..."
-    local apt_pkgs="zsh git curl fzf ripgrep unzip tar gzip lsd bat build-essential golang-go btop tmux"
+    local apt_pkgs="zsh git gh shfmt curl fzf ripgrep unzip tar gzip lsd bat build-essential golang-go btop tmux"
     sudo apt-get update -qq
     sudo apt-get install -y $apt_pkgs
     task "Installed: $apt_pkgs"
@@ -35,51 +34,6 @@ install_apt_deps() {
         ln -sf /usr/bin/batcat ~/.local/bin/bat
         task "Symlinked batcat -> bat"
     fi
-}
-
-install_gh_cli() {
-    info "Installing GitHub CLI..."
-
-    if command -v gh >/dev/null 2>&1; then
-        task "GitHub CLI already installed: $(gh --version | head -1)"
-        return
-    fi
-
-    # Ubuntu 22.04+ ships gh in the universe repo; use apt when available.
-    if command -v apt-get >/dev/null 2>&1 && apt-cache show gh >/dev/null 2>&1; then
-        sudo apt-get install -y gh
-        task "Installed GitHub CLI via apt"
-        return
-    fi
-
-    # Fallback for Debian / older Ubuntu (gh not in their repos): GitHub releases.
-    local version
-    version="$(curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/cli/cli/releases/latest 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)"
-    [ -n "$version" ] || error "Could not determine latest GitHub CLI version"
-
-    local asset="gh_${version#v}_linux_$(dl_arch amd64 arm64).tar.gz"
-    install_release_bin "https://github.com/cli/cli/releases/download/${version}/${asset}" gh
-    task "$("$HOME/.local/bin/gh" --version | head -1)"
-}
-
-install_shfmt() {
-    info "Installing shfmt..."
-
-    if command -v shfmt >/dev/null 2>&1; then
-        task "shfmt already installed: $(shfmt --version)"
-        return
-    fi
-
-    # Ubuntu 22.04+ ships shfmt in the universe repo; use apt when available.
-    if command -v apt-get >/dev/null 2>&1 && apt-cache show shfmt >/dev/null 2>&1; then
-        sudo apt-get install -y shfmt
-        task "Installed shfmt via apt"
-        return
-    fi
-
-    # Fallback for Debian / older Ubuntu (shfmt not in their repos): GitHub releases.
-    install_release_bin "https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_$(dl_arch amd64 arm64)" shfmt
-    task "shfmt $("$HOME/.local/bin/shfmt" --version) installed"
 }
 
 install_tree_sitter_cli() {
@@ -96,7 +50,7 @@ install_tree_sitter_cli() {
         warning "tree-sitter CLI $current_version is older than required $min_version"
     fi
 
-    local asset="tree-sitter-linux-$(dl_arch x64 arm64).gz"
+    local asset="tree-sitter-linux-x64.gz"
     install_release_bin "https://github.com/tree-sitter/tree-sitter/releases/latest/download/$asset" tree-sitter
     task "$("$HOME/.local/bin/tree-sitter" --version)"
 }
@@ -109,7 +63,7 @@ install_difftastic() {
         return
     fi
 
-    local asset="difft-$(dl_arch x86_64 aarch64)-unknown-linux-gnu.tar.gz"
+    local asset="difft-x86_64-unknown-linux-gnu.tar.gz"
     install_release_bin "https://github.com/Wilfred/difftastic/releases/latest/download/$asset" difft
     task "$("$HOME/.local/bin/difft" --version)"
 }
@@ -125,17 +79,7 @@ install_neovim() {
     local install_dir="$HOME/.local"
     mkdir -p "$install_dir/bin"
 
-    local tarball
-    case "$(uname -m)" in
-    x86_64) tarball="nvim-linux-x86_64.tar.gz" ;;
-    aarch64 | arm64) tarball="nvim-linux-arm64.tar.gz" ;;
-    *)
-        warning "Unknown arch $(uname -m), falling back to apt"
-        sudo apt-get install -y neovim
-        task "Installed neovim via apt"
-        return
-        ;;
-    esac
+    local tarball="nvim-linux-x86_64.tar.gz"
 
     # Neovim ships a bin/lib/share tree (not a single binary), so it's extracted
     # into ~/.local directly rather than via install_release_bin.
@@ -338,8 +282,6 @@ install_server() {
     check_internet
 
     install_apt_deps
-    install_gh_cli
-    install_shfmt
     install_terminfo
     install_nvm
     install_tree_sitter_cli
@@ -369,7 +311,7 @@ uninstall_server() {
     echo "  - ~/.zshenv, ~/.config/{zsh,tmux,nvim,bat,lsd,btop}/"
     echo "  - ~/.zsh/plugins/"
     echo "  - Neovim (~/.local/bin/nvim + its lib/share) and its state/cache"
-    echo "  - CLIs installed to ~/.local/bin: gh, shfmt, tree-sitter, difft"
+    echo "  - CLIs installed to ~/.local/bin: tree-sitter, difft"
     echo ""
     read -p "❓ Continue? [y/N] " confirm && [[ "$confirm" == "y" ]] || exit 1
 
@@ -382,8 +324,8 @@ uninstall_server() {
     rm -rf ~/.local/lib/nvim ~/.local/share/nvim-linux-* 2>/dev/null || true
     rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 
-    # CLIs installed via install_release_bin
-    rm -f ~/.local/bin/gh ~/.local/bin/shfmt ~/.local/bin/tree-sitter ~/.local/bin/difft
+    # CLIs installed via install_release_bin (gh/shfmt come from apt, not here)
+    rm -f ~/.local/bin/tree-sitter ~/.local/bin/difft
 
     success "Server dotfiles removed"
 }

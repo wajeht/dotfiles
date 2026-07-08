@@ -5,11 +5,11 @@ source "$(dirname "$0")/_util.sh"
 export PATH="$HOME/.local/bin:$PATH"
 
 install_shfmt_linux() {
-    install_release_bin "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_$(dl_arch amd64 arm64)" shfmt
+    install_release_bin "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_amd64" shfmt
 }
 
 install_stylua_linux() {
-    install_release_bin "https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-$(dl_arch x86_64 aarch64).zip" stylua
+    install_release_bin "https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip" stylua
 }
 
 install_if_missing() {

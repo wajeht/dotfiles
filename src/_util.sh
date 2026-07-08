@@ -111,20 +111,6 @@ tmux_supports_sessionizer() {
     [ "$(printf '%s\n3.2\n' "$v" | sort -V | head -1)" = "3.2" ]
 }
 
-# Echo the value matching this machine's architecture, e.g.
-#   asset_arch=$(dl_arch amd64 arm64)      # gh / shfmt style
-#   asset_arch=$(dl_arch x86_64 aarch64)   # rust-triple style
-# Exits (via error) on an unsupported arch.
-dl_arch() {
-    local a
-    a=$(uname -m)
-    case "$a" in
-    x86_64) printf '%s' "$1" ;;
-    aarch64 | arm64) printf '%s' "$2" ;;
-    *) error "Unsupported architecture: $a" ;;
-    esac
-}
-
 # Download a release asset and install a single binary into ~/.local/bin.
 #   install_release_bin <url> <bin-name>
 # Archive type is inferred from the URL: .tar.gz/.tgz and .zip are extracted and
