@@ -25,9 +25,12 @@ install_tmux() {
 
     if tmux_supports_sessionizer; then
         info "Installing Tmux persistence plugins..."
-        tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
-        ~/.config/tmux/plugins/tpm/bin/install_plugins
-        task "Installed tmux plugins"
+        if tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1 &&
+            ~/.config/tmux/plugins/tpm/bin/install_plugins; then
+            task "Installed tmux plugins"
+        else
+            warning "Could not auto-install tmux plugins; run prefix + I inside tmux to finish"
+        fi
     else
         warning "Skipping tmux plugin install until tmux is upgraded to 3.2+"
     fi

@@ -36,15 +36,15 @@ add_github_ssh_key_if_authenticated() {
     fi
 
     if gh auth status -h github.com >/dev/null 2>&1; then
-        if ! gh ssh-key list >/tmp/gh-ssh-keys.$$ 2>/tmp/gh-ssh-keys.err.$$; then
+        if ! gh api user/keys --jq '.[].key' >/tmp/gh-ssh-keys.$$ 2>/tmp/gh-ssh-keys.err.$$; then
             warning "gh cannot manage SSH keys yet. Run: gh auth refresh -h github.com -s admin:public_key"
             rm -f /tmp/gh-ssh-keys.$$ /tmp/gh-ssh-keys.err.$$
             return
         fi
 
-        local key_fingerprint
-        key_fingerprint="$(ssh-keygen -lf "$key_path" -E sha256 | awk '{print $2}')"
-        if grep -Fq "$key_fingerprint" /tmp/gh-ssh-keys.$$; then
+        local public_key
+        public_key="$(awk '{print $1 " " $2}' "$key_path")"
+        if grep -Fqx "$public_key" /tmp/gh-ssh-keys.$$; then
             task "GitHub already has this SSH key"
         else
             if gh ssh-key add "$key_path" --title "$(hostname)-$(date +%Y%m%d)" >/dev/null; then
@@ -136,11 +136,13 @@ install_git() {
 
     info "Generating allowed_signers for commit verification..."
     : >~/.ssh/allowed_signers
-    if [ -f ~/.ssh/id_ed25519_personal.pub ] && [ -f ~/.ssh/id_ed25519.pub ]; then
+    if [ -f ~/.ssh/id_ed25519_personal.pub ]; then
         # Work laptop: id_ed25519 = work key, id_ed25519_personal = personal key
-        echo "265659615+clevyr-kyaw@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
+        if [ -f ~/.ssh/id_ed25519.pub ]; then
+            echo "265659615+clevyr-kyaw@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
+        fi
         echo "58354193+wajeht@users.noreply.github.com $(cat ~/.ssh/id_ed25519_personal.pub)" >>~/.ssh/allowed_signers
-        task "Added work and personal keys to allowed_signers"
+        task "Added personal (and work, if present) keys to allowed_signers"
     elif [ -f ~/.ssh/id_ed25519.pub ]; then
         # Personal computer: id_ed25519 = personal key (only key)
         echo "58354193+wajeht@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
