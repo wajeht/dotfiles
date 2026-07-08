@@ -63,6 +63,7 @@ the rest are tmux defaults.
 
 | Action | Keys |
 |---|---|
+| Clear screen | `Ctrl-L` or `Cmd-K` ⚙ (in a split, moves to the right pane first if one exists) |
 | Reload tmux config | `C-a r` ⚙ |
 | Command prompt (type any command) | `C-a :` |
 | List every keybinding | `C-a ?` |
