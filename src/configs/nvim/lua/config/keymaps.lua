@@ -24,16 +24,18 @@ vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally"
 vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
 vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
 
+-- Window Navigation: <C-h/j/k/l> is provided by plugins/tmux-navigator.lua so it
 -- Window Navigation
-vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window (Normal mode)" })
-vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window (Normal mode)" })
-vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window (Normal mode)" })
-vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window (Normal mode)" })
+-- vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window (Normal mode)" })
+-- vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window (Normal mode)" })
+-- vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window (Normal mode)" })
+-- vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window (Normal mode)" })
 
-vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Move focus to the left window (Terminal mode)" })
-vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Move focus to the lower window (Terminal mode)" })
-vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Move focus to the upper window (Terminal mode)" })
-vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Move focus to the right window (Terminal mode)" })
+-- crosses seamlessly into adjacent tmux panes (falls back to nvim-only off tmux).
+-- vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Move focus to the left window (Terminal mode)" })
+-- vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Move focus to the lower window (Terminal mode)" })
+-- vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Move focus to the upper window (Terminal mode)" })
+-- vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Move focus to the right window (Terminal mode)" })
 
 -- Tab Management
 vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
