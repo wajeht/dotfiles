@@ -7,10 +7,12 @@ local cmdmap = require("config.cmdmap") -- maps <D-key> and <M-key> together
 -- General Keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>") -- Easily hit escape in terminal mode.
-cmdmap({ "n", "v", "i" }, "f", "/", { desc = "Start search and replace" })
+cmdmap({ "n", "v" }, "f", "/", { desc = "Start search" })
+cmdmap("i", "f", "<Esc>/", { desc = "Start search from insert mode" }) -- '/' alone would insert a literal slash
 
--- Comment Toggle (Normal and Visual Mode)
-cmdmap({ "n", "i", "v" }, "/", "gcc", { remap = true, desc = "Toggle comment with Cmd+/" })
+-- Comment Toggle (Cmd+/): line-wise in normal, selection-wise in visual.
+cmdmap("n", "/", "gcc", { remap = true, desc = "Toggle comment" })
+cmdmap("x", "/", "gc", { remap = true, desc = "Toggle comment on selection" }) -- 'gc' (not 'gcc') is the visual-mode operator
 
 -- Save and Select All
 cmdmap({ "n", "v", "i" }, "s", "<cmd>w!<CR>", { desc = "Save file (force write)" }) -- Cmd+s in any mode
@@ -35,10 +37,6 @@ vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab"
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>tabp<CR>", { desc = "Go to previous tab with Shift-Tab" })
 vim.keymap.set("n", "<Tab>", "<cmd>tabn<CR>", { desc = "Go to next tab with Tab" })
-
--- Quick File Navigation (netrw file explorer on the right)
--- vim.keymap.set({"n", "v"}, "<leader>e", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Leader+e
--- vim.keymap.set({"n", "v"}, "<D-b>", "<cmd>vertical rightbelow Lex 30<CR>", { desc = "Open file explorer (right side)" }) -- Cmd+b
 
 -- Save and Quit (with leader)
 vim.keymap.set({ "n", "v" }, "<leader>q", "<cmd>qall!<CR>", { desc = "Quit all windows" })
@@ -105,7 +103,7 @@ vim.keymap.set("n", "N", "Nzz", { desc = "Search next and center" })
 vim.keymap.set("n", "n", "nzz", { desc = "Search previous and center" })
 vim.keymap.set("n", "G", "Gzz", { desc = "Go to the end of the file and center" })
 vim.keymap.set("n", "gg", "ggzz", { desc = "Go to the start of the file and center" })
-vim.keymap.set("n", "gd", "gdzz", { desc = "Go to definition and center" })
+vim.keymap.set("n", "gd", "gdzz", { desc = "Go to declaration and center (LSP definition overrides gd when attached)" })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Go to the jump list forward and center" })
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Go to the jump list backward and center" })
 vim.keymap.set("n", "%", "%zz", { desc = "Jump to matching parenthesis and center" })

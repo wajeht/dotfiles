@@ -31,7 +31,7 @@ A blazing-fast, clean Zsh configuration with async git prompt and zero framework
 
 ### `env.zsh`
 - Environment variables (EDITOR, LANG, HOMEBREW_NO_AUTO_UPDATE)
-- PATH modifications (Go, Bun, Bob nvim, LM Studio)
+- PATH modifications (Go, Bun, LM Studio)
 - Lazy-loaded NVM (faster shell startup)
 - Man page colorization with bat
 
@@ -82,7 +82,7 @@ A blazing-fast, clean Zsh configuration with async git prompt and zero framework
 ### 🚀 Performance Optimizations
 - Lazy-loaded completions (bun)
 - Lazy-loaded NVM (only loads when needed)
-- Completion cache (rebuilds once per day)
+- Cached completions (`compinit -d`)
 - Single git status call per prompt
 - Async git operations
 

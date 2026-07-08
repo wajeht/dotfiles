@@ -10,8 +10,6 @@ vim.g.fff = {
 		enabled = false,
 	},
 	keymaps = {
-		preview_scroll_up = "<C-k>",
-		preview_scroll_down = "<C-j>",
 		send_to_quickfix = { "<C-q>", "<M-q>" },
 	},
 }
@@ -80,10 +78,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 require("config.cmdmap")({ "n", "i", "v", "t", "c" }, "p", function()
-	require("fff").find_files()
-end, { desc = "Find repository files" })
-
-vim.keymap.set("n", "<leader>fg", function()
 	require("fff").find_files()
 end, { desc = "Find repository files" })
 

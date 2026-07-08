@@ -3,6 +3,14 @@
 source "$(dirname "$0")/_util.sh"
 
 main() {
+    case "${1:-install}" in
+    uninstall)
+        step "🍎 macOS preferences"
+        warning "macOS defaults can't be cleanly reverted; there is no uninstall. Reset individual settings in System Settings, or use a fresh user account."
+        return 0
+        ;;
+    esac
+
     step "🍎 Setting macOS preferences"
 
     osascript -e 'tell application "System Preferences" to quit' # Close any open System Preferences panes, to prevent them from overriding settings we're about to change
@@ -154,10 +162,6 @@ main() {
     defaults write com.apple.finder FXPreferredSearchViewStyle -string "Nlsv"
     defaults write com.apple.finder FXPreferredGroupBy -string "None"
 
-    # Clear existing folder view settings to force list view
-    find ~/Library/Preferences -name "com.apple.finder.plist" -exec defaults delete {} :FK_StandardViewSettings \; 2>/dev/null || true
-    find ~/Library/Preferences -name "com.apple.finder.plist" -exec defaults delete {} :StandardViewSettings \; 2>/dev/null || true
-
     # Set default view settings for all view types to list view
     defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
     defaults write com.apple.finder FK_DefaultSearchViewStyle -string "Nlsv"
@@ -176,8 +180,8 @@ main() {
 
     info "Configuring Dock, Dashboard, and hot corners..."
     set_default "com.apple.dock" "mouse-over-hilite-stack" "bool" "true"                 # Enable highlight hover effect for the grid view of a stack (Dock)
-    set_default "com.apple.dock" "tilesize" "int" "16"                                   # Set the icon size of Dock items to 36 pixels (overrides previous)
-    set_default "com.apple.dock" "largesize" "int" "32"                                  # Set magnification icon size to 64 pixels
+    set_default "com.apple.dock" "tilesize" "int" "16"                                   # Set the icon size of Dock items to 16 pixels
+    set_default "com.apple.dock" "largesize" "int" "32"                                  # Set magnification icon size to 32 pixels
     set_default "com.apple.dock" "mineffect" "string" "scale"                            # Change minimize/maximize window effect
     set_default "com.apple.dock" "minimize-to-application" "bool" "true"                 # Minimize windows into their application's icon
     set_default "com.apple.dock" "enable-spring-load-actions-on-all-items" "bool" "true" # Enable spring loading for all Dock items
@@ -259,7 +263,7 @@ main() {
 
     info "Configuring Terminal"
     # set_default "com.apple.terminal" "StringEncodings" -array "4"        # Only use UTF-8 in Terminal.app (can fail on some systems)
-    set_default "com.apple.terminal" "SecureKeyboardEntry" "bool" "true" # Enable Secure Keyboard Entry in Terminal.app
+    set_default "com.apple.Terminal" "SecureKeyboardEntry" "bool" "true" # Enable Secure Keyboard Entry in Terminal.app
     set_default "com.apple.Terminal" "ShowLineMarks" "int" "0"           # Disable the annoying line marks in Terminal
 
     info "Configuring Time Machine..."
@@ -328,11 +332,10 @@ main() {
         "Safari"
         "SystemUIServer"
         "Terminal"
-        "ghostty"
-        "vscode"
-        "cursor"
-        "firefox"
     )
+    # Note: Ghostty/VS Code/Cursor/Firefox are intentionally NOT restarted — this
+    # script sets no defaults for them, and killing the terminal running this
+    # script (Ghostty) would abort the run.
     for app_name in "${app_list[@]}"; do
         if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
             killall "${app_name}" &>/dev/null || true

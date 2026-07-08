@@ -32,12 +32,6 @@ fi
 # Colorize man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# Difftastic defaults
-export DFT_DISPLAY="side-by-side-show-both"
-export DFT_CONTEXT="2"
-export DFT_BACKGROUND="dark"
-export DFT_SYNTAX_HIGHLIGHT="off"
-
 # NVM (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
@@ -46,9 +40,17 @@ elif [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
   NVM_HOMEBREW="/usr/local/opt/nvm"
 fi
 
-# Add nvm's default node to PATH for tools like Mason that need npm
+# Add nvm's default node to PATH for tools like Mason that need npm.
+# Prefer the concrete version the `default` alias names; otherwise the highest
+# installed version. Avoids picking by mtime (which repoints the default onto an
+# older version the moment you reinstall/patch it).
 if [[ -d "$NVM_DIR/versions/node" ]]; then
-  NODE_DEFAULT=$(ls -t "$NVM_DIR/versions/node" 2>/dev/null | head -1)
+  NODE_DEFAULT=""
+  if [[ -f "$NVM_DIR/alias/default" ]]; then
+    NODE_DEFAULT=$(<"$NVM_DIR/alias/default")
+    [[ -d "$NVM_DIR/versions/node/$NODE_DEFAULT" ]] || NODE_DEFAULT=""
+  fi
+  [[ -z "$NODE_DEFAULT" ]] && NODE_DEFAULT=$(ls -1 "$NVM_DIR/versions/node" 2>/dev/null | sort -V | tail -1)
   [[ -n "$NODE_DEFAULT" ]] && export PATH="$NVM_DIR/versions/node/$NODE_DEFAULT/bin:$PATH"
 fi
 

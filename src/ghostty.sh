@@ -6,6 +6,7 @@ install_ghostty() {
     step "🖼️ Installing Ghostty Configuration"
 
     info "Installing Ghostty configuration..."
+    backup_if_exists ~/.config/ghostty # consistent with the other component installers
     mkdir -p ~/.config/ghostty
     cp -r "$(dirname "$0")/configs/ghostty/"* ~/.config/ghostty/
     task "Copied configuration to ~/.config/ghostty/"

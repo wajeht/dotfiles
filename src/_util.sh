@@ -58,8 +58,9 @@ check_xcode_tools() {
 }
 
 backup_if_exists() {
-    if [[ -f "$1" ]]; then
-        cp "$1" "$1.backup"
+    if [[ -e "$1" ]]; then
+        rm -rf "$1.backup"
+        cp -a "$1" "$1.backup" # -a so directories (e.g. ~/.config/nvim) are backed up too
         task "Backed up existing $(basename "$1")"
     fi
 }
@@ -108,4 +109,42 @@ tmux_supports_sessionizer() {
     command -v tmux >/dev/null 2>&1 || return 1
     v=$(tmux -V | grep -oE '[0-9]+\.[0-9]+' | head -1)
     [ "$(printf '%s\n3.2\n' "$v" | sort -V | head -1)" = "3.2" ]
+}
+
+# Download a release asset and install a single binary into ~/.local/bin.
+#   install_release_bin <url> <bin-name>
+# Archive type is inferred from the URL: .tar.gz/.tgz and .zip are extracted and
+# the binary is located with find; .gz is gunzipped; anything else is treated as
+# a raw binary. Uses a mktemp workdir (no fixed /tmp paths).
+install_release_bin() {
+    local url="$1" bin="$2"
+    local tmp
+    tmp=$(mktemp -d)
+    mkdir -p "$HOME/.local/bin"
+    local file="$tmp/${url##*/}"
+    curl -fsSL "$url" -o "$file"
+    case "$url" in
+    *.tar.gz | *.tgz)
+        tar -xzf "$file" -C "$tmp"
+        local found
+        found=$(find "$tmp" -type f -name "$bin" | head -1)
+        [ -n "$found" ] || error "Could not find '$bin' in $(basename "$url")"
+        cp "$found" "$HOME/.local/bin/$bin"
+        ;;
+    *.zip)
+        unzip -q "$file" -d "$tmp"
+        local found
+        found=$(find "$tmp" -type f -name "$bin" | head -1)
+        [ -n "$found" ] || error "Could not find '$bin' in $(basename "$url")"
+        cp "$found" "$HOME/.local/bin/$bin"
+        ;;
+    *.gz)
+        gzip -dc "$file" >"$HOME/.local/bin/$bin"
+        ;;
+    *)
+        cp "$file" "$HOME/.local/bin/$bin"
+        ;;
+    esac
+    chmod +x "$HOME/.local/bin/$bin"
+    rm -rf "$tmp"
 }

@@ -3,7 +3,7 @@
 return {
 	cmd = { "vue-language-server", "--stdio" },
 	filetypes = { "vue" },
-	root_markers = { "vue.config.js", "vue.config.ts", "nuxt.config.js", "nuxt.config.ts", "package.json" },
+	root_markers = { "vue.config.js", "vue.config.ts", "nuxt.config.js", "nuxt.config.ts", "package.json", ".git" },
 	on_init = function(client)
 		client.handlers["tsserver/request"] = function(_, result, context)
 			local vtsls_clients = vim.lsp.get_clients({ bufnr = context.bufnr, name = "vtsls" })

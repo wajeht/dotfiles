@@ -18,6 +18,7 @@ install_nvim() {
     fi
 
     info "Installing Neovim configuration..."
+    backup_if_exists "$config_nvim" # back up before replacing (backup_if_exists handles dirs)
     rm -rf "$config_nvim"
     mkdir -p "$config_nvim"
     cp -R "$dotfiles_nvim/." "$config_nvim/"
@@ -29,13 +30,6 @@ install_nvim() {
     rm -rf ~/.cache/nvim/lsp.log* 2>/dev/null || true
     rm -rf ~/.cache/nvim/tree-sitter-* 2>/dev/null || true
     task "Cleaned LSP/Mason/tree-sitter cache"
-
-    info "Removing retired Neovim plugin packages..."
-    rm -rf ~/.local/share/nvim/site/pack/core/opt/fzf-lua 2>/dev/null || true
-    rm -rf ~/.local/share/nvim/site/pack/core/start/fzf-lua 2>/dev/null || true
-    rm -rf ~/.local/share/nvim/site/pack/core/opt/diffview.nvim 2>/dev/null || true
-    rm -rf ~/.local/share/nvim/site/pack/core/start/diffview.nvim 2>/dev/null || true
-    task "Removed retired plugin packages"
 
     success "Neovim configuration installed"
 }
@@ -108,20 +102,16 @@ uninstall_nvim() {
     echo "   • ~/.cache/nvim/ (cache files)"
     echo "   • ~/.local/share/nvim/ (data files)"
     echo "   • ~/.local/state/nvim/ (state files)"
-    echo "   • Plugin manager caches (lazy, mason)"
+    echo "   • Plugin/LSP data (mason servers, treesitter parsers)"
     echo ""
     read -p "❓ Continue with Neovim cleanup? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
 
     info "Removing Neovim configuration and caches..."
+    # These four dirs cover everything (mason/treesitter/site all live under them).
     rm -rf ~/.config/nvim
     rm -rf ~/.cache/nvim
     rm -rf ~/.local/share/nvim
     rm -rf ~/.local/state/nvim
-    rm -rf ~/.cache/lazy
-    rm -rf ~/.cache/mason
-    rm -rf ~/.local/share/nvim/mason
-    rm -rf ~/.local/share/nvim/lazy
-    rm -rf ~/.local/share/nvim/site
     task "Removed Neovim files and directories"
 
     info "Clearing npm cache..."
