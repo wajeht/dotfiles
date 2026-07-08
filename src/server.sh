@@ -20,7 +20,7 @@ install_terminfo() {
 
 install_apt_deps() {
     info "Installing dependencies via apt..."
-    local apt_pkgs="zsh git curl fzf ripgrep unzip lsd bat build-essential golang-go btop tmux"
+    local apt_pkgs="zsh git gh curl fzf ripgrep unzip tar gzip shfmt lsd bat build-essential golang-go btop tmux"
     sudo apt-get update -qq
     sudo apt-get install -y $apt_pkgs
     task "Installed: $apt_pkgs"
@@ -31,6 +31,86 @@ install_apt_deps() {
         ln -sf /usr/bin/batcat ~/.local/bin/bat
         task "Symlinked batcat -> bat"
     fi
+}
+
+install_tree_sitter_cli() {
+    info "Installing tree-sitter CLI..."
+
+    local min_version="0.26.1"
+    if command -v tree-sitter >/dev/null 2>&1; then
+        local current_version
+        current_version="$(tree-sitter --version | awk '{print $2}')"
+        if printf '%s\n%s\n' "$min_version" "$current_version" | sort -V -C; then
+            task "tree-sitter CLI already installed: $current_version"
+            return
+        fi
+        warning "tree-sitter CLI $current_version is older than required $min_version"
+    fi
+
+    local arch
+    arch=$(uname -m)
+    local asset=""
+    if [[ "$arch" == "x86_64" ]]; then
+        asset="tree-sitter-linux-x64.gz"
+    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
+        asset="tree-sitter-linux-arm64.gz"
+    else
+        error "Unsupported arch for tree-sitter CLI: $arch"
+        exit 1
+    fi
+
+    mkdir -p "$HOME/.local/bin"
+    local download_url="https://github.com/tree-sitter/tree-sitter/releases/latest/download/$asset"
+    local tmp_file="/tmp/$asset"
+
+    curl -fsSL "$download_url" -o "$tmp_file"
+    gzip -dc "$tmp_file" >"$HOME/.local/bin/tree-sitter"
+    chmod +x "$HOME/.local/bin/tree-sitter"
+    rm -f "$tmp_file"
+
+    task "$("$HOME/.local/bin/tree-sitter" --version)"
+}
+
+install_difftastic() {
+    info "Installing Difftastic..."
+
+    if command -v difft >/dev/null 2>&1; then
+        task "Difftastic already installed: $(difft --version)"
+        return
+    fi
+
+    local arch
+    arch=$(uname -m)
+    local asset=""
+    if [[ "$arch" == "x86_64" ]]; then
+        asset="difft-x86_64-unknown-linux-gnu.tar.gz"
+    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
+        asset="difft-aarch64-unknown-linux-gnu.tar.gz"
+    else
+        error "Unsupported arch for Difftastic: $arch"
+        exit 1
+    fi
+
+    mkdir -p "$HOME/.local/bin"
+    local download_url="https://github.com/Wilfred/difftastic/releases/latest/download/$asset"
+    local tmp_dir="/tmp/difftastic-install"
+    local tmp_file="/tmp/$asset"
+
+    rm -rf "$tmp_dir"
+    mkdir -p "$tmp_dir"
+    curl -fsSL "$download_url" -o "$tmp_file"
+    tar -xzf "$tmp_file" -C "$tmp_dir"
+    local difft_bin
+    difft_bin="$(find "$tmp_dir" -type f -name difft | head -1)"
+    if [[ -z "$difft_bin" ]]; then
+        error "Could not find difft binary in $asset"
+        exit 1
+    fi
+    cp "$difft_bin" "$HOME/.local/bin/difft"
+    chmod +x "$HOME/.local/bin/difft"
+    rm -rf "$tmp_dir" "$tmp_file"
+
+    task "$("$HOME/.local/bin/difft" --version)"
 }
 
 install_neovim() {
@@ -59,7 +139,9 @@ install_neovim() {
     curl -sL "$download_url" -o "/tmp/$tarball"
 
     info "Extracting to $install_dir..."
-    tar -xzf "/tmp/$tarball" -C /tmp
+    local gzip_bin
+    gzip_bin="$(command -v gzip)"
+    "$gzip_bin" -dc "/tmp/$tarball" | tar -xf - -C /tmp
     local extracted_dir="/tmp/${tarball%.tar.gz}"
 
     # Copy contents into ~/.local (bin/, lib/, share/)
@@ -216,6 +298,7 @@ install_nvim_config() {
     # Clean caches
     rm -rf ~/.local/share/nvim/mason 2>/dev/null || true
     rm -rf ~/.local/state/nvim/mason.log 2>/dev/null || true
+    rm -rf ~/.cache/nvim/tree-sitter-* 2>/dev/null || true
 
     success "Neovim configuration installed"
 }
@@ -239,6 +322,8 @@ install_server() {
     install_apt_deps
     install_terminfo
     install_nvm
+    install_tree_sitter_cli
+    install_difftastic
     install_neovim
     install_zsh_plugins
     install_zsh_config
