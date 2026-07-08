@@ -161,8 +161,16 @@ install_git() {
     ssh-keyscan -t ed25519 -p 443 ssh.github.com 2>/dev/null >>~/.ssh/known_hosts
     task "Added GitHub SSH host key"
 
-    add_github_ssh_key_if_authenticated "$signing_key"
-    add_github_ssh_signing_key_if_authenticated "$signing_key"
+    # Only auto-register on a personal (single-key) machine, where gh is the
+    # personal account and id_ed25519 is the personal key. On a work laptop gh is
+    # typically the work account, so registering the personal key there would be
+    # wrong — the keys are managed per account manually instead.
+    if [ -f ~/.ssh/id_ed25519_work.pub ]; then
+        info "Work laptop — skipping automatic GitHub key registration (register each key with its own account manually)."
+    else
+        add_github_ssh_key_if_authenticated "$signing_key"
+        add_github_ssh_signing_key_if_authenticated "$signing_key"
+    fi
 
     success "Git configuration installed"
     info "💡 Using XDG location: ~/.config/git/config (modern standard)"

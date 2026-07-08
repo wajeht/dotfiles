@@ -101,11 +101,29 @@ ssh-add -D 2>/dev/null; ssh-add id_ed25519 id_ed25519_work
 cd ~/Dev/dotfiles && make git install
 ```
 
-Then remove any leftover `github-personal` block from `~/.ssh/config`, and verify:
+Existing work repos were cloned as `git@github.com:...`, which now resolves to the
+personal key. Point them at the work alias so they authenticate with the work key
+(the `https://` remotes are unaffected — they use gh's credential helper):
 
 ```sh
-ssh -T git@github.com     # personal
-ssh -T git@github-work    # work
+find ~/work -maxdepth 3 -name .git -type d | while read g; do
+  d=$(dirname "$g"); r=$(git -C "$d" remote get-url origin 2>/dev/null || true)
+  case "$r" in git@github.com:*) git -C "$d" remote set-url origin "git@github-work:${r#git@github.com:}";; esac
+done
+```
+
+If the dotfiles repo's own remote used `git@github-personal:`, point it back at `github.com`:
+
+```sh
+git -C ~/dev/dotfiles remote set-url origin git@github.com:wajeht/dotfiles.git
+```
+
+Then remove any leftover `github-personal` block from `~/.ssh/config`, and verify (use
+`ssh -n` so the check doesn't swallow following commands):
+
+```sh
+ssh -n -T git@github.com     # personal → "Hi wajeht"
+ssh -n -T git@github-work    # work     → "Hi clevyr-kyaw"
 ```
 
 ## Notes
