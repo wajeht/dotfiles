@@ -23,11 +23,12 @@ install_nvim() {
     cp -R "$dotfiles_nvim/." "$config_nvim/"
     task "Replaced configuration in ~/.config/nvim/"
 
-    info "Cleaning LSP/Mason cache to prevent conflicts..."
+    info "Cleaning LSP/Mason/tree-sitter cache to prevent conflicts..."
     rm -rf ~/.local/share/nvim/mason 2>/dev/null || true
     rm -rf ~/.local/state/nvim/mason.log 2>/dev/null || true
     rm -rf ~/.cache/nvim/lsp.log* 2>/dev/null || true
-    task "Cleaned LSP/Mason cache"
+    rm -rf ~/.cache/nvim/tree-sitter-* 2>/dev/null || true
+    task "Cleaned LSP/Mason/tree-sitter cache"
 
     info "Removing retired Neovim plugin packages..."
     rm -rf ~/.local/share/nvim/site/pack/core/opt/fzf-lua 2>/dev/null || true
