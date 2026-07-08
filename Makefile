@@ -36,7 +36,7 @@ macos:
 push:
 	@make format
 	@git add -A
-	@curl -fsSl https://commit.jaw.dev | sh -s -- --no-verify
+	@curl -fsSl https://commit.jaw.dev | bash -s -- --no-verify
 	@git push --no-verify
 
 clean:
