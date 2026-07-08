@@ -1,0 +1,8 @@
+# GitHub work account (managed by dotfiles)
+# Appended only on the work laptop, where id_ed25519_work = clevyr work key.
+# Clone work repos via git@github-work:... so they authenticate with the work key.
+Host github-work
+	HostName ssh.github.com
+	Port 443
+	IdentityFile ~/.ssh/id_ed25519_work
+	IdentitiesOnly yes

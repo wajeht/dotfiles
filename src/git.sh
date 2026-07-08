@@ -2,15 +2,6 @@
 
 source "$(dirname "$0")/_util.sh"
 
-replace_in_file() {
-    local pattern="$1"
-    local replacement="$2"
-    local file="$3"
-
-    sed -i.bak "s|$pattern|$replacement|" "$file"
-    rm -f "$file.bak"
-}
-
 ensure_personal_ssh_key() {
     local key_path="$HOME/.ssh/id_ed25519"
     local email="$1"
@@ -105,24 +96,25 @@ install_git() {
     cp "$(dirname "$0")/configs/git/config" ~/.config/git/config
     task "Copied config to ~/.config/git/config"
 
-    # Work laptop: has both id_ed25519 (work) and id_ed25519_personal (personal)
-    # Personal computer: only has id_ed25519 (personal)
+    # id_ed25519 is the personal (wajeht) key on every machine — the default
+    # identity, and what commits are signed with. A work laptop additionally has
+    # id_ed25519_work (the clevyr key) used for repos under ~/work/.
     local personal_email="58354193+wajeht@users.noreply.github.com"
     local signing_key="$HOME/.ssh/id_ed25519.pub"
-    if [ -f ~/.ssh/id_ed25519_personal.pub ]; then
-        signing_key="$HOME/.ssh/id_ed25519_personal.pub"
-        replace_in_file "signingKey = ~/.ssh/id_ed25519.pub" "signingKey = ~/.ssh/id_ed25519_personal.pub" ~/.config/git/config
+
+    ensure_personal_ssh_key "$personal_email"
+
+    if [ -f ~/.ssh/id_ed25519_work.pub ]; then
         cp "$(dirname "$0")/configs/git/work" ~/.config/git/work
-        task "Work laptop detected — default signing key set to personal, work profile installed"
+        task "Work laptop detected — work profile installed (~/work/ signs with id_ed25519_work)"
     else
-        ensure_personal_ssh_key "$personal_email"
-        task "Personal computer detected — using default signing key"
+        task "Personal machine — single personal key (id_ed25519)"
     fi
 
-    info "Installing SSH configuration for GitHub multi-account..."
+    info "Installing SSH configuration for GitHub..."
     backup_if_exists ~/.ssh/config
     if [ -f ~/.ssh/config ]; then
-        if ! grep -q "github-personal" ~/.ssh/config; then
+        if ! grep -qF "GitHub personal account (managed by dotfiles)" ~/.ssh/config; then
             cat "$(dirname "$0")/configs/git/ssh_config" >>~/.ssh/config
             task "Appended GitHub SSH config to ~/.ssh/config"
         else
@@ -132,21 +124,24 @@ install_git() {
         cp "$(dirname "$0")/configs/git/ssh_config" ~/.ssh/config
         task "Copied SSH config to ~/.ssh/config"
     fi
+    # Work laptop only: add a github-work alias bound to the work key.
+    if [ -f ~/.ssh/id_ed25519_work.pub ] && ! grep -qF "GitHub work account (managed by dotfiles)" ~/.ssh/config; then
+        cat "$(dirname "$0")/configs/git/ssh_config_work" >>~/.ssh/config
+        task "Added github-work SSH alias"
+    fi
     chmod 600 ~/.ssh/config
 
     info "Generating allowed_signers for commit verification..."
     : >~/.ssh/allowed_signers
-    if [ -f ~/.ssh/id_ed25519_personal.pub ]; then
-        # Work laptop: id_ed25519 = work key, id_ed25519_personal = personal key
-        if [ -f ~/.ssh/id_ed25519.pub ]; then
-            echo "265659615+clevyr-kyaw@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
-        fi
-        echo "58354193+wajeht@users.noreply.github.com $(cat ~/.ssh/id_ed25519_personal.pub)" >>~/.ssh/allowed_signers
-        task "Added personal (and work, if present) keys to allowed_signers"
-    elif [ -f ~/.ssh/id_ed25519.pub ]; then
-        # Personal computer: id_ed25519 = personal key (only key)
+    # id_ed25519 = personal key (present on every machine)
+    if [ -f ~/.ssh/id_ed25519.pub ]; then
         echo "58354193+wajeht@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
         task "Added personal key to allowed_signers"
+    fi
+    # id_ed25519_work = clevyr work key (work laptop only)
+    if [ -f ~/.ssh/id_ed25519_work.pub ]; then
+        echo "265659615+clevyr-kyaw@users.noreply.github.com $(cat ~/.ssh/id_ed25519_work.pub)" >>~/.ssh/allowed_signers
+        task "Added work key to allowed_signers"
     fi
     chmod 644 ~/.ssh/allowed_signers
 
@@ -159,7 +154,11 @@ install_git() {
 
     success "Git configuration installed"
     info "💡 Using XDG location: ~/.config/git/config (modern standard)"
-    info "💡 SSH configured for multi-account GitHub (github.com + github-personal)"
+    if [ -f ~/.ssh/id_ed25519_work.pub ]; then
+        info "💡 SSH configured for GitHub: github.com (personal) + github-work (clevyr)"
+    else
+        info "💡 SSH configured for GitHub: github.com (personal, id_ed25519)"
+    fi
 }
 
 uninstall_git() {
