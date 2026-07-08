@@ -2,8 +2,10 @@
 
 source "$(dirname "$0")/_util.sh"
 
-# Pinned nvm version (everything else resolves 'latest' from GitHub releases).
-readonly NVM_VERSION="v0.40.1"
+# Pinned nvm installer version (everything else resolves 'latest' from GitHub
+# releases). Named INSTALLER, not NVM_VERSION — nvm.sh uses NVM_VERSION itself,
+# and a readonly global by that name breaks it when sourced.
+readonly NVM_INSTALLER_VERSION="v0.40.1"
 
 check_linux() {
     [[ "$(uname)" == "Linux" ]] || error "Linux required (this script is for servers)"
@@ -91,7 +93,7 @@ install_nvm() {
     if [[ -d "$HOME/.nvm" ]]; then
         task "nvm already installed"
     else
-        curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
+        curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_INSTALLER_VERSION}/install.sh" | bash
         task "Installed nvm"
     fi
 
