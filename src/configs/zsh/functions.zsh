@@ -96,7 +96,9 @@ function dev() {
     # existing names (plain session names + folder basenames) for create-line suppression
     { print -rl -- "${snames[@]}"; for dpath in $dirs; do print -r -- "${dpath:t}"; done } > "$namesf"
     local reload='q="$FZF_QUERY"; [ -n "$q" ] && ! grep -qxF -- "$q" '${(q)namesf}' && printf "\033[38;2;106;153;85mcreate session \"%s\"\033[0m\n" "$q"; cat '${(q)tmpf}
-    result=$(fzf --ansi --no-sort --print-query --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
+    # --delimiter/--nth: match only the last path component (project name), not the
+    # whole path — otherwise "dotf" matches via the shared "/Users/jaw/Dev/" prefix.
+    result=$(fzf --ansi --no-sort --print-query --delimiter / --nth -1 --bind "change:reload($reload)" "${fzf_opts[@]}" < "$tmpf")
     rc=$?
     rm -f "$tmpf" "$namesf"
     [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ] && return 0   # aborted (Esc/^C)
