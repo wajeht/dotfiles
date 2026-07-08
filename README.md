@@ -24,7 +24,7 @@ $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/insta
 - **LSD** - Beautiful file listing with colors
 - **Bat** - Syntax-highlighted cat replacement
 
-## 🔧 Commands
+## Commands
 
 ```bash
 # Install everything
@@ -44,7 +44,7 @@ make sync-nvim # Sync nvim-pack-lock.json (run :lua vim.pack.update() first)
 make help      # Show all commands
 ```
 
-## 📖 Docs
+## Docs
 
 - [SSH Keys, Hosts & GitHub Accounts](./docs/ssh.md) — key naming, host aliases, multi-account GitHub, passwordless login, new-machine setup
 - [Verified Commits](./docs/verified-commit.md) — SSH commit signing setup on macOS
