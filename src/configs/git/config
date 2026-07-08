@@ -41,7 +41,7 @@
 	push = push --no-verify               # Push without pre-push hooks
 	discard = restore .                   # Revert all local changes in working directory
 	undo = reset --soft HEAD^             # Undo last commit but keep changes staged
-	aicommit = "!f() { curl -s https://commit.jaw.dev/ | sh -s -- --no-verify; }; f" # Generate commit messages via your AI commit service
+	aicommit = "!f() { curl -s https://commit.jaw.dev/ | bash -s -- --no-verify; }; f" # Generate commit messages via your AI commit service
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"       # Add, commit (AI), and push in one step
 	pr = "!f() { git rev-parse --abbrev-ref @{u} >/dev/null 2>&1 || git push -u origin HEAD || exit $?; gh pr create --fill \"$@\"; }; f" # Push branch if needed, then create PR
 	pr-comments = "!zsh -c 'source \"${ZDOTDIR:-$HOME/.config/zsh}/.zshrc\" && git_pr_comments'"                    # Show PR comments (custom zsh alias)
