@@ -27,6 +27,7 @@ the rest are tmux defaults.
 | Split left/right (vertical bar) | `C-a \|` ⚙ |
 | Split top/bottom | `C-a -` ⚙ |
 | Close pane | `C-a x` (confirm) |
+| Move between panes / nvim splits (no prefix) | `Ctrl+h/j/k/l` ⚙ (seamless with nvim via vim-tmux-navigator) |
 | Move between panes | `C-a` + arrow keys, or `C-a o` to cycle |
 | Resize pane (±5) | `C-a h/j/k/l` ⚙ (left/down/up/right) |
 | Zoom pane fullscreen (toggle) | `C-a m` ⚙ (or default `C-a z`) |
