@@ -59,6 +59,38 @@ add_github_ssh_key_if_authenticated() {
     fi
 }
 
+add_github_ssh_signing_key_if_authenticated() {
+    local key_path="$1"
+
+    if ! command -v gh >/dev/null 2>&1; then
+        warning "gh not found. Run 'gh auth login' later, then add $key_path as a GitHub signing key."
+        return
+    fi
+
+    if gh auth status -h github.com >/dev/null 2>&1; then
+        if ! gh api user/ssh_signing_keys --jq '.[].key' >/tmp/gh-ssh-signing-keys.$$ 2>/tmp/gh-ssh-signing-keys.err.$$; then
+            warning "gh cannot manage SSH signing keys yet. Run: gh auth refresh -h github.com -s admin:ssh_signing_key"
+            rm -f /tmp/gh-ssh-signing-keys.$$ /tmp/gh-ssh-signing-keys.err.$$
+            return
+        fi
+
+        local public_key
+        public_key="$(awk '{print $1 " " $2}' "$key_path")"
+        if grep -Fqx "$public_key" /tmp/gh-ssh-signing-keys.$$; then
+            task "GitHub already has this SSH signing key"
+        else
+            if gh api user/ssh_signing_keys -X POST -f title="$(hostname)-signing-$(date +%Y%m%d)" -f key="$public_key" >/dev/null; then
+                task "Added SSH signing key to GitHub"
+            else
+                warning "Could not add SSH signing key to GitHub. Run: gh auth refresh -h github.com -s admin:ssh_signing_key"
+            fi
+        fi
+        rm -f /tmp/gh-ssh-signing-keys.$$ /tmp/gh-ssh-signing-keys.err.$$
+    else
+        warning "gh is not authenticated. Run 'gh auth login', then add $key_path as a GitHub signing key."
+    fi
+}
+
 install_git() {
     step "🔗 Installing Git Configuration"
 
@@ -121,6 +153,7 @@ install_git() {
     task "Added GitHub SSH host key"
 
     add_github_ssh_key_if_authenticated "$signing_key"
+    add_github_ssh_signing_key_if_authenticated "$signing_key"
 
     success "Git configuration installed"
     info "💡 Using XDG location: ~/.config/git/config (modern standard)"
