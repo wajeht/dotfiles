@@ -88,8 +88,10 @@ ssh-keygen -R <ip-or-host>
 
 ## Migrating an old work laptop to this scheme
 
-The old scheme used `id_ed25519` = work and `id_ed25519_personal` = personal. Renaming a
-key *file* does not change the key material, so nothing needs re-registering on GitHub:
+The old scheme used `id_ed25519` = work and `id_ed25519_personal` = personal. `make git
+install` refuses to run while `id_ed25519_personal.pub` is present, so migrate the key
+files first. Renaming a key *file* does not change the key material, so nothing needs
+re-registering on GitHub:
 
 ```sh
 cd ~/.ssh

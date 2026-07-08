@@ -85,6 +85,13 @@ add_github_ssh_signing_key_if_authenticated() {
 install_git() {
     step "🔗 Installing Git Configuration"
 
+    # Guard against the old key scheme (id_ed25519 = work, id_ed25519_personal =
+    # personal). Installing here would sign personal commits with the work key and
+    # skip the work profile. Migrate the key files first — see docs/ssh.md.
+    if [ -f ~/.ssh/id_ed25519_personal.pub ] && [ ! -f ~/.ssh/id_ed25519_work.pub ]; then
+        error "Old key scheme detected (~/.ssh/id_ed25519_personal.pub). Migrate first — see docs/ssh.md 'Migrating an old work laptop to this scheme' — then re-run."
+    fi
+
     backup_if_exists ~/.config/git/config
     backup_if_exists ~/.gitconfig # Backup legacy location if exists
 
