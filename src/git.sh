@@ -42,7 +42,9 @@ add_github_ssh_key_if_authenticated() {
             return
         fi
 
-        if grep -Fq "$(cut -d' ' -f2 "$key_path")" /tmp/gh-ssh-keys.$$; then
+        local key_fingerprint
+        key_fingerprint="$(ssh-keygen -lf "$key_path" -E sha256 | awk '{print $2}')"
+        if grep -Fq "$key_fingerprint" /tmp/gh-ssh-keys.$$; then
             task "GitHub already has this SSH key"
         else
             if gh ssh-key add "$key_path" --title "$(hostname)-$(date +%Y%m%d)" >/dev/null; then
