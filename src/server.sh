@@ -2,6 +2,10 @@
 
 source "$(dirname "$0")/_util.sh"
 
+# Pinned tool versions. Everything else resolves 'latest' from GitHub releases.
+readonly SHFMT_VERSION="v3.13.1"
+readonly NVM_VERSION="v0.40.1"
+
 check_linux() {
     [[ "$(uname)" == "Linux" ]] || error "Linux required (this script is for servers)"
 }
@@ -49,44 +53,12 @@ install_gh_cli() {
     fi
 
     # Fallback for Debian / older Ubuntu (gh not in their repos): GitHub releases.
-    local arch asset_arch
-    arch=$(uname -m)
-    if [[ "$arch" == "x86_64" ]]; then
-        asset_arch="amd64"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset_arch="arm64"
-    else
-        error "Unsupported arch for GitHub CLI: $arch"
-        exit 1
-    fi
-
     local version
     version="$(curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/cli/cli/releases/latest 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)"
-    if [[ -z "$version" ]]; then
-        error "Could not determine latest GitHub CLI version"
-        exit 1
-    fi
+    [ -n "$version" ] || error "Could not determine latest GitHub CLI version"
 
-    local asset="gh_${version#v}_linux_${asset_arch}.tar.gz"
-    local download_url="https://github.com/cli/cli/releases/download/${version}/${asset}"
-    local tmp_dir="/tmp/gh-cli-install"
-    local tmp_file="/tmp/$asset"
-
-    rm -rf "$tmp_dir"
-    mkdir -p "$tmp_dir"
-    curl -fsSL "$download_url" -o "$tmp_file"
-    tar -xzf "$tmp_file" -C "$tmp_dir"
-    local gh_bin
-    gh_bin="$(find "$tmp_dir" -type f -name gh | head -1)"
-    if [[ -z "$gh_bin" ]]; then
-        error "Could not find gh binary in $asset"
-        exit 1
-    fi
-    mkdir -p "$HOME/.local/bin"
-    cp "$gh_bin" "$HOME/.local/bin/gh"
-    chmod +x "$HOME/.local/bin/gh"
-    rm -rf "$tmp_dir" "$tmp_file"
-
+    local asset="gh_${version#v}_linux_$(dl_arch amd64 arm64).tar.gz"
+    install_release_bin "https://github.com/cli/cli/releases/download/${version}/${asset}" gh
     task "$("$HOME/.local/bin/gh" --version | head -1)"
 }
 
@@ -106,22 +78,7 @@ install_shfmt() {
     fi
 
     # Fallback for Debian / older Ubuntu (shfmt not in their repos): GitHub releases.
-    local arch asset_arch
-    arch=$(uname -m)
-    if [[ "$arch" == "x86_64" ]]; then
-        asset_arch="amd64"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset_arch="arm64"
-    else
-        error "Unsupported arch for shfmt: $arch"
-        exit 1
-    fi
-
-    local version="v3.13.1"
-    mkdir -p "$HOME/.local/bin"
-    curl -fsSL "https://github.com/mvdan/sh/releases/download/${version}/shfmt_${version}_linux_${asset_arch}" -o "$HOME/.local/bin/shfmt"
-    chmod +x "$HOME/.local/bin/shfmt"
-
+    install_release_bin "https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_$(dl_arch amd64 arm64)" shfmt
     task "shfmt $("$HOME/.local/bin/shfmt" --version) installed"
 }
 
@@ -139,27 +96,8 @@ install_tree_sitter_cli() {
         warning "tree-sitter CLI $current_version is older than required $min_version"
     fi
 
-    local arch
-    arch=$(uname -m)
-    local asset=""
-    if [[ "$arch" == "x86_64" ]]; then
-        asset="tree-sitter-linux-x64.gz"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset="tree-sitter-linux-arm64.gz"
-    else
-        error "Unsupported arch for tree-sitter CLI: $arch"
-        exit 1
-    fi
-
-    mkdir -p "$HOME/.local/bin"
-    local download_url="https://github.com/tree-sitter/tree-sitter/releases/latest/download/$asset"
-    local tmp_file="/tmp/$asset"
-
-    curl -fsSL "$download_url" -o "$tmp_file"
-    gzip -dc "$tmp_file" >"$HOME/.local/bin/tree-sitter"
-    chmod +x "$HOME/.local/bin/tree-sitter"
-    rm -f "$tmp_file"
-
+    local asset="tree-sitter-linux-$(dl_arch x64 arm64).gz"
+    install_release_bin "https://github.com/tree-sitter/tree-sitter/releases/latest/download/$asset" tree-sitter
     task "$("$HOME/.local/bin/tree-sitter" --version)"
 }
 
@@ -171,81 +109,48 @@ install_difftastic() {
         return
     fi
 
-    local arch
-    arch=$(uname -m)
-    local asset=""
-    if [[ "$arch" == "x86_64" ]]; then
-        asset="difft-x86_64-unknown-linux-gnu.tar.gz"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset="difft-aarch64-unknown-linux-gnu.tar.gz"
-    else
-        error "Unsupported arch for Difftastic: $arch"
-        exit 1
-    fi
-
-    mkdir -p "$HOME/.local/bin"
-    local download_url="https://github.com/Wilfred/difftastic/releases/latest/download/$asset"
-    local tmp_dir="/tmp/difftastic-install"
-    local tmp_file="/tmp/$asset"
-
-    rm -rf "$tmp_dir"
-    mkdir -p "$tmp_dir"
-    curl -fsSL "$download_url" -o "$tmp_file"
-    tar -xzf "$tmp_file" -C "$tmp_dir"
-    local difft_bin
-    difft_bin="$(find "$tmp_dir" -type f -name difft | head -1)"
-    if [[ -z "$difft_bin" ]]; then
-        error "Could not find difft binary in $asset"
-        exit 1
-    fi
-    cp "$difft_bin" "$HOME/.local/bin/difft"
-    chmod +x "$HOME/.local/bin/difft"
-    rm -rf "$tmp_dir" "$tmp_file"
-
+    local asset="difft-$(dl_arch x86_64 aarch64)-unknown-linux-gnu.tar.gz"
+    install_release_bin "https://github.com/Wilfred/difftastic/releases/latest/download/$asset" difft
     task "$("$HOME/.local/bin/difft" --version)"
 }
 
 install_neovim() {
     info "Installing Neovim stable from GitHub releases..."
 
-    local arch=$(uname -m)
-    local install_dir="$HOME/.local"
-
-    mkdir -p "$install_dir/bin"
-
-    local tarball=""
-    if [[ "$arch" == "x86_64" ]]; then
-        tarball="nvim-linux-x86_64.tar.gz"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        tarball="nvim-linux-arm64.tar.gz"
-    else
-        warning "Unknown arch $arch, falling back to apt"
-        sudo apt-get install -y neovim
-        task "Installed neovim via apt"
+    if command -v nvim >/dev/null 2>&1; then
+        task "Neovim already installed: $(nvim --version | head -1)"
         return
     fi
 
-    local download_url="https://github.com/neovim/neovim/releases/latest/download/$tarball"
+    local install_dir="$HOME/.local"
+    mkdir -p "$install_dir/bin"
 
+    local tarball
+    case "$(uname -m)" in
+    x86_64) tarball="nvim-linux-x86_64.tar.gz" ;;
+    aarch64 | arm64) tarball="nvim-linux-arm64.tar.gz" ;;
+    *)
+        warning "Unknown arch $(uname -m), falling back to apt"
+        sudo apt-get install -y neovim
+        task "Installed neovim via apt"
+        return
+        ;;
+    esac
+
+    # Neovim ships a bin/lib/share tree (not a single binary), so it's extracted
+    # into ~/.local directly rather than via install_release_bin.
+    local tmp
+    tmp=$(mktemp -d)
     info "Downloading $tarball..."
-    curl -sL "$download_url" -o "/tmp/$tarball"
+    curl -fsSL "https://github.com/neovim/neovim/releases/latest/download/$tarball" -o "$tmp/$tarball"
 
     info "Extracting to $install_dir..."
-    local gzip_bin
-    gzip_bin="$(command -v gzip)"
-    "$gzip_bin" -dc "/tmp/$tarball" | tar -xf - -C /tmp
-    local extracted_dir="/tmp/${tarball%.tar.gz}"
-
-    # Copy contents into ~/.local (bin/, lib/, share/)
-    cp -rf "$extracted_dir"/* "$install_dir/"
-    rm -rf "$extracted_dir" "/tmp/$tarball"
+    tar -xzf "$tmp/$tarball" -C "$tmp"
+    cp -rf "$tmp/${tarball%.tar.gz}"/* "$install_dir/"
+    rm -rf "$tmp"
 
     task "Installed Neovim to $install_dir"
-
-    if command -v nvim >/dev/null 2>&1; then
-        task "$(nvim --version | head -1)"
-    fi
-
+    command -v nvim >/dev/null 2>&1 && task "$(nvim --version | head -1)"
     info "Ensure ~/.local/bin is in your PATH"
 }
 
@@ -255,7 +160,7 @@ install_nvm() {
     if [[ -d "$HOME/.nvm" ]]; then
         task "nvm already installed"
     else
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+        curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
         task "Installed nvm"
     fi
 
@@ -461,25 +366,24 @@ uninstall_server() {
     step "🗑️  Removing Server Dotfiles"
 
     echo "This will remove:"
-    echo "  - ~/.zshenv"
-    echo "  - ~/.config/zsh/"
-    echo "  - ~/.config/tmux/"
-    echo "  - ~/.config/nvim/"
+    echo "  - ~/.zshenv, ~/.config/{zsh,tmux,nvim,bat,lsd,btop}/"
     echo "  - ~/.zsh/plugins/"
-    echo "  - ~/.local/bin/nvim (AppImage)"
+    echo "  - Neovim (~/.local/bin/nvim + its lib/share) and its state/cache"
+    echo "  - CLIs installed to ~/.local/bin: gh, shfmt, tree-sitter, difft"
     echo ""
     read -p "❓ Continue? [y/N] " confirm && [[ "$confirm" == "y" ]] || exit 1
 
     rm -f ~/.zshenv
-    rm -rf ~/.config/zsh
-    rm -rf ~/.config/tmux
-    rm -rf ~/.config/nvim
+    rm -rf ~/.config/zsh ~/.config/tmux ~/.config/nvim ~/.config/bat ~/.config/lsd ~/.config/btop
     rm -rf ~/.zsh/plugins
-    rm -rf ~/.local/bin/nvim 2>/dev/null || true
-    rm -rf ~/.local/bin/squashfs-root 2>/dev/null || true
-    rm -rf ~/.local/share/nvim
-    rm -rf ~/.local/state/nvim
-    rm -rf ~/.cache/nvim
+
+    # Neovim is installed as a tarball tree under ~/.local (bin/lib/share), not an AppImage.
+    rm -f ~/.local/bin/nvim
+    rm -rf ~/.local/lib/nvim ~/.local/share/nvim-linux-* 2>/dev/null || true
+    rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+
+    # CLIs installed via install_release_bin
+    rm -f ~/.local/bin/gh ~/.local/bin/shfmt ~/.local/bin/tree-sitter ~/.local/bin/difft
 
     success "Server dotfiles removed"
 }

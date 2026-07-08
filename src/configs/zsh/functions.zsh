@@ -1,3 +1,12 @@
+# Copy stdin to the system clipboard across macOS / Wayland / X11.
+_clip() {
+  if command -v pbcopy >/dev/null 2>&1; then pbcopy
+  elif command -v wl-copy >/dev/null 2>&1; then wl-copy
+  elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard
+  elif command -v xsel >/dev/null 2>&1; then xsel -b
+  else cat >/dev/null; fi # no clipboard tool: discard rather than error
+}
+
 function pr() {
   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
     echo "Not in a git repository"
@@ -183,7 +192,7 @@ function importDB() {
       echo "No PostgreSQL 'database' container found"
       return 1
     fi
-    gunzip -c "$1" | docker exec -i -e PGPASSWORD=password "$db_container" psql -U username database
+    gunzip -c "$1" | docker exec -i -e PGPASSWORD="${PGPASSWORD:-password}" "$db_container" psql -U "${PGUSER:-username}" "${PGDATABASE:-database}"
   else
     echo "Missing path"
   fi
@@ -197,24 +206,17 @@ function importMDB() {
       echo "No MySQL 'database' container found"
       return 1
     fi
-    gunzip -c "$1" | docker exec -i "$db_container" mysql -u username -ppassword database
+    gunzip -c "$1" | docker exec -i "$db_container" mysql -u "${MYSQL_USER:-username}" -p"${MYSQL_PWD:-password}" "${MYSQL_DATABASE:-database}"
   else
     echo "Missing path"
   fi
 }
 
-# change dr and list them at same time
-function cd() {
-  if [ $# -eq 0 ]; then
-    builtin cd "$HOME" && lsd -lF
-  elif [ "$1" = "-" ]; then
-    builtin cd - && lsd -lF
-  elif [ -d "$1" ]; then
-    builtin cd "$1" && lsd -lF
-  else
-    echo "cd: no such file or directory: $1"
-    return 1
-  fi
+# List directory contents on every change — via a chpwd hook so it also covers
+# AUTO_CD, pushd/popd, and cd flags (unlike overriding the cd builtin). No-ops
+# where lsd isn't installed.
+chpwd() {
+  command -v lsd >/dev/null 2>&1 && lsd -lF
 }
 
 # Function to display colored diffs to terminal, copy plain diffs to clipboard
@@ -310,7 +312,7 @@ function git_diff_all() {
 
   echo "$ALL_DIFFS";
 
-  echo "$ALL_DIFFS" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | pbcopy;
+  echo "$ALL_DIFFS" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | _clip;
 }
 
 # Function to display PR details and all comments in chronological order with colors to terminal, copy plain text to clipboard
@@ -377,7 +379,7 @@ function git_pr_comments() {
   echo "$FULL_OUTPUT"
 
   # Strip colors and copy plain text to clipboard
-  echo "$FULL_OUTPUT" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | pbcopy
+  echo "$FULL_OUTPUT" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | _clip
 }
 
 function gh_login() {
@@ -403,14 +405,13 @@ function kill-port() {
 }
 
 sopse() {
-  export SOPS_AGE_KEY_FILE=~/.sops/age-key.txt
   sops --input-type dotenv --output-type dotenv \
-    -e --age "$(age-keygen -y ~/.sops/age-key.txt)" \
+    -e --age "$(age-keygen -y "${SOPS_AGE_KEY_FILE:-$HOME/.config/sops/age/keys.txt}")" \
     "$1" > "$1.sops"
 }
 
 sopsd() {
-  export SOPS_AGE_KEY_FILE=~/.sops/age-key.txt
+  # SOPS_AGE_KEY_FILE is exported from env.zsh; sops reads it for decryption.
   sops --input-type dotenv --output-type dotenv -d "$1"
 }
 

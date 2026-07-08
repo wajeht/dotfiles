@@ -31,7 +31,11 @@ alias cat="bat"
 
 # System utilities
 alias spec='fastfetch'
-alias stay='echo -n "keeping screen awake ..." && caffeinate -d'
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias stay='echo -n "keeping screen awake ..." && caffeinate -d'
+else
+    alias stay='echo -n "keeping screen awake ..." && systemd-inhibit --what=idle --why=stay sleep infinity'
+fi
 
 # Laravel Sail
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'

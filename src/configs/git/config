@@ -24,10 +24,6 @@
 	# Increase HTTP post buffer to handle large pushes or fetches
 	postBuffer = 524288000 # 500MB buffer size
 
-[ssh]
-	# Increase SSH buffer size for large operations (rarely needed but safe)
-	postBuffer = 524288000 # 500MB buffer size
-
 [pull]
 	# Rebase instead of merge when pulling new changes (keeps history clean)
 	rebase = true
@@ -44,8 +40,9 @@
 	aicommit = "!f() { curl -s https://commit.jaw.dev/ | bash -s -- --no-verify; }; f" # Generate commit messages via your AI commit service
 	auto = "!f() { git add -A && git aicommit && git push --no-verify ; }; f"       # Add, commit (AI), and push in one step
 	pr = "!f() { git rev-parse --abbrev-ref @{u} >/dev/null 2>&1 || git push -u origin HEAD || exit $?; gh pr create --fill \"$@\"; }; f" # Push branch if needed, then create PR
-	pr-comments = "!zsh -c 'source \"${ZDOTDIR:-$HOME/.config/zsh}/.zshrc\" && git_pr_comments'"                    # Show PR comments (custom zsh alias)
-	diff-all = "!f() { zsh -c \"source \\\"${ZDOTDIR:-$HOME/.config/zsh}/.zshrc\\\" && git_diff_all \\$*\"; }; f"         # Show diffs for all repos or branches (custom zsh alias)
+	pr-comments = "!zsh -c 'zdir=\"${ZDOTDIR:-$HOME/.config/zsh}\"; source \"$zdir/env.zsh\"; source \"$zdir/functions.zsh\" && git_pr_comments'"        # Show PR comments (sources lean env+functions, not full .zshrc)
+	diff-all = "!f() { zsh -c \"zdir=\\\"${ZDOTDIR:-$HOME/.config/zsh}\\\"; source \\\"\\$zdir/env.zsh\\\"; source \\\"\\$zdir/functions.zsh\\\" && git_diff_all \\$*\"; }; f" # Show diffs for all repos or branches
+
 	diff-plain = diff --no-ext-diff                                                # Plain git diff without difftastic
 	show-plain = show --no-ext-diff                                                # Plain git show without difftastic
 	log-plain = log -p --no-ext-diff                                               # Plain git log -p without difftastic
