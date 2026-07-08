@@ -98,7 +98,7 @@ install_git() {
 
     # id_ed25519 is the personal (wajeht) key on every machine — the default
     # identity, and what commits are signed with. A work laptop additionally has
-    # id_ed25519_work (the clevyr key) used for repos under ~/work/.
+    # id_ed25519_work (the work key) used for repos under ~/work/.
     local personal_email="58354193+wajeht@users.noreply.github.com"
     local signing_key="$HOME/.ssh/id_ed25519.pub"
 
@@ -143,7 +143,7 @@ install_git() {
         echo "58354193+wajeht@users.noreply.github.com $(cat ~/.ssh/id_ed25519.pub)" >>~/.ssh/allowed_signers
         task "Added personal key to allowed_signers"
     fi
-    # id_ed25519_work = clevyr work key (work laptop only)
+    # id_ed25519_work = work key (work laptop only)
     if [ -f ~/.ssh/id_ed25519_work.pub ]; then
         echo "265659615+clevyr-kyaw@users.noreply.github.com $(cat ~/.ssh/id_ed25519_work.pub)" >>~/.ssh/allowed_signers
         task "Added work key to allowed_signers"
@@ -160,7 +160,7 @@ install_git() {
     success "Git configuration installed"
     info "💡 Using XDG location: ~/.config/git/config (modern standard)"
     if [ -f ~/.ssh/id_ed25519_work.pub ]; then
-        info "💡 SSH configured for GitHub: github.com (personal) + github-work (clevyr)"
+        info "💡 SSH configured for GitHub: github.com (personal) + github-work (work)"
     else
         info "💡 SSH configured for GitHub: github.com (personal, id_ed25519)"
     fi
