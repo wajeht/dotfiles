@@ -46,8 +46,8 @@ make help      # Show all commands
 
 ## 📖 Docs
 
-- [SSH Keys, Hosts & GitHub Accounts](./docs/SSH.md) — key naming, host aliases, multi-account GitHub, passwordless login, new-machine setup
-- [Verified Commits](./docs/VERIFIED_COMMIT.md) — SSH commit signing setup on macOS
+- [SSH Keys, Hosts & GitHub Accounts](./docs/ssh.md) — key naming, host aliases, multi-account GitHub, passwordless login, new-machine setup
+- [Verified Commits](./docs/verified-commit.md) — SSH commit signing setup on macOS
 - [Tmux](./docs/tmux.md) — keybindings and session reference
 
 ## License

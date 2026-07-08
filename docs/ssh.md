@@ -4,7 +4,7 @@ How SSH identity, host aliases, and multi-account GitHub are wired across machin
 Everything here is installed by `make git install` (`src/git.sh`); the templates live
 in `src/configs/git/`.
 
-## 1. Key naming convention
+## Key naming convention
 
 One rule: **`id_ed25519` is the personal key on every machine.** It is the default
 identity and the commit-signing key.
@@ -15,9 +15,10 @@ identity and the commit-signing key.
 | `~/.ssh/id_ed25519_work` | work key | work laptop only |
 
 `make git install` generates `id_ed25519` if it is missing. The work key is created
-manually (see §6); its presence is what flips a machine into "work laptop" mode.
+manually (see "Setting up a new machine"); its presence is what flips a machine into
+"work laptop" mode.
 
-## 2. GitHub accounts (multi-account)
+## GitHub accounts (multi-account)
 
 | Host alias | Account | Key |
 | --- | --- | --- |
@@ -32,7 +33,7 @@ The `~/work/` directory triggers the work profile (`[includeIf "gitdir:~/work/"]
 with `id_ed25519_work.pub`. `git.sh` only adds the `github-work` block when the work key
 exists, so single-key machines never get a dangling alias.
 
-## 3. Commit signing
+## Commit signing
 
 - SSH signing (`gpg.format = ssh`), verified against `~/.ssh/allowed_signers`.
 - `make git install` regenerates `allowed_signers`: a personal line always, a work line
@@ -40,9 +41,9 @@ exists, so single-key machines never get a dangling alias.
 - It also registers the personal key with GitHub (auth + signing) via `gh`, if `gh` is
   authenticated with the `admin:public_key` + `admin:ssh_signing_key` scopes.
 - For the manual macOS walkthrough (keychain, first-time setup) see
-  [VERIFIED_COMMIT.md](VERIFIED_COMMIT.md).
+  [verified-commit.md](verified-commit.md).
 
-## 4. Host aliases
+## Host aliases
 
 Machine shortcuts are defined once in `configs/git/ssh_hosts` (installed into
 `~/.ssh/config`) and exposed as shell aliases in `configs/zsh/aliases.zsh`. No IPs or
@@ -58,7 +59,7 @@ passwords live in the aliases — just `ssh <name>`.
 All connections inherit ControlMaster multiplexing + keepalives from the `Host *` block,
 so repeat `ssh`/`scp` to the same host reuse one connection.
 
-## 5. Passwordless login to a host
+## Passwordless login to a host
 
 One-time per host — copies your public key into the host's `authorized_keys`:
 
@@ -73,7 +74,7 @@ Host key changed after a reinstall? Clear the stale entry, then reconnect:
 ssh-keygen -R <ip-or-host>
 ```
 
-## 6. Setting up a new machine
+## Setting up a new machine
 
 1. `make git install` — generates `id_ed25519` (personal), installs git config, the
    `github.com` block, and the host aliases.
@@ -83,9 +84,9 @@ ssh-keygen -R <ip-or-host>
    ssh-keygen -t ed25519 -C "265659615+clevyr-kyaw@users.noreply.github.com" -f ~/.ssh/id_ed25519_work
    make git install
    ```
-3. `ssh-copy-id` into whichever hosts you need (§5).
+3. `ssh-copy-id` into whichever hosts you need (see "Passwordless login to a host").
 
-## 7. Migrating an old work laptop to this scheme
+## Migrating an old work laptop to this scheme
 
 The old scheme used `id_ed25519` = work and `id_ed25519_personal` = personal. Renaming a
 key *file* does not change the key material, so nothing needs re-registering on GitHub:
