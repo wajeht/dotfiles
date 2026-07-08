@@ -84,3 +84,19 @@ set_default() {
         warning "Failed to set $key"
     fi
 }
+
+# Warn if tmux/fzf are too old for the sessionizer: the Ctrl+F popup needs tmux
+# >= 3.2, and the "create session" line reads $FZF_QUERY (fzf >= 0.51).
+check_sessionizer_deps() {
+    local v
+    if command -v tmux >/dev/null 2>&1; then
+        v=$(tmux -V | grep -oE '[0-9]+\.[0-9]+' | head -1)
+        [ "$(printf '%s\n3.2\n' "$v" | sort -V | head -1)" != "3.2" ] &&
+            warning "tmux $v < 3.2: Ctrl+F popup binding will not work"
+    fi
+    if command -v fzf >/dev/null 2>&1; then
+        v=$(fzf --version | grep -oE '[0-9]+\.[0-9]+' | head -1)
+        [ "$(printf '%s\n0.51\n' "$v" | sort -V | head -1)" != "0.51" ] &&
+            warning "fzf $v < 0.51: sessionizer 'create session' line won't appear"
+    fi
+}

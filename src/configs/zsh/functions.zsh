@@ -87,10 +87,11 @@ function dev() {
       snames+=("$sname")
       [[ -n $owner ]] && have_dir[$owner]=1
       wins="${win_of[$sname]}"
+      local disp="${sname//\//_}"   # flatten '/' so --nth -1 doesn't split the row
       if [[ "$sname" == "$active" ]]; then
-        cand+=("${G}${sname}${RST}  ${DIM}${wins}${RST}")
+        cand+=("${G}${disp}${RST}  ${DIM}${wins}${RST}")
       else
-        cand+=("${B}${sname}${RST}  ${DIM}${wins}${RST}")
+        cand+=("${B}${disp}${RST}  ${DIM}${wins}${RST}")
       fi
     done < <(tmux list-sessions -F '#{session_name}'$'\t''#{@dev_path}' 2>/dev/null)
     dirs=(${(f)"$(_dev_projects "${search_dirs[@]}" | sort)"})
@@ -124,7 +125,7 @@ function dev() {
     elif [ -n "$target" ]; then
       mode=session; name="${target%%[[:space:]]*}"   # session row is "name  <windows>"
       # exact-recover names that contain spaces (row starts with "<name>  ")
-      for sname in "${snames[@]}"; do [[ "$target" == "${sname}  "* ]] && { name="$sname"; break; }; done
+      for sname in "${snames[@]}"; do [[ "$target" == "${sname//\//_}  "* ]] && { name="$sname"; break; }; done
     elif [ -n "$query" ]; then
       mode=new; name="${query//[^A-Za-z0-9_-]/_}"
     else
@@ -140,11 +141,21 @@ function dev() {
     # different dir (or is an ad-hoc/external session with no @dev_path) — so we
     # never hijack an unrelated same-named session, and names stay clean otherwise.
     # (Checking exact existence first also avoids show-options' prefix-matching.)
-    name="${${dir:t}//[^A-Za-z0-9_-]/_}"
-    if tmux has-session -t "=$name" 2> /dev/null; then
-      local owner; owner=$(tmux show-options -t "$name" -qv @dev_path 2>/dev/null)
-      [ "$owner" != "$dir" ] && name="${${dir:h:t}//[^A-Za-z0-9_-]/_}_${name}"
-    fi
+    # Prefer the dir basename; if that exact name is taken by a DIFFERENT project
+    # (or an unrelated ad-hoc session), prefix the parent dir, then append "_"
+    # until the name is free or is this project's — so we never hijack an
+    # unrelated session at the base OR the disambiguated name.
+    local base="${${dir:t}//[^A-Za-z0-9_-]/_}" owner
+    name="$base"
+    while tmux has-session -t "=$name" 2> /dev/null; do
+      owner=$(tmux show-options -t "$name" -qv @dev_path 2>/dev/null)
+      [ "$owner" = "$dir" ] && break
+      if [ "$name" = "$base" ]; then
+        name="${${dir:h:t}//[^A-Za-z0-9_-]/_}_${base}"
+      else
+        name="${name}_"
+      fi
+    done
     if ! tmux has-session -t "=$name" 2> /dev/null; then
       tmux new-session -ds "$name" -c "$dir" -n nvim nvim .
       tmux new-window -t "$name" -c "$dir" -n shell
