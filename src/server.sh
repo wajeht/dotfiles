@@ -163,18 +163,7 @@ install_tmux_config() {
     cp "$script_dir/configs/tmux/"* ~/.config/tmux/
     task "Copied tmux config to ~/.config/tmux/"
 
-    # display-popup (Ctrl+F sessionizer) needs tmux >= 3.2
-    local tmux_version=$(tmux -V | grep -oE '[0-9]+\.[0-9]+' | head -1)
-    if [ "$(printf '%s\n3.2\n' "$tmux_version" | sort -V | head -1)" != "3.2" ]; then
-        warning "tmux $tmux_version < 3.2: Ctrl+F popup binding will not work"
-    fi
-    # sessionizer's "create session" line reads $FZF_QUERY, added in fzf 0.51.
-    if command -v fzf >/dev/null 2>&1; then
-        local fzf_version=$(fzf --version | grep -oE '[0-9]+\.[0-9]+' | head -1)
-        if [ "$(printf '%s\n0.51\n' "$fzf_version" | sort -V | head -1)" != "0.51" ]; then
-            warning "fzf $fzf_version < 0.51: sessionizer 'create session' line won't appear"
-        fi
-    fi
+    check_sessionizer_deps
 
     success "Tmux configuration installed"
 }
