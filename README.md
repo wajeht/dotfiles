@@ -44,5 +44,11 @@ make sync-nvim # Sync nvim-pack-lock.json (run :lua vim.pack.update() first)
 make help      # Show all commands
 ```
 
+## 📖 Docs
+
+- [SSH Keys, Hosts & GitHub Accounts](./docs/ssh.md) — key naming, host aliases, multi-account GitHub, passwordless login, new-machine setup
+- [Verified Commits](./docs/verified-commit.md) — SSH commit signing setup on macOS
+- [Tmux](./docs/tmux.md) — keybindings and session reference
+
 ## License
 Distributed under the MIT License © [wajeht](https://github.com/wajeht). See [LICENSE](./LICENSE) for more information.

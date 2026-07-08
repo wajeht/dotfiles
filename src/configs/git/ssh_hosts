@@ -1,0 +1,27 @@
+# Personal hosts (managed by dotfiles)
+# Referenced by the shell aliases in configs/zsh/aliases.zsh. Connections
+# inherit the ControlMaster multiplexing / keepalives from the `Host *` block.
+Host work
+	HostName 192.168.4.74
+	User kyaw
+
+Host work-db
+	HostName 192.168.4.120
+	User kyaw
+	LocalForward 5432 localhost:5432
+
+Host one
+	HostName 192.168.4.161
+	User jaw
+
+Host two
+	HostName 192.168.4.162
+	User jaw
+
+Host three
+	HostName 192.168.4.163
+	User jaw
+
+Host pi
+	HostName 192.168.4.181
+	User pi

@@ -68,9 +68,10 @@ else
     alias update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
 fi
 
-alias start_work_db="ssh -L 5432:localhost:5432 kyaw@192.168.4.120"
-alias work="ssh kyaw@192.168.4.74"
-alias one="ssh jaw@192.168.4.161"
-alias two="ssh jaw@192.168.4.162"
-alias three="ssh jaw@192.168.4.163"
-alias pi="sshpass -p 'password' ssh pi@192.168.4.181"
+# Host details live in ~/.ssh/config (configs/git/ssh_hosts); no IPs/passwords here.
+alias start_work_db="ssh work-db"
+alias work="ssh work"
+alias one="ssh one"
+alias two="ssh two"
+alias three="ssh three"
+alias pi="ssh pi"
