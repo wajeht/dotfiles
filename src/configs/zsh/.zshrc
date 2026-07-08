@@ -64,18 +64,7 @@ fi
 # ======================
 # Enable completion system after completion paths are on fpath
 autoload -Uz compinit
-# Rebuild + security-check the completion dump at most once per day; otherwise
-# load the cached dump without the check (-C) for a faster shell startup.
-# Glob qualifiers only expand via filename generation (array assignment), not
-# inside [[ ]] — so probe for a >24h-old dump with an array.
-_zcd="$ZDOTDIR/.zcompdump"
-_zcd_stale=($_zcd(Nmh+24))
-if [[ ! -e "$_zcd" || ${#_zcd_stale} -gt 0 ]]; then
-  compinit -d "$_zcd"
-else
-  compinit -C -d "$_zcd"
-fi
-unset _zcd _zcd_stale
+compinit -d "$ZDOTDIR/.zcompdump"
 
 # Completion styling
 zstyle ':completion:*' menu select

@@ -65,29 +65,15 @@ fi
 source "$(dirname "$0")/_util.sh"
 
 run_component() {
-    local script="$1"
-    local args="$2"
-    local name="$3"
-
-    set +e
-    if [ -n "$args" ]; then
-        if "$script" "$args"; then
-            success "$name completed successfully"
-            return 0
-        else
-            warning "$name encountered issues but installation continues"
-            return 1
-        fi
+    local script="$1" args="$2" name="$3"
+    # Called as `run_component ... || failed+=(...)`, so a failure here never trips
+    # errexit in the caller — no need to toggle set -e.
+    if "$script" ${args:+"$args"}; then
+        success "$name completed successfully"
     else
-        if "$script"; then
-            success "$name completed successfully"
-            return 0
-        else
-            warning "$name encountered issues but installation continues"
-            return 1
-        fi
+        warning "$name encountered issues but installation continues"
+        return 1
     fi
-    set -e
 }
 
 main() {

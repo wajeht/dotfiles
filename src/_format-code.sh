@@ -5,54 +5,11 @@ source "$(dirname "$0")/_util.sh"
 export PATH="$HOME/.local/bin:$PATH"
 
 install_shfmt_linux() {
-    local arch
-    arch=$(uname -m)
-    local asset=""
-    if [[ "$arch" == "x86_64" ]]; then
-        asset="shfmt_v3.13.1_linux_amd64"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset="shfmt_v3.13.1_linux_arm64"
-    else
-        error "Unsupported arch for shfmt: $arch"
-        return 1
-    fi
-
-    mkdir -p "$HOME/.local/bin"
-    curl -fsSL "https://github.com/mvdan/sh/releases/download/v3.13.1/$asset" -o "$HOME/.local/bin/shfmt"
-    chmod +x "$HOME/.local/bin/shfmt"
+    install_release_bin "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_$(dl_arch amd64 arm64)" shfmt
 }
 
 install_stylua_linux() {
-    local arch
-    arch=$(uname -m)
-    local asset=""
-    if [[ "$arch" == "x86_64" ]]; then
-        asset="stylua-linux-x86_64.zip"
-    elif [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-        asset="stylua-linux-aarch64.zip"
-    else
-        error "Unsupported arch for StyLua: $arch"
-        return 1
-    fi
-
-    mkdir -p "$HOME/.local/bin"
-    local tmp_dir="/tmp/stylua-install"
-    local tmp_file="/tmp/$asset"
-    rm -rf "$tmp_dir"
-    mkdir -p "$tmp_dir"
-
-    curl -fsSL "https://github.com/JohnnyMorganz/StyLua/releases/latest/download/$asset" -o "$tmp_file"
-    unzip -q "$tmp_file" -d "$tmp_dir"
-    local stylua_bin
-    stylua_bin="$(find "$tmp_dir" -type f -name stylua | head -1)"
-    if [[ -z "$stylua_bin" ]]; then
-        error "Could not find stylua binary in $asset"
-        return 1
-    fi
-
-    cp "$stylua_bin" "$HOME/.local/bin/stylua"
-    chmod +x "$HOME/.local/bin/stylua"
-    rm -rf "$tmp_dir" "$tmp_file"
+    install_release_bin "https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-$(dl_arch x86_64 aarch64).zip" stylua
 }
 
 install_if_missing() {
