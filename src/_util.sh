@@ -102,3 +102,10 @@ check_sessionizer_deps() {
         fi
     fi
 }
+
+tmux_supports_sessionizer() {
+    local v
+    command -v tmux >/dev/null 2>&1 || return 1
+    v=$(tmux -V | grep -oE '[0-9]+\.[0-9]+' | head -1)
+    [ "$(printf '%s\n3.2\n' "$v" | sort -V | head -1)" = "3.2" ]
+}

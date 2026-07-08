@@ -2,6 +2,8 @@
 
 source "$(dirname "$0")/_util.sh"
 
+export PATH="$HOME/.local/bin:$PATH"
+
 install_shfmt_linux() {
     local arch
     arch=$(uname -m)

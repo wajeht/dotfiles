@@ -254,12 +254,16 @@ install_tmux_config() {
         task "TPM already installed"
     fi
 
-    info "Installing Tmux persistence plugins..."
-    tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
-    ~/.config/tmux/plugins/tpm/bin/install_plugins
-    task "Installed tmux plugins"
-
     check_sessionizer_deps
+
+    if tmux_supports_sessionizer; then
+        info "Installing Tmux persistence plugins..."
+        tmux start-server \; source-file ~/.config/tmux/tmux.conf >/dev/null 2>&1
+        ~/.config/tmux/plugins/tpm/bin/install_plugins
+        task "Installed tmux plugins"
+    else
+        warning "Skipping tmux plugin install until tmux is upgraded to 3.2+"
+    fi
 
     success "Tmux configuration installed"
 }
