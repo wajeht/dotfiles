@@ -129,6 +129,11 @@ install_git() {
         cat "$(dirname "$0")/configs/git/ssh_config_work" >>~/.ssh/config
         task "Added github-work SSH alias"
     fi
+    # Personal host aliases (work, one/two/three, pi) referenced by shell aliases.
+    if ! grep -qF "Personal hosts (managed by dotfiles)" ~/.ssh/config; then
+        cat "$(dirname "$0")/configs/git/ssh_hosts" >>~/.ssh/config
+        task "Added personal host aliases to ~/.ssh/config"
+    fi
     chmod 600 ~/.ssh/config
 
     info "Generating allowed_signers for commit verification..."
