@@ -27,6 +27,10 @@ function mkcd() {
 # duplicates deduped by inode since macOS filesystems are case-insensitive)
 DEV_DIRS=(~/Dev ~/Work ~/dev ~/work)
 
+# Immediate project subdirs of the given roots (hidden dirs excluded). -mindepth 1
+# drops the roots themselves, so no post-filter grep is needed.
+_dev_projects() { find "$@" -mindepth 1 -maxdepth 1 -type d -not -path '*/.*'; }
+
 function dev() {
   local search_dirs=() d e dup
   for d in "${DEV_DIRS[@]}"; do
@@ -47,7 +51,7 @@ function dev() {
 
   # No tmux: just pick a dir and open nvim in place (no sessions to manage).
   if ! command -v tmux > /dev/null 2>&1; then
-    local dir="${1:-$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | fzf "${fzf_opts[@]}")}"
+    local dir="${1:-$(_dev_projects "${search_dirs[@]}" | fzf "${fzf_opts[@]}")}"
     [ -n "$dir" ] || return 0
     [ -d "$dir" ] || { echo "Not a directory: $dir"; return 1; }
     echo "tmux not found; opening without a session"
@@ -64,25 +68,32 @@ function dev() {
     # a session shows once, as the session — its folder is dropped (matched by the
     # @dev_path we stamp on each project session). A "+ create session" line is
     # added as you type (below) for making a brand-new named session.
-    local -a cand dirs snames; local dpath sname wins p
-    typeset -A have_dir
+    local -a cand dirs snames; local dpath sname wins owner s w
+    typeset -A have_dir win_of
     local active; active=$(tmux display-message -p '#{session_name}' 2>/dev/null)
     # Session rows colored from the vscode palette: green = the session you're
     # attached to, blue = other sessions; window names trail in dim gray.
     local G=$'\e[38;2;106;153;85m' B=$'\e[38;2;86;156;214m' DIM=$'\e[38;2;90;90;90m' RST=$'\e[0m'
-    while IFS= read -r sname; do
+    # One tmux call for all windows (grouped in-shell), one for sessions+@dev_path —
+    # not two spawns per session. Join windows with ' | ' in zsh (no paste/sed); any
+    # '/' in a window name is flattened so it can't break the --nth -1 match below.
+    while IFS=$'\t' read -r s w; do
+      [[ -n $s ]] || continue
+      w="${w//\// }"
+      win_of[$s]+="${win_of[$s]:+ | }$w"
+    done < <(tmux list-windows -a -F '#{session_name}'$'\t''#{window_name}' 2>/dev/null)
+    while IFS=$'\t' read -r sname owner; do
       [[ -n $sname ]] || continue
       snames+=("$sname")
-      p=$(tmux show-options -t "$sname" -qv @dev_path 2>/dev/null)
-      [[ -n $p ]] && have_dir[$p]=1
-      wins=$(tmux list-windows -t "$sname" -F '#{window_name}' 2>/dev/null | paste -sd '|' - | sed 's/|/ | /g')
+      [[ -n $owner ]] && have_dir[$owner]=1
+      wins="${win_of[$sname]}"
       if [[ "$sname" == "$active" ]]; then
         cand+=("${G}${sname}${RST}  ${DIM}${wins}${RST}")
       else
         cand+=("${B}${sname}${RST}  ${DIM}${wins}${RST}")
       fi
-    done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null)
-    dirs=(${(f)"$(find "${search_dirs[@]}" -maxdepth 1 -type d -not -path "*/\.*" | grep -v -E "^(${(j:|:)search_dirs})$" | sort)"})
+    done < <(tmux list-sessions -F '#{session_name}'$'\t''#{@dev_path}' 2>/dev/null)
+    dirs=(${(f)"$(_dev_projects "${search_dirs[@]}" | sort)"})
     for dpath in $dirs; do
       [[ -n $dpath ]] && [[ -z ${have_dir[${dpath:A}]} ]] && cand+=("$dpath")
     done
@@ -111,7 +122,9 @@ function dev() {
     elif [[ "$target" == /* ]]; then
       mode=project; dir="$target"
     elif [ -n "$target" ]; then
-      mode=session; name="${target%%[[:space:]]*}"   # session row is "name  <windows>"; take the name
+      mode=session; name="${target%%[[:space:]]*}"   # session row is "name  <windows>"
+      # exact-recover names that contain spaces (row starts with "<name>  ")
+      for sname in "${snames[@]}"; do [[ "$target" == "${sname}  "* ]] && { name="$sname"; break; }; done
     elif [ -n "$query" ]; then
       mode=new; name="${query//[^A-Za-z0-9_-]/_}"
     else
@@ -122,19 +135,21 @@ function dev() {
   if [ "$mode" = project ]; then
     [ -d "$dir" ] || { echo "Not a directory: $dir"; return 1; }
     dir="${dir:A}"   # absolutize so a relative arg names/opens the right dir
-    # Session name = project dir basename (tmux forbids dots). Only if that name
-    # is already owned by a DIFFERENT project do we disambiguate the new one by
-    # prefixing its parent dir (docker-cd vs Dev_docker-cd) — names stay clean
-    # until there's an actual clash.
-    name="${${dir:t}//./_}"
-    local owner
-    owner=$(tmux show-options -t "$name" -qv @dev_path 2>/dev/null)   # show-options rejects the =prefix
-    [ -n "$owner" ] && [ "$owner" != "$dir" ] && name="${${dir:h:t}//./_}_${name}"
+    # Session name = sanitized project-dir basename. Disambiguate with the parent
+    # dir ONLY when a session with that EXACT name already exists AND belongs to a
+    # different dir (or is an ad-hoc/external session with no @dev_path) — so we
+    # never hijack an unrelated same-named session, and names stay clean otherwise.
+    # (Checking exact existence first also avoids show-options' prefix-matching.)
+    name="${${dir:t}//[^A-Za-z0-9_-]/_}"
+    if tmux has-session -t "=$name" 2> /dev/null; then
+      local owner; owner=$(tmux show-options -t "$name" -qv @dev_path 2>/dev/null)
+      [ "$owner" != "$dir" ] && name="${${dir:h:t}//[^A-Za-z0-9_-]/_}_${name}"
+    fi
     if ! tmux has-session -t "=$name" 2> /dev/null; then
       tmux new-session -ds "$name" -c "$dir" -n nvim nvim .
       tmux new-window -t "$name" -c "$dir" -n shell
       tmux select-window -t "$name:nvim"
-      tmux set-option -t "$name" @dev_path "$dir"   # stamp for dedup + clash check (set-option rejects the =prefix)
+      tmux set-option -t "$name" @dev_path "$dir"   # stamp for dedup + clash check
     fi
   elif [ "$mode" = new ]; then
     # Ad-hoc session from the typed name, rooted at $HOME.
