@@ -108,6 +108,62 @@ Things learned the hard way:
 - `brew` vs `cask` — CLI formulae are `brew "x"`, GUI apps are `cask "x"`. Mixing them
   up makes that Brewfile entry fail during `make brew`.
 
+## macOS GUI automation notes
+
+Use this pattern when a macOS preference cannot be set with `defaults write`, like some
+Finder Sidebar rows:
+
+- Prefer stable defaults first. Example: `defaults write com.apple.finder
+  SidebarShowRecents -bool false`.
+- If the setting only exists in a GUI, use AppleScript through `System Events`.
+- Add a preflight script before clicking anything. This forces macOS to show
+  Finder/System Events/Accessibility permission prompts before the real automation runs.
+- Tell the user to allow the prompt, then rerun the command. Do not write a "done"
+  marker until the real automation succeeds.
+- Avoid screen coordinates when possible. Finder Settings exposes Sidebar rows as
+  checkboxes under `scroll area 1`; match them by `description`, not by x/y position.
+- Use a marker file for one-time GUI changes, for example
+  `~/.config/dotfiles/finder-sidebar-settings-applied`, so normal reruns do not keep
+  clicking checkboxes.
+- Close preference windows with `click button 1 of win` in a `try` block. Finder
+  Settings may not behave like a normal Finder window.
+
+Useful debug scripts inside a visible Tart VM:
+
+```applescript
+tell application "System Events"
+    tell process "Finder"
+        return name of every window
+    end tell
+end tell
+```
+
+```applescript
+set out to ""
+
+tell application "System Events"
+    tell process "Finder"
+        tell scroll area 1 of window "Finder Settings"
+            repeat with e in UI elements
+                set out to out & "role=" & (role of e as text)
+                try
+                    set out to out & " desc=" & (description of e as text)
+                end try
+                try
+                    set out to out & " value=" & (value of e as text)
+                end try
+                set out to out & linefeed
+            end repeat
+        end tell
+    end tell
+end tell
+
+return out
+```
+
+Run those from the GUI Terminal app, not SSH, because macOS privacy permissions are
+per-app. `tart exec ... osascript` may fail even when Terminal is already authorized.
+
 ## Linux / server path
 
 The Linux install (`make server`) is tested on the actual Ubuntu box over SSH, or in a
