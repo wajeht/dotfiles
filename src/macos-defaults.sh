@@ -2,6 +2,40 @@
 
 source "$(dirname "$0")/_util.sh"
 
+# Finder sidebar favorites. macOS stores these in the SharedFileList framework, which
+# `defaults` can't touch — so this uses the mysides cask (installed via `make brew`).
+# Rebuilds the Favorites list top-to-bottom in a fixed order.
+configure_finder_sidebar() {
+    if ! command -v mysides >/dev/null 2>&1; then
+        warning "mysides not installed — skipping Finder sidebar favorites (run 'make brew', then re-run 'make macos')"
+        return 0
+    fi
+
+    info "Setting Finder sidebar favorites..."
+    mkdir -p "$HOME/Dev" "$HOME/Videos"
+
+    # Clear existing favorites, then add ours in order.
+    local name
+    while IFS= read -r name; do
+        [ -n "$name" ] && mysides remove "$name" >/dev/null 2>&1 || true
+    done <<<"$(mysides list 2>/dev/null | sed 's/ -> .*//')"
+
+    mysides add Applications "file:///Applications/" >/dev/null
+    mysides add Downloads "file://$HOME/Downloads/" >/dev/null
+    mysides add Documents "file://$HOME/Documents/" >/dev/null
+    mysides add Desktop "file://$HOME/Desktop/" >/dev/null
+    mysides add Dev "file://$HOME/Dev/" >/dev/null
+    mysides add Pictures "file://$HOME/Pictures/" >/dev/null
+    mysides add Videos "file://$HOME/Videos/" >/dev/null
+    mysides add Movies "file://$HOME/Movies/" >/dev/null
+    mysides add Music "file://$HOME/Music/" >/dev/null
+
+    killall Finder >/dev/null 2>&1 || true
+    task "Set Finder sidebar favorites"
+    # Note: hiding the "Recents" and "Shared" sidebar sections isn't scriptable — do it
+    # once in Finder → Settings → Sidebar.
+}
+
 main() {
     case "${1:-install}" in
     uninstall)
@@ -165,6 +199,8 @@ main() {
     # Set default view settings for all view types to list view
     defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
     defaults write com.apple.finder FK_DefaultSearchViewStyle -string "Nlsv"
+
+    configure_finder_sidebar || warning "Finder sidebar setup had issues (continuing)"
 
     set_default "com.apple.finder" "WarnOnEmptyTrash" "bool" "false"           # Disable the warning before emptying the Trash
     set_default "com.apple.NetworkBrowser" "BrowseAllInterfaces" "bool" "true" # Enable AirDrop over Ethernet and on unsupported Macs

@@ -99,5 +99,6 @@ cask "google-chrome"      # Browser
 cask "qbittorrent"        # Torrent client
 
 # System Utilities
+cask "mysides"            # Manage Finder sidebar favorites from the CLI (used by `make macos`)
 cask "mos"                # Mouse utility
 cask "balenaetcher"       # Flash OS images
