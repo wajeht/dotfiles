@@ -32,10 +32,67 @@ configure_finder_sidebar() {
 
     killall Finder >/dev/null 2>&1 || true
     task "Set Finder sidebar favorites"
+}
 
-    # Hiding the "Recents" and "Shared" sidebar sections isn't scriptable — surface it
-    # as a one-time manual step rather than shipping fragile GUI automation.
-    info "One-time manual step: uncheck Recents + Shared in Finder → Settings → Sidebar"
+configure_finder_sidebar_settings() {
+    local marker="$HOME/.config/dotfiles/finder-sidebar-settings-applied"
+
+    defaults write com.apple.finder SidebarShowRecents -bool false
+
+    if [ -f "$marker" ]; then
+        task "Finder sidebar sections already configured"
+        return 0
+    fi
+
+    info "Hiding Finder sidebar clutter..."
+    info "If prompted, allow your terminal to control System Events, then rerun 'make macos'"
+
+    if osascript <<'APPLESCRIPT'
+on click_relative(win, xOffset, yOffset)
+    tell application "System Events"
+        set {x0, y0} to position of win
+        click at {x0 + xOffset, y0 + yOffset}
+    end tell
+end click_relative
+
+tell application "Finder" to activate
+delay 0.5
+
+tell application "System Events"
+    tell process "Finder"
+        set frontmost to true
+        click menu item "Settings…" of menu 1 of menu bar item "Finder" of menu bar 1
+
+        repeat 30 times
+            if exists window "Finder Settings" then exit repeat
+            delay 0.1
+        end repeat
+
+        set win to window "Finder Settings"
+        set position of win to {20, 100}
+        perform action "AXRaise" of win
+        delay 0.3
+        click button "Sidebar" of toolbar 1 of win
+        delay 0.3
+    end tell
+end tell
+
+-- These rows are not exposed as stable defaults. The coordinates are relative to
+-- Finder Settings after moving it above, matching the macOS Sidebar tab layout.
+click_relative(win, 44, 131) -- Shared
+click_relative(win, 44, 445) -- External disks
+click_relative(win, 44, 466) -- CDs, DVDs, and iOS Devices
+click_relative(win, 44, 423) -- Hard disks
+
+tell application "Finder" to close window "Finder Settings"
+APPLESCRIPT
+    then
+        mkdir -p "$(dirname "$marker")"
+        touch "$marker"
+        task "Hid Finder sidebar clutter"
+    else
+        warning "Finder sidebar cleanup needs Accessibility access; grant it and rerun 'make macos'"
+    fi
 }
 
 main() {
@@ -140,6 +197,19 @@ main() {
     set_default "NSGlobalDomain" "AppleFontSmoothing" "int" "1"                 # Enable subpixel font rendering on non-Apple LCDs
     defaults write com.apple.ncprefs dnd_prefs -dict dndDisplayLock -bool true  # Don't show notifications when screen is locked
 
+    local black_wallpaper="/System/Library/Desktop Pictures/Solid Colors/Black.png"
+    if [ -f "$black_wallpaper" ]; then
+        osascript \
+            -e 'tell application "System Events"' \
+            -e 'tell every desktop' \
+            -e "set picture to \"$black_wallpaper\"" \
+            -e 'end tell' \
+            -e 'end tell' >/dev/null
+        task "Set desktop background to solid black"
+    else
+        warning "Solid black desktop background not found"
+    fi
+
     sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true # Enable HiDPI display modes (requires restart)
 
     info "Configuring Finder..."
@@ -202,7 +272,8 @@ main() {
     defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
     defaults write com.apple.finder FK_DefaultSearchViewStyle -string "Nlsv"
 
-    configure_finder_sidebar || warning "Finder sidebar setup had issues (continuing)"
+    configure_finder_sidebar || warning "Finder sidebar favorites setup had issues (continuing)"
+    configure_finder_sidebar_settings || warning "Finder sidebar settings setup had issues (continuing)"
 
     set_default "com.apple.finder" "WarnOnEmptyTrash" "bool" "false"           # Disable the warning before emptying the Trash
     set_default "com.apple.NetworkBrowser" "BrowseAllInterfaces" "bool" "true" # Enable AirDrop over Ethernet and on unsupported Macs
