@@ -25,7 +25,7 @@ install_terminfo() {
 
 install_apt_deps() {
     info "Installing dependencies via apt..."
-    local apt_pkgs="zsh git gh shfmt curl fzf ripgrep unzip tar gzip lsd bat build-essential golang-go btop tmux"
+    local apt_pkgs="zsh git make openssh-server gh shfmt curl fzf ripgrep unzip tar gzip lsd bat build-essential golang-go btop tmux"
     sudo apt-get update -qq
     sudo apt-get install -y $apt_pkgs
     task "Installed: $apt_pkgs"

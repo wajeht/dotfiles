@@ -242,7 +242,8 @@ tart run --disk="${iso}:ro" ubuntu-desktop-test
 Complete the Ubuntu installer in the Tart window:
 
 1. Choose **Install Ubuntu**.
-2. Use `admin` for both the username and password.
+2. Use `admin` as the full name, `jaw` as the username, and `admin` as the
+   password. Ubuntu reserves `admin` for system use, so it cannot be the username.
 3. Choose the normal interactive install. "Erase disk and install Ubuntu" only erases
    the disposable virtual disk.
 4. Shut down when installation finishes, then boot without the ISO:
@@ -251,15 +252,25 @@ Complete the Ubuntu installer in the Tart window:
    tart run ubuntu-desktop-test
    ```
 
-Open Terminal inside Ubuntu Desktop and run the server setup:
+After the installed desktop boots successfully, shut it down and preserve a clean,
+copy-on-write baseline before changing the test VM:
+
+```sh
+tart stop ubuntu-desktop-test
+tart clone ubuntu-desktop-test ubuntu-desktop-installed
+tart run --dir="$PWD:ro,tag=dotfiles" ubuntu-desktop-test
+```
+
+Run that command from the dotfiles repository root. It shares the exact local working
+tree read-only, including uncommitted changes. Open Terminal inside Ubuntu Desktop and
+run the server setup:
 
 ```sh
 sudo apt-get update
-sudo apt-get install -y git make openssh-server
-sudo systemctl enable --now ssh
-git clone https://github.com/wajeht/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-make server install
+sudo apt-get install -y make
+sudo mkdir -p /mnt/dotfiles
+sudo mount -t virtiofs dotfiles /mnt/dotfiles
+make -C /mnt/dotfiles server install
 ```
 
 Select `y` at the final prompt, log out and back in, and verify the ARM64 environment:
@@ -267,6 +278,7 @@ Select `y` at the final prompt, log out and back in, and verify the ARM64 enviro
 ```sh
 uname -m                                                   # aarch64
 getent passwd "$USER" | cut -d: -f7                       # /usr/bin/zsh
+systemctl is-active ssh                                    # active
 ~/.local/bin/fzf --version
 ~/.local/bin/tree-sitter --version
 ~/.local/bin/nvim --headless '+lua print("nvim-ok")' +qa
@@ -275,10 +287,12 @@ tmux -f ~/.config/tmux/tmux.conf new-session -d -s dotfiles-test
 tmux kill-session -t dotfiles-test
 ```
 
-After verifying the desktop and installed tools, shut down Ubuntu and delete the VM:
+After verifying the desktop and installed tools, shut down Ubuntu and delete the test
+VM. Keep `ubuntu-desktop-installed` for another clean test, or delete it too:
 
 ```sh
 tart delete ubuntu-desktop-test
+tart delete ubuntu-desktop-installed
 ```
 
 For an isolated release-download helper test without a full install:
@@ -289,8 +303,9 @@ For an isolated release-download helper test without a full install:
 
 ## Notes
 
-- Default credentials: `admin` / `admin` — for both SSH and the GUI login screen (e.g.
-  after logout), with passwordless `sudo`.
+- The Cirrus Labs macOS image uses `admin` / `admin` with passwordless `sudo`. For the
+  Ubuntu Desktop workflow, use the account created in the installer; `sudo` requires
+  that account's password.
 - The base image is cached after the first pull, so re-testing is fast (no re-download)
   unless you delete it.
 - Version numbers here (macOS 26 Tahoe, etc.) drift over time — the mechanism is the
