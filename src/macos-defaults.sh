@@ -281,7 +281,7 @@ main() {
 
     set_default "com.apple.finder" "ShowExternalHardDrivesOnDesktop" "bool" "true" # Show icons for hard drives, servers, and removable media on the desktop
     set_default "com.apple.finder" "ShowHardDrivesOnDesktop" "bool" "false"        # Hide main volume (like Macintosh HD) from desktop
-    set_default "com.apple.finder" "ShowMountedServersOnDesktop" "bool" "true"     # Show icons for hard drives, servers, and removable media on the desktop
+    set_default "com.apple.finder" "ShowMountedServersOnDesktop" "bool" "false"    # Hide mounted servers from the desktop
     set_default "com.apple.finder" "ShowRemovableMediaOnDesktop" "bool" "true"     # Show icons for hard drives, servers, and removable media on the desktop
 
     set_default "NSGlobalDomain" "AppleShowAllFiles" "bool" "true"                 # Finder: show hidden files by default
@@ -311,7 +311,7 @@ main() {
     # Reset all folder view settings to list view
     defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
     defaults write com.apple.finder FXPreferredSearchViewStyle -string "Nlsv"
-    defaults write com.apple.finder FXPreferredGroupBy -string "None"
+    defaults write com.apple.finder FXPreferredGroupBy -string "Kind"
 
     # Set default view settings for all view types to list view
     defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
@@ -335,6 +335,7 @@ main() {
     info "Configuring Dock, Dashboard, and hot corners..."
     set_default "com.apple.dock" "mouse-over-hilite-stack" "bool" "true"                 # Enable highlight hover effect for the grid view of a stack (Dock)
     set_default "com.apple.dock" "tilesize" "int" "16"                                   # Set the icon size of Dock items to 16 pixels
+    set_default "com.apple.dock" "magnification" "bool" "true"                           # Magnify Dock icons on hover
     set_default "com.apple.dock" "largesize" "int" "32"                                  # Set magnification icon size to 32 pixels
     set_default "com.apple.dock" "mineffect" "string" "scale"                            # Change minimize/maximize window effect
     set_default "com.apple.dock" "minimize-to-application" "bool" "true"                 # Minimize windows into their application's icon
@@ -368,7 +369,24 @@ main() {
     set_default "com.apple.dock" "wvous-br-corner" "int" "2" # Hot corners: Bottom right screen corner → Mission Control
     set_default "com.apple.dock" "wvous-br-modifier" "int" "0"
 
-    set_default "com.apple.WindowManager" "EnableStandardClickToShowDesktop" "bool" "false" # Don't hide windows when clicking the wallpaper (disable "click wallpaper to show desktop items")
+    info "Configuring Window Manager and menu bar clock..."
+    set_default "com.apple.WindowManager" "AppWindowGroupingBehavior" "int" "1"
+    set_default "com.apple.WindowManager" "AutoHide" "bool" "false"
+    set_default "com.apple.WindowManager" "EnableStandardClickToShowDesktop" "bool" "false" # Don't hide windows when clicking the wallpaper
+    set_default "com.apple.WindowManager" "EnableTiledWindowMargins" "bool" "false"
+    set_default "com.apple.WindowManager" "EnableTilingOptionAccelerator" "bool" "false"
+    set_default "com.apple.WindowManager" "GloballyEnabled" "bool" "false" # Disable Stage Manager
+    set_default "com.apple.WindowManager" "HideDesktop" "bool" "true"
+    set_default "com.apple.WindowManager" "StageManagerHideWidgets" "bool" "true"
+    set_default "com.apple.WindowManager" "StandardHideDesktopIcons" "bool" "false"
+    set_default "com.apple.WindowManager" "StandardHideWidgets" "bool" "true"
+
+    set_default "com.apple.menuextra.clock" "FlashDateSeparators" "bool" "false"
+    set_default "com.apple.menuextra.clock" "IsAnalog" "bool" "false"
+    set_default "com.apple.menuextra.clock" "ShowAMPM" "bool" "false"
+    set_default "com.apple.menuextra.clock" "ShowDate" "int" "1"
+    set_default "com.apple.menuextra.clock" "ShowDayOfWeek" "bool" "true"
+    set_default "com.apple.menuextra.clock" "ShowSeconds" "bool" "false"
 
     info "Configuring Safari & WebKit..."
     sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false                                                                   # Privacy: don't send search queries to Apple
