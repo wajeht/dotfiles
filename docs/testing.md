@@ -185,29 +185,107 @@ devices, Bluetooth pairings, menu bar pixel positions, and per-app background/pr
 approvals. The stale Syncthing Login Item on the Mac Studio is also excluded because
 there is no corresponding app or executable on disk.
 
-## Linux / server path
+## Ubuntu Server with OrbStack
 
-The Linux install (`make server`) is tested on the actual Ubuntu box over SSH, or in a
-throwaway Ubuntu VM:
+Use an OrbStack machine for the fast, repeatable, terminal-only server test. OrbStack
+[does not provide a Linux desktop by default](https://docs.orbstack.dev/machines/#graphical-apps);
+use the Tart workflow below when the GUI itself matters.
 
-- Real server — `ssh <host>`, `git pull` in the dotfiles, `make server install`.
-- Throwaway Ubuntu VM on macOS — [OrbStack](https://orbstack.dev),
-  [Lima](https://lima-vm.io), or [Multipass](https://multipass.run) spin up a quick
-  Ubuntu guest. Minimal images need Git and Make before they can clone the repo and
-  invoke the Makefile. For example, with OrbStack:
-  ```sh
-  orb create -a amd64 ubuntu:24.04 dotfiles-server-test
-  orb -m dotfiles-server-test sudo apt-get update
-  orb -m dotfiles-server-test sudo apt-get install -y git make
-  orb -m dotfiles-server-test git clone https://github.com/wajeht/dotfiles.git /home/$USER/dotfiles
-  orb -m dotfiles-server-test make -C /home/$USER/dotfiles server install
-  orb delete dotfiles-server-test
-  ```
-- Isolated function tests — the release-download helper can be exercised without a full
-  install:
-  ```sh
-  ( source src/_util.sh; HOME=$(mktemp -d) install_release_bin "<release-url>" <bin-name> )
-  ```
+Minimal Ubuntu images need Git and Make before they can clone the repo and invoke its
+Makefile:
+
+```sh
+orb create -a amd64 ubuntu:24.04 dotfiles-server-test
+orb -m dotfiles-server-test sudo apt-get update
+orb -m dotfiles-server-test sudo apt-get install -y git make
+orb -m dotfiles-server-test git clone https://github.com/wajeht/dotfiles.git /home/$USER/dotfiles
+orb -m dotfiles-server-test make -C /home/$USER/dotfiles server install
+```
+
+Select `y` at the final prompt to test changing the account's default shell. Then verify
+the installed environment and run the installer again to check idempotency:
+
+```sh
+orb -m dotfiles-server-test getent passwd "$USER"
+orb -m dotfiles-server-test zsh -ic 'echo ok; alias three >/dev/null && echo alias-ok; typeset -f chpwd >/dev/null && echo chpwd-ok'
+orb -m dotfiles-server-test /home/$USER/.local/bin/fzf --version
+orb -m dotfiles-server-test /home/$USER/.local/bin/tree-sitter --version
+orb -m dotfiles-server-test /home/$USER/.local/bin/nvim --headless '+lua print("nvim-ok")' +qa
+orb -m dotfiles-server-test tmux -f /home/$USER/.config/tmux/tmux.conf new-session -d -s dotfiles-test
+orb -m dotfiles-server-test tmux kill-session -t dotfiles-test
+orb -m dotfiles-server-test make -C /home/$USER/dotfiles server install
+```
+
+Delete the disposable server VM when testing is complete:
+
+```sh
+orb delete dotfiles-server-test
+```
+
+## Ubuntu Desktop with Tart
+
+Use Tart when a visible Ubuntu desktop and graphical installer are part of the test.
+Tart's [Linux VM workflow](https://tart.run/quick-start/#creating-a-linux-vm-image-from-scratch)
+boots an installer ISO in its VM window. Linux guests on Apple Silicon use ARM64, so
+download the ARM64 Ubuntu Desktop ISO. The versioned URL will drift as Ubuntu publishes
+new point releases.
+
+```sh
+iso="$HOME/Downloads/ubuntu-24.04.4-desktop-arm64.iso"
+curl -fL https://cdimage.ubuntu.com/ubuntu/releases/24.04/release/ubuntu-24.04.4-desktop-arm64.iso -o "$iso"
+
+tart create --linux --disk-size 64 ubuntu-desktop-test
+tart set ubuntu-desktop-test --cpu 4 --memory 8192 --display 1440x900
+tart run --disk="${iso}:ro" ubuntu-desktop-test
+```
+
+Complete the Ubuntu installer in the Tart window:
+
+1. Choose **Install Ubuntu**.
+2. Use `admin` for both the username and password.
+3. Choose the normal interactive install. "Erase disk and install Ubuntu" only erases
+   the disposable virtual disk.
+4. Shut down when installation finishes, then boot without the ISO:
+
+   ```sh
+   tart run ubuntu-desktop-test
+   ```
+
+Open Terminal inside Ubuntu Desktop and run the server setup:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y git make openssh-server
+sudo systemctl enable --now ssh
+git clone https://github.com/wajeht/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+make server install
+```
+
+Select `y` at the final prompt, log out and back in, and verify the ARM64 environment:
+
+```sh
+uname -m                                                   # aarch64
+getent passwd "$USER" | cut -d: -f7                       # /usr/bin/zsh
+~/.local/bin/fzf --version
+~/.local/bin/tree-sitter --version
+~/.local/bin/nvim --headless '+lua print("nvim-ok")' +qa
+zsh -ic 'echo ok; alias three >/dev/null && echo alias-ok; typeset -f chpwd >/dev/null && echo chpwd-ok'
+tmux -f ~/.config/tmux/tmux.conf new-session -d -s dotfiles-test
+tmux kill-session -t dotfiles-test
+```
+
+After verifying the desktop and installed tools, shut down Ubuntu and delete the VM:
+
+```sh
+tart delete ubuntu-desktop-test
+```
+
+For an isolated release-download helper test without a full install:
+
+```sh
+( source src/_util.sh; HOME=$(mktemp -d) install_release_bin "<release-url>" <bin-name> )
+```
 
 ## Notes
 
