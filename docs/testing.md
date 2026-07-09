@@ -193,7 +193,16 @@ throwaway Ubuntu VM:
 - Real server — `ssh <host>`, `git pull` in the dotfiles, `make server install`.
 - Throwaway Ubuntu VM on macOS — [OrbStack](https://orbstack.dev),
   [Lima](https://lima-vm.io), or [Multipass](https://multipass.run) spin up a quick
-  Ubuntu guest; clone + `make server install` inside it.
+  Ubuntu guest. Minimal images need Git and Make before they can clone the repo and
+  invoke the Makefile. For example, with OrbStack:
+  ```sh
+  orb create -a amd64 ubuntu:24.04 dotfiles-server-test
+  orb -m dotfiles-server-test sudo apt-get update
+  orb -m dotfiles-server-test sudo apt-get install -y git make
+  orb -m dotfiles-server-test git clone https://github.com/wajeht/dotfiles.git /home/$USER/dotfiles
+  orb -m dotfiles-server-test make -C /home/$USER/dotfiles server install
+  orb delete dotfiles-server-test
+  ```
 - Isolated function tests — the release-download helper can be exercised without a full
   install:
   ```sh
