@@ -32,8 +32,10 @@ configure_finder_sidebar() {
 
     killall Finder >/dev/null 2>&1 || true
     task "Set Finder sidebar favorites"
-    # Note: hiding the "Recents" and "Shared" sidebar sections isn't scriptable — do it
-    # once in Finder → Settings → Sidebar.
+
+    # Hiding the "Recents" and "Shared" sidebar sections isn't scriptable — surface it
+    # as a one-time manual step rather than shipping fragile GUI automation.
+    info "One-time manual step: uncheck Recents + Shared in Finder → Settings → Sidebar"
 }
 
 main() {
@@ -233,6 +235,7 @@ main() {
     set_default "com.apple.dock" "autohide" "bool" "true"                                # Automatically hide and show the Dock (already set, ensuring value)
     set_default "com.apple.dock" "showhidden" "bool" "true"                              # Make Dock icons of hidden applications translucent
     set_default "com.apple.dock" "show-recents" "bool" "false"                           # Don't show recent applications in Dock (already set, ensuring value)
+    set_default "com.apple.dock" "orientation" "string" "right"                          # Position the Dock on the right edge of the screen
 
     if [ -d "${HOME}/Library/Application Support/Dock" ]; then # Reset Launchpad, but keep the desktop wallpaper intact
         find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
@@ -246,6 +249,8 @@ main() {
     set_default "com.apple.dock" "wvous-bl-modifier" "int" "0"
     set_default "com.apple.dock" "wvous-br-corner" "int" "2" # Hot corners: Bottom right screen corner → Mission Control
     set_default "com.apple.dock" "wvous-br-modifier" "int" "0"
+
+    set_default "com.apple.WindowManager" "EnableStandardClickToShowDesktop" "bool" "false" # Don't hide windows when clicking the wallpaper (disable "click wallpaper to show desktop items")
 
     info "Configuring Safari & WebKit..."
     sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false                                                                   # Privacy: don't send search queries to Apple
@@ -368,12 +373,13 @@ main() {
         "Safari"
         "SystemUIServer"
         "Terminal"
+        "WindowManager"
     )
     # Note: Ghostty/VS Code/Cursor/Firefox are intentionally NOT restarted — this
     # script sets no defaults for them, and killing the terminal running this
     # script (Ghostty) would abort the run.
     for app_name in "${app_list[@]}"; do
-        if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
+        if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ] || [ "${app_name}" == "WindowManager" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
             killall "${app_name}" &>/dev/null || true
         fi
     done
