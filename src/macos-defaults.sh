@@ -45,15 +45,46 @@ configure_finder_sidebar_settings() {
     fi
 
     info "Hiding Finder sidebar clutter..."
-    info "If prompted, allow your terminal to control System Events, then rerun 'make macos'"
+    info "If prompted, allow your terminal to control Finder/System Events, then rerun 'make macos'"
+
+    if ! osascript <<'APPLESCRIPT'
+tell application "Finder" to activate
+delay 0.2
+
+tell application "System Events"
+    tell process "Finder"
+        set frontmost to true
+        exists menu bar 1
+    end tell
+end tell
+APPLESCRIPT
+    then
+        warning "Finder sidebar cleanup needs Accessibility access; grant it and rerun 'make macos'"
+        return 0
+    fi
 
     if osascript <<'APPLESCRIPT'
-on click_relative(win, xOffset, yOffset)
+on set_sidebar_checkbox(area, checkboxDescription, desiredValue)
     tell application "System Events"
-        set {x0, y0} to position of win
-        click at {x0 + xOffset, y0 + yOffset}
+        tell area
+            repeat with itemCheckbox in checkboxes
+                try
+                    if description of itemCheckbox is checkboxDescription then
+                        repeat 3 times
+                            if (value of itemCheckbox as integer) is desiredValue then return true
+                            click itemCheckbox
+                            delay 0.1
+                        end repeat
+
+                        return ((value of itemCheckbox as integer) is desiredValue)
+                    end if
+                end try
+            end repeat
+        end tell
     end tell
-end click_relative
+
+    return true
+end set_sidebar_checkbox
 
 tell application "Finder" to activate
 delay 0.5
@@ -74,17 +105,26 @@ tell application "System Events"
         delay 0.3
         click button "Sidebar" of toolbar 1 of win
         delay 0.3
+
+        set sidebarArea to scroll area 1 of win
+        set labelsToHide to {"Recents", "Shared", "Cloud Storage", "Managed’s Virtual Machine", "Macintosh HD", "Hard disks", "External disks", "CDs, DVDs, and iOS Devices"}
+        set failedLabels to {}
+
+        repeat with sidebarLabel in labelsToHide
+            if not my set_sidebar_checkbox(sidebarArea, sidebarLabel as text, 0) then
+                set end of failedLabels to sidebarLabel as text
+            end if
+        end repeat
+
+        if (count of failedLabels) is greater than 0 then
+            error "Could not hide Finder sidebar items: " & failedLabels
+        end if
+
+        try
+            click button 1 of win
+        end try
     end tell
 end tell
-
--- These rows are not exposed as stable defaults. The coordinates are relative to
--- Finder Settings after moving it above, matching the macOS Sidebar tab layout.
-click_relative(win, 44, 131) -- Shared
-click_relative(win, 44, 445) -- External disks
-click_relative(win, 44, 466) -- CDs, DVDs, and iOS Devices
-click_relative(win, 44, 423) -- Hard disks
-
-tell application "Finder" to close window "Finder Settings"
 APPLESCRIPT
     then
         mkdir -p "$(dirname "$marker")"
@@ -109,17 +149,22 @@ main() {
     osascript -e 'tell application "System Preferences" to quit' # Close any open System Preferences panes, to prevent them from overriding settings we're about to change
 
     # Keep-alive: update existing `sudo` time stamp until script has finished
+    local sudo_keepalive_pid
     while true; do
         sudo -n true
         sleep 60
         kill -0 "$$" || exit
     done 2>/dev/null &
+    sudo_keepalive_pid=$!
+    trap "pkill -P $sudo_keepalive_pid 2>/dev/null || true; kill $sudo_keepalive_pid 2>/dev/null || true" EXIT
 
     info "General UI/UX enhancements..."
     sudo nvram SystemAudioVolume=" " # Disable the sound effects on boot
 
     sudo defaults write com.apple.universalaccess reduceTransparency -bool true            # Disable transparency in the menu bar and elsewhere (requires sudo)
     defaults write NSGlobalDomain AppleHighlightColor -string "0.709800 0.835300 1.000000" # Set highlight color to blue
+    set_default "NSGlobalDomain" "AppleInterfaceStyle" "string" "Dark"                     # Use dark mode
+    set_default "NSGlobalDomain" "AppleInterfaceStyleSwitchesAutomatically" "bool" "false" # Keep dark mode on instead of switching automatically
     set_default "NSGlobalDomain" "NSTableViewDefaultSizeMode" "int" "2"                    # Set sidebar icon size to medium
     set_default "NSGlobalDomain" "AppleShowScrollBars" "string" "Always"                   # Always show scrollbars
     set_default "NSGlobalDomain" "NSUseAnimatedFocusRing" "bool" "false"                   # Disable the over-the-top focus ring animation
