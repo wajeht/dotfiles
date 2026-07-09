@@ -135,6 +135,86 @@ APPLESCRIPT
     fi
 }
 
+configure_finder_view_settings() {
+    local template="$(dirname "$0")/configs/finder-view-settings.json"
+    local finder_preferences
+    local desktop_settings list_settings extended_list_settings
+
+    if [ ! -f "$template" ]; then
+        warning "Finder view settings template not found"
+        return 1
+    fi
+
+    finder_preferences=$(mktemp)
+    if ! defaults export com.apple.finder "$finder_preferences" >/dev/null 2>&1; then
+        plutil -create xml1 "$finder_preferences"
+    fi
+
+    desktop_settings=$(plutil -extract DesktopViewSettings json -o - "$template")
+    list_settings=$(plutil -extract ListViewSettings json -o - "$template")
+    extended_list_settings=$(plutil -extract ExtendedListViewSettingsV2 json -o - "$template")
+
+    plutil -remove DesktopViewSettings "$finder_preferences" >/dev/null 2>&1 || true
+    plutil -insert DesktopViewSettings -json "$desktop_settings" "$finder_preferences"
+
+    local settings_key
+    for settings_key in StandardViewSettings FK_StandardViewSettings; do
+        if ! plutil -type "$settings_key" "$finder_preferences" >/dev/null 2>&1; then
+            plutil -insert "$settings_key" -dictionary "$finder_preferences"
+        fi
+
+        plutil -remove "$settings_key.ListViewSettings" "$finder_preferences" >/dev/null 2>&1 || true
+        plutil -insert "$settings_key.ListViewSettings" -json "$list_settings" "$finder_preferences"
+        plutil -remove "$settings_key.ExtendedListViewSettingsV2" "$finder_preferences" >/dev/null 2>&1 || true
+        plutil -insert "$settings_key.ExtendedListViewSettingsV2" -json "$extended_list_settings" "$finder_preferences"
+        plutil -remove "$settings_key.SettingsType" "$finder_preferences" >/dev/null 2>&1 || true
+        plutil -insert "$settings_key.SettingsType" -string "$settings_key" "$finder_preferences"
+    done
+
+    defaults import com.apple.finder "$finder_preferences" >/dev/null
+    rm -f "$finder_preferences"
+    task "Matched Finder desktop and list view layout"
+}
+
+configure_login_items() {
+    local app_paths=(
+        "/Applications/Alfred 5.app"
+        "/Applications/Moom.app"
+        "/Applications/Mos.app"
+        "/Applications/SensibleSideButtons.app"
+        "/Applications/Shottr.app"
+        "/Applications/Superkey.app"
+    )
+    local app_path configured=0
+
+    info "Configuring Login Items..."
+    for app_path in "${app_paths[@]}"; do
+        [ -d "$app_path" ] || continue
+
+        if osascript - "$app_path" <<'APPLESCRIPT'
+on run argv
+    set appPath to item 1 of argv
+
+    tell application "System Events"
+        set matchingItems to every login item whose path is appPath
+        if (count of matchingItems) is 0 then
+            make login item at end with properties {path:appPath, hidden:false}
+        else
+            set hidden of item 1 of matchingItems to false
+        end if
+    end tell
+end run
+APPLESCRIPT
+        then
+            configured=$((configured + 1))
+        else
+            warning "Could not configure login item: ${app_path##*/}"
+        fi
+    done
+
+    task "Configured $configured installed Login Items"
+}
+
 main() {
     case "${1:-install}" in
     uninstall)
@@ -244,13 +324,16 @@ main() {
 
     local black_wallpaper="/System/Library/Desktop Pictures/Solid Colors/Black.png"
     if [ -f "$black_wallpaper" ]; then
-        osascript \
+        if osascript \
             -e 'tell application "System Events"' \
             -e 'tell every desktop' \
             -e "set picture to \"$black_wallpaper\"" \
             -e 'end tell' \
-            -e 'end tell' >/dev/null
-        task "Set desktop background to solid black"
+            -e 'end tell' >/dev/null; then
+            task "Set desktop background to solid black"
+        else
+            warning "Could not set desktop background; grant System Events access and rerun 'make macos'"
+        fi
     else
         warning "Solid black desktop background not found"
     fi
@@ -316,9 +399,11 @@ main() {
     # Set default view settings for all view types to list view
     defaults write com.apple.finder FK_DefaultViewStyle -string "Nlsv"
     defaults write com.apple.finder FK_DefaultSearchViewStyle -string "Nlsv"
+    configure_finder_view_settings || warning "Finder view layout setup had issues (continuing)"
 
     configure_finder_sidebar || warning "Finder sidebar favorites setup had issues (continuing)"
     configure_finder_sidebar_settings || warning "Finder sidebar settings setup had issues (continuing)"
+    configure_login_items || warning "Login Items setup had issues (continuing)"
 
     set_default "com.apple.finder" "WarnOnEmptyTrash" "bool" "false"           # Disable the warning before emptying the Trash
     set_default "com.apple.NetworkBrowser" "BrowseAllInterfaces" "bool" "true" # Enable AirDrop over Ethernet and on unsupported Macs
@@ -388,6 +473,17 @@ main() {
     set_default "com.apple.menuextra.clock" "ShowDayOfWeek" "bool" "true"
     set_default "com.apple.menuextra.clock" "ShowSeconds" "bool" "false"
 
+    set_default "NSGlobalDomain" "AppleMenuBarVisibleInFullscreen" "bool" "false"
+    set_default "NSGlobalDomain" "_HIHideMenuBar" "bool" "false"
+    set_default "com.apple.controlcenter" "AutoHideMenuBarOption" "int" "2"
+    set_default "com.apple.controlcenter" "NSStatusItem Visible BentoBox" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC Battery" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC BentoBox-0" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC Clock" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC NowPlaying" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC Sound" "bool" "true"
+    set_default "com.apple.controlcenter" "NSStatusItem VisibleCC WiFi" "bool" "true"
+
     info "Configuring Safari & WebKit..."
     sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false                                                                   # Privacy: don't send search queries to Apple
     sudo defaults write com.apple.Safari SuppressSearchSuggestions -bool true                                                                 # Privacy: don't send search queries to Apple
@@ -450,7 +546,7 @@ main() {
     info "Configuring Activity Monitor..."
     set_default "com.apple.ActivityMonitor" "OpenMainWindow" "bool" "true"   # Show the main window when launching Activity Monitor
     set_default "com.apple.ActivityMonitor" "IconType" "int" "5"             # Visualize CPU usage in the Activity Monitor Dock icon
-    set_default "com.apple.ActivityMonitor" "ShowCategory" "int" "0"         # Show all processes in Activity Monitor
+    set_default "com.apple.ActivityMonitor" "ShowCategory" "int" "100"       # Match the Mac Studio process category
     set_default "com.apple.ActivityMonitor" "SortColumn" "string" "CPUUsage" # Sort Activity Monitor results by CPU usage
     set_default "com.apple.ActivityMonitor" "SortDirection" "int" "0"        # Sort Activity Monitor results by CPU usage (descending)
 
@@ -508,12 +604,9 @@ main() {
         "Photos"
         "Safari"
         "SystemUIServer"
-        "Terminal"
         "WindowManager"
     )
-    # Note: Ghostty/VS Code/Cursor/Firefox are intentionally NOT restarted — this
-    # script sets no defaults for them, and killing the terminal running this
-    # script (Ghostty) would abort the run.
+    # Do not restart terminal/editor apps; one of them may be running this script.
     for app_name in "${app_list[@]}"; do
         if [ -d "/Applications/${app_name}.app" ] || [ "${app_name}" == "Dock" ] || [ "${app_name}" == "Finder" ] || [ "${app_name}" == "SystemUIServer" ] || [ "${app_name}" == "WindowManager" ]; then # Check if the app is installed before trying to kill it, to be more robust, though killall itself handles it.
             killall "${app_name}" &>/dev/null || true

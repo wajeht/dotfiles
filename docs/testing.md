@@ -77,8 +77,12 @@ defaults read com.apple.dock magnification            # 1
 defaults read com.apple.finder FXPreferredViewStyle   # Nlsv
 defaults read com.apple.finder FXPreferredGroupBy     # Kind
 defaults read com.apple.finder ShowMountedServersOnDesktop # 0
+plutil -extract DesktopViewSettings.IconViewSettings.iconSize raw -o - ~/Library/Preferences/com.apple.finder.plist # 64
+plutil -extract StandardViewSettings.ListViewSettings.textSize raw -o - ~/Library/Preferences/com.apple.finder.plist # 13
 defaults read com.apple.WindowManager GloballyEnabled # 0 (Stage Manager off)
 defaults read com.apple.menuextra.clock ShowDate      # 1
+defaults read com.apple.controlcenter AutoHideMenuBarOption # 2
+defaults read com.apple.ActivityMonitor ShowCategory # 100
 defaults read com.apple.Terminal SecureKeyboardEntry  # 1
 
 # Configs landed, no stale wiring?
@@ -168,6 +172,18 @@ return out
 
 Run those from the GUI Terminal app, not SSH, because macOS privacy permissions are
 per-app. `tart exec ... osascript` may fail even when Terminal is already authorized.
+
+## Mac Studio profile scope
+
+The portable profile mirrors Finder desktop/list layout, Finder Sidebar, Dock,
+Window Manager, menu bar visibility, clock, dark appearance, wallpaper, keyboard,
+trackpad, and supported application defaults. Installed Alfred, Moom, Mos,
+SensibleSideButtons, Shottr, and Superkey apps are also added as Login Items.
+
+Hardware-bound state is intentionally excluded: display arrangement/scaling, audio
+devices, Bluetooth pairings, menu bar pixel positions, and per-app background/privacy
+approvals. The stale Syncthing Login Item on the Mac Studio is also excluded because
+there is no corresponding app or executable on disk.
 
 ## Linux / server path
 
