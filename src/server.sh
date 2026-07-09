@@ -83,7 +83,14 @@ install_tree_sitter_cli() {
         warning "tree-sitter CLI $current_version is older than required $min_version"
     fi
 
-    local asset="tree-sitter-linux-x64.gz"
+    local arch
+    case "$(uname -m)" in
+    x86_64) arch="x64" ;;
+    aarch64 | arm64) arch="arm64" ;;
+    *) error "Unsupported architecture for tree-sitter: $(uname -m)" ;;
+    esac
+
+    local asset="tree-sitter-linux-${arch}.gz"
     install_release_bin "https://github.com/tree-sitter/tree-sitter/releases/latest/download/$asset" tree-sitter
     task "$("$HOME/.local/bin/tree-sitter" --version)"
 }
@@ -99,7 +106,14 @@ install_neovim() {
     local install_dir="$HOME/.local"
     mkdir -p "$install_dir/bin"
 
-    local tarball="nvim-linux-x86_64.tar.gz"
+    local arch
+    case "$(uname -m)" in
+    x86_64) arch="x86_64" ;;
+    aarch64 | arm64) arch="arm64" ;;
+    *) error "Unsupported architecture for Neovim: $(uname -m)" ;;
+    esac
+
+    local tarball="nvim-linux-${arch}.tar.gz"
 
     # Neovim ships a bin/lib/share tree (not a single binary), so it's extracted
     # into ~/.local directly rather than via install_release_bin.
