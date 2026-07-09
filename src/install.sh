@@ -92,8 +92,8 @@ main() {
     local failed_components=()
 
     # Run each component, continuing even if some fail
-    run_component "$(dirname "$0")/macos-defaults.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
     run_component "$(dirname "$0")/brew.sh" "install" "Homebrew packages" || failed_components+=("Homebrew packages")
+    run_component "$(dirname "$0")/macos-defaults.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
     run_component "$(dirname "$0")/nvim.sh" "install" "Neovim config" || failed_components+=("Neovim config")
     run_component "$(dirname "$0")/git.sh" "install" "Git config" || failed_components+=("Git config")
     run_component "$(dirname "$0")/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
