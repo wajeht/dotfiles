@@ -73,7 +73,12 @@ caffeinate -s make install
 ```sh
 # Did the macOS defaults actually take?
 defaults read com.apple.dock tilesize                 # 16
+defaults read com.apple.dock magnification            # 1
 defaults read com.apple.finder FXPreferredViewStyle   # Nlsv
+defaults read com.apple.finder FXPreferredGroupBy     # Kind
+defaults read com.apple.finder ShowMountedServersOnDesktop # 0
+defaults read com.apple.WindowManager GloballyEnabled # 0 (Stage Manager off)
+defaults read com.apple.menuextra.clock ShowDate      # 1
 defaults read com.apple.Terminal SecureKeyboardEntry  # 1
 
 # Configs landed, no stale wiring?
