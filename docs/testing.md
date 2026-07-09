@@ -124,6 +124,8 @@ throwaway Ubuntu VM:
   ```
 
 ## Notes
+- **Default credentials:** `admin` / `admin` — for **both** SSH and the **GUI login
+  screen** (e.g. after logout), with passwordless `sudo`.
 - The base image is cached after the first pull, so re-testing is fast (no re-download)
   unless you delete it.
 - Version numbers here (macOS 26 Tahoe, etc.) drift over time — the mechanism is the
