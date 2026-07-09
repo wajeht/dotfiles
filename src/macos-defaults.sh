@@ -236,6 +236,8 @@ main() {
     set_default "com.apple.dock" "showhidden" "bool" "true"                              # Make Dock icons of hidden applications translucent
     set_default "com.apple.dock" "show-recents" "bool" "false"                           # Don't show recent applications in Dock (already set, ensuring value)
     set_default "com.apple.dock" "orientation" "string" "right"                          # Position the Dock on the right edge of the screen
+    defaults write com.apple.dock persistent-apps -array                                 # Remove all pinned app icons (leaves only Finder + Trash)
+    defaults write com.apple.dock persistent-others -array                               # Remove all pinned folders/stacks (e.g. Downloads)
 
     if [ -d "${HOME}/Library/Application Support/Dock" ]; then # Reset Launchpad, but keep the desktop wallpaper intact
         find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
