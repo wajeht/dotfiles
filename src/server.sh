@@ -38,6 +38,37 @@ install_apt_deps() {
     fi
 }
 
+install_fzf() {
+    info "Ensuring a compatible fzf version..."
+
+    local min_version="0.51"
+    local current_version=""
+    if command -v fzf >/dev/null 2>&1; then
+        current_version="$(fzf --version | awk '{print $1}')"
+        if printf '%s\n%s\n' "$min_version" "$current_version" | sort -V -C; then
+            task "fzf already installed: $current_version"
+            return
+        fi
+        warning "fzf $current_version is older than required $min_version"
+    fi
+
+    local arch
+    case "$(uname -m)" in
+    x86_64) arch="amd64" ;;
+    aarch64 | arm64) arch="arm64" ;;
+    *) error "Unsupported architecture for fzf: $(uname -m)" ;;
+    esac
+
+    local release_url tag version asset
+    release_url=$(curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/junegunn/fzf/releases/latest)
+    tag="${release_url##*/}"
+    version="${tag#v}"
+    asset="fzf-${version}-linux_${arch}.tar.gz"
+
+    install_release_bin "https://github.com/junegunn/fzf/releases/download/${tag}/${asset}" fzf
+    task "$("$HOME/.local/bin/fzf" --version)"
+}
+
 install_tree_sitter_cli() {
     info "Installing tree-sitter CLI..."
 
@@ -256,8 +287,12 @@ install_nvim_config() {
 
 set_default_shell() {
     info "Setting zsh as default shell..."
-    if [[ "$SHELL" != *"zsh"* ]]; then
-        chsh -s "$(which zsh)"
+    local zsh_path current_shell
+    zsh_path="$(command -v zsh)"
+    current_shell="$(getent passwd "$USER" | cut -d: -f7)"
+
+    if [[ "$current_shell" != "$zsh_path" ]]; then
+        sudo chsh -s "$zsh_path" "$USER"
         task "Changed default shell to zsh"
     else
         task "zsh is already the default shell"
@@ -269,8 +304,10 @@ install_server() {
 
     check_linux
     check_internet
+    export PATH="$HOME/.local/bin:$PATH"
 
     install_apt_deps
+    install_fzf
     install_terminfo
     install_nvm
     install_tree_sitter_cli
@@ -299,7 +336,7 @@ uninstall_server() {
     echo "  - ~/.zshenv, ~/.config/{zsh,tmux,nvim,bat,lsd,btop}/"
     echo "  - ~/.zsh/plugins/"
     echo "  - Neovim (~/.local/bin/nvim + its lib/share) and its state/cache"
-    echo "  - CLIs installed to ~/.local/bin: tree-sitter"
+    echo "  - CLIs installed to ~/.local/bin: fzf, tree-sitter"
     echo ""
     read -p "❓ Continue? [y/N] " confirm && [[ "$confirm" == "y" ]] || exit 1
 
@@ -313,7 +350,7 @@ uninstall_server() {
     rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 
     # CLIs installed via install_release_bin (gh/shfmt come from apt, not here)
-    rm -f ~/.local/bin/tree-sitter
+    rm -f ~/.local/bin/fzf ~/.local/bin/tree-sitter
 
     success "Server dotfiles removed"
 }
