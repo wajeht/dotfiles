@@ -98,7 +98,8 @@ function dev() {
       wins="${win_of[$sname]}"
       local disp="${sname//\//_}"   # flatten '/' so --nth -1 doesn't split the row
       if [[ "$sname" == "$active" ]]; then
-        cand+=("${G}${disp}${RST}  ${DIM}${wins}${RST}")
+        # Pin the attached session to the very top of the list
+        cand=("${G}${disp}${RST}  ${DIM}${wins}${RST}" "${cand[@]}")
       else
         cand+=("${B}${disp}${RST}  ${DIM}${wins}${RST}")
       fi
@@ -110,7 +111,8 @@ function dev() {
     # As you type a NEW name (not an existing session or project basename), a green
     # `create session "<query>"` line is prepended and pinned to the very top. To
     # keep it reliably on top we turn fzf's relevance sort OFF (--no-sort below),
-    # so the rest shows in a fixed order: sessions first, then folders A-Z.
+    # so the rest shows in a fixed order: the attached session first, then the
+    # other sessions A-Z, then folders A-Z.
     local tmpf namesf
     tmpf=$(mktemp); namesf=$(mktemp)
     print -rl -- "${cand[@]}" > "$tmpf"
