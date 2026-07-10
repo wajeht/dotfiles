@@ -9,9 +9,8 @@ window-padding-balance = true
 window-padding-color = extend
 window-save-state = never
 
-# Linux/GTK equivalent of the macOS hidden titlebar setup. Ghostty's docs
-# recommend macos-titlebar-style on macOS; window-decoration is the GTK path.
-window-decoration = false
+# Show the GTK titlebar/window controls on Ubuntu.
+window-decoration = auto
 
 # Use Ghostty-managed GTK colors so the titlebar can match the terminal if
 # decorations are later re-enabled.
@@ -19,6 +18,7 @@ window-theme = ghostty
 window-titlebar-background = #000000
 window-titlebar-foreground = #ffffff
 gtk-titlebar = true
+gtk-titlebar-hide-when-maximized = false
 gtk-titlebar-style = native
 gtk-toolbar-style = flat
 window-show-tab-bar = never
