@@ -19,10 +19,10 @@ window-width = 100
 
 theme = "Dark Modern"
 confirm-close-surface = false
-# Hide the titlebar entirely (no tab bar, no traffic-light buttons) — the
-# tmux status bar on top takes its place. Tab keybinds are cleared below.
-# Drag the window with option+click on the frame edges.
-macos-titlebar-style = native
+# Show the titlebar so the tmux-set window title (tmux.conf set-titles) is
+# visible. transparent tints it with the background color below instead of the
+# native gray slab. Tabs stay unused — tab keybinds are cleared below.
+macos-titlebar-style = transparent
 background=#000000
 background-opacity = 0.85
 # Native macOS 26+ glass. On older macOS the glass material is unavailable and

@@ -12,14 +12,12 @@ window-save-state = never
 # Show the GTK titlebar/window controls on Ubuntu.
 window-decoration = auto
 
-# Use Ghostty-managed GTK colors so the titlebar can match the terminal if
-# decorations are later re-enabled.
+# Use Ghostty-managed GTK colors so the titlebar matches the terminal.
 window-theme = ghostty
 window-titlebar-background = #000000
 window-titlebar-foreground = #ffffff
-gtk-titlebar = true
-gtk-titlebar-hide-when-maximized = false
-gtk-titlebar-style = native
+# Show the working directory as a second line under the title.
+window-subtitle = working-directory
 gtk-toolbar-style = flat
 window-show-tab-bar = never
 
