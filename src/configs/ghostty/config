@@ -25,9 +25,8 @@ confirm-close-surface = false
 # on macOS 26 renders a stray "…" overflow control and doubles the height even
 # with one tab (window-show-tab-bar is Linux-only, so it can't be hidden).
 macos-titlebar-style = transparent
-# Titlebar text in the terminal font so the Nerd Font glyphs in the tmux-set
-# title render.
-window-title-font-family = "Monaco Nerd Font Mono"
+# Titlebar text stays in the system font (native macOS look — no monospace or
+# icon glyphs in titlebars). The tmux-set title is plain text.
 # No traffic lights — cleaner bar. cmd+q quits; minimize/zoom stay available
 # in the menu bar's Window menu.
 macos-window-buttons = hidden
