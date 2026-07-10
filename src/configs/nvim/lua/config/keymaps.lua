@@ -113,6 +113,12 @@ vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor 
 -- copy and paste
 vim.keymap.set({ "n", "v", "i" }, "<D-c>", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v", "i", "t" }, "<D-v>", '"+p', { desc = "Paste from clipboard" })
+-- Cmd+C arrives as <M-c>: Ghostty encodes it as esc:c (a terminal can't
+-- send a bare Cmd chord), and tmux forwards it to nvim panes. Without the
+-- insert/normal mappings an unmapped meta key falls back to Esc+c —
+-- leaving insert mode or starting a change.
+vim.keymap.set("v", "<M-c>", '"+y', { desc = "Copy selection to clipboard (Cmd+C)" })
+vim.keymap.set({ "n", "i" }, "<M-c>", "<Nop>", { desc = "Cmd+C: nothing to copy" })
 
 -- Toggle the built-in undo-tree visualizer (enabled in options.lua). Moving the
 -- cursor inside the window travels the branching undo history.

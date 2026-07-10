@@ -76,7 +76,10 @@ adjust-cell-height = 10%
 keybind = clear
 
 # Essentials
-keybind = cmd+c=copy_to_clipboard:mixed
+# cmd+c goes to tmux as M-c (esc:c) so it can copy the tmux copy-mode
+# selection (tmux.conf binds M-c). Native shift-drag selections still copy
+# without it via copy-on-select above.
+keybind = cmd+c=esc:c
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+q=quit
 keybind = cmd+n=new_window
