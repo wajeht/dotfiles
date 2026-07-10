@@ -8,7 +8,14 @@ install_ghostty() {
     info "Installing Ghostty configuration..."
     backup_if_exists ~/.config/ghostty # consistent with the other component installers
     mkdir -p ~/.config/ghostty
-    cp -r "$(dirname "$0")/configs/ghostty/"* ~/.config/ghostty/
+    local config_dir
+    config_dir="$(dirname "$0")/configs/ghostty"
+    cp -r "$config_dir/"* ~/.config/ghostty/
+    if [[ "$(uname)" != "Darwin" ]]; then
+        cp "$config_dir/config.linux" ~/.config/ghostty/config
+        task "Selected config.linux"
+    fi
+    rm -f ~/.config/ghostty/config.linux ~/.config/ghostty/config.local ~/.config/ghostty/config.macos
     task "Copied configuration to ~/.config/ghostty/"
 
     success "Ghostty configuration installed"
