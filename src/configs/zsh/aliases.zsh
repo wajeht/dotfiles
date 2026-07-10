@@ -9,6 +9,7 @@ alias clc='npx --yes --package @anthropic-ai/claude-code@latest claude'
 alias oc='npx opencode-ai@latest'
 alias cdx='npx @openai/codex@latest'
 alias gcli='npx @google/gemini-cli@latest'
+alias rm_tms='rm -rf ~/.local/share/tmux/resurrect/*'
 
 # Shell aliases
 alias resource='source "${ZDOTDIR:-$HOME/.config/zsh}/.zshrc"'
