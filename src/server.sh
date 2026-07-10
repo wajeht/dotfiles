@@ -98,13 +98,14 @@ install_tree_sitter_cli() {
 install_neovim() {
     info "Installing Neovim stable from GitHub releases..."
 
-    if command -v nvim >/dev/null 2>&1; then
+    # A present binary isn't enough: verify it can actually start. The old
+    # flat install put the runtime in ~/.local/share/nvim, which nvim.sh's
+    # cleanup rm -rf's as plugin data — leaving a binary that errors with
+    # "module 'vim.uri' not found". Reinstall in that case.
+    if command -v nvim >/dev/null 2>&1 && nvim --headless +q >/dev/null 2>&1; then
         task "Neovim already installed: $(nvim --version | head -1)"
         return
     fi
-
-    local install_dir="$HOME/.local"
-    mkdir -p "$install_dir/bin"
 
     local arch
     case "$(uname -m)" in
@@ -115,17 +116,25 @@ install_neovim() {
 
     local tarball="nvim-linux-${arch}.tar.gz"
 
-    # Neovim ships a bin/lib/share tree (not a single binary), so it's extracted
-    # into ~/.local directly rather than via install_release_bin.
     local tmp
     tmp=$(mktemp -d)
     info "Downloading $tarball..."
     curl -fsSL "https://github.com/neovim/neovim/releases/latest/download/$tarball" -o "$tmp/$tarball"
 
+    # Extract into an isolated prefix and symlink the binary — NOT flat into
+    # ~/.local, where the editor runtime would land in ~/.local/share/nvim
+    # (nvim's XDG data dir) and get destroyed by plugin-data cleanups.
+    local install_dir="$HOME/.local/opt/nvim"
     info "Extracting to $install_dir..."
     tar -xzf "$tmp/$tarball" -C "$tmp"
-    cp -rf "$tmp/${tarball%.tar.gz}"/* "$install_dir/"
+    rm -rf "$install_dir"
+    mkdir -p "$HOME/.local/opt" "$HOME/.local/bin"
+    mv "$tmp/${tarball%.tar.gz}" "$install_dir"
+    ln -sf "$install_dir/bin/nvim" "$HOME/.local/bin/nvim"
     rm -rf "$tmp"
+    # Remove leftovers of the old flat install (runtime + parser libs only —
+    # never ~/.local/share/nvim itself, which holds plugin data).
+    rm -rf "$HOME/.local/share/nvim/runtime" "$HOME/.local/lib/nvim"
 
     task "Installed Neovim to $install_dir"
     command -v nvim >/dev/null 2>&1 && task "$(nvim --version | head -1)"

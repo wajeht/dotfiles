@@ -70,9 +70,15 @@ install_zsh() {
     # Fix completion permissions to prevent security warnings
     fix_completion_permissions
 
-    info "Copying reload command to clipboard"
-    echo "exec zsh" | pbcopy
-    task "Command copied to clipboard. Paste and run it, or restart your terminal."
+    # Clipboard is a macOS nicety; Linux servers have no pbcopy (and often no
+    # clipboard at all), so just print the command there instead of failing.
+    if command -v pbcopy >/dev/null 2>&1; then
+        info "Copying reload command to clipboard"
+        echo "exec zsh" | pbcopy
+        task "Command copied to clipboard. Paste and run it, or restart your terminal."
+    else
+        task "Run 'exec zsh' (or restart your terminal) to reload"
+    fi
 
     success "Zsh configuration installed"
     info "💡 Structure: ~/.zshenv → ~/.config/zsh/.zshrc → [env.zsh, aliases.zsh, functions.zsh]"
