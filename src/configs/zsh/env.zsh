@@ -1,13 +1,16 @@
 # Preferred editor
 export EDITOR='nvim'
 
+# Keep PATH stable when this file is sourced repeatedly via `resource`.
+typeset -U path PATH
+
 # Ripgrep config (vscode-theme colors)
 export RIPGREP_CONFIG_PATH="$HOME/.config/zsh/ripgreprc"
 
 # FZF theme — colors mirror the nvim vscode theme (nvim/lua/colors/init.lua).
 # Lives here (not .zshrc) so the tmux sessionizer popup gets it without a
 # full interactive shell startup
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+export FZF_DEFAULT_OPTS='
   --color=fg:-1,fg+:#D4D4D4,bg:-1,bg+:#03395e
   --color=hl:#2AAAFF,hl+:#2AAAFF,info:#808080,marker:#9CDCFE
   --color=prompt:#569CD6,spinner:#4EC9B0,pointer:#D4D4D4,header:#4EC9B0
@@ -50,7 +53,7 @@ if [[ -d "$NVM_DIR/versions/node" ]]; then
     NODE_DEFAULT=$(<"$NVM_DIR/alias/default")
     [[ -d "$NVM_DIR/versions/node/$NODE_DEFAULT" ]] || NODE_DEFAULT=""
   fi
-  [[ -z "$NODE_DEFAULT" ]] && NODE_DEFAULT=$(ls -1 "$NVM_DIR/versions/node" 2>/dev/null | sort -V | tail -1)
+  [[ -z "$NODE_DEFAULT" ]] && NODE_DEFAULT=$(command ls -1 "$NVM_DIR/versions/node" 2>/dev/null | sort -V | tail -1)
   [[ -n "$NODE_DEFAULT" ]] && export PATH="$NVM_DIR/versions/node/$NODE_DEFAULT/bin:$PATH"
 fi
 
