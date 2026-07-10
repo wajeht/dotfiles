@@ -29,7 +29,7 @@ macos-titlebar-style = transparent
 # icon glyphs in titlebars). The tmux-set title is plain text.
 # No traffic lights — cleaner bar. cmd+q quits; minimize/zoom stay available
 # in the menu bar's Window menu.
-macos-window-buttons = hidden
+# macos-window-buttons = hidden
 background=#000000
 background-opacity = 0.85
 # Native macOS 26+ glass. On older macOS the glass material is unavailable and
