@@ -33,6 +33,31 @@ The `~/work/` directory triggers the work profile (`[includeIf "gitdir:~/work/"]
 with `id_ed25519_work.pub`. `git.sh` only adds the `github-work` block when the work key
 exists, so single-key machines never get a dangling alias.
 
+If a repo was cloned with the GitHub CLI and `git push` asks for
+`Username for 'https://github.com'`, that repo's remote is HTTPS, so SSH keys are not
+being used. Point the remote at SSH instead:
+
+```sh
+git remote set-url origin git@github.com:wajeht/<repo>.git
+```
+
+To repair every GitHub HTTPS remote under `~/Dev`:
+
+```sh
+find ~/Dev -name .git \( -type d -o -type f \) -print0 |
+  while IFS= read -r -d '' gitpath; do
+    repo=${gitpath%/.git}
+    url=$(git -C "$repo" remote get-url origin 2>/dev/null || true)
+    case "$url" in
+      https://github.com/*)
+        path=${url#https://github.com/}
+        path=${path%.git}
+        git -C "$repo" remote set-url origin "git@github.com:${path}.git"
+        ;;
+    esac
+  done
+```
+
 ## Commit signing
 
 - SSH signing (`gpg.format = ssh`), verified against `~/.ssh/allowed_signers`.
@@ -129,7 +154,7 @@ ssh -n -T git@github-work    # work     → "Hi clevyr-kyaw"
 ## Notes
 
 - Keys live on each machine and are **not** agent-forwarded (`ForwardAgent no`).
-- The personal Mac talks to GitHub over **HTTPS**, so SSH-auth to `github.com` isn't used
-  there — `id_ed25519` is for signing and for the host aliases above.
+- Personal GitHub repos should use SSH remotes (`git@github.com:...`) so `git push`
+  uses `id_ed25519` instead of prompting for HTTPS credentials.
 - `id_ed25519_work` never leaves the work laptop; it's registered with the work GitHub
   account manually (the local `gh` is authenticated as the personal account).

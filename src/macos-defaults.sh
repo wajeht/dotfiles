@@ -47,7 +47,7 @@ configure_finder_sidebar_settings() {
     info "Hiding Finder sidebar clutter..."
     info "If prompted, allow your terminal to control Finder/System Events, then rerun 'make macos'"
 
-    if ! osascript <<'APPLESCRIPT'
+    if ! osascript <<'APPLESCRIPT'; then
 tell application "Finder" to activate
 delay 0.2
 
@@ -58,12 +58,11 @@ tell application "System Events"
     end tell
 end tell
 APPLESCRIPT
-    then
         warning "Finder sidebar cleanup needs Accessibility access; grant it and rerun 'make macos'"
         return 0
     fi
 
-    if osascript <<'APPLESCRIPT'
+    if osascript <<'APPLESCRIPT'; then
 on set_sidebar_checkbox(area, checkboxDescription, desiredValue)
     tell application "System Events"
         tell area
@@ -126,7 +125,6 @@ tell application "System Events"
     end tell
 end tell
 APPLESCRIPT
-    then
         mkdir -p "$(dirname "$marker")"
         touch "$marker"
         task "Hid Finder sidebar clutter"
@@ -191,7 +189,7 @@ configure_login_items() {
     for app_path in "${app_paths[@]}"; do
         [ -d "$app_path" ] || continue
 
-        if osascript - "$app_path" <<'APPLESCRIPT'
+        if osascript - "$app_path" <<'APPLESCRIPT'; then
 on run argv
     set appPath to item 1 of argv
 
@@ -205,7 +203,6 @@ on run argv
     end tell
 end run
 APPLESCRIPT
-        then
             configured=$((configured + 1))
         else
             warning "Could not configure login item: ${app_path##*/}"
