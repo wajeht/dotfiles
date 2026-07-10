@@ -193,10 +193,7 @@ function workterm() {
   fi
 
   if [[ "$(uname)" == "Darwin" ]]; then
-    open -na Ghostty.app --args \
-      --window-theme=dark \
-      --macos-titlebar-style=native \
-      -e "${work_cmd[@]}"
+    open -na Ghostty.app --args -e "${work_cmd[@]}"
     return
   fi
 
