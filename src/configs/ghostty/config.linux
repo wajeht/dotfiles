@@ -86,8 +86,9 @@ keybind = cmd+kp_add=increase_font_size:1
 keybind = cmd+-=decrease_font_size:1
 keybind = cmd+0=reset_font_size
 
-# Add a new line when shift+enter is pressed
-keybind = shift+enter=text:\n
+# Shift+Enter as CSI-u so it survives tmux — a raw \n is Ctrl+J, which
+# tmux's C-j pane-navigation binding steals (see tmux.conf S-Enter).
+keybind = shift+enter=csi:13;2u
 
 # Send cmd+key as ESC key (meta) so they survive tmux; nvim maps <M-...>
 # (tmux can't forward the cmd/super modifier: tmux/tmux#3335)

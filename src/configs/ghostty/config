@@ -104,12 +104,11 @@ keybind = cmd+kp_add=increase_font_size:1
 keybind = cmd+-=decrease_font_size:1
 keybind = cmd+0=reset_font_size
 
-# Shift+Enter inserts a newline in Claude Code. Sent as CSI-u (like cmd+c
-# and ctrl+tab) instead of a raw \n: the newline byte is Ctrl+J, which
-# tmux's C-j pane-navigation binding steals in non-vim panes — inside tmux
-# Shift+Enter switched panes instead of adding a line. tmux decodes the
-# CSI-u as S-Enter and re-emits the newline byte to the pane (tmux.conf);
-# outside tmux Claude Code understands CSI-u Shift+Enter natively.
+# Shift+Enter as CSI-u so it survives tmux — a raw \n is Ctrl+J, which
+# tmux's C-j pane-navigation binding steals; tmux.conf's S-Enter binding
+# does the per-pane translation. Outside tmux: Claude Code/nvim decode
+# CSI-u natively, zsh binds it to accept-line (functions.zsh); other
+# legacy REPLs see an unknown CSI instead of a newline — accepted trade.
 keybind = shift+enter=csi:13;2u
 
 # Send cmd+key as ESC key (meta) so they survive tmux; nvim maps <M-...>
