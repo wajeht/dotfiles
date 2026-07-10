@@ -20,9 +20,11 @@ window-width = 100
 theme = "Dark Modern"
 confirm-close-surface = false
 # Show the titlebar so the tmux-set window title (tmux.conf set-titles) is
-# visible. tabs draws the compact tab-bar-style titlebar that blends with the
-# background. Tab keybinds are cleared below, so it never grows extra tabs.
-macos-titlebar-style = tabs
+# visible. transparent = single-line titlebar tinted by the background color.
+# Not "tabs": that style always embeds the tab-bar row in the titlebar, which
+# on macOS 26 renders a stray "…" overflow control and doubles the height even
+# with one tab (window-show-tab-bar is Linux-only, so it can't be hidden).
+macos-titlebar-style = transparent
 background=#000000
 background-opacity = 0.85
 # Native macOS 26+ glass. On older macOS the glass material is unavailable and
