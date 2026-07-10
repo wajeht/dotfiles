@@ -76,10 +76,14 @@ adjust-cell-height = 10%
 keybind = clear
 
 # Essentials
-# cmd+c goes to tmux as M-c (esc:c) so it can copy the tmux copy-mode
-# selection (tmux.conf binds M-c). Native shift-drag selections still copy
-# without it via copy-on-select above.
-keybind = cmd+c=esc:c
+# cmd+c is sent as CSI-u super+c (same channel as ctrl+tab below) so every
+# layer sees a discrete key no human sequence can fake: tmux decodes it as
+# M-c (super maps to meta) and copies the copy-mode selection, nvim outside
+# tmux decodes it as <D-c>, zsh binds the raw sequence to a no-op. esc:c
+# would work too but is byte-identical to Esc-then-c, forcing vi-mode
+# timing hacks in every layer below. Native shift-drag selections still
+# copy without it via copy-on-select above.
+keybind = cmd+c=csi:99;9u
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+q=quit
 keybind = cmd+n=new_window
