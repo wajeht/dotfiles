@@ -1,4 +1,8 @@
 shell-integration = zsh
+# SSH: install ghostty terminfo on remote hosts (keeps TERM=xterm-ghostty);
+# falls back to TERM=xterm-256color if the install fails. Replaces the old
+# blanket `export TERM=xterm-256color` that masked capabilities locally.
+shell-integration-features = ssh-env,ssh-terminfo
 
 font-family = "Monaco Nerd Font Mono"
 font-size = 15

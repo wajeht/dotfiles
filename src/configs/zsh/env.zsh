@@ -85,7 +85,11 @@ export PATH="$HOME/.local/bin:$PATH"
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:$HOME/.lmstudio/bin"
 
-export TERM=xterm-256color
+# Don't export TERM here: Ghostty sets xterm-ghostty (full capabilities:
+# undercurl, hyperlinks) and tmux sets tmux-256color inside sessions —
+# overriding either makes programs query the wrong terminfo. SSH to hosts
+# without ghostty terminfo is handled by shell-integration-features =
+# ssh-env,ssh-terminfo in the ghostty config.
 
 # SOPS age key
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
