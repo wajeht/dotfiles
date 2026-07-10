@@ -184,41 +184,6 @@ function dev() {
   fi
 }
 
-function workterm() {
-  local -a work_cmd
-  if (( $# )); then
-    work_cmd=("$@")
-  else
-    work_cmd=(ssh work)
-  fi
-
-  if [[ "$(uname)" == "Darwin" ]]; then
-    open -na Ghostty.app --args --title=WORK -e "${work_cmd[@]}"
-    return
-  fi
-
-  local ghostty_bin
-  if command -v ghostty >/dev/null 2>&1; then
-    ghostty_bin="$(command -v ghostty)"
-  else
-    echo "Ghostty executable not found"
-    return 1
-  fi
-
-  local -a ghostty_args=(
-    --gtk-single-instance=false
-    --window-decoration=auto
-    --window-theme=ghostty
-    --window-titlebar-background="#e95420"
-    --window-titlebar-foreground="#fff4e6"
-    --gtk-titlebar=true
-    --gtk-titlebar-hide-when-maximized=false
-    --gtk-titlebar-style=native
-  )
-
-  "$ghostty_bin" "${ghostty_args[@]}" -e "${work_cmd[@]}"
-}
-
 # import psql db
 function importDB() {
   if [ "$1" != "" ]; then
