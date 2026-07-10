@@ -71,6 +71,7 @@ directory.
 
 | Action | Keys |
 |---|---|
+| Newline in Claude Code (no prefix) | `Shift+Enter` ⚙ (nvim/ssh panes get the real key; other panes get a newline byte) |
 | Clear screen | `Ctrl-L` or `Cmd-K` ⚙ (in a split, moves to the right pane first if one exists) |
 | Reload tmux config | `C-a r` ⚙ |
 | Command prompt (type any command) | `C-a :` |

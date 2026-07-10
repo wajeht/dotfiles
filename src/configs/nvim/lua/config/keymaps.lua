@@ -123,6 +123,13 @@ for _, key in ipairs({ "<D-c>", "<M-c>" }) do
 	vim.keymap.set({ "n", "i", "t" }, key, "<Nop>", { desc = "Cmd+C: nothing to copy" })
 end
 
+-- Shift+Enter reaches nvim as <S-CR> (CSI-u; tmux forwards the bytes to
+-- nvim panes). Insert/normal mode fall back to <CR> natively; in a
+-- :terminal, feed the job the newline byte (noremap <C-j> = raw 0x0a) so
+-- Shift+Enter still inserts a newline in an embedded Claude Code instead
+-- of being sent as a plain Enter (= submit).
+vim.keymap.set("t", "<S-CR>", "<C-j>", { desc = "Shift+Enter: newline to terminal job" })
+
 -- Toggle the built-in undo-tree visualizer (enabled in options.lua). Moving the
 -- cursor inside the window travels the branching undo history.
 vim.keymap.set("n", "<leader>u", "<cmd>Undotree<cr>", { desc = "Toggle undo tree" })
