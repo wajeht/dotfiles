@@ -184,6 +184,47 @@ function dev() {
   fi
 }
 
+function workterm() {
+  local ghostty_bin="/Applications/Ghostty.app/Contents/MacOS/ghostty"
+  if command -v ghostty >/dev/null 2>&1; then
+    ghostty_bin="$(command -v ghostty)"
+  elif [[ ! -x "$ghostty_bin" ]]; then
+    echo "Ghostty executable not found"
+    return 1
+  fi
+
+  local -a work_cmd
+  if (( $# )); then
+    work_cmd=("$@")
+  else
+    work_cmd=(ssh work)
+  fi
+
+  local -a ghostty_args=(
+    --background="#2a1600"
+    --foreground="#ffe8cc"
+    --cursor-color="#ff9f1c"
+    --selection-background="#7a3f00"
+    --selection-foreground="#fff4e6"
+  )
+
+  if [[ "$(uname)" == "Darwin" ]]; then
+    ghostty_args+=(--window-theme=dark --macos-titlebar-style=transparent)
+  else
+    ghostty_args+=(
+      --gtk-single-instance=false
+      --window-decoration=auto
+      --window-theme=ghostty
+      --window-titlebar-background="#e95420"
+      --window-titlebar-foreground="#fff4e6"
+      --gtk-titlebar=true
+      --gtk-titlebar-style=native
+    )
+  fi
+
+  "$ghostty_bin" "${ghostty_args[@]}" -e "${work_cmd[@]}"
+}
+
 # import psql db
 function importDB() {
   if [ "$1" != "" ]; then

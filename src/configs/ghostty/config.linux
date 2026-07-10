@@ -1,34 +1,36 @@
 shell-integration = zsh
 
-font-family = Monaco
+font-family = "Ubuntu Mono"
 font-size = 15
-font-thicken = true
 
 window-padding-y = 0
 window-padding-x = 5
 window-padding-balance = true
 window-padding-color = extend
 window-save-state = never
-# window-decoration = false
-window-theme = dark
-macos-window-shadow = true
-macos-titlebar-proxy-icon = hidden
+
+# Linux/GTK equivalent of the macOS hidden titlebar setup. Ghostty's docs
+# recommend macos-titlebar-style on macOS; window-decoration is the GTK path.
+window-decoration = false
+
+# Use Ghostty-managed GTK colors so the titlebar can match the terminal if
+# decorations are later re-enabled.
+window-theme = ghostty
+window-titlebar-background = #000000
+window-titlebar-foreground = #ffffff
+gtk-titlebar = true
+gtk-titlebar-style = native
+gtk-toolbar-style = flat
+window-show-tab-bar = never
 
 window-height = 100
 window-width = 100
 
 theme = "Dark Modern"
 confirm-close-surface = false
-# Hide the titlebar entirely (no tab bar, no traffic-light buttons) — the
-# tmux status bar on top takes its place. Tab keybinds are cleared below.
-# Drag the window with option+click on the frame edges.
-macos-titlebar-style = hidden
 background=#000000
 background-opacity = 0.85
-# Native macOS 26+ glass. On older macOS the glass material is unavailable and
-# blur silently falls back — swap the two lines below for a numeric radius there.
-background-blur = macos-glass-regular
-# background-blur = 35
+background-blur = true
 # Apply opacity+blur to cells with explicit background colors too (frosted popups)
 background-opacity-cells = true
 
