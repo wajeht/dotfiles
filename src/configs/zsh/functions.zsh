@@ -432,10 +432,13 @@ function dev-widget() {
 # Create a zsh widget from the function
 zle -N dev-widget
 
-# Cmd+C reaches the shell as Esc-c (Ghostty sends esc:c so tmux copy mode
-# and nvim can copy with it). At a prompt there's nothing to copy — mouse
-# selection already auto-copies — so swallow it; unbound, vi-mode would
-# drop into normal mode with a pending 'c' change operator.
+# Cmd+C outside tmux reaches the shell as the raw CSI-u sequence
+# Esc[99;9u (Ghostty encodes it so tmux/nvim can copy with it; see
+# ghostty/config). At a prompt there's nothing to copy — mouse selection
+# already auto-copies — so swallow it; unbound, zle would type the tail
+# of the sequence as literal characters. The sequence can't be produced
+# by typing, so unlike an '\ec' binding this can never race a real
+# Esc-then-c vi edit.
 function noop-widget() { :; }
 zle -N noop-widget
 
@@ -447,12 +450,12 @@ function zvm_after_init() {
   zvm_bindkey viins '\x06' dev-widget
   # Also bind in normal/command mode for convenience
   zvm_bindkey vicmd '\x06' dev-widget
-  # Cmd+C (Esc-c) is a no-op at the prompt, in both vi modes
-  zvm_bindkey viins '\ec' noop-widget
-  zvm_bindkey vicmd '\ec' noop-widget
+  # Cmd+C (CSI-u Esc[99;9u) is a no-op at the prompt, in both vi modes
+  zvm_bindkey viins '\e[99;9u' noop-widget
+  zvm_bindkey vicmd '\e[99;9u' noop-widget
 }
 
 # Fallback: If zsh-vi-mode is not loaded, bind directly
 # This will be overridden by zvm_after_init if the plugin loads later
 bindkey '\x06' dev-widget  # Ctrl+F for dev widget
-bindkey '\ec' noop-widget  # Cmd+C (Esc-c) no-op at the prompt
+bindkey '\e[99;9u' noop-widget  # Cmd+C (CSI-u) no-op at the prompt

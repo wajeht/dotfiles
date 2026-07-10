@@ -111,14 +111,17 @@ vim.keymap.set("n", "*", "*zz", { desc = "Search for word under cursor and cente
 vim.keymap.set("n", "#", "#zz", { desc = "Search backward for word under cursor and center" })
 
 -- copy and paste
-vim.keymap.set({ "n", "v", "i" }, "<D-c>", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v", "i", "t" }, "<D-v>", '"+p', { desc = "Paste from clipboard" })
--- Cmd+C arrives as <M-c>: Ghostty encodes it as esc:c (a terminal can't
--- send a bare Cmd chord), and tmux forwards it to nvim panes. Without the
--- insert/normal mappings an unmapped meta key falls back to Esc+c —
--- leaving insert mode or starting a change.
-vim.keymap.set("v", "<M-c>", '"+y', { desc = "Copy selection to clipboard (Cmd+C)" })
-vim.keymap.set({ "n", "i" }, "<M-c>", "<Nop>", { desc = "Cmd+C: nothing to copy" })
+-- Cmd+C: Ghostty sends CSI-u super+c. Inside tmux it arrives as <M-c>
+-- (tmux folds super into meta and forwards to nvim panes); outside tmux
+-- nvim decodes it as <D-c>. Both keys behave identically: yank the visual
+-- selection to the clipboard, and <Nop> elsewhere — an unmapped meta key
+-- falls back to Esc+c (leaving insert mode / starting a change), and in
+-- terminal mode the raw bytes would leak into the job as an interrupt.
+for _, key in ipairs({ "<D-c>", "<M-c>" }) do
+	vim.keymap.set("v", key, '"+y', { desc = "Copy selection to clipboard (Cmd+C)" })
+	vim.keymap.set({ "n", "i", "t" }, key, "<Nop>", { desc = "Cmd+C: nothing to copy" })
+end
 
 -- Toggle the built-in undo-tree visualizer (enabled in options.lua). Moving the
 -- cursor inside the window travels the branching undo history.
