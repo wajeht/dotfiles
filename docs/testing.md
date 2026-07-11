@@ -222,6 +222,37 @@ Delete the disposable server VM when testing is complete:
 orb delete dotfiles-server-test
 ```
 
+## Component test: tmux resurrect hook (Docker)
+
+`tests/tmux-resurrect-restore.sh` is a self-contained, ~1-minute end-to-end check for
+the sessionizer's `@dev_path` restore hook (`src/configs/tmux/restore-dev-path.sh`). It
+needs only Docker with outbound network — no VM, no Apple Silicon — so it runs on the
+Linux host too:
+
+```sh
+./tests/tmux-resurrect-restore.sh          # override the base image with TEST_IMAGE=...
+```
+
+It spins up a throwaway Ubuntu container, does the real `make tmux install`, then drives
+a real resurrect **save → kill-server → restore** cycle and asserts both halves of the
+fix in one run:
+
+- the **bug** — resurrect saves sessions but not `@`-prefixed options, so a hook-less
+  restore brings project sessions back *unstamped* (the script even greps the save file
+  to show zero `dev_path` matches); and
+- the **fix** — with the hook wired, restore re-stamps the genuine project sessions
+  (`bang`, `dotfiles`) while leaving a scratch session parked in a project dir (`notes`)
+  and an ad-hoc session (`misc`) untouched — the two guards from the code review.
+
+Nothing touches the host: no host tmux server is started and no host config is written;
+everything lives and dies inside the container.
+
+Gotcha the test encodes: tmux auto-loads `~/.config/tmux/tmux.conf` (the XDG default) on
+*every* server start, so the hook is wired through the normal config load and continuum's
+auto-restore fires it on a real reboot. That same auto-load also means a naive "hook off"
+run silently re-enables the hook — the test starts its reboot server with `-f /dev/null`
+and sets resurrect's options explicitly so the off/on comparison is real.
+
 ## Ubuntu Desktop with Tart
 
 Use Tart when a visible Ubuntu desktop and graphical installer are part of the test.
