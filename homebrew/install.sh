@@ -2,6 +2,21 @@
 
 source "$(dirname "$0")/../scripts/utils.sh"
 
+# Homebrew refuses to load formulae from untrusted third-party taps, and
+# `brew bundle` aborts on the FIRST one it hits — skipping everything listed
+# after it (all casks included). Pre-trust every tap the Brewfile pulls a
+# formula from (the owner/repo/formula entries) so the bundle runs to the end.
+trust_brewfile_taps() {
+    local brewfile="$1" tap
+    while IFS= read -r tap; do
+        [ -n "$tap" ] || continue
+        brew tap "$tap" >/dev/null 2>&1 || true
+        if brew trust "$tap" >/dev/null 2>&1; then
+            task "Trusted tap $tap"
+        fi
+    done < <(grep -oE 'brew "[^"]+/[^"]+/[^"]+"' "$brewfile" | sed -E 's/.*"([^/]+\/[^/]+)\/.*/\1/' | sort -u)
+}
+
 install_brew() {
     step "📦 Installing Homebrew & Packages"
 
@@ -13,6 +28,8 @@ install_brew() {
     else
         task "Homebrew already installed"
     fi
+
+    trust_brewfile_taps "$(dirname "$0")/Brewfile"
 
     info "Installing packages from Brewfile (skipping upgrades)..."
 
