@@ -49,13 +49,12 @@ install_zsh() {
     backup_if_exists ~/.config/zsh
 
     info "Installing ZDOTDIR configuration..."
-    local dotfiles_root="$(cd "$(dirname "$0")/.." && pwd)"
-    cp "$dotfiles_root/.zshenv" ~/.zshenv
+    local script_dir="$(dirname "$0")"
+    cp "$script_dir/.zshenv" ~/.zshenv
     task "Copied .zshenv to home directory"
 
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
-    local script_dir="$(dirname "$0")"
     cp "$script_dir/.zshrc" ~/.config/zsh/
     cp "$script_dir/env.zsh" ~/.config/zsh/
     cp "$script_dir/aliases.zsh" ~/.config/zsh/
