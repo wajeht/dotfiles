@@ -1,4 +1,8 @@
 shell-integration = zsh
+# SSH: install ghostty terminfo on remote hosts so keys/colors work when you ssh
+# out from here (falls back to xterm-256color if the install fails). Mirrors the
+# macOS config.
+shell-integration-features = ssh-env,ssh-terminfo
 
 font-family = "Monaco Nerd Font Mono"
 font-size = 15
@@ -65,7 +69,10 @@ adjust-cell-height = 10%
 keybind = clear
 
 # Essentials
-keybind = cmd+c=copy_to_clipboard:mixed
+# cmd+c as CSI-u super+c (matches the macOS config): tmux decodes it as M-c and
+# copies the copy-mode selection, nvim decodes <D-c>. Native shift-drag
+# selections still copy via copy-on-select above.
+keybind = cmd+c=csi:99;9u
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+q=quit
 keybind = cmd+n=new_window
