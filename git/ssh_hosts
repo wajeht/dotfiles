@@ -1,5 +1,5 @@
 # Personal hosts (managed by dotfiles)
-# Referenced by the shell aliases in configs/zsh/aliases.zsh. Connections
+# Referenced by the shell aliases in zsh/aliases.zsh. Connections
 # inherit the ControlMaster multiplexing / keepalives from the `Host *` block.
 Host work
 	HostName 192.168.4.74

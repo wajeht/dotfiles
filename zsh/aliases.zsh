@@ -73,7 +73,7 @@ else
     alias update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
 fi
 
-# Host details live in ~/.ssh/config (configs/git/ssh_hosts); no IPs/passwords here.
+# Host details live in ~/.ssh/config (git/ssh_hosts); no IPs/passwords here.
 alias start_work_db="ssh work-db"
 alias work="ssh work"
 alias one="ssh one"

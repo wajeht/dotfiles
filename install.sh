@@ -5,9 +5,9 @@ if [[ "${1:-}" == "--remote" ]]; then
     set -euo pipefail
 
     readonly REPO_URL="https://github.com/wajeht/dotfiles.git"
-    readonly UTIL_URL="https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/src/_util.sh"
+    readonly UTIL_URL="https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/scripts/utils.sh"
 
-    # Download _util.sh to temp location
+    # Download utils.sh to temp location
     TEMP_UTIL=$(mktemp)
     if ! curl -fsSL "$UTIL_URL" >"$TEMP_UTIL"; then
         printf "💥 Failed to download utilities\n" >&2
@@ -48,7 +48,7 @@ if [[ "${1:-}" == "--remote" ]]; then
     cd "$TEMP_DIR/dotfiles"
 
     step "⚙️ Running Installation"
-    if ./src/install.sh; then
+    if ./install.sh; then
         success "Installation completed successfully!"
     else
         error "Installation failed"
@@ -62,7 +62,7 @@ if [[ "${1:-}" == "--remote" ]]; then
 fi
 
 # Normal installation - load utilities
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/scripts/utils.sh"
 
 run_component() {
     local script="$1" args="$2" name="$3"
@@ -86,21 +86,22 @@ main() {
     check_xcode_tools
 
     task "Making scripts executable"
-    chmod +x "$(dirname "$0")"/*.sh
+    chmod +x "$(dirname "$0")"/*/install.sh "$(dirname "$0")"/scripts/*.sh
 
     # Track component results
     local failed_components=()
 
     # Run each component, continuing even if some fail
-    run_component "$(dirname "$0")/brew.sh" "install" "Homebrew packages" || failed_components+=("Homebrew packages")
-    run_component "$(dirname "$0")/macos-defaults.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
-    run_component "$(dirname "$0")/nvim.sh" "install" "Neovim config" || failed_components+=("Neovim config")
-    run_component "$(dirname "$0")/git.sh" "install" "Git config" || failed_components+=("Git config")
-    run_component "$(dirname "$0")/ghostty.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
-    run_component "$(dirname "$0")/tmux.sh" "install" "Tmux config" || failed_components+=("Tmux config")
-    run_component "$(dirname "$0")/zsh.sh" "install" "Zsh config" || failed_components+=("Zsh config")
-    run_component "$(dirname "$0")/lsd.sh" "install" "LSD config" || failed_components+=("LSD config")
-    run_component "$(dirname "$0")/bat.sh" "install" "Bat config" || failed_components+=("Bat config")
+    run_component "$(dirname "$0")/homebrew/install.sh" "install" "Homebrew packages" || failed_components+=("Homebrew packages")
+    run_component "$(dirname "$0")/macos/install.sh" "" "macOS defaults" || failed_components+=("macOS defaults")
+    run_component "$(dirname "$0")/nvim/install.sh" "install" "Neovim config" || failed_components+=("Neovim config")
+    run_component "$(dirname "$0")/git/install.sh" "install" "Git config" || failed_components+=("Git config")
+    run_component "$(dirname "$0")/ghostty/install.sh" "install" "Ghostty config" || failed_components+=("Ghostty config")
+    run_component "$(dirname "$0")/tmux/install.sh" "install" "Tmux config" || failed_components+=("Tmux config")
+    run_component "$(dirname "$0")/zsh/install.sh" "install" "Zsh config" || failed_components+=("Zsh config")
+    run_component "$(dirname "$0")/lsd/install.sh" "install" "LSD config" || failed_components+=("LSD config")
+    run_component "$(dirname "$0")/bat/install.sh" "install" "Bat config" || failed_components+=("Bat config")
+    run_component "$(dirname "$0")/btop/install.sh" "install" "Btop config" || failed_components+=("Btop config")
 
     step "🎉 Installation Complete!"
 

@@ -298,7 +298,7 @@ tart delete ubuntu-desktop-installed
 For an isolated release-download helper test without a full install:
 
 ```sh
-( source src/_util.sh; HOME=$(mktemp -d) install_release_bin "<release-url>" <bin-name> )
+( source scripts/utils.sh; HOME=$(mktemp -d) install_release_bin "<release-url>" <bin-name> )
 ```
 
 ## Notes

@@ -1,12 +1,12 @@
 -- Based on Mofiqul/vscode.nvim with custom modifications
 --
 -- This palette is mirrored (hard-coded hex) in other tools — keep in sync:
---   tmux:    src/configs/tmux/tmux.conf        (status bar, panes, mode)
---   fzf:     src/configs/zsh/env.zsh           (FZF_DEFAULT_OPTS)
---   ripgrep: src/configs/zsh/ripgreprc         (match/path/line colors)
---   lsd:     src/configs/lsd/colors.yaml       (already VSCode Dark Modern)
---   bat:     theme "Visual Studio Dark+"       (src/configs/bat/config)
---   ghostty: theme "dark modern"               (src/configs/ghostty/config)
+--   tmux:    tmux/tmux.conf        (status bar, panes, mode)
+--   fzf:     zsh/env.zsh           (FZF_DEFAULT_OPTS)
+--   ripgrep: zsh/ripgreprc         (match/path/line colors)
+--   lsd:     lsd/colors.yaml       (already VSCode Dark Modern)
+--   bat:     theme "Visual Studio Dark+"       (bat/config)
+--   ghostty: theme "dark modern"               (ghostty/config)
 
 local M = {}
 

@@ -1,8 +1,8 @@
 # SSH Keys, Hosts & GitHub Accounts
 
 How SSH identity, host aliases, and multi-account GitHub are wired across machines.
-Everything here is installed by `make git install` (`src/git.sh`); the templates live
-in `src/configs/git/`.
+Everything here is installed by `make git install` (`git/install.sh`); the templates live
+in `git/`.
 
 ## Key naming convention
 
@@ -29,7 +29,7 @@ manually (see "Setting up a new machine"); its presence is what flips a machine 
 - Work repos: `git clone git@github-work:...` and keep them under `~/work/`
 
 The `~/work/` directory triggers the work profile (`[includeIf "gitdir:~/work/"]` in
-`configs/git/config` → `configs/git/work`), which sets the work name/email and signs
+`git/config` → `git/work`), which sets the work name/email and signs
 with `id_ed25519_work.pub`. `git.sh` only adds the `github-work` block when the work key
 exists, so single-key machines never get a dangling alias.
 
@@ -70,8 +70,8 @@ find ~/Dev -name .git \( -type d -o -type f \) -print0 |
 
 ## Host aliases
 
-Machine shortcuts are defined once in `configs/git/ssh_hosts` (installed into
-`~/.ssh/config`) and exposed as shell aliases in `configs/zsh/aliases.zsh`. No IPs or
+Machine shortcuts are defined once in `git/ssh_hosts` (installed into
+`~/.ssh/config`) and exposed as shell aliases in `zsh/aliases.zsh`. No IPs or
 passwords live in the aliases — just `ssh <name>`.
 
 | Alias | Purpose |

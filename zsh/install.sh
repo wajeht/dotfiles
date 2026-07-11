@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 fix_completion_permissions() {
     info "Fixing zsh completion permissions..."
@@ -56,11 +56,11 @@ install_zsh() {
     info "Installing Zsh modules..."
     mkdir -p ~/.config/zsh
     local script_dir="$(dirname "$0")"
-    cp "$script_dir/configs/zsh/.zshrc" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/env.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/aliases.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/functions.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/ripgreprc" ~/.config/zsh/
+    cp "$script_dir/.zshrc" ~/.config/zsh/
+    cp "$script_dir/env.zsh" ~/.config/zsh/
+    cp "$script_dir/aliases.zsh" ~/.config/zsh/
+    cp "$script_dir/functions.zsh" ~/.config/zsh/
+    cp "$script_dir/ripgreprc" ~/.config/zsh/
     task "Copied all config files to ~/.config/zsh/"
 
     info "Zsh plugins will be loaded from Homebrew installations..."

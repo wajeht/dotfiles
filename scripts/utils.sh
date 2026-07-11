@@ -44,8 +44,9 @@ check_internet() {
 }
 
 check_directory() {
-    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    [[ -f "$script_dir/configs/homebrew/Brewfile" && -d "$script_dir/configs" ]] || error "Run from dotfiles directory"
+    # utils.sh lives in scripts/, so the repo root is one level up.
+    local root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    [[ -f "$root/homebrew/Brewfile" && -d "$root/scripts" ]] || error "Run from dotfiles directory"
 }
 
 check_xcode_tools() {

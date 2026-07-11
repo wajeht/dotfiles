@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 install_nvim() {
     step "⚡ Installing Neovim Configuration"
 
     local config_nvim="$HOME/.config/nvim"
-    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)/configs/nvim"
+    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)"
 
     # Check if already symlinked to dotfiles
     if [ -L "$config_nvim" ]; then
@@ -22,6 +22,7 @@ install_nvim() {
     rm -rf "$config_nvim"
     mkdir -p "$config_nvim"
     cp -R "$dotfiles_nvim/." "$config_nvim/"
+    rm -f "$config_nvim/install.sh" # this module's installer, not part of the nvim runtime
     task "Replaced configuration in ~/.config/nvim/"
 
     info "Cleaning LSP/Mason/tree-sitter cache to prevent conflicts..."
@@ -37,7 +38,7 @@ install_nvim() {
 link_nvim() {
     step "🔗 Linking Neovim Configuration"
 
-    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)/configs/nvim"
+    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)"
     local config_nvim="$HOME/.config/nvim"
 
     if [ ! -d "$dotfiles_nvim" ]; then

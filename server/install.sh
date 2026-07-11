@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 # Pinned nvm installer version (everything else resolves 'latest' from GitHub
 # releases). Named INSTALLER, not NVM_VERSION — nvm.sh uses NVM_VERSION itself,
@@ -14,7 +14,7 @@ check_linux() {
 install_terminfo() {
     info "Installing Ghostty terminfo..."
     local script_dir="$(cd "$(dirname "$0")" && pwd)"
-    local terminfo_file="$script_dir/configs/ghostty/xterm-ghostty.terminfo"
+    local terminfo_file="$script_dir/../ghostty/xterm-ghostty.terminfo"
     if [[ -f "$terminfo_file" ]]; then
         tic -x "$terminfo_file"
         task "Installed xterm-ghostty terminfo"
@@ -209,11 +209,11 @@ install_zsh_config() {
 
     mkdir -p ~/.config/zsh
     local script_dir="$(dirname "$0")"
-    cp "$script_dir/configs/zsh/.zshrc" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/env.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/aliases.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/functions.zsh" ~/.config/zsh/
-    cp "$script_dir/configs/zsh/ripgreprc" ~/.config/zsh/
+    cp "$script_dir/../zsh/.zshrc" ~/.config/zsh/
+    cp "$script_dir/../zsh/env.zsh" ~/.config/zsh/
+    cp "$script_dir/../zsh/aliases.zsh" ~/.config/zsh/
+    cp "$script_dir/../zsh/functions.zsh" ~/.config/zsh/
+    cp "$script_dir/../zsh/ripgreprc" ~/.config/zsh/
     task "Copied zsh configs to ~/.config/zsh/"
 
     success "Zsh configuration installed"
@@ -226,7 +226,8 @@ install_tmux_config() {
 
     local script_dir="$(dirname "$0")"
     mkdir -p ~/.config/tmux
-    cp "$script_dir/configs/tmux/"* ~/.config/tmux/
+    cp "$script_dir/../tmux/"* ~/.config/tmux/
+    rm -f ~/.config/tmux/install.sh # this module's installer, not a tmux config file
     task "Copied tmux config to ~/.config/tmux/"
 
     info "Installing Tmux Plugin Manager..."
@@ -260,7 +261,7 @@ install_bat_config() {
 
     local script_dir="$(dirname "$0")"
     mkdir -p ~/.config/bat
-    cp "$script_dir/configs/bat/config" ~/.config/bat/
+    cp "$script_dir/../bat/config" ~/.config/bat/
     task "Copied bat config to ~/.config/bat/"
 
     success "Bat configuration installed"
@@ -271,8 +272,8 @@ install_lsd_config() {
 
     local script_dir="$(dirname "$0")"
     mkdir -p ~/.config/lsd
-    cp "$script_dir/configs/lsd/config.yaml" ~/.config/lsd/
-    cp "$script_dir/configs/lsd/colors.yaml" ~/.config/lsd/
+    cp "$script_dir/../lsd/config.yaml" ~/.config/lsd/
+    cp "$script_dir/../lsd/colors.yaml" ~/.config/lsd/
     task "Copied lsd config to ~/.config/lsd/"
 
     success "LSD configuration installed"
@@ -283,7 +284,7 @@ install_btop_config() {
 
     local script_dir="$(dirname "$0")"
     mkdir -p ~/.config/btop
-    cp "$script_dir/configs/btop/btop.conf" ~/.config/btop/
+    cp "$script_dir/../btop/btop.conf" ~/.config/btop/
     task "Copied btop config to ~/.config/btop/"
 
     success "Btop configuration installed"
@@ -297,7 +298,8 @@ install_nvim_config() {
     rm -rf ~/.config/nvim
     mkdir -p ~/.config/nvim
     local script_dir="$(dirname "$0")"
-    cp -R "$script_dir/configs/nvim/." ~/.config/nvim/
+    cp -R "$script_dir/../nvim/." ~/.config/nvim/
+    rm -f ~/.config/nvim/install.sh # this module's installer, not part of the nvim runtime
     task "Replaced nvim config in ~/.config/nvim/"
 
     # Clean caches

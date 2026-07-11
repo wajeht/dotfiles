@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 install_tmux() {
     step "🖥️ Installing Tmux Configuration"
@@ -9,7 +9,8 @@ install_tmux() {
 
     info "Installing Tmux configuration..."
     mkdir -p ~/.config/tmux
-    cp -r "$(dirname "$0")/configs/tmux/"* ~/.config/tmux/
+    cp -r "$(dirname "$0")/"* ~/.config/tmux/
+    rm -f ~/.config/tmux/install.sh # this module's installer, not a tmux config file
     task "Copied configuration to ~/.config/tmux/"
 
     info "Installing Tmux Plugin Manager..."

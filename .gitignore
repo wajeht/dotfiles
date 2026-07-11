@@ -20,4 +20,4 @@ AGENT.md
 nvim.log
 
 # Ignore machine-specific zsh config
-src/configs/zsh/private.zsh
+zsh/private.zsh

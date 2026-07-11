@@ -1,37 +1,40 @@
-.PHONY: install macos brew nvim git zsh ghostty tmux lsd bat server push clean update format sync-nvim help
+.PHONY: install macos brew nvim git zsh ghostty tmux lsd bat btop server push clean update format sync-nvim help
 
 install:
-	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./src/install.sh; fi
+	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then ./install.sh; fi
 
 brew:
-	@./src/brew.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./homebrew/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 nvim:
-	@./src/nvim.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./nvim/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 git:
-	@./src/git.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./git/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 zsh:
-	@./src/zsh.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./zsh/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 ghostty:
-	@./src/ghostty.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./ghostty/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 tmux:
-	@./src/tmux.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./tmux/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 lsd:
-	@./src/lsd.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./lsd/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 bat:
-	@./src/bat.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./bat/install.sh $(filter-out $@,$(MAKECMDGOALS))
+
+btop:
+	@./btop/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 server:
-	@./src/server.sh $(filter-out $@,$(MAKECMDGOALS))
+	@./server/install.sh $(filter-out $@,$(MAKECMDGOALS))
 
 macos:
-	@./src/macos-defaults.sh
+	@./macos/install.sh
 
 push:
 	@make format
@@ -50,15 +53,15 @@ update:
 	@echo "✅ Update complete"
 
 format:
-	@./src/_format-code.sh
+	@./scripts/format.sh
 
 sync-nvim:
 	@echo "🔄 Syncing Neovim plugin lock file..."
-	@cp ~/.config/nvim/nvim-pack-lock.json src/configs/nvim/nvim-pack-lock.json 2>/dev/null || (echo "❌ nvim-pack-lock.json not found. Run :lua vim.pack.update() in Neovim first." && exit 1)
-	@if git diff --quiet src/configs/nvim/nvim-pack-lock.json 2>/dev/null; then \
+	@cp ~/.config/nvim/nvim-pack-lock.json nvim/nvim-pack-lock.json 2>/dev/null || (echo "❌ nvim-pack-lock.json not found. Run :lua vim.pack.update() in Neovim first." && exit 1)
+	@if git diff --quiet nvim/nvim-pack-lock.json 2>/dev/null; then \
 		echo "✅ Lock file already up to date"; \
 	else \
-		git add src/configs/nvim/nvim-pack-lock.json && \
+		git add nvim/nvim-pack-lock.json && \
 		git commit -m "Update Neovim plugin lock file" && \
 		echo "✅ Lock file synced and committed"; \
 	fi
@@ -78,6 +81,7 @@ help:
 	@echo "  make tmux              Install Tmux config"
 	@echo "  make lsd               Install LSD config"
 	@echo "  make bat               Install Bat config"
+	@echo "  make btop              Install Btop config"
 	@echo "  make server            Install server dotfiles (Linux)"
 	@echo ""
 	@echo "🗑️  Uninstallation:"

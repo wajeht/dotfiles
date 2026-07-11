@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/utils.sh"
 
 export PATH="$HOME/.local/bin:$PATH"
 
