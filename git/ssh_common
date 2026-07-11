@@ -1,0 +1,23 @@
+# Global SSH options (managed by dotfiles)
+# Appended LAST by git/install.sh so per-host blocks above win on any overlap;
+# these Host * defaults only fill in what a specific host didn't set. Previously
+# hand-added to the Mac's ~/.ssh/config and untracked — now version-controlled so
+# every machine (incl. the Linux dev box) gets connection reuse + keepalives.
+Host *
+	# Reuse one connection for every session to a host: the first ssh opens a
+	# master socket, subsequent ones (new tmux panes, git, scp) skip the auth
+	# handshake and attach instantly. ControlPath needs ~/.ssh/sockets to exist
+	# (install.sh creates it); ControlPersist keeps the master 10 min after the
+	# last session closes.
+	ControlMaster auto
+	ControlPath ~/.ssh/sockets/%r@%h-%p
+	ControlPersist 600
+	# Keepalives: probe every 60s, drop after 3 misses. Detects dead links and
+	# keeps NAT/router state alive on long-idle connections.
+	ServerAliveInterval 60
+	ServerAliveCountMax 3
+	TCPKeepAlive yes
+	Compression yes
+	# Off by default — opt in per host only where actually needed.
+	ForwardAgent no
+	ForwardX11 no

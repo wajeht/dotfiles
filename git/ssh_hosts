@@ -1,6 +1,6 @@
 # Personal hosts (managed by dotfiles)
-# Referenced by the shell aliases in zsh/aliases.zsh. Connections
-# inherit the ControlMaster multiplexing / keepalives from the `Host *` block.
+# Referenced by the shell aliases in zsh/aliases.zsh. Connections inherit the
+# ControlMaster multiplexing / keepalives from the `Host *` block in ssh_common.
 Host work
 	HostName 192.168.4.74
 	User kyaw

@@ -141,6 +141,14 @@ install_git() {
         cat "$(dirname "$0")/ssh_hosts" >>~/.ssh/config
         task "Added personal host aliases to ~/.ssh/config"
     fi
+    # Global Host * defaults (ControlMaster multiplexing + keepalives). Appended
+    # last so the per-host blocks above win on any overlap. ControlPath needs
+    # ~/.ssh/sockets to exist.
+    if ! grep -qF "Global SSH options (managed by dotfiles)" ~/.ssh/config; then
+        cat "$(dirname "$0")/ssh_common" >>~/.ssh/config
+        task "Added global SSH options (Host *) to ~/.ssh/config"
+    fi
+    mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets
     chmod 600 ~/.ssh/config
 
     info "Generating allowed_signers for commit verification..."
