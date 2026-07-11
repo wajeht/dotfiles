@@ -61,7 +61,7 @@ cd ~/dotfiles
 
 # Scoped + fast — system defaults, then each config component (one make call each):
 make macos
-for c in git zsh nvim ghostty bat lsd tmux; do make "$c" install; done
+for c in git zsh nvim ghostty bat lsd tmux btop; do make "$c" install; done
 
 # Or the full install — slow: pulls the entire Brewfile incl. GUI casks (~30–40 GB).
 # Wrap in caffeinate so host sleep can't suspend the VM mid-run:
