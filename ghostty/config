@@ -45,11 +45,6 @@ background-opacity-cells = true
 
 bold-is-bright = true
 cursor-opacity = .8
-# Calmer, cheaper: no cursor blink (stops a repaint twice a second), hide the
-# mouse pointer while typing, and skip the size popup on every resize.
-cursor-style-blink = false
-mouse-hide-while-typing = true
-resize-overlay = never
 
 clipboard-read = allow
 clipboard-write = allow
