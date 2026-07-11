@@ -45,6 +45,13 @@ background-opacity-cells = true
 
 bold-is-bright = true
 cursor-opacity = .8
+# Trailing "smear" cursor. Ghostty 1.2+ feeds cursor position/color to custom
+# shaders; cursor_smear.glsl draws a short hexagonal trail in the cursor color.
+# Path is relative to ~/.config/ghostty/; the .glsl ships in ghostty/shaders/
+# and install.sh copies it there. animation=always keeps the trail running
+# even when the terminal is otherwise idle (without it the trail can stall).
+custom-shader = shaders/cursor_smear.glsl
+custom-shader-animation = always
 
 clipboard-read = allow
 clipboard-write = allow

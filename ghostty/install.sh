@@ -57,6 +57,14 @@ install_ghostty() {
     fi
     task "Copied configuration to ~/.config/ghostty/"
 
+    # Custom shaders (e.g. the trailing cursor). custom-shader paths in the
+    # config are relative to ~/.config/ghostty/, so mirror ghostty/shaders/ there.
+    if compgen -G "$config_dir/shaders/*.glsl" >/dev/null; then
+        mkdir -p ~/.config/ghostty/shaders
+        cp "$config_dir"/shaders/*.glsl ~/.config/ghostty/shaders/
+        task "Copied shaders to ~/.config/ghostty/shaders/"
+    fi
+
     success "Ghostty configuration installed"
 }
 
