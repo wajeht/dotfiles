@@ -83,7 +83,7 @@ cask "tableplus"          # Database client
 cask "iina"               # Media player
 cask "obs"                # OBS Studio
 cask "shottr"             # Screenshot tool
-cask "handbrake"          # Video transcoder
+cask "handbrake-app"      # Video transcoder
 cask "imageoptim"         # Image optimizer
 cask "pika"               # Color picker
 cask "affinity-photo"     # Photo editor
