@@ -225,9 +225,7 @@ install_tmux_config() {
     backup_if_exists ~/.config/tmux/tmux.conf
 
     local script_dir="$(dirname "$0")"
-    mkdir -p ~/.config/tmux
-    cp "$script_dir/../tmux/"* ~/.config/tmux/
-    rm -f ~/.config/tmux/install.sh # this module's installer, not a tmux config file
+    deploy_module_config "$script_dir/../tmux" ~/.config/tmux
     task "Copied tmux config to ~/.config/tmux/"
 
     info "Installing Tmux Plugin Manager..."
@@ -296,10 +294,8 @@ install_nvim_config() {
     backup_if_exists ~/.config/nvim
 
     rm -rf ~/.config/nvim
-    mkdir -p ~/.config/nvim
     local script_dir="$(dirname "$0")"
-    cp -R "$script_dir/../nvim/." ~/.config/nvim/
-    rm -f ~/.config/nvim/install.sh # this module's installer, not part of the nvim runtime
+    deploy_module_config "$script_dir/../nvim" ~/.config/nvim
     task "Replaced nvim config in ~/.config/nvim/"
 
     # Clean caches
