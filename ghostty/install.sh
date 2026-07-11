@@ -42,17 +42,19 @@ install_ghostty() {
     install_monaco_nerd_font
 
     info "Installing Ghostty configuration..."
-    backup_if_exists ~/.config/ghostty # consistent with the other component installers
     mkdir -p ~/.config/ghostty
+    backup_if_exists ~/.config/ghostty/config
     local config_dir
     config_dir="$(dirname "$0")"
-    cp -r "$config_dir/"* ~/.config/ghostty/
-    if [[ "$(uname)" != "Darwin" ]]; then
+    # Deploy only the active config. config.linux/.macos are platform sources, and
+    # the terminfo/palette/install.sh alongside them aren't ghostty config. Copying
+    # just `config` also leaves any user-managed ~/.config/ghostty/config.local intact.
+    if [[ "$(uname)" == "Darwin" ]]; then
+        cp "$config_dir/config" ~/.config/ghostty/config
+    else
         cp "$config_dir/config.linux" ~/.config/ghostty/config
         task "Selected config.linux"
     fi
-    # Drop platform variants and this module's own installer — none are ghostty config.
-    rm -f ~/.config/ghostty/config.linux ~/.config/ghostty/config.local ~/.config/ghostty/config.macos ~/.config/ghostty/install.sh
     task "Copied configuration to ~/.config/ghostty/"
 
     success "Ghostty configuration installed"

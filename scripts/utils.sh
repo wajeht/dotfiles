@@ -66,6 +66,17 @@ backup_if_exists() {
     fi
 }
 
+# Deploy a flat module's contents into a config dir, excluding this repo's own
+# install.sh. In the flat layout each module co-locates its installer with its
+# config, so everything EXCEPT install.sh is config — copy all, drop the one
+# non-config file. Robust to new config files/dirs (they deploy automatically).
+deploy_module_config() {
+    local src="$1" dest="$2"
+    mkdir -p "$dest"
+    cp -R "$src/." "$dest/"
+    rm -f "$dest/install.sh"
+}
+
 setup_brew_path() {
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         eval "$(/opt/homebrew/bin/brew shellenv)"

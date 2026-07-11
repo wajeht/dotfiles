@@ -8,9 +8,7 @@ install_tmux() {
     backup_if_exists ~/.config/tmux/tmux.conf
 
     info "Installing Tmux configuration..."
-    mkdir -p ~/.config/tmux
-    cp -r "$(dirname "$0")/"* ~/.config/tmux/
-    rm -f ~/.config/tmux/install.sh # this module's installer, not a tmux config file
+    deploy_module_config "$(dirname "$0")" ~/.config/tmux
     task "Copied configuration to ~/.config/tmux/"
 
     info "Installing Tmux Plugin Manager..."

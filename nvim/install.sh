@@ -8,21 +8,10 @@ install_nvim() {
     local config_nvim="$HOME/.config/nvim"
     local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)"
 
-    # Check if already symlinked to dotfiles
-    if [ -L "$config_nvim" ]; then
-        local current_target=$(readlink "$config_nvim")
-        if [ "$current_target" = "$dotfiles_nvim" ]; then
-            success "Neovim config already linked to dotfiles (no copy needed)"
-            return 0
-        fi
-    fi
-
     info "Installing Neovim configuration..."
     backup_if_exists "$config_nvim" # back up before replacing (backup_if_exists handles dirs)
     rm -rf "$config_nvim"
-    mkdir -p "$config_nvim"
-    cp -R "$dotfiles_nvim/." "$config_nvim/"
-    rm -f "$config_nvim/install.sh" # this module's installer, not part of the nvim runtime
+    deploy_module_config "$dotfiles_nvim" "$config_nvim"
     task "Replaced configuration in ~/.config/nvim/"
 
     info "Cleaning LSP/Mason/tree-sitter cache to prevent conflicts..."
@@ -33,66 +22,6 @@ install_nvim() {
     task "Cleaned LSP/Mason/tree-sitter cache"
 
     success "Neovim configuration installed"
-}
-
-link_nvim() {
-    step "🔗 Linking Neovim Configuration"
-
-    local dotfiles_nvim="$(cd "$(dirname "$0")" && pwd)"
-    local config_nvim="$HOME/.config/nvim"
-
-    if [ ! -d "$dotfiles_nvim" ]; then
-        error "Neovim config not found in dotfiles: $dotfiles_nvim"
-        exit 1
-    fi
-
-    if [ -L "$config_nvim" ]; then
-        local current_target=$(readlink "$config_nvim")
-        if [ "$current_target" = "$dotfiles_nvim" ]; then
-            success "Neovim config already linked to dotfiles"
-            return 0
-        else
-            warning "Neovim config is linked to: $current_target"
-            read -p "❓ Replace with dotfiles link? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
-            rm "$config_nvim"
-        fi
-    elif [ -d "$config_nvim" ]; then
-        warning "Existing Neovim config found at $config_nvim"
-        read -p "❓ Back up and replace with symlink? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
-        mv "$config_nvim" "$config_nvim.backup.$(date +%Y%m%d-%H%M%S)"
-        task "Backed up existing config"
-    fi
-
-    mkdir -p ~/.config
-    ln -s "$dotfiles_nvim" "$config_nvim"
-    task "Created symlink: ~/.config/nvim -> $dotfiles_nvim"
-
-    success "Neovim configuration linked to dotfiles"
-}
-
-unlink_nvim() {
-    step "🔓 Unlinking Neovim Configuration"
-
-    local config_nvim="$HOME/.config/nvim"
-
-    if [ ! -L "$config_nvim" ]; then
-        if [ -d "$config_nvim" ]; then
-            warning "Neovim config is not a symlink"
-        else
-            warning "No Neovim config found at $config_nvim"
-        fi
-        exit 1
-    fi
-
-    local link_target=$(readlink "$config_nvim")
-    info "Current symlink: $config_nvim -> $link_target"
-    read -p "❓ Remove symlink? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
-
-    rm "$config_nvim"
-    task "Removed symlink"
-
-    success "Neovim configuration unlinked"
-    info "💡 To restore: make nvim link or make nvim install"
 }
 
 uninstall_nvim() {
@@ -128,12 +57,6 @@ main() {
     case "${1:-install}" in
     install)
         install_nvim
-        ;;
-    link)
-        link_nvim
-        ;;
-    unlink)
-        unlink_nvim
         ;;
     uninstall)
         uninstall_nvim
