@@ -66,7 +66,7 @@ clipboard-paste-protection = false
 # split-divider-color = #454545
 unfocused-split-opacity = 1.0
 
-adjust-cell-height = 10%
+adjust-cell-height = 12%
 
 # ======================
 # Keybindings
