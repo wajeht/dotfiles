@@ -1,31 +1,28 @@
 #!/bin/sh
-# Print a Nerd Font glyph for the OS this tmux server runs on. tmux.conf reads
-# it once at startup into the @os_icon option (set-titles-string references it).
+# Print an OS marker for the machine this tmux server runs on. tmux.conf reads
+# it once at startup into the @os_icon option; set-titles-string prepends it.
 #
-# This is the LOCAL machine's OS — the title's #{user}@#h is always where the
-# tmux server runs, so the glyph does NOT change when you SSH out. A remote
-# distro's identity rides in #{pane_title} instead (the part after the em dash).
+# The macOS titlebar (and the Linux window title) is drawn in the SYSTEM UI
+# font, NOT the terminal's Nerd Font — so Nerd Font PUA glyphs (nf-*) render as
+# tofu there. We therefore emit only what a system font can show:
+#   - macOS: U+F8FF, the Apple logo baked into Apple's system fonts. It renders
+#      natively (it's what Option-Shift-K types). Apple-only, so...
+#   - Linux: a short lowercase distro tag in plain text (ubuntu, arch, ...),
+#     since no titlebar font carries per-distro logos.
 #
-# Glyphs come from the Nerd Font "fa"/"linux" sets. Bytes are written as octal
-# UTF-8 escapes (POSIX printf), with the U+xxxx codepoint noted so you can swap
-# any that render as tofu in your patched font.
+# This is the LOCAL machine's OS — #{user}@#h is always where the tmux server
+# runs, so it does NOT change over SSH; a remote's identity rides in #{pane_title}.
 case "$(uname -s)" in
 Darwin)
-	printf '\357\205\271' # U+F179  nf-fa-apple
+	printf '\357\243\277' # U+F8FF  Apple logo (Apple system-font PUA)
 	;;
 Linux)
-	# Match on ID plus ID_LIKE so derivatives (e.g. Linux Mint -> ubuntu) map to
-	# their parent distro's glyph; fall back to Tux for anything unlisted.
-	id=$(. /etc/os-release 2>/dev/null && echo "${ID} ${ID_LIKE}")
-	case "$id" in
-	*ubuntu*) printf '\357\214\233' ;;        # U+F31B  nf-linux-ubuntu
-	*arch*) printf '\357\214\203' ;;          # U+F303  nf-linux-archlinux
-	*debian*) printf '\357\214\206' ;;        # U+F306  nf-linux-debian
-	*fedora* | *rhel*) printf '\357\214\212' ;; # U+F30A  nf-linux-fedora
-	*) printf '\357\205\274' ;;               # U+F17C  nf-fa-linux (Tux)
-	esac
+	# ID from os-release is lowercase per the spec (ubuntu, arch, debian, ...);
+	# fall back to a generic tag if the file is missing or ID is unset.
+	(. /etc/os-release 2>/dev/null && printf '%s' "${ID:-linux}") || printf 'linux'
 	;;
 *)
-	printf '\357\205\274' # U+F17C  Tux fallback
+	# Any other kernel (BSD, etc.): lowercase its uname.
+	uname -s | tr '[:upper:]' '[:lower:]' | tr -d '\n'
 	;;
 esac
