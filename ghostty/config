@@ -16,10 +16,7 @@ window-save-state = never
 # window-decoration = false
 window-theme = dark
 macos-window-shadow = true
-# No document proxy icon (folder glyph) in the titlebar — it only tracks the
-# reported cwd (OSC 7) and never signals which host/OS you're on; the tmux-set
-# title text carries that instead (see tmux.conf set-titles-string).
-macos-titlebar-proxy-icon = hidden
+# macos-titlebar-proxy-icon = hidden
 
 window-height = 100
 window-width = 100
