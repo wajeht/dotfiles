@@ -23,6 +23,7 @@ $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.s
 - **Tmux** - Per-project terminal sessions
 - **LSD** - Beautiful file listing with colors
 - **Bat** - Syntax-highlighted cat replacement
+- **Btop** - Resource monitor with a clean TUI
 
 ## Commands
 

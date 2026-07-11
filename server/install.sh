@@ -203,12 +203,11 @@ install_zsh_config() {
     backup_if_exists ~/.zshenv
     backup_if_exists ~/.config/zsh
 
-    local dotfiles_root="$(cd "$(dirname "$0")/.." && pwd)"
-    cp "$dotfiles_root/.zshenv" ~/.zshenv
+    local script_dir="$(dirname "$0")"
+    cp "$script_dir/../zsh/.zshenv" ~/.zshenv
     task "Copied .zshenv"
 
     mkdir -p ~/.config/zsh
-    local script_dir="$(dirname "$0")"
     cp "$script_dir/../zsh/.zshrc" ~/.config/zsh/
     cp "$script_dir/../zsh/env.zsh" ~/.config/zsh/
     cp "$script_dir/../zsh/aliases.zsh" ~/.config/zsh/
