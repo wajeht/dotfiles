@@ -12,19 +12,6 @@ $ curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/i
 $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 ```
 
-## What Gets Installed
-
-- **macOS Settings** - Optimized system preferences
-- **Homebrew & Packages** - Development tools and apps
-- **Neovim** - Modern editor configuration
-- **Git** - Aliases and workflow optimizations
-- **Zsh** - Async native prompt with zero bloat
-- **Ghostty** - GPU-accelerated terminal
-- **Tmux** - Per-project terminal sessions
-- **LSD** - Beautiful file listing with colors
-- **Bat** - Syntax-highlighted cat replacement
-- **Btop** - Resource monitor with a clean TUI
-
 ## Commands
 
 ```bash
