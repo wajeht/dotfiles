@@ -6,10 +6,10 @@ Clean, modular macOS development setup with old school tooling.
 
 ```bash
 # Remote install (recommended)
-$ curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/src/install.sh | bash -s -- --remote
+$ curl -fsSL https://raw.githubusercontent.com/wajeht/dotfiles/refs/heads/main/install.sh | bash -s -- --remote
 
 # Or clone and install locally
-$ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/install.sh
+$ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./install.sh
 ```
 
 ## What Gets Installed
@@ -31,7 +31,7 @@ $ git clone https://github.com/wajeht/dotfiles.git && cd dotfiles && ./src/insta
 make install
 
 # Individual components
-make macos brew nvim git zsh ghostty tmux lsd bat
+make macos brew nvim git zsh ghostty tmux lsd bat btop
 
 # Uninstall components
 make <component> uninstall

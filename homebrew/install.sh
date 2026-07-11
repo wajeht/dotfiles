@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 install_brew() {
     step "📦 Installing Homebrew & Packages"
@@ -18,7 +18,7 @@ install_brew() {
 
     # Temporarily disable exit on error to handle brew bundle failures gracefully
     set +e
-    brew bundle --file="$(dirname "$0")/configs/homebrew/Brewfile" --no-upgrade
+    brew bundle --file="$(dirname "$0")/Brewfile" --no-upgrade
     local exit_code=$?
     set -e
 
@@ -41,7 +41,7 @@ uninstall_brew() {
     read -p "❓ Continue? [y/N] " confirm && [ "$confirm" = "y" ] || exit 1
 
     info "Removing Homebrew packages..."
-    brew bundle cleanup --file="$(dirname "$0")/configs/homebrew/Brewfile" --force
+    brew bundle cleanup --file="$(dirname "$0")/Brewfile" --force
     task "Removed packages from Brewfile"
 
     success "Homebrew packages removed"

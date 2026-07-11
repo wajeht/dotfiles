@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 install_monaco_nerd_font() {
     info "Installing Monaco Nerd Font Mono..."
@@ -45,13 +45,14 @@ install_ghostty() {
     backup_if_exists ~/.config/ghostty # consistent with the other component installers
     mkdir -p ~/.config/ghostty
     local config_dir
-    config_dir="$(dirname "$0")/configs/ghostty"
+    config_dir="$(dirname "$0")"
     cp -r "$config_dir/"* ~/.config/ghostty/
     if [[ "$(uname)" != "Darwin" ]]; then
         cp "$config_dir/config.linux" ~/.config/ghostty/config
         task "Selected config.linux"
     fi
-    rm -f ~/.config/ghostty/config.linux ~/.config/ghostty/config.local ~/.config/ghostty/config.macos
+    # Drop platform variants and this module's own installer — none are ghostty config.
+    rm -f ~/.config/ghostty/config.linux ~/.config/ghostty/config.local ~/.config/ghostty/config.macos ~/.config/ghostty/install.sh
     task "Copied configuration to ~/.config/ghostty/"
 
     success "Ghostty configuration installed"

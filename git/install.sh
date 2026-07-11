@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 ensure_personal_ssh_key() {
     local key_path="$HOME/.ssh/id_ed25519"
@@ -100,7 +100,7 @@ install_git() {
 
     info "Installing Git configuration (XDG-compliant)..."
     mkdir -p ~/.config/git
-    cp "$(dirname "$0")/configs/git/config" ~/.config/git/config
+    cp "$(dirname "$0")/config" ~/.config/git/config
     task "Copied config to ~/.config/git/config"
 
     # id_ed25519 is the personal (wajeht) key on every machine — the default
@@ -112,7 +112,7 @@ install_git() {
     ensure_personal_ssh_key "$personal_email"
 
     if [ -f ~/.ssh/id_ed25519_work.pub ]; then
-        cp "$(dirname "$0")/configs/git/work" ~/.config/git/work
+        cp "$(dirname "$0")/work" ~/.config/git/work
         task "Work laptop detected — work profile installed (~/work/ signs with id_ed25519_work)"
     else
         task "Personal machine — single personal key (id_ed25519)"
@@ -122,23 +122,23 @@ install_git() {
     backup_if_exists ~/.ssh/config
     if [ -f ~/.ssh/config ]; then
         if ! grep -qF "GitHub personal account (managed by dotfiles)" ~/.ssh/config; then
-            cat "$(dirname "$0")/configs/git/ssh_config" >>~/.ssh/config
+            cat "$(dirname "$0")/ssh_config" >>~/.ssh/config
             task "Appended GitHub SSH config to ~/.ssh/config"
         else
             task "GitHub SSH config already present in ~/.ssh/config"
         fi
     else
-        cp "$(dirname "$0")/configs/git/ssh_config" ~/.ssh/config
+        cp "$(dirname "$0")/ssh_config" ~/.ssh/config
         task "Copied SSH config to ~/.ssh/config"
     fi
     # Work laptop only: add a github-work alias bound to the work key.
     if [ -f ~/.ssh/id_ed25519_work.pub ] && ! grep -qF "GitHub work account (managed by dotfiles)" ~/.ssh/config; then
-        cat "$(dirname "$0")/configs/git/ssh_config_work" >>~/.ssh/config
+        cat "$(dirname "$0")/ssh_config_work" >>~/.ssh/config
         task "Added github-work SSH alias"
     fi
     # Personal host aliases (work, one/two/three, pi) referenced by shell aliases.
     if ! grep -qF "Personal hosts (managed by dotfiles)" ~/.ssh/config; then
-        cat "$(dirname "$0")/configs/git/ssh_hosts" >>~/.ssh/config
+        cat "$(dirname "$0")/ssh_hosts" >>~/.ssh/config
         task "Added personal host aliases to ~/.ssh/config"
     fi
     chmod 600 ~/.ssh/config

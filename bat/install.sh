@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 install_bat() {
     step "🦇 Installing Bat Configuration"
@@ -11,7 +11,7 @@ install_bat() {
 
     backup_if_exists ~/.config/bat/config
 
-    cp "$(dirname "$0")/configs/bat/config" ~/.config/bat/config
+    cp "$(dirname "$0")/config" ~/.config/bat/config
     task "Copied config to ~/.config/bat/"
 
     success "Bat configuration installed"

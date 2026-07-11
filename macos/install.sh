@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/_util.sh"
+source "$(dirname "$0")/../scripts/utils.sh"
 
 # Finder sidebar favorites. macOS stores these in the SharedFileList framework, which
 # `defaults` can't touch — so this uses the mysides cask (installed via `make brew`).
@@ -134,7 +134,7 @@ APPLESCRIPT
 }
 
 configure_finder_view_settings() {
-    local template="$(dirname "$0")/configs/finder-view-settings.json"
+    local template="$(dirname "$0")/finder-view-settings.json"
     local finder_preferences
     local desktop_settings list_settings extended_list_settings
 

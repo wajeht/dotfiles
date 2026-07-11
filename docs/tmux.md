@@ -1,7 +1,7 @@
 # tmux Cheatsheet
 
 The **prefix** is `Ctrl+a` (written `C-a` below). Press `C-a`, release, then the
-key. Binds marked **⚙** are custom to this config (`src/configs/tmux/tmux.conf`);
+key. Binds marked **⚙** are custom to this config (`tmux/tmux.conf`);
 the rest are tmux defaults.
 
 ## Windows
