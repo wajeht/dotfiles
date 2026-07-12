@@ -74,7 +74,6 @@ else
 fi
 
 # Host details live in ~/.ssh/config (git/ssh_hosts); no IPs/passwords here.
-alias start_work_db="ssh work-db"
 alias work="ssh work"
 alias one="ssh one"
 alias two="ssh two"
