@@ -145,8 +145,15 @@ install_git() {
     # last so the per-host blocks above win on any overlap. ControlPath needs
     # ~/.ssh/sockets to exist.
     if ! grep -qF "Global SSH options (managed by dotfiles)" ~/.ssh/config; then
-        cat "$(dirname "$0")/ssh_common" >>~/.ssh/config
-        task "Added global SSH options (Host *) to ~/.ssh/config"
+        # A pre-existing hand-added `Host *` block would shadow ours (SSH uses the
+        # first match), silently making this append a dead no-op. Warn and skip so
+        # the user removes their block first, instead of leaving a duplicate.
+        if grep -qE '^[[:space:]]*Host[[:space:]]+\*[[:space:]]*$' ~/.ssh/config; then
+            warning "Existing 'Host *' block in ~/.ssh/config would shadow the managed one (SSH uses the first match). Remove your hand-added block, then re-run 'make git install' to install the managed defaults."
+        else
+            cat "$(dirname "$0")/ssh_common" >>~/.ssh/config
+            task "Added global SSH options (Host *) to ~/.ssh/config"
+        fi
     fi
     mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets
     chmod 600 ~/.ssh/config
