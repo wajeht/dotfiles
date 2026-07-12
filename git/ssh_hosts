@@ -5,10 +5,6 @@ Host work
 	HostName 192.168.4.74
 	User kyaw
 
-Host work-db
-	HostName 192.168.4.120
-	User kyaw
-
 Host one
 	HostName 192.168.4.161
 	User jaw
