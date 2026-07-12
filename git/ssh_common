@@ -8,16 +8,19 @@ Host *
 	# master socket, subsequent ones (new tmux panes, git, scp) skip the auth
 	# handshake and attach instantly. ControlPath needs ~/.ssh/sockets to exist
 	# (install.sh creates it); ControlPersist keeps the master 10 min after the
-	# last session closes.
+	# last session closes. %C is a fixed-length connection hash — keeps the
+	# socket path under macOS's ~104-char limit no matter how long the hostname.
 	ControlMaster auto
-	ControlPath ~/.ssh/sockets/%r@%h-%p
+	ControlPath ~/.ssh/sockets/%C
 	ControlPersist 600
 	# Keepalives: probe every 60s, drop after 3 misses. Detects dead links and
 	# keeps NAT/router state alive on long-idle connections.
 	ServerAliveInterval 60
 	ServerAliveCountMax 3
 	TCPKeepAlive yes
-	Compression yes
+	# No Compression: it only helps bandwidth-constrained links. On a LAN it
+	# just burns CPU, and it re-compresses already-compressed git data. Default
+	# (no) is correct here.
 	# Off by default — opt in per host only where actually needed.
 	ForwardAgent no
 	ForwardX11 no
