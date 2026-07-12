@@ -77,7 +77,7 @@ passwords live in the aliases — just `ssh <name>`.
 | Alias | Purpose |
 | --- | --- |
 | `work` | work laptop |
-| `work-db` | work DB box (tunnel via your DB client's own SSH option, e.g. TablePlus) |
+| `work-db` | work DB box |
 | `one` / `two` / `three` | dev boxes (`three` is the Dell dev rig) |
 | `pi` | Raspberry Pi |
 
