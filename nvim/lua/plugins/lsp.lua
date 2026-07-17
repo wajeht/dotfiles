@@ -217,6 +217,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map("<leader>d", vim.diagnostic.open_float, "Show line diagnostics")
 
+		-- Native LSP also maps this to `gra` by default; keep <leader>ca for muscle memory.
+		map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+
 		-- Native Neovim uses :lsp restart; without a name it restarts clients on the current buffer.
 		map("<leader>rs", "<cmd>lsp restart<cr>", "Restart LSP")
 
