@@ -93,12 +93,14 @@ if os.getenv("SSH_TTY") then
 			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
 			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 		},
+		-- paste must return [lines, regtype] (:h g:clipboard) — a bare string
+		-- makes every p fail with "clipboard: provider returned invalid data"
 		paste = {
 			["+"] = function()
-				return vim.fn.getreg("0")
+				return { vim.fn.getreg("0", 1, true), vim.fn.getregtype("0") }
 			end,
 			["*"] = function()
-				return vim.fn.getreg("0")
+				return { vim.fn.getreg("0", 1, true), vim.fn.getregtype("0") }
 			end,
 		},
 	}
