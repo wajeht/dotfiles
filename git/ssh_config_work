@@ -6,3 +6,7 @@ Host github-work
 	Port 443
 	IdentityFile ~/.ssh/id_ed25519_work
 	IdentitiesOnly yes
+	# Separate master socket: github.com and github-work resolve to the same
+	# ssh.github.com:443, so the shared Host * %C socket would reuse whichever
+	# key connected first (work repos failing with the personal key, or vice versa).
+	ControlPath ~/.ssh/sockets/work-%C

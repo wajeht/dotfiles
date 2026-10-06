@@ -113,6 +113,9 @@ install_git() {
 
     if [ -f ~/.ssh/id_ed25519_work.pub ]; then
         cp "$(dirname "$0")/work" ~/.config/git/work
+        # Route clevyr git@github.com URLs through the work key. Global, not
+        # ~/work/-scoped, so clones outside ~/work/ (e.g. pub git deps) get it too.
+        git config --global url."git@github-work:clevyr/".insteadOf "git@github.com:clevyr/"
         task "Work laptop detected — work profile installed (~/work/ signs with id_ed25519_work)"
     else
         task "Personal machine — single personal key (id_ed25519)"

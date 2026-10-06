@@ -33,6 +33,15 @@ The `~/work/` directory triggers the work profile (`[includeIf "gitdir:~/work/"]
 with `id_ed25519_work.pub`. `git.sh` only adds the `github-work` block when the work key
 exists, so single-key machines never get a dangling alias.
 
+On the work laptop, `install.sh` also adds a global git `insteadOf` rule that rewrites
+work-org `git@github.com:` URLs to `github-work`. That covers clones you don't control,
+such as package-manager git dependencies, which use `git@github.com:` and run outside
+`~/work/`, so the `includeIf` above never applies to them.
+
+`github-work` also gets its own `ControlPath`. Both aliases resolve to
+`ssh.github.com:443`, so with the shared `Host *` socket they would reuse whichever
+connection opened first and authenticate as the wrong account.
+
 If a repo was cloned with the GitHub CLI and `git push` asks for
 `Username for 'https://github.com'`, that repo's remote is HTTPS, so SSH keys are not
 being used. Point the remote at SSH instead:
